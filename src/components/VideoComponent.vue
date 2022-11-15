@@ -20,7 +20,7 @@ export default {
 
 <style scoped>
 .video-container {
-  min-height: 40vh;
+  min-height: 80vh;
   position: relative;
   display: flex;
   justify-content: center;

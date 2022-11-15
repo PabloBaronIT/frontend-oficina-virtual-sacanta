@@ -18,9 +18,6 @@
       <ul>
         <li><a href="">servicio</a></li>
         <li><a href="">servicio</a></li>
-        <li><a href="">servicio</a></li>
-        <li><a href="">servicio</a></li>
-        <li><a href="">servicio</a></li>
       </ul>
     </div>
   </div>

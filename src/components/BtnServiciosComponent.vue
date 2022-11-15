@@ -1,7 +1,9 @@
 <template>
   <main>
     <div class="servicios-container">
-      <button id="" class="button-86" role="button">Servicio</button>
+      <button id="" class="button-86" role="button">
+        <i class="bi bi-0-circle-fill"></i>
+      </button>
       <button class="button-86" role="button">Servicio</button>
       <button class="button-86" role="button">Servicio</button>
       <button class="button-86" role="button">Servicio</button>

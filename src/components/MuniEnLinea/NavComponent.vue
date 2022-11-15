@@ -1,6 +1,6 @@
 <template>
   <!-- Sidebar -->
-  <div class="w-25 mx-0">
+  <div class="w-25 mx-0 border nav-container">
     <nav id="sidebarMenu" class="d-lg-block sidebar bg-white">
       <input class="nav-btn" type="button" value="Servicios" />
       <input class="nav-btn" type="button" value="Comunicaciones" />
@@ -18,6 +18,11 @@ export default {
 
 <style scoped>
 /* CSS */
+.nav-container {
+  height: 100vh;
+  display: flex;
+}
+
 .nav-btn {
   background-color: #e1ecf4;
   border-radius: 20px;
