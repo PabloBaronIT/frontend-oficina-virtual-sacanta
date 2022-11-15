@@ -1,18 +1,16 @@
 <template>
   <div class="main">
-    <NavComponent />
+    <topNavComponent />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
-import NavComponent from "@/components/NavComponent.vue";
-
+import topNavComponent from "@/components/TopNavComponent.vue";
 export default {
   name: "HomeView",
   components: {
-    NavComponent,
+    topNavComponent,
   },
 };
 </script>
