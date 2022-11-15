@@ -3,7 +3,7 @@
     <img
       src="https://morteros.gob.ar/sites/default/files/logo_municipio_0.png"
       alt=""
-      style="width: 200px"
+      style="width: 20%"
     />
     <div class="top-nav-a-container">
       <a href="">Servicios</a>
