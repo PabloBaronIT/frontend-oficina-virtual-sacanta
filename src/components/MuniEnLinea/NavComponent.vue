@@ -2,6 +2,7 @@
   <!-- Sidebar -->
   <div class="w-25 mx-0 border nav-container">
     <nav id="sidebarMenu" class="d-lg-block sidebar bg-white">
+      <img src="@/assets/logo.png" alt="" style="width: 40px" />
       <input class="nav-btn" type="button" value="Servicios" />
       <input class="nav-btn" type="button" value="Comunicaciones" />
       <input class="nav-btn" type="button" value="Noificaciones" />
