@@ -6,17 +6,34 @@
       style="width: 20%"
     />
     <div class="top-nav-a-container">
-      <a href="">Servicios</a>
+      <a href="" @click="toggle">Servicios</a>
       <a href="">Servicios</a>
       <a href="">Servicios</a>
       <a href="">Servicios</a>
       <router-link to="/munienlinea">Muni en linea</router-link>
     </div>
   </nav>
+  <div class="tab-container">
+    <div class="tab-content">
+      <ul>
+        <li><a href="">servicio</a></li>
+        <li><a href="">servicio</a></li>
+        <li><a href="">servicio</a></li>
+        <li><a href="">servicio</a></li>
+        <li><a href="">servicio</a></li>
+      </ul>
+    </div>
+  </div>
 </template>
 <script>
 export default {
   name: "topNavComponent",
+  data() {
+    return {
+      tab: false,
+    };
+  },
+  methods: {},
 };
 </script>
 
@@ -43,6 +60,27 @@ export default {
 .top-nav-a-container a:hover {
   box-shadow: inset 100px 0 0 0 #54b3d6;
   color: white;
+}
+
+.tab-container {
+}
+
+.tab-content {
+  display: flex;
+  height: auto;
+}
+
+.tab-content ul {
+  list-style: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+ul li {
+  margin: 10px;
 }
 
 /* .top-nav-container:before {
