@@ -7,4 +7,5 @@ import "bootstrap";
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 
+import "bootstrap-icons/font/bootstrap-icons.css";
 createApp(App).use(store).use(router).mount("#app");
