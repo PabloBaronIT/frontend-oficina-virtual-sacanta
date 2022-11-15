@@ -1,18 +1,25 @@
 <template>
-  <div class="about">
+  <div class="main-container">
     <NavComponent />
-
-    <h1>This is an about page</h1>
+    <MainContainerComponent />
   </div>
 </template>
 
 <script>
-import NavComponent from "@/components/NavComponent.vue";
+import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
+import MainContainerComponent from "@/components/MuniEnLinea/MainContainerComponent.vue";
 
 export default {
   name: "MuniEnLineaView",
   components: {
     NavComponent,
+    MainContainerComponent,
   },
 };
 </script>
+
+<style scoped>
+.main-container {
+  display: flex;
+}
+</style>
