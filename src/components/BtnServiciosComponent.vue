@@ -1,10 +1,7 @@
 <template>
   <main>
     <div class="servicios-container">
-      <button class="button-86" role="button">Servicio</button>
-      <button class="button-86" role="button">Servicio</button>
-      <button class="button-86" role="button">Servicio</button>
-      <button class="button-86" role="button">Servicio</button>
+      <button id="" class="button-86" role="button">Servicio</button>
       <button class="button-86" role="button">Servicio</button>
       <button class="button-86" role="button">Servicio</button>
       <button class="button-86" role="button">Servicio</button>
