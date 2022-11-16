@@ -21,5 +21,6 @@ export default {
 <style scoped>
 .main-container {
   display: flex;
+  justify-content: left;
 }
 </style>
