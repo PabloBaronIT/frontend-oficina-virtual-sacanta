@@ -1,6 +1,6 @@
 <template>
   <!-- Sidebar -->
-  <div class="w-25 nav-container">
+  <div class="nav-container">
     <img
       class="logo"
       src="https://morteros.gob.ar/sites/default/files/logo_municipio_0.png"
@@ -41,35 +41,32 @@ export default {
 .usuario {
   display: flex;
   flex-flow: row wrap;
-  font-size: 0.7em;
-  height: auto;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  width: 100%;
+}
+
+.logo {
+  width: 90%;
+  margin: 10% 0;
 }
 
 .usuario-img {
-  width: 40px;
-  height: 40px;
+  width: 80px;
 }
 
 .usuario-details {
   display: flex;
   flex-flow: column wrap;
-  margin-left: 10px;
 }
 
 .nav-container {
-  height: auto;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
-}
-
-.logo {
-  width: 150px;
-  margin: 40px 0;
+  width: 25%;
+  border: 1px solid red;
+  padding: 0;
 }
 
 /* CSS */
@@ -80,7 +77,6 @@ export default {
   box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
   color: #39739d;
   cursor: pointer;
-  font-size: 0.8em;
   outline: none;
   width: 100%;
   margin-bottom: 10px;
