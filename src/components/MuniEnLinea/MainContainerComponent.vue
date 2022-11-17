@@ -31,7 +31,7 @@ export default {
         { id: 5, name: "Salud" },
         { id: 5, name: "Registro Civil" },
         { id: 5, name: "Guía de Tramites" },
-        { id: 5, name: "Habilitación de Negocios Online" },
+        { id: 5, name: "Habilitación  Negocios Online" },
       ],
     };
   },
@@ -44,6 +44,7 @@ h1 {
   width: 80%;
   text-align: left;
   font-weight: bold;
+  padding-top: 20px;
 }
 
 .flex-container {
@@ -83,8 +84,8 @@ h1 {
   padding: 15px;
   border: none;
   box-shadow: 5px 5px 12px #444;
-  width: 130px;
-  height: 220px;
+  width: 120px;
+  height: 210px;
   margin: 30px 20px;
   display: flex;
   justify-content: flex-start;

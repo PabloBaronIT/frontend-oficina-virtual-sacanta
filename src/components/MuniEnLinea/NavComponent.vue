@@ -70,6 +70,10 @@ export default {
   background-color: rgb(63, 119, 192);
 }
 
+.bn3:focus {
+  background-color: rgb(63, 119, 192);
+}
+
 /* CSS */
 a {
   text-decoration: none;
