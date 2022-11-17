@@ -8,22 +8,35 @@
     />
 
     <div class="usuario">
-      <img class="usuario-img" src="@/assets/logo.png" alt="" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="86"
+        height="86"
+        fill="currentColor"
+        class="bi bi-person-circle"
+        viewBox="0 0 16 16"
+      >
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+        <path
+          fill-rule="evenodd"
+          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+        />
+      </svg>
       <div class="usuario-details">
         <a href="">Mi cuenta</a>
-        <p>
-          Usuario, <br />
-          Apellido <br />
-          12345678
-        </p>
+        <strong>
+          Usuario,<br />
+          Apellido Apellido<br />
+        </strong>
+        <p>DNI: 44203460</p>
       </div>
     </div>
 
     <nav id="sidebarMenu" class="btn-container">
-      <input class="nav-btn" type="button" value="Servicios" />
-      <input class="nav-btn" type="button" value="Comunicaciones" />
-      <input class="nav-btn" type="button" value="Noificaciones" />
-      <input class="nav-btn" type="button" value="Representados" />
+      <input class="bn3" type="button" value="Servicios" />
+      <input class="bn3" type="button" value="Comunicaciones" />
+      <input class="bn3" type="button" value="Noificaciones" />
+      <input class="bn3" type="button" value="Representados" />
     </nav>
   </div>
 </template>
@@ -36,13 +49,38 @@ export default {
 </script>
 
 <style scoped>
-/* CSS */
+.bn3 {
+  display: inline-block;
+  padding: 5px;
+  margin: 0 0.1em 0.1em 0;
+  border: 0.16em solid rgb(255, 255, 255);
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #000;
+  text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
+  text-align: center;
+  transition: all 0.2s;
+  width: 100%;
+}
 
+.bn3:hover {
+  background-color: rgb(63, 119, 192);
+}
+
+/* CSS */
+a {
+  text-decoration: none;
+}
 .usuario {
   display: flex;
   flex-flow: row wrap;
   justify-content: left;
-  align-items: center;
+  align-items: left;
+
+  width: 300px;
 }
 
 .logo {
@@ -56,7 +94,12 @@ export default {
 
 .usuario-details {
   display: flex;
+  align-items: flex-start;
+  justify-content: left;
   flex-flow: column wrap;
+  padding-left: 20px;
+
+  text-align: left;
 }
 
 .nav-container {
@@ -64,7 +107,7 @@ export default {
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
-  width: 25%;
+  width: 40%;
   padding: 0;
 }
 

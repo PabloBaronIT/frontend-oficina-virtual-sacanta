@@ -1,6 +1,6 @@
 <template>
   <main class="flex-container">
-    <h2>Servicios</h2>
+    <h1>Servicios</h1>
     <div class="card-container">
       <div v-for="opcion in opciones" :key="opcion.Id">
         <router-link
@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       opciones: [
-        { id: 1, name: "Turnero Digital" },
+        { id: 1, name: "Turnero Digital", src: "" },
         { id: 2, name: "App Ciudadana" },
         { id: 3, name: "Boletín Electronico" },
         { id: 4, name: "Ciudad Transparente" },
@@ -39,7 +39,11 @@ export default {
 </script>
 
 <style scoped>
-h2 {
+h1 {
+  color: rgb(56, 101, 224);
+  width: 80%;
+  text-align: left;
+  font-weight: bold;
 }
 
 .flex-container {
@@ -49,8 +53,8 @@ h2 {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   display: flex;
-  padding: 30px;
-  flex-flow: column wrap;
+  padding: 10px 0;
+  flex-flow: row wrap;
   justify-content: center;
 }
 
@@ -59,26 +63,31 @@ h2 {
   justify-content: center;
   align-items: center;
   flex-flow: row wrap;
+  padding: 0;
 }
 
 .card img {
+  margin-bottom: 20px;
   border-radius: 50%;
   object-fit: cover;
-  width: 60px;
+  width: 100px;
   border: 1px solid #000;
 }
 
 .card {
-  border-top-left-radius: 50%;
-  border-top-right-radius: 50%;
-  padding: 30px;
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  font-weight: bold;
+  padding: 15px;
   border: none;
   box-shadow: 5px 5px 12px #444;
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 220px;
   margin: 30px 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
