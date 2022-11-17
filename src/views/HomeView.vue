@@ -8,9 +8,9 @@
 
 <script>
 // @ is an alias to /src
-import topNavComponent from "@/components/TopNavComponent.vue";
-import videoComponent from "@/components/VideoComponent";
-import btnServiciosComponent from "@/components/BtnServiciosComponent.vue";
+import topNavComponent from "@/components/Home/TopNavComponent.vue";
+import videoComponent from "@/components/Home/VideoComponent";
+import btnServiciosComponent from "@/components/Home/BtnServiciosComponent.vue";
 
 export default {
   name: "HomeView",

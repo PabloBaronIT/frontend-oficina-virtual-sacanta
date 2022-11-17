@@ -22,11 +22,16 @@ export default {
   data() {
     return {
       opciones: [
-        { id: 1, name: "Turnos" },
-        { id: 2, name: "Tramites" },
-        { id: 3, name: "App Ciudadana" },
-        { id: 4, name: "Notificar" },
-        { id: 5, name: "Soliciudes" },
+        { id: 1, name: "Turnero Digital" },
+        { id: 2, name: "App Ciudadana" },
+        { id: 3, name: "Boletín Electronico" },
+        { id: 4, name: "Ciudad Transparente" },
+        { id: 5, name: "Consulta de Expedientes" },
+        { id: 5, name: "Obras Publicas" },
+        { id: 5, name: "Salud" },
+        { id: 5, name: "Registro Civil" },
+        { id: 5, name: "Guía de Tramites" },
+        { id: 5, name: "Habilitación de Negocios Online" },
       ],
     };
   },
@@ -46,11 +51,12 @@ h2 {
   display: flex;
   padding: 30px;
   flex-flow: column wrap;
+  justify-content: center;
 }
 
 .card-container {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   flex-flow: row wrap;
 }
@@ -63,12 +69,14 @@ h2 {
 }
 
 .card {
-  border-radius: 40% 10px;
-  padding: 50px;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+  padding: 30px;
   border: none;
   box-shadow: 5px 5px 12px #444;
-  width: 15%;
-  margin: 20px;
+  width: 150px;
+  height: 150px;
+  margin: 30px 20px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -65,7 +65,6 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   width: 25%;
-  border: 1px solid red;
   padding: 0;
 }
 
