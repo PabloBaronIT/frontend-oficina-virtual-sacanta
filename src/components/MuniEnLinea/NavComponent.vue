@@ -134,7 +134,7 @@ a {
 
 .nav-btn:hover,
 .nav-btn:focus {
-  background-color: #b3d3ea;
+  background-color: var(--yellow);
   color: #2c5777;
 }
 

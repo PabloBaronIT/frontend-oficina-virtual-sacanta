@@ -1,9 +1,7 @@
 <template>
   <div class="video-container">
     <div class="video-text">
-      <h3>Conectarse a Muni en linea</h3>
-
-      <input class="btn btn-primary" type="button" value="MuniEnLinea" />
+      <h3>Ciudad de Campo Bravo</h3>
     </div>
 
     <video muted autoplay loop>
@@ -20,7 +18,7 @@ export default {
 
 <style scoped>
 .video-container {
-  min-height: 80vh;
+  min-height: 70vh;
   position: relative;
   display: flex;
   justify-content: center;

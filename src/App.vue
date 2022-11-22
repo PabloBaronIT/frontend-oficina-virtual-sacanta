@@ -4,6 +4,11 @@
 
 <style>
 #app {
+  --green: #00ffd1;
+  --blue: #31c6d4;
+  --yellow: #f9d923;
+  --red: #eb5353;
+
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -18,9 +23,5 @@ nav {
 nav a {
   font-weight: bold;
   color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>

@@ -8,21 +8,15 @@
 
     <div class="top-nav-a-container">
       <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
+        <button class="dropbtn">Ciudad</button>
         <div class="dropdown-content">
-          <router-link
-            :to="`/gobierno`"
-            class="card"
-            style="text-decoration: none; color: #222"
-          >
-            Gobierno
-          </router-link>
+          <router-link :to="`/gobierno`"> Gobierno </router-link>
           <a href="#">Servicio</a>
           <a href="#">Servicio</a>
         </div>
       </div>
       <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
+        <button class="dropbtn">Gobierno</button>
         <div class="dropdown-content">
           <a href="#">Servicio</a>
           <a href="#">Servicio</a>
@@ -30,16 +24,14 @@
         </div>
       </div>
       <div class="dropdown">
-        <button class="dropbtn">Dropdown</button>
+        <button class="dropbtn">Intereses</button>
         <div class="dropdown-content">
           <a href="#">Servicio</a>
           <a href="#">Servicio</a>
           <a href="#">Servicio</a>
         </div>
       </div>
-      <router-link class="button-36 btn-mel" to="/munienlinea"
-        >Muni en linea</router-link
-      >
+      <router-link class="btn-mel" to="/munienlinea">Muni en linea</router-link>
     </div>
   </nav>
 </template>
@@ -57,10 +49,11 @@ export default {
 
 <style scoped>
 .dropbtn {
-  color: #000;
+  color: #fff;
   padding: 16px;
   font-size: 16px;
   border: none;
+  font-weight: bold;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -79,7 +72,7 @@ button {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: var(--yellow);
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -111,11 +104,11 @@ button {
 .top-nav-container {
   width: 100%;
   height: 80px;
-  border-bottom: 1px solid #000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 30px;
+  background-color: var(--blue);
 }
 
 .top-nav-a-container a {
@@ -126,11 +119,8 @@ button {
 }
 
 .top-nav-a-container a:hover {
-  box-shadow: inset 100px 0 0 0 #54b3d6;
+  box-shadow: inset 100px 0 0 0 var(--blue);
   color: white;
-}
-
-.tab-container {
 }
 
 .tab-content {
@@ -140,7 +130,6 @@ button {
 
 .tab-content ul {
   list-style: none;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,6 +142,8 @@ ul li {
 
 .btn-mel {
   padding: 10px;
+  background-color: var(--red);
+  border-radius: 10px;
   color: #fff !important;
 }
 

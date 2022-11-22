@@ -83,7 +83,7 @@ main {
 
   flex-wrap: wrap;
 
-  width: 80%;
+  width: 100%;
 }
 
 button {
@@ -101,9 +101,9 @@ button {
 .button-36 {
   background-image: linear-gradient(
     92.88deg,
-    #455eb5 9.16%,
-    #5643cc 43.89%,
-    #673fd7 64.72%
+    var(--blue) 9.16%,
+    var(--blue) 43.89%,
+    var(--blue) 64.72%
   );
   border-radius: 8px;
   border-style: none;
@@ -127,7 +127,7 @@ button {
 }
 
 .button-36:hover {
-  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  box-shadow: var(--yellow) 0 1px 30px;
   transition-duration: 0.1s;
 }
 
