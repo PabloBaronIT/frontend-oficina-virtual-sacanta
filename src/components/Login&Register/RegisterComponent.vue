@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import dbService from "@/services/dbService";
+
 export default {
   name: "RegisterComponent",
   data() {
@@ -43,14 +45,14 @@ export default {
         cuil: this.cuil,
       };
       console.log(registro);
-      //   restdbService
-      //     .postRegistro(registro)
-      //     .then(function (response) {
-      //       console.log(response);
-      //     })
-      //     .catch(function (error) {
-      //       console.log(error);
-      //     });
+      dbService
+        .postCreateUser(registro)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   },
 };
