@@ -1,20 +1,44 @@
 <template>
   <div class="register-container">
     <form>
-      <input name="name" v-model="this.name" type="text" placeholder="Nombre" />
-
-      <input v-model="this.lastname" type="text" placeholder="Apellido" />
-
-      <input
-        type="email"
-        name="email"
-        v-model="this.email"
-        placeholder="Email"
-      />
-
-      <input type="password" v-model="this.password" placeholder="Contraseña" />
-
-      <input type="number" v-model="this.cuil" placeholder="CUIT" />
+      <section>
+        <i class="bi bi-person-vcard"></i>
+        <input
+          name="name"
+          v-model="this.name"
+          type="text"
+          placeholder="Nombre"
+        />
+      </section>
+      <section>
+        <i class="bi bi-person-vcard-fill"></i>
+        <input v-model="this.lastname" type="text" placeholder="Apellido" />
+      </section>
+      <section>
+        <i class="bi bi-envelope-at-fill"></i>
+        <input
+          type="email"
+          name="email"
+          v-model="this.email"
+          placeholder="Email"
+        />
+      </section>
+      <section>
+        <i class="bi bi-key"></i>
+        <input
+          type="password"
+          v-model="this.password"
+          placeholder="Contraseña"
+        />
+      </section>
+      <section>
+        <i class="bi bi-key"></i>
+        <input
+          type="password"
+          v-model="this.password"
+          placeholder="Contraseña"
+        />
+      </section>
 
       <input type="button" value="Registrar" @click="registrar" />
     </form>
