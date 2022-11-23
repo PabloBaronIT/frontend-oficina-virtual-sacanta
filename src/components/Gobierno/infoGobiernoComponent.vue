@@ -20,6 +20,7 @@
         vero soluta placeat? Aut, quis odit. Enim tempore eveniet tempora.
       </p>
     </div>
+    <img src="https://random.imagecdn.app/500/150" />
   </main>
 </template>
 
@@ -31,9 +32,16 @@ export default {
 
 <style scoped>
 .info-container {
-  width: 40%;
+  width: 70%;
   text-align: left;
   border: 1px solid red;
+  display: flex;
+}
+
+img {
+  height: 500px;
+  object-fit: cover;
+  width: 300px;
 }
 
 .info-text {

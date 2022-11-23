@@ -105,18 +105,15 @@ export default {
 
 <style scoped>
 .nav-container {
-  display: flex;
-  flex-flow: row wrap;
-  width: 15%;
   border-radius: 10px;
+  width: 15%;
+  height: 200px;
   margin: 5% 3%;
-  box-shadow: 0px 0px 10px #888;
-  height: auto;
 }
 
 .accordion {
   width: 100%;
-  height: auto;
+  height: 200px;
 }
 
 /* CSS */

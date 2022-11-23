@@ -31,7 +31,7 @@
           <a href="#">Servicio</a>
         </div>
       </div>
-      <router-link class="btn-mel" to="/munienlinea">Muni en linea</router-link>
+      <router-link class="" to="/munienlinea">Muni en linea</router-link>
     </div>
   </nav>
 </template>
@@ -49,6 +49,7 @@ export default {
 
 <style scoped>
 .dropbtn {
+  background: none;
   color: #fff;
   padding: 16px;
   font-size: 16px;
@@ -62,10 +63,7 @@ export default {
   display: inline-block;
   z-index: 3;
   background: none;
-}
-
-button {
-  background: none;
+  border-right: 1px solid var(--yellow);
 }
 
 /* Dropdown Content (Hidden by Default) */
