@@ -25,10 +25,10 @@
       <div class="usuario-details">
         <a href="">Mi cuenta</a>
         <strong>
-          Usuario,<br />
-          Apellido Apellido<br />
+          {{ this.usuario }},<br />
+          {{ this.apellido }}<br />
         </strong>
-        <p>DNI: 44203460</p>
+        <p>DNI: {{ this.dni }}</p>
       </div>
     </div>
 
@@ -44,6 +44,13 @@
 <script>
 export default {
   name: "NavComponent",
+  data() {
+    return {
+      usuario: "Joaquin",
+      apellido: "Nuñez Bovo",
+      dni: 44203460,
+    };
+  },
   props: {},
 };
 </script>

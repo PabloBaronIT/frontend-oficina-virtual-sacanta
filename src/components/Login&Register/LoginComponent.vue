@@ -1,11 +1,13 @@
 <template>
-  <div class="loginc-container">
+  <div class="login-container">
     <form>
       <input type="number" placeholder="CUIT" v-model="this.cuil" />
 
       <input type="password" placeholder="Contraseña" v-model="this.password" />
 
-      <input type="button" value="Ingresar" @click="login" />
+      <router-link to="/munienlinea"
+        ><input type="button" value="Ingresar" @click="login"
+      /></router-link>
     </form>
   </div>
 </template>
@@ -32,4 +34,25 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.login-container {
+  display: flex;
+  margin: 50px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+form {
+  box-shadow: 0px 0px 10px #333;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 150px 40px;
+  position: relative;
+  z-index: 10;
+  background: #fff;
+}
+
+form input {
+  margin: 20px;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="registerContainer">
+  <div class="register-container">
     <form>
       <input name="name" v-model="this.name" type="text" placeholder="Nombre" />
 
@@ -56,4 +56,25 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.register-container {
+  display: flex;
+  margin: 50px;
+  justify-content: space-around;
+  align-items: center;
+}
+
+form {
+  box-shadow: 0px 0px 10px #333;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 20px 40px;
+  position: relative;
+  z-index: 10;
+  background: #fff;
+}
+
+form input {
+  margin: 20px;
+}
+</style>
