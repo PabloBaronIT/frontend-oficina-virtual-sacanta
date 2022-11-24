@@ -10,10 +10,11 @@
         :actions="false"
         incomplete-message="Aun no has completado todos los campos."
       >
-        <h1>Register!</h1>
+        <h1>Registrar vecino</h1>
 
         <hr />
         <FormKit
+          v-model="this.name"
           type="text"
           name="name"
           label="Nombre"
@@ -25,6 +26,19 @@
           }"
         />
         <FormKit
+          v-model="this.lastname"
+          type="text"
+          name="lastname"
+          label="Apellido"
+          placeholder="Apellido"
+          validation="required|length:4,15"
+          :validation-messages="{
+            required: 'Ingresa un apellido',
+            length: 'El apellido debe tener entre 4 y 15 letras',
+          }"
+        />
+        <FormKit
+          v-model="this.email"
           type="text"
           name="email"
           label="Tu email"
@@ -37,6 +51,7 @@
         />
         <div class="double">
           <FormKit
+            v-model="this.password"
             type="password"
             name="password"
             label="Contraseña"
@@ -48,6 +63,7 @@
             placeholder="Your password"
           />
           <FormKit
+            v-model="this.confirmPassword"
             type="password"
             name="password_confirm"
             label="Confirmar contraseña"
@@ -56,6 +72,20 @@
             :validation-messages="{
               required: 'Repite la contraseña',
               confirm: 'Las contraseñas no coinciden',
+            }"
+          />
+          <FormKit
+            v-model="this.cuil"
+            type="number"
+            name="cuil"
+            label="CUIL"
+            placeholder="cui"
+            validation="required|number|length:11,11"
+            help="Ingresar solo numeros"
+            :validation-messages="{
+              required: 'Ingresa el CUIL',
+              number: 'No debe contener letras',
+              length: 'El CUIL debe tener 11 caracteres',
             }"
           />
         </div>
@@ -81,7 +111,7 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
-      cuil: 0,
+      cuil: null,
     };
   },
   methods: {
