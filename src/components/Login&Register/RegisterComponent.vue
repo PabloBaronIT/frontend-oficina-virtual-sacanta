@@ -38,6 +38,21 @@
           }"
         />
         <FormKit
+          v-model="this.cuil"
+          type="number"
+          name="cuil"
+          label="CUIL"
+          placeholder="cui"
+          validation="required|number|length:11,11"
+          help="Ingresar solo numeros"
+          :validation-messages="{
+            required: 'Ingresa el CUIL',
+            number: 'No debe contener letras',
+            length: 'El CUIL debe tener 11 caracteres',
+          }"
+        />
+
+        <FormKit
           v-model="this.email"
           type="text"
           name="email"
@@ -72,20 +87,6 @@
             :validation-messages="{
               required: 'Repite la contraseña',
               confirm: 'Las contraseñas no coinciden',
-            }"
-          />
-          <FormKit
-            v-model="this.cuil"
-            type="number"
-            name="cuil"
-            label="CUIL"
-            placeholder="cui"
-            validation="required|number|length:11,11"
-            help="Ingresar solo numeros"
-            :validation-messages="{
-              required: 'Ingresa el CUIL',
-              number: 'No debe contener letras',
-              length: 'El CUIL debe tener 11 caracteres',
             }"
           />
         </div>
