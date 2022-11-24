@@ -18,7 +18,11 @@
           name="name"
           label="Nombre"
           placeholder="Nombre"
-          validation="required"
+          validation="required|length:4,15"
+          :validation-messages="{
+            required: 'Ingresa un nombre',
+            length: 'El nombre debe tener entre 4 y 15 letras',
+          }"
         />
         <FormKit
           type="text"
@@ -49,6 +53,10 @@
             label="Confirmar contraseña"
             placeholder="Confirmar contraseña"
             validation="required|confirm"
+            :validation-messages="{
+              required: 'Repite la contraseña',
+              confirm: 'Las contraseñas no coinciden',
+            }"
           />
         </div>
 
