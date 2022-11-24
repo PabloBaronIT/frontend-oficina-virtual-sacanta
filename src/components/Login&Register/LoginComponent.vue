@@ -5,10 +5,18 @@
     </div>
 
     <form>
-      <i class="bi bi-person-vcard"></i>
-      <input type="number" placeholder="CUIT" v-model="this.cuil" />
-      <i class="bi bi-key"></i>
-      <input type="password" placeholder="Contraseña" v-model="this.password" />
+      <section>
+        <i class="bi bi-person-vcard"></i>
+        <input type="number" placeholder="CUIT" v-model="this.cuil" />
+      </section>
+      <section>
+        <i class="bi bi-key"></i>
+        <input
+          type="password"
+          placeholder="Contraseña"
+          v-model="this.password"
+        />
+      </section>
 
       <router-link to="/munienlinea"
         ><input type="button" value="Ingresar" @click="login"

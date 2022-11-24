@@ -1,47 +1,63 @@
 <template>
   <div class="register-container">
-    <form>
-      <section>
-        <i class="bi bi-person-vcard"></i>
-        <input
-          name="name"
-          v-model="this.name"
-          type="text"
-          placeholder="Nombre"
-        />
-      </section>
-      <section>
-        <i class="bi bi-person-vcard-fill"></i>
-        <input v-model="this.lastname" type="text" placeholder="Apellido" />
-      </section>
-      <section>
-        <i class="bi bi-envelope-at-fill"></i>
-        <input
-          type="email"
-          name="email"
-          v-model="this.email"
-          placeholder="Email"
-        />
-      </section>
-      <section>
-        <i class="bi bi-key"></i>
-        <input
-          type="password"
-          v-model="this.password"
-          placeholder="Contraseña"
-        />
-      </section>
-      <section>
-        <i class="bi bi-key"></i>
-        <input
-          type="password"
-          v-model="this.password"
-          placeholder="Contraseña"
-        />
-      </section>
+    <div class="form-container">
+      <FormKit
+        type="form"
+        id="registration-example"
+        :form-class="submitted ? 'hide' : 'show'"
+        submit-label="Register"
+        @submit="submitHandler"
+        :actions="false"
+        incomplete-message="Aun no has completado todos los campos."
+      >
+        <h1>Register!</h1>
 
-      <input type="button" value="Registrar" @click="registrar" />
-    </form>
+        <hr />
+        <FormKit
+          type="text"
+          name="name"
+          label="Nombre"
+          placeholder="Nombre"
+          validation="required"
+        />
+        <FormKit
+          type="text"
+          name="email"
+          label="Tu email"
+          placeholder="ejemplo@ejemplo.com"
+          validation="required|email"
+          :validation-messages="{
+            required: 'Ingresa tu email',
+            email: 'Email invalido',
+          }"
+        />
+        <div class="double">
+          <FormKit
+            type="password"
+            name="password"
+            label="Contraseña"
+            validation="required|length:6|matches:/[^a-zA-Z]/"
+            :validation-messages="{
+              required: 'Ingresa una contraseña',
+              matches: 'Incluir un simbolo',
+            }"
+            placeholder="Your password"
+          />
+          <FormKit
+            type="password"
+            name="password_confirm"
+            label="Confirmar contraseña"
+            placeholder="Confirmar contraseña"
+            validation="required|confirm"
+          />
+        </div>
+
+        <FormKit type="submit" label="Register" />
+      </FormKit>
+      <div v-if="submitted">
+        <h2>Submission successful!</h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,6 +72,7 @@ export default {
       lastname: "",
       email: "",
       password: "",
+      confirmPassword: "",
       cuil: 0,
     };
   },
@@ -85,22 +102,17 @@ export default {
 <style scoped>
 .register-container {
   display: flex;
-  margin: 50px;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-}
-
-form {
-  box-shadow: 0px 0px 10px #333;
-  display: flex;
-  flex-flow: column wrap;
-  padding: 20px 40px;
+  width: 400px;
   position: relative;
   z-index: 10;
   background: #fff;
+  box-shadow: 0px 0px 10px #333;
+  margin: 50px;
 }
 
-form input {
-  margin: 20px;
+.form-container {
+  padding: 10px;
 }
 </style>

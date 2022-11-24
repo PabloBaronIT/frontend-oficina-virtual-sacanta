@@ -8,7 +8,6 @@
   --blue: #31c6d4;
   --yellow: #f9d923;
   --red: #eb5353;
-
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

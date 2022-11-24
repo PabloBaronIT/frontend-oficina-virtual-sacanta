@@ -55,4 +55,10 @@ export default {
   position: absolute;
   bottom: 0;
 }
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
