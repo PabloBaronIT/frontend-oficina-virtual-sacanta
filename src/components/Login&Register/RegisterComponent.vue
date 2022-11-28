@@ -19,10 +19,11 @@
           name="name"
           label="Nombre"
           placeholder="Nombre"
-          validation="required|length:4,15"
+          validation="required|length:3,30|alpha:latin"
           :validation-messages="{
             required: 'Ingresa un nombre',
-            length: 'El nombre debe tener entre 4 y 15 letras',
+            length: 'El nombre debe tener entre 3 y 30 letras',
+            alpha: 'No se admiten nùmeros ni sìmbolos',
           }"
         />
         <FormKit
@@ -31,10 +32,11 @@
           name="lastname"
           label="Apellido"
           placeholder="Apellido"
-          validation="required|length:4,15"
+          validation="required|length:3,30|text|alpha:latin"
           :validation-messages="{
             required: 'Ingresa un apellido',
-            length: 'El apellido debe tener entre 4 y 15 letras',
+            length: 'El apellido debe tener entre 3 y 30 letras',
+            alpha: 'No se admiten nùmeros ni sìmbolos',
           }"
         />
         <FormKit
@@ -42,12 +44,12 @@
           type="number"
           name="cuil"
           label="CUIL"
-          placeholder="cui"
+          placeholder="CUIL"
           validation="required|number|length:11,11"
           help="Ingresar solo numeros"
           :validation-messages="{
-            required: 'Ingresa el CUIL',
-            number: 'No debe contener letras',
+            required: 'Ingresa el CUIL sin simbolos ni espacios',
+            number: 'Ingresar solo nùmeros',
             length: 'El CUIL debe tener 11 caracteres',
           }"
         />
@@ -70,8 +72,9 @@
             type="password"
             name="password"
             label="Contraseña"
-            validation="required|length:6|matches:/[^a-zA-Z]/"
+            validation="required|length:8,30|matches:/[^a-zA-Z]/"
             :validation-messages="{
+              length: 'Debe ser mayor a 6 caracteres',
               required: 'Ingresa una contraseña',
               matches: 'Incluir un simbolo',
             }"
