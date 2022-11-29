@@ -15,6 +15,10 @@ export default {
     NavComponent,
     MainContainerComponent,
   },
+  mounted() {
+    // if(!localStorage.getItem('acces_token')){
+    // }
+  },
 };
 </script>
 

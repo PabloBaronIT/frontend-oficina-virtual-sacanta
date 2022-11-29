@@ -46,6 +46,7 @@ export default {
         console.log("ok");
       }
     },
+
     ...mapActions(["mockLogin"]),
   },
 };

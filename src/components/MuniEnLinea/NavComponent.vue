@@ -33,6 +33,9 @@
     </div>
 
     <nav id="sidebarMenu" class="btn-container">
+      <router-link v-show="permission" :to="`/tramites`" class="bn3">
+        Mis tramites
+      </router-link>
       <input class="bn3" type="button" value="Servicios" />
       <input class="bn3" type="button" value="Comunicaciones" />
       <input class="bn3" type="button" value="Noificaciones" />
@@ -49,6 +52,7 @@ export default {
       usuario: "Joaquin",
       apellido: "Nuñez Bovo",
       dni: 44203460,
+      permission: true,
     };
   },
   props: {},
@@ -56,6 +60,10 @@ export default {
 </script>
 
 <style scoped>
+.bn3:first-child {
+  background-color: var(--red);
+}
+
 .bn3 {
   display: inline-block;
   padding: 5px;

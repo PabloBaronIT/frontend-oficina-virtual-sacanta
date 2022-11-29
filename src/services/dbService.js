@@ -19,4 +19,10 @@ export default {
       cuil: registro.cuil,
     });
   },
+  postLoginUser(login) {
+    return apiClient.post("/loginUser", {
+      cuil: login.cuil,
+      password: login.password,
+    });
+  },
 };

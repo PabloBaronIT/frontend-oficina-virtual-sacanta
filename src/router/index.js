@@ -1,40 +1,34 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+
 import store from "@/store";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
-  },
-  {
-    path: "/munienlinea",
-    name: "munienlinea",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    name: "login",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/MuniEnLineaView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/gobierno",
-    name: "gobierno",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/GobiernoView.vue"),
+      import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
   },
   {
     path: "/login",
     name: "login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+  },
+  {
+    path: "/munienlinea",
+    name: "munienlinea",
+    component: () => import("../views/MuniEnLineaView.vue"),
+    // children:[
+    //   {path: ':tramiteId', component: import('@/components/Tramites/...')}
+    // ]
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/tramites",
+    name: "tramites",
+    component: () => import("@/views/TramitesView.vue"),
+    meta: { requiresAuth: true },
   },
 ];
 
