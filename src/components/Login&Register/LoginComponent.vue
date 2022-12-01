@@ -5,22 +5,49 @@
     </div>
 
     <form>
-      <section>
-        <i class="bi bi-person-vcard"></i>
-        <input type="number" placeholder="CUIT" v-model="this.cuil" />
-      </section>
-      <section>
-        <i class="bi bi-key"></i>
-        <input
-          type="password"
-          placeholder="Contraseña"
-          v-model="this.password"
-        />
-      </section>
+      <FormKit
+        type="form"
+        id="registration-example"
+        :form-class="submitted ? 'hide' : 'show'"
+        submit-label="Register"
+        @submit="submitHandler"
+        :actions="false"
+        incomplete-message="Aun no has completado todos los campos."
+      >
+        <h1>Registrar vecino</h1>
 
-      <router-link to="/munienlinea"
-        ><input type="button" value="Ingresar" @click="login"
-      /></router-link>
+        <FormKit
+          v-model="this.cuil"
+          type="number"
+          name="cuil"
+          label="CUIL"
+          placeholder="cuil"
+          validation="required|length:11,11|number"
+          :validation-messages="{
+            required: 'Ingresa el CUIL sin simbolos ni espacios',
+            number: 'Ingresar solo nùmeros',
+            length: 'El CUIL debe tener 11 caracteres',
+          }"
+        />
+        <FormKit
+          v-model="this.password"
+          type="password"
+          name="password"
+          label="Clave"
+          placeholder="clave"
+          validation="required|length:8,30|matches:/[^a-zA-Z]/"
+          :validation-messages="{
+            length: 'Debe ser mayor a 6 caracteres',
+            required: 'Ingresa una contraseña',
+            matches: 'Incluir un simbolo',
+          }"
+        />
+
+        <FormKit type="submit" label="Register" @click="log" />
+      </FormKit>
+      <div v-if="submitted">
+        <h2>Ingresaste correctamente</h2>
+      </div>
     </form>
 
     <div class="deco">
@@ -31,20 +58,40 @@
 
 <script>
 import { mapActions } from "vuex";
+import dbService from "@/services/dbService";
 
 export default {
   name: "LoginComponent",
   data() {
     return {
+      cuil: null,
+      password: "",
       validar: true,
     };
   },
   methods: {
-    login() {
-      if (this.validar) {
-        this.mockLogin();
-        console.log("ok");
-      }
+    log() {
+      let log = {
+        password: this.password,
+        cuil: this.cuil,
+      };
+      console.log(log);
+      dbService
+        .postLoginUser(log)
+        .then(function (response) {
+          if (this.validar) {
+            console.log("holas");
+            this.mockLogin();
+            console.log("ok");
+            this.$router.push("/munienlinea");
+          }
+
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("hola");
+          console.log(error);
+        });
     },
 
     ...mapActions(["mockLogin"]),

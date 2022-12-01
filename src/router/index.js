@@ -5,7 +5,7 @@ import store from "@/store";
 const routes = [
   {
     path: "/",
-    name: "login",
+    name: " ",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
   },
