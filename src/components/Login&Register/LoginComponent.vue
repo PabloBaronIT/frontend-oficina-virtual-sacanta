@@ -42,14 +42,12 @@
             matches: 'Incluir un simbolo',
           }"
         />
-
         <FormKit type="submit" label="Register" @click="log" />
       </FormKit>
       <div v-if="submitted">
         <h2>Ingresaste correctamente</h2>
       </div>
     </form>
-
     <div class="deco">
       <h2>Muni En Linea</h2>
     </div>
@@ -58,7 +56,7 @@
 
 <script>
 import { mapActions } from "vuex";
-//import dbService from "@/services/dbService";
+import dbService from "@/services/dbService";
 
 export default {
   name: "LoginComponent",
@@ -70,38 +68,38 @@ export default {
     };
   },
   methods: {
-    // log() {
-    //   let log = {
-    //     password: this.password,
-    //     cuil: this.cuil,
-    //   };
-
-    //   dbService
-    //     .postLoginUser(log)
-    //     .then(function (response) {
-    //       if (this.validar) {
-    //         console.log("holas");
-    //         this.mockLogin();
-    //         console.log("ok");
-    //         this.$router.push("/munienlinea");
-    //       }
-
-    //       console.log(response);
-    //     })
-    //     .catch((error) => {
-    //       console.log("hola");
-    //       console.log(error);
-    //     });
-    // },
-
     log() {
-      if (this.validar) {
-        console.log("holas");
-        this.mockLogin();
-        console.log("ok");
-        this.$router.push("/munienlinea");
-      }
+      let log = {
+        password: this.password,
+        cuil: this.cuil,
+      };
+
+      dbService
+        .postLoginUser(log)
+        .then(function (response) {
+          // if (this.validar) {
+          //   console.log("holas");
+          //   this.mockLogin();
+          //   console.log("ok");
+          //   this.$router.push("/munienlinea");
+          // }
+
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("hola");
+          console.log(error);
+        });
     },
+
+    // log() {
+    //   if (this.validar) {
+    //     console.log("holas");
+    //     this.mockLogin();
+    //     console.log("ok");
+    //     this.$router.push("/munienlinea");
+    //   }
+    // },
 
     ...mapActions(["mockLogin"]),
   },
