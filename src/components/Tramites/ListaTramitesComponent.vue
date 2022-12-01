@@ -2,10 +2,10 @@
   <main class="container">
     <ul class="responsive-table">
       <li class="table-header">
-        <div class="col col-1">Job Id</div>
-        <div class="col col-2">Customer Name</div>
-        <div class="col col-3">Amount Due</div>
-        <div class="col col-4">Payment Status</div>
+        <div class="col col-1">Tramite</div>
+        <div class="col col-2">Nro. tramite</div>
+        <div class="col col-3">Categoria</div>
+        <div class="col col-4">Estado</div>
       </li>
       <li
         v-for="tramite in tramites"
@@ -36,6 +36,18 @@ export default {
           nroTramite: 1232,
           area: "Sanidad",
         },
+        {
+          descripcion: "Habilitacion de espacio publico",
+          nroTramite: 123,
+          area: "Cultura",
+        },
+        { descripcion: "Alta automotor", nroTramite: 123, area: "Automotores" },
+        {
+          descripcion: "Habilitacion de espacio publico",
+          nroTramite: 123,
+          area: "Cultura",
+        },
+        { descripcion: "Alta automotor", nroTramite: 123, area: "Automotores" },
         {
           descripcion: "Habilitacion de espacio publico",
           nroTramite: 123,
@@ -95,8 +107,7 @@ h2 {
   .table-header {
     display: none;
   }
-  .table-row {
-  }
+
   li {
     display: block;
   }

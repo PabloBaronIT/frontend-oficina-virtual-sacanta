@@ -58,7 +58,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import dbService from "@/services/dbService";
+//import dbService from "@/services/dbService";
 
 export default {
   name: "LoginComponent",
@@ -70,28 +70,37 @@ export default {
     };
   },
   methods: {
-    log() {
-      let log = {
-        password: this.password,
-        cuil: this.cuil,
-      };
-      console.log(log);
-      dbService
-        .postLoginUser(log)
-        .then(function (response) {
-          if (this.validar) {
-            console.log("holas");
-            this.mockLogin();
-            console.log("ok");
-            this.$router.push("/munienlinea");
-          }
+    // log() {
+    //   let log = {
+    //     password: this.password,
+    //     cuil: this.cuil,
+    //   };
 
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log("hola");
-          console.log(error);
-        });
+    //   dbService
+    //     .postLoginUser(log)
+    //     .then(function (response) {
+    //       if (this.validar) {
+    //         console.log("holas");
+    //         this.mockLogin();
+    //         console.log("ok");
+    //         this.$router.push("/munienlinea");
+    //       }
+
+    //       console.log(response);
+    //     })
+    //     .catch((error) => {
+    //       console.log("hola");
+    //       console.log(error);
+    //     });
+    // },
+
+    log() {
+      if (this.validar) {
+        console.log("holas");
+        this.mockLogin();
+        console.log("ok");
+        this.$router.push("/munienlinea");
+      }
     },
 
     ...mapActions(["mockLogin"]),

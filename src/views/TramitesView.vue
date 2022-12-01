@@ -1,21 +1,26 @@
 <template>
-  <main>
-    <TopNavTramites />
+  <main class="main-container">
     <ListaTramites />
+    <TramitesNavComponent />
   </main>
 </template>
 
 <script>
 import ListaTramites from "@/components/Tramites/ListaTramitesComponent.vue";
-import TopNavTramites from "@/components/Tramites/TopNavTramites.vue";
+import TramitesNavComponent from "@/components/Tramites/TramitesNavComponent.vue";
 
 export default {
   name: "TramitesView",
   components: {
     ListaTramites,
-    TopNavTramites,
+    TramitesNavComponent,
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.main-container {
+  display: flex;
+  justify-content: left;
+}
+</style>
