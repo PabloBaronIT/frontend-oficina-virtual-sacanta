@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "//localhost:3000",
+  baseURL: "//localhost:3000/oficina",
   withCredentials: false,
   headers: {
     Accept: "application/json",
@@ -20,7 +20,7 @@ export default {
     });
   },
   postLoginUser(login) {
-    return apiClient.post("/loginUser", {
+    return apiClient.post("/signin", {
       cuil: login.cuil,
       password: login.password,
     });

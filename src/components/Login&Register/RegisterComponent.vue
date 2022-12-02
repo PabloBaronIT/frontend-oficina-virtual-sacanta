@@ -4,9 +4,6 @@
       <FormKit
         type="form"
         id="registration-example"
-        :form-class="submitted ? 'hide' : 'show'"
-        submit-label="Register"
-        @submit="submitHandler"
         :actions="false"
         incomplete-message="Aun no has completado todos los campos."
       >
@@ -94,11 +91,13 @@
           />
         </div>
 
-        <FormKit type="submit" label="Register" />
+        <input
+          class="btn btn-primary"
+          type="button"
+          value="Ingresar"
+          @click="registrar"
+        />
       </FormKit>
-      <div v-if="submitted">
-        <h2>Submission successful!</h2>
-      </div>
     </div>
   </div>
 </template>
@@ -127,14 +126,14 @@ export default {
         password: this.password,
         cuil: this.cuil,
       };
-      console.log(registro);
+
       dbService
         .postCreateUser(registro)
         .then(function (response) {
-          console.log(response);
+          console.log(response.data);
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.message);
         });
     },
   },

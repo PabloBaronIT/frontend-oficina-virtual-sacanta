@@ -8,9 +8,6 @@
       <FormKit
         type="form"
         id="registration-example"
-        :form-class="submitted ? 'hide' : 'show'"
-        submit-label="Register"
-        @submit="submitHandler"
         :actions="false"
         incomplete-message="Aun no has completado todos los campos."
       >
@@ -42,9 +39,14 @@
             matches: 'Incluir un simbolo',
           }"
         />
-        <FormKit type="submit" label="Register" @click="log" />
+        <input
+          class="btn btn-primary"
+          type="button"
+          value="Login"
+          @click="log"
+        />
       </FormKit>
-      <div v-if="submitted">
+      <div v-if="validar">
         <h2>Ingresaste correctamente</h2>
       </div>
     </form>
@@ -64,10 +66,12 @@ export default {
     return {
       cuil: null,
       password: "",
-      validar: true,
+      validacion: false,
     };
   },
   methods: {
+    ...mapActions(["mockLogin"]),
+
     log() {
       let log = {
         password: this.password,
@@ -76,18 +80,15 @@ export default {
 
       dbService
         .postLoginUser(log)
-        .then(function (response) {
-          // if (this.validar) {
-          //   console.log("holas");
-          //   this.mockLogin();
-          //   console.log("ok");
-          //   this.$router.push("/munienlinea");
-          // }
-
+        .then((response) => {
           console.log(response);
+          if (response.status == 200) {
+            this.validacion = true;
+            this.mockLogin();
+            this.$router.push("munienlinea");
+          }
         })
         .catch((error) => {
-          console.log("hola");
           console.log(error);
         });
     },
@@ -100,8 +101,6 @@ export default {
     //     this.$router.push("/munienlinea");
     //   }
     // },
-
-    ...mapActions(["mockLogin"]),
   },
 };
 </script>
