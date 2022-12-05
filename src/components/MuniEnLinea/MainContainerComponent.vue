@@ -8,7 +8,7 @@
           class="card"
           style="text-decoration: none; color: #222"
         >
-          <img src="@/assets/logo.png" alt="" />
+          <img :src="`/img/${opcion.name}.png`" :alt="opcion.name" />
           {{ opcion.name }}
         </router-link>
       </div>
@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       opciones: [
-        { id: 1, name: "Turnero Digital", src: "" },
+        { id: 1, name: "Turnero Digital" },
         { id: 2, name: "App Ciudadana" },
         { id: 3, name: "Boletín Electronico" },
         { id: 4, name: "Ciudad Transparente" },
@@ -30,8 +30,12 @@ export default {
         { id: 5, name: "Obras Publicas" },
         { id: 5, name: "Salud" },
         { id: 5, name: "Registro Civil" },
-        { id: 5, name: "Guía de Tramites" },
-        { id: 5, name: "Habilitación  Negocios Online" },
+        { id: 5, name: "Guía de Trámites" },
+        {
+          id: 5,
+          name: "Habilitación de Negocios Online",
+          src: "informacion.png",
+        },
       ],
     };
   },
@@ -39,12 +43,8 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  color: rgb(56, 101, 224);
-  width: 80%;
-  text-align: left;
-  font-weight: bold;
-  padding-top: 20px;
+img {
+  width: 10px;
 }
 
 .flex-container {
@@ -72,7 +72,6 @@ h1 {
   border-radius: 50%;
   object-fit: cover;
   width: 100px;
-  border: 1px solid #000;
 }
 
 .card {
@@ -94,5 +93,14 @@ h1 {
 
 .card:hover {
   box-shadow: 5px 5px 20px #444;
+}
+
+h1 {
+  margin-left: 30px;
+  color: var(--red);
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  padding-top: 20px;
 }
 </style>

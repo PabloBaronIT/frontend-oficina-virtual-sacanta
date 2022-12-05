@@ -58,7 +58,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import dbService from "@/services/dbService";
+//import dbService from "@/services/dbService";
 
 export default {
   name: "LoginComponent",
@@ -66,41 +66,43 @@ export default {
     return {
       cuil: null,
       password: "",
-      validacion: false,
+      validacion: true,
     };
   },
   methods: {
     ...mapActions(["mockLogin"]),
 
-    log() {
-      let log = {
-        password: this.password,
-        cuil: this.cuil,
-      };
-
-      dbService
-        .postLoginUser(log)
-        .then((response) => {
-          console.log(response);
-          if (response.status == 200) {
-            this.validacion = true;
-            this.mockLogin();
-            this.$router.push("munienlinea");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    //Login con AXIOS, hablar con patricio para mayor cant de detalles en response.data
 
     // log() {
-    //   if (this.validar) {
-    //     console.log("holas");
-    //     this.mockLogin();
-    //     console.log("ok");
-    //     this.$router.push("/munienlinea");
-    //   }
+    //   let log = {
+    //     password: this.password,
+    //     cuil: this.cuil,
+    //   };
+
+    //   dbService
+    //     .postLoginUser(log)
+    //     .then((response) => {
+    //       console.log(response);
+    //       if (response.status == 200) {
+    //         this.validacion = true;
+    //         this.mockLogin();
+    //         this.$router.push("munienlinea");
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
     // },
+
+    log() {
+      if (this.validacion) {
+        console.log("holas");
+        this.mockLogin();
+        console.log("ok");
+        this.$router.push("/munienlinea");
+      }
+    },
   },
 };
 </script>
