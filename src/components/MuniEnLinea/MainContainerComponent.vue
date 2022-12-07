@@ -8,7 +8,7 @@
           class="card"
           style="text-decoration: none; color: #222"
         >
-          <img :src="`/img/${opcion.name}.png`" :alt="opcion.name" />
+          <img :src="opcion.src" :alt="opcion.name" />
           {{ opcion.name }}
         </router-link>
       </div>
@@ -22,19 +22,55 @@ export default {
   data() {
     return {
       opciones: [
-        { id: 1, name: "Turnero Digital" },
-        { id: 2, name: "App Ciudadana" },
-        { id: 3, name: "Boletín Electronico" },
-        { id: 4, name: "Ciudad Transparente" },
-        { id: 5, name: "Consulta de Expedientes" },
-        { id: 5, name: "Obras Publicas" },
-        { id: 5, name: "Salud" },
-        { id: 5, name: "Registro Civil" },
-        { id: 5, name: "Guía de Trámites" },
+        {
+          id: 1,
+          name: "Turnero Digital",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Turnero%20Digital.png?raw=true",
+        },
+        {
+          id: 2,
+          name: "App Ciudadana",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/App%20Ciudadana.png?raw=true",
+        },
+        {
+          id: 3,
+          name: "Boletín Electronico",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Bolet%C3%ADn%20Electronico.png?raw=true",
+        },
+        {
+          id: 4,
+          name: "Ciudad Transparente",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Ciudad%20Transparente.png?raw=true",
+        },
+        {
+          id: 5,
+          name: "Consulta de Expedientes",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Consulta%20de%20Expedientes.png?raw=true",
+        },
+        {
+          id: 5,
+          name: "Obras Publicas",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Obras%20Publicas.png?raw=true",
+        },
+        {
+          id: 5,
+          name: "Salud",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Salud.png?raw=true",
+        },
+        {
+          id: 5,
+          name: "Registro Civil",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Registro%20Civil.png?raw=true",
+        },
+        {
+          id: 5,
+          name: "GuíadeTrámites",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Gu%C3%ADa%20de%20Tr%C3%A1mites.png?raw=true",
+        },
         {
           id: 5,
           name: "Habilitación de Negocios Online",
-          src: "informacion.png",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Habilitaci%C3%B3n%20de%20Negocios%20Online.png?raw=true",
         },
       ],
     };
