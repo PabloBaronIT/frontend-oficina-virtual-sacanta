@@ -28,7 +28,20 @@ const routes = [
     path: "/tramites",
     name: "tramites",
     component: () => import("@/views/TramitesView.vue"),
+    children: [
+      {
+        path: "/tramites/:tramiteId",
+        component: () =>
+          import("@/components/Tramites/FormularioComponent.vue"),
+      },
+    ],
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/prueba",
+    name: "prueba",
+    component: () => import("@/views/PruebaView.vue"),
+    meta: { requiresAuth: false },
   },
 ];
 

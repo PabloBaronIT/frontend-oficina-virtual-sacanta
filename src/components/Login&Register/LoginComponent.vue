@@ -32,9 +32,8 @@
           name="password"
           label="Clave"
           placeholder="clave"
-          validation="required|length:8,30|matches:/[^a-zA-Z]/"
+          validation="required|matches:/[^a-zA-Z]/"
           :validation-messages="{
-            length: 'Debe ser mayor a 6 caracteres',
             required: 'Ingresa una contraseña',
             matches: 'Incluir un simbolo',
           }"
@@ -59,6 +58,11 @@
 <script>
 import { mapActions } from "vuex";
 //import dbService from "@/services/dbService";
+
+//ToDo
+//Duracion e sesiones de usuario (charlar con patricio)
+//Recordar sesion mediante cookies => Ver libreria js-cookie
+//
 
 export default {
   name: "LoginComponent",
@@ -97,9 +101,7 @@ export default {
 
     log() {
       if (this.validacion) {
-        console.log("holas");
         this.mockLogin();
-        console.log("ok");
         this.$router.push("/munienlinea");
       }
     },

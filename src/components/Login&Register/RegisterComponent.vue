@@ -118,6 +118,12 @@ export default {
     };
   },
   methods: {
+    //ToDo:
+    //Implementar Try Catch
+    //Inverstigar funciones de $router (Ej: Historial de navegacion)
+    //@submit.prevent="login"
+    // <p v-if="error" class="error">
+
     registrar() {
       let registro = {
         name: this.name,

@@ -36,6 +36,9 @@
       <router-link v-show="permission" :to="`/tramites`" class="bn3">
         Mis tramites
       </router-link>
+      <router-link v-show="permission" :to="`/prueba`" class="bn3">
+        Mis tramites
+      </router-link>
       <input class="bn3" type="button" value="Servicios" />
       <input class="bn3" type="button" value="Comunicaciones" />
       <input class="bn3" type="button" value="Noificaciones" />
