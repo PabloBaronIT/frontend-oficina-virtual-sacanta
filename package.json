@@ -15,7 +15,9 @@
     "bootstrap-icons": "^1.10.2",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "html2pdf.js": "^0.10.1",
     "vue": "^3.2.45",
+    "vue-html2pdf": "^1.8.0",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
