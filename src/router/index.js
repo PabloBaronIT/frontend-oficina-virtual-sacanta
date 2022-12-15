@@ -39,7 +39,6 @@ const routes = [
     path: "/tramites",
     name: "tramites",
     component: () => import("@/views/TramitesView.vue"),
-
     meta: { requiresAuth: true },
   },
   {
