@@ -62,7 +62,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.nav-container {
+  border: 1px solid red;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  padding: 0;
+  height: auto;
+  position: sticky;
+}
+
 .bn3:first-child {
   background-color: var(--red);
 }
@@ -122,15 +134,6 @@ a {
   padding-left: 20px;
 
   text-align: left;
-}
-
-.nav-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 40%;
-  padding: 0;
 }
 
 /* CSS */

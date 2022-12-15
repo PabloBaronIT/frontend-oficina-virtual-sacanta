@@ -1,16 +1,22 @@
 <template>
   <main class="flex-container">
     <h1>Servicios</h1>
+
+    <router-view />
+
     <div class="card-container">
-      <div v-for="opcion in opciones" :key="opcion.Id">
+      <div v-for="sector in sectores" :key="sector.Id">
         <router-link
-          :to="`/munienlinea/${opcion.name}`"
+          :to="`/munienlinea/${sector.name}`"
           class="card"
           style="text-decoration: none; color: #222"
         >
-          <img :src="opcion.src" :alt="opcion.name" />
-          {{ opcion.name }}
+          <img :src="sector.src" :alt="sector.name" />
+          {{ sector.name }}
         </router-link>
+        <!-- <router-link :to="`/tramites/${tramite.nombre}`">
+          {{ tramite.nombre }}
+        </router-link> -->
       </div>
     </div>
   </main>
@@ -21,7 +27,7 @@ export default {
   name: "MainCointainerComponent",
   data() {
     return {
-      opciones: [
+      sectores: [
         {
           id: 1,
           name: "Turnero Digital",
@@ -93,6 +99,7 @@ img {
   padding: 10px 0;
   flex-flow: row wrap;
   justify-content: center;
+  align-items: center;
 }
 
 .card-container {

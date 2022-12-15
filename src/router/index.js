@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: "login",
+    name: "login", //para usar el router link sin modificar la ruta web
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
   },
@@ -19,22 +19,27 @@ const routes = [
     path: "/munienlinea",
     name: "munienlinea",
     component: () => import("../views/MuniEnLineaView.vue"),
-    // children:[
-    //   {path: ':tramiteId', component: import('@/components/Tramites/...')}
-    // ]
+    children: [
+      {
+        path: "/munienlinea/:sectorId",
+        component: () => import("@/components/MuniEnLinea/SectorComponent.vue"),
+      },
+    ],
+
+    // children: [
+    //   {
+    //     path: "/munienlinea/:tramiteId",
+    //     component: () =>
+    //       import("@/components/Tramites/FormularioComponent.vue"),
+    //   },
+    // ],
     meta: { requiresAuth: true },
   },
   {
     path: "/tramites",
     name: "tramites",
     component: () => import("@/views/TramitesView.vue"),
-    children: [
-      {
-        path: "/tramites/:tramiteId",
-        component: () =>
-          import("@/components/Tramites/FormularioComponent.vue"),
-      },
-    ],
+
     meta: { requiresAuth: true },
   },
   {

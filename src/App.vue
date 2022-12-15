@@ -4,10 +4,10 @@
 
 <style>
 #app {
-  --green: #00ffd1;
-  --blue: #31c6d4;
-  --yellow: #f9d923;
-  --red: #eb5353;
+  --green: #d1e9ea;
+  --blue: #415f77;
+  --yellow: #fff7e9;
+  --red: #e14d2a;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -16,6 +16,7 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "html2pdf.js": "^0.10.1",
+    "js-cookie": "^3.0.1",
     "vue": "^3.2.45",
     "vue-html2pdf": "^1.8.0",
     "vue-router": "^4.0.3",

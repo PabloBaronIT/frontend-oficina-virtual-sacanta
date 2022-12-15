@@ -102,7 +102,14 @@ export default {
     log() {
       if (this.validacion) {
         this.mockLogin();
-        this.$router.push("/munienlinea");
+        //$router.go(numero) para avanzar o retroceder en la pagina
+        this.$router.push({
+          path: "munienlinea",
+          // query: {
+          //   variable1: 1,
+          // },
+          replace: true,
+        });
       }
     },
   },
