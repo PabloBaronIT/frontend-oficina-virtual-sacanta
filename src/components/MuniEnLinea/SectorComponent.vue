@@ -38,11 +38,13 @@ export default {
           id: 4,
           tramite:
             "Solicitud de turno para estudio médico en Medicina Preventiva",
+          sector: "Boletín Electronico",
         },
         {
-          id: 4,
+          id: 5,
           tramite:
             "Solicitud de turno para estudio médico en Medicina Preventiva",
+          sector: "App Ciudadana",
         },
       ],
     };
