@@ -66,7 +66,6 @@ export default {
 
 <style>
 .nav-container {
-  border: 1px solid red;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;

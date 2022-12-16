@@ -4,8 +4,8 @@
      correspondientes al sector seleccionado -->
     <header>
       <h1>
-        <a @click="back"><img src="@/assets/back-arrow.svg" alt="Volver" /></a
-        >{{ this.$route.params.sectorId }}
+        <img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />
+        {{ this.$route.params.sectorId }}
       </h1>
     </header>
     <div class="tramites" v-for="tramite in tramitesFiltered" :key="tramite.id">
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     back() {
-      this.$route.go(-1);
+      this.$router.go(-1);
     },
   },
   computed: {
@@ -80,7 +80,7 @@ export default {
   border-bottom: none;
 }
 
-a img {
+img {
   max-width: 30px;
   margin-right: 20px;
 }
