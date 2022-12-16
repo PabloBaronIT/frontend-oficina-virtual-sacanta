@@ -19,12 +19,6 @@ const routes = [
     path: "/munienlinea",
     name: "munienlinea",
     component: () => import("../views/MuniEnLineaView.vue"),
-    children: [
-      {
-        path: "/munienlinea/:sectorId",
-        component: () => import("@/components/MuniEnLinea/SectorComponent.vue"),
-      },
-    ],
 
     // children: [
     //   {

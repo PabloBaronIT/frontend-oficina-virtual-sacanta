@@ -17,12 +17,19 @@ export default {
   data() {
     return {
       preguntas: [
-        { id: 1, pregunta: "Nombre", type: "string" },
-        { id: 2, pregunta: "Apellido", type: "string" },
-        { id: 3, pregunta: "Edad", type: "number" },
-        { id: 4, pregunta: "Acepto los terminos", type: "checkbox" },
+        { id: 1, pregunta: "Opcion1", type: "string" },
+        { id: 2, pregunta: "opcion2", type: "string" },
+        { id: 3, pregunta: "opcion3", type: "number" },
+        { id: 4, pregunta: "opcion 4", type: "checkbox" },
+        { id: 4, pregunta: "opcion 5", type: "date" },
+        { id: 4, pregunta: "opcion 6", type: "color" },
       ],
     };
+  },
+  methods: {
+    swapComponent(componente) {
+      this.currentComponent = componente;
+    },
   },
 };
 
