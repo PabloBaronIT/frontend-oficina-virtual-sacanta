@@ -30,6 +30,20 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/sector/:sectorId",
+    name: "sector",
+    component: () => import("../views/SectorView.vue"),
+
+    // children: [
+    //   {
+    //     path: "/munienlinea/:tramiteId",
+    //     component: () =>
+    //       import("@/components/Tramites/FormularioComponent.vue"),
+    //   },
+    // ],
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/tramites",
     name: "tramites",
     component: () => import("@/views/TramitesView.vue"),

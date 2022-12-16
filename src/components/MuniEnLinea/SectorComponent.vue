@@ -2,7 +2,12 @@
   <div class="sector-component">
     <!-- Mostrar los tramites
      correspondientes al sector seleccionado -->
-
+    <header>
+      <h1>
+        <a @click="back"><img src="@/assets/back-arrow.svg" alt="Volver" /></a
+        >{{ this.$route.params.sectorId }}
+      </h1>
+    </header>
     <div class="tramites" v-for="tramite in tramitesFiltered" :key="tramite.id">
       <h5 for="">{{ tramite.tramite }}</h5>
     </div>
@@ -42,6 +47,11 @@ export default {
       ],
     };
   },
+  methods: {
+    back() {
+      this.$route.go(-1);
+    },
+  },
   computed: {
     tramitesFiltered() {
       return this.tramites.filter((tramite) => {
@@ -54,20 +64,28 @@ export default {
 
 <style scoped>
 .sector-component {
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 #aaa;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-  border: 1px solid var(--blue);
+  width: 100%;
+  height: 100vh;
+  background: rgb(235, 235, 235);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
 
-  width: 70%;
+  padding: 10px;
 }
 
 .tramites {
-  border-bottom: 1px solid var(--blue);
+  border-bottom: 1px solid var(--red);
 }
 .tramites:last-child {
   border-bottom: none;
+}
+
+a img {
+  max-width: 30px;
+  margin-right: 20px;
+}
+
+h1 {
+  color: var(--red);
 }
 </style>
