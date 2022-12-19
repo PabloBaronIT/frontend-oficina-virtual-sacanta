@@ -1,8 +1,8 @@
 <template>
   <main class="flex-container">
-    <h1>Servicios</h1>
+    <TramitesFrecuentes />
 
-    <router-view />
+    <h1>Servicios</h1>
 
     <div class="card-container">
       <div v-for="sector in sectores" :key="sector.Id">
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
+
 export default {
   name: "MainCointainerComponent",
   data() {
@@ -78,17 +80,20 @@ export default {
       ],
     };
   },
+  components: {
+    TramitesFrecuentes,
+  },
 };
 </script>
 
-<style scoped>
+<style>
 img {
   width: 10px;
 }
 
 .flex-container {
   width: 100%;
-  height: 100vh;
+  height: auto;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;

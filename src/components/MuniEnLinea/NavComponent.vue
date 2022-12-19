@@ -72,8 +72,9 @@ export default {
   align-items: center;
   width: 40%;
   padding: 0;
-  height: auto;
+  height: 100vh;
   position: sticky;
+  top: 0;
 }
 
 .bn3:first-child {

@@ -21,7 +21,6 @@ export default {
 
 <style scoped>
 .sector-container {
-  height: 100vh;
   display: flex;
   flex-flow: row nowrap;
 }

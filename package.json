@@ -20,6 +20,7 @@
     "vue": "^3.2.45",
     "vue-html2pdf": "^1.8.0",
     "vue-router": "^4.0.3",
+    "vue3-carousel": "^0.2.9",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
