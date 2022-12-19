@@ -1,7 +1,6 @@
 <template>
   <main class="flex-container">
     <TramitesFrecuentes />
-
     <h1>Servicios</h1>
 
     <div class="card-container">
@@ -86,13 +85,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 img {
   width: 10px;
 }
 
 .flex-container {
-  width: 100%;
+  width: 75%;
   height: auto;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
