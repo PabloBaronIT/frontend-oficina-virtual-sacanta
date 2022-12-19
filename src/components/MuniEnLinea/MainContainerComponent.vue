@@ -7,16 +7,13 @@
     <div class="card-container">
       <div v-for="sector in sectores" :key="sector.Id">
         <router-link
-          :to="`/munienlinea/${sector.name}`"
+          :to="`/sector/${sector.name}`"
           class="card"
           style="text-decoration: none; color: #222"
         >
           <img :src="sector.src" :alt="sector.name" />
           {{ sector.name }}
         </router-link>
-        <!-- <router-link :to="`/tramites/${tramite.nombre}`">
-          {{ tramite.nombre }}
-        </router-link> -->
       </div>
     </div>
   </main>

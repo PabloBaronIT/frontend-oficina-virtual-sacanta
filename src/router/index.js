@@ -19,12 +19,20 @@ const routes = [
     path: "/munienlinea",
     name: "munienlinea",
     component: () => import("../views/MuniEnLineaView.vue"),
-    children: [
-      {
-        path: "/munienlinea/:sectorId",
-        component: () => import("@/components/MuniEnLinea/SectorComponent.vue"),
-      },
-    ],
+
+    // children: [
+    //   {
+    //     path: "/munienlinea/:tramiteId",
+    //     component: () =>
+    //       import("@/components/Tramites/FormularioComponent.vue"),
+    //   },
+    // ],
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/sector/:sectorId",
+    name: "sector",
+    component: () => import("../views/SectorView.vue"),
 
     // children: [
     //   {

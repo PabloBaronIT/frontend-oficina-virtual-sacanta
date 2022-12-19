@@ -1,11 +1,13 @@
 <template>
   <!-- Sidebar -->
   <div class="nav-container">
-    <img
-      class="logo"
-      src="https://morteros.gob.ar/sites/default/files/logo_municipio_0.png"
-      alt=""
-    />
+    <router-link to="/munienlinea">
+      <img
+        class="logo"
+        src="https://morteros.gob.ar/sites/default/files/logo_municipio_0.png"
+        alt=""
+      />
+    </router-link>
 
     <div class="usuario">
       <svg
@@ -64,7 +66,6 @@ export default {
 
 <style>
 .nav-container {
-  border: 1px solid red;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
