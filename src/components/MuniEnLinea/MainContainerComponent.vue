@@ -91,13 +91,12 @@ img {
 }
 
 .flex-container {
-  width: 80vw;
+  width: 78vw;
   height: auto;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   display: flex;
-  padding: 10px 0;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
@@ -146,5 +145,10 @@ h1 {
   text-align: center;
   font-weight: bold;
   padding-top: 20px;
+}
+@media (max-width: 800px) {
+  .flex-container {
+    width: 100vw;
+  }
 }
 </style>

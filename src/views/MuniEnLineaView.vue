@@ -1,7 +1,7 @@
 <template>
-  <div class="main-container">
+  <main>
     <MainContainerComponent />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -19,10 +19,9 @@ export default {
 };
 </script>
 
-<style>
-.main-container {
-  margin-left: 20vw;
-  display: flex;
-  justify-content: left;
+<style scoped>
+main {
+  width: 100%;
+  border: 1px solid red;
 }
 </style>

@@ -1,7 +1,26 @@
-<template></template>
+<template>
+  <main>
+    <Tabla />
+  </main>
+</template>
 
 <script>
-export default {};
+import Tabla from "@/components/Notificaciones/TablaComponent.vue";
+
+export default {
+  components: {
+    Tabla,
+  },
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+main {
+  width: 100%;
+  display: flex;
+  background: rgb(235, 235, 235);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding: 30px;
+}
+</style>

@@ -43,7 +43,9 @@
       </router-link>
       <input class="bn3" type="button" value="Servicios" />
       <input class="bn3" type="button" value="Comunicaciones" />
-      <input class="bn3" type="button" value="Noificaciones" />
+      <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
+        Notificaciones
+      </router-link>
       <input class="bn3" type="button" value="Representados" />
     </nav>
   </div>
@@ -64,7 +66,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 nav {
   padding: 30px;
 }
@@ -75,15 +77,16 @@ nav a {
 }
 
 .nav-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 20vw;
+  width: 300px;
   padding: 0;
-  height: 100vh;
-  position: fixed;
-  top: 0;
+  height: 90vh;
 }
 
 .bn3:first-child {
@@ -178,5 +181,11 @@ a {
   background-color: #a0c7e4;
   box-shadow: none;
   color: #2c5777;
+}
+
+@media (max-width: 800px) {
+  .nav-container {
+    display: none;
+  }
 }
 </style>

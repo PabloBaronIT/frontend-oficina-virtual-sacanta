@@ -127,7 +127,7 @@ export default defineComponent({
   backdrop-filter: blur(6.5px);
   -webkit-backdrop-filter: blur(6.5px);
   border-radius: 10px;
-  border: 1px solid var(--blue);
+  border: 1px solid var(--red);
   font-weight: bold;
   padding: 15px;
   box-shadow: 0px 2px 5px rgb(97, 97, 97);

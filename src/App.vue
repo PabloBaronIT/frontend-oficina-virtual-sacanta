@@ -1,9 +1,8 @@
 <template>
-  <main>
+  <div class="main-container">
     <NavComponent />
-
     <router-view />
-  </main>
+  </div>
 </template>
 
 <script>
@@ -17,14 +16,11 @@ export default {
 </script>
 
 <style>
-main {
-  display: flex;
-  flex-flow: row nowrap;
-  width: 100vw;
+* {
+  box-sizing: border-box;
 }
 
 #app {
-  overflow-x: hidden;
   --green: #d1e9ea;
   --blue: #415f77;
   --yellow: #fff7e9;
@@ -35,5 +31,19 @@ main {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--text-color);
+  margin: 0;
+  width: 100vw;
+}
+</style>
+
+<style scoped>
+.main-container {
+  display: flex;
+}
+
+@media (max-width: 800px) {
+  #app {
+    width: 100vw;
+  }
 }
 </style>

@@ -17,7 +17,6 @@ export default {
 
 <style scoped>
 .sector-container {
-  margin-left: 20vw;
   display: flex;
   flex-flow: row nowrap;
 }
