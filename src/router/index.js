@@ -40,6 +40,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/notificaciones",
+    name: "notificaciones",
+    component: () => import("@/views/NotificacionesView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/prueba",
     name: "prueba",
     component: () => import("@/views/PruebaView.vue"),

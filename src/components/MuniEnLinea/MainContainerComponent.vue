@@ -91,7 +91,7 @@ img {
 }
 
 .flex-container {
-  width: 75%;
+  width: 80vw;
   height: auto;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
@@ -143,7 +143,7 @@ h1 {
   margin-left: 30px;
   color: var(--red);
   width: 100%;
-  text-align: left;
+  text-align: center;
   font-weight: bold;
   padding-top: 20px;
 }

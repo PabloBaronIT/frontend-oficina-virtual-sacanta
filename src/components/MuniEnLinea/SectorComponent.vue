@@ -10,8 +10,12 @@
     </header>
     <div class="tramites">
       <div class="card" v-for="tramite in tramitesFiltered" :key="tramite.id">
-        <img :src="tramite.img" :alt="tramite.id" />
-        <p>{{ tramite.tramite }}</p>
+        <div class="descripcion">
+          <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
+          <p>{{ tramite.tramite }}</p>
+        </div>
+        <a href="">Ver requisitos</a>
+        <input type="button" value="Iniciar tramite" />
       </div>
     </div>
   </div>
@@ -74,12 +78,16 @@ export default {
 
 <style scoped>
 .sector-component {
-  width: 100%;
-  height: auto;
+  width: 80vw;
+  height: 100vh;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 10px 0;
+}
+
+.descripcion {
+  display: flex;
 }
 
 .tramites {
@@ -89,40 +97,51 @@ export default {
   flex-flow: row wrap;
   padding: 0;
 }
-.tramites:last-child {
-  border-bottom: none;
+.tramites input {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: var(--red);
+  font-size: 0.9em;
+  color: var(--text-color);
+  transition: all 0.5s ease;
+}
+
+.tramites a {
+  color: var(--blue);
+  font-size: 0.9em;
+  text-decoration: none;
+}
+.tramites a:hover {
+  color: var(--red);
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.tramites input:hover {
+  background: var(--blue);
+  color: var(--red);
 }
 
 img {
   max-width: 30px;
-  margin-right: 20px;
+  align-self: center;
 }
 
 h1 {
   color: var(--red);
 }
 
-.card img {
-  margin-bottom: 20px;
-  border-radius: 50%;
-  object-fit: cover;
-  width: 100px;
-}
-
 .card {
-  border-top-left-radius: 200px;
-  border-top-right-radius: 200px;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
   font-weight: bold;
   padding: 15px;
   border: none;
   box-shadow: 5px 5px 12px #444;
-  width: 120px;
-  height: 210px;
+  width: 220px;
+  height: 220px;
   margin: 30px 20px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 </style>

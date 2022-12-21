@@ -1,5 +1,5 @@
 <template>
-  <div class="Container" id="elemento">
+  <div class="prueba-container" id="elemento">
     <h2>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum qui
       deserunt, voluptas sunt inventore tempora reiciendis praesentium veritatis
@@ -17,8 +17,8 @@
       voluptates! Atque nisi dolor animi et voluptate. Dolore quidem quas enim
       laudantium fugit!
     </p>
+    <input type="button" @click="PDF" value="Exportar a pdf" />
   </div>
-  <input type="button" @click="PDF" value="Exportar a pdf" />
 </template>
 
 <script>
@@ -38,6 +38,16 @@ export default {
 </script>
 
 <style scoped>
+.prueba-container {
+  width: 80vw;
+  margin-left: 20vw;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
 * {
   margin-top: 60px;
   text-align: center;

@@ -1,18 +1,15 @@
 <template>
   <div class="main-container">
-    <NavComponent />
     <MainContainerComponent />
   </div>
 </template>
 
 <script>
-import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import MainContainerComponent from "@/components/MuniEnLinea/MainContainerComponent.vue";
 
 export default {
   name: "MuniEnLineaView",
   components: {
-    NavComponent,
     MainContainerComponent,
   },
   mounted() {
@@ -22,8 +19,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .main-container {
+  margin-left: 20vw;
   display: flex;
   justify-content: left;
 }

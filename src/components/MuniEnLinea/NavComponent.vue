@@ -39,7 +39,7 @@
         Mis tramites
       </router-link>
       <router-link v-show="permission" :to="`/prueba`" class="bn3">
-        Mis tramites
+        Comprobantes
       </router-link>
       <input class="bn3" type="button" value="Servicios" />
       <input class="bn3" type="button" value="Comunicaciones" />
@@ -65,15 +65,24 @@ export default {
 </script>
 
 <style>
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
 .nav-container {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 40%;
+  width: 20vw;
   padding: 0;
   height: 100vh;
-  position: sticky;
+  position: fixed;
   top: 0;
 }
 
@@ -82,6 +91,7 @@ export default {
 }
 
 .bn3 {
+  background: var(--blue);
   display: inline-block;
   padding: 5px;
   margin: 0 0.1em 0.1em 0;
@@ -115,7 +125,6 @@ a {
   flex-flow: row wrap;
   justify-content: left;
   align-items: left;
-
   width: 300px;
 }
 

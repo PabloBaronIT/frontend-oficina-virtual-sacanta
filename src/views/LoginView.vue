@@ -12,8 +12,6 @@
       </div>
     </div>
   </div>
-
-  <div class="background"></div>
 </template>
 
 <script>
@@ -48,15 +46,9 @@ export default {
 </script>
 
 <style scoped>
-.background {
-  height: 300px;
-  width: 100%;
-  background-color: var(--blue);
-  position: absolute;
-  bottom: 0;
-}
-
 .form-container {
+  width: 80vw;
+  margin-left: 20vw;
   display: flex;
   justify-content: center;
   align-items: center;

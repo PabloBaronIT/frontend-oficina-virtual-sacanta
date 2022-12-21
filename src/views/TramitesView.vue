@@ -19,40 +19,7 @@
 export default {
   name: "TramitesView",
   data() {
-    return {
-      tramites: [
-        {
-          id: 1,
-          nombre: "Alta AFIP",
-          preguntas: ["Nombre", "Apellido", "Email"],
-        },
-        {
-          id: 2,
-          nombre: "Baja AFIP",
-          preguntas: ["Nombre", "Apellido", "Email"],
-        },
-        {
-          id: 3,
-          nombre: "Alta vehiculo",
-          preguntas: ["Nombre", "Apellido", "Email"],
-        },
-        {
-          id: 4,
-          nombre: "Alta AFIP",
-          preguntas: ["Nombre", "Apellido", "Email"],
-        },
-        {
-          id: 5,
-          nombre: "Baja AFIP",
-          preguntas: ["Nombre", "Apellido", "Email"],
-        },
-        {
-          id: 6,
-          nombre: "Alta vehiculo",
-          preguntas: ["Nombre", "Apellido", "Email"],
-        },
-      ],
-    };
+    return {};
   },
   components: {},
 };
