@@ -1,15 +1,20 @@
 <template>
   <main>
-    <Tabla />
+    <div class="tabla-container">
+      <FiltroNotificaciones />
+      <Tabla />
+    </div>
   </main>
 </template>
 
 <script>
 import Tabla from "@/components/Notificaciones/TablaComponent.vue";
+import FiltroNotificaciones from "@/components/Busqueda/Filtrado/FiltroNotificacionesComponent.vue";
 
 export default {
   components: {
     Tabla,
+    FiltroNotificaciones,
   },
 };
 </script>

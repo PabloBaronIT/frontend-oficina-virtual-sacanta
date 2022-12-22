@@ -11,9 +11,4 @@ import "bootstrap/dist/css/bootstrap.css";
 import "@formkit/themes/genesis";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
-createApp(App)
-  .use(plugin, defaultConfig)
-  .use(store)
-  .use(router)
-
-  .mount("#app");
+createApp(App).use(plugin, defaultConfig).use(store).use(router).mount("#app");

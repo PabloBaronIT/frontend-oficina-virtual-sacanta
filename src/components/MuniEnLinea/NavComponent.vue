@@ -2,11 +2,7 @@
   <!-- Sidebar -->
   <div class="nav-container">
     <router-link to="/munienlinea">
-      <img
-        class="logo"
-        src="https://morteros.gob.ar/sites/default/files/logo_municipio_0.png"
-        alt=""
-      />
+      <img class="logo" src="@/assets/muni-en-linea-logo.png" alt="" />
     </router-link>
 
     <div class="usuario">
@@ -132,7 +128,7 @@ a {
 }
 
 .logo {
-  width: 90%;
+  width: 80%;
   margin: 10% 0;
 }
 

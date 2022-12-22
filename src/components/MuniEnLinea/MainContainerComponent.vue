@@ -1,7 +1,11 @@
 <template>
   <main class="flex-container">
     <TramitesFrecuentes />
-    <h1>Servicios</h1>
+
+    <div class="header">
+      <h1>Servicios</h1>
+      <Busqueda />
+    </div>
 
     <div class="card-container">
       <div v-for="sector in sectores" :key="sector.Id">
@@ -20,6 +24,7 @@
 
 <script>
 import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
+import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
 
 export default {
   name: "MainCointainerComponent",
@@ -81,6 +86,7 @@ export default {
   },
   components: {
     TramitesFrecuentes,
+    Busqueda,
   },
 };
 </script>
@@ -90,10 +96,20 @@ img {
   width: 10px;
 }
 
+.header {
+  width: 100%;
+  border: 1px solid red;
+  margin: 0;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  text-align: left;
+}
+
 .flex-container {
   width: 78vw;
   height: auto;
-  background: rgb(235, 235, 235);
+  background: var(--grey-bk);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   display: flex;
@@ -111,26 +127,23 @@ img {
 }
 
 .card img {
-  margin-bottom: 20px;
   border-radius: 50%;
   object-fit: cover;
-  width: 100px;
+  width: 70px;
 }
 
 .card {
-  border-top-left-radius: 200px;
-  border-top-right-radius: 200px;
-  border-bottom-left-radius: 40px;
-  border-bottom-right-radius: 40px;
+  background: var(--grey-bk);
   font-weight: bold;
   padding: 15px;
   border: none;
   box-shadow: 5px 5px 12px #444;
-  width: 120px;
-  height: 210px;
-  margin: 30px 20px;
+  width: 320px;
+  height: 110px;
+  margin: 20px 20px;
   display: flex;
-  justify-content: flex-start;
+  flex-flow: column wrap;
+  justify-content: space-around;
   align-items: center;
 }
 

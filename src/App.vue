@@ -26,6 +26,7 @@ export default {
   --yellow: #fff7e9;
   --red: #e14d2a;
   --text-color: #2c3e50;
+  --grey-bk: #ebebeb;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

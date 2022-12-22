@@ -8,28 +8,31 @@
         <th>Asunto</th>
         <th>Estado</th>
       </tr>
-      <tr>
+      <tr class="fila-tabla">
         <td><input type="checkbox" name="" id="" /></td>
         <td>Alfreds Futterkiste</td>
         <td>Alfreds Futterkiste</td>
         <td>Maria Anders</td>
-        <td>Germany</td>
+        <td class="estado-fila"><p>Germany</p></td>
       </tr>
-      <tr>
+      <tr class="fila-tabla">
         <td><input type="checkbox" name="" id="" /></td>
         <td>Alfreds Futterkiste</td>
         <td>Alfreds Futterkiste</td>
         <td>Maria Anders</td>
-        <td>Germany</td>
+        <td class="estado-fila"><p>Germany</p></td>
       </tr>
-      <tr>
+      <tr class="fila-tabla">
         <td><input type="checkbox" name="" id="" /></td>
         <td>Alfreds Futterkiste</td>
         <td>Alfreds Futterkiste</td>
         <td>Maria Anders</td>
-        <td>Germany</td>
+        <td class="estado-fila"><p>Germany</p></td>
       </tr>
     </table>
+    <div class="filtro-filas">
+      <input type="number" name="" id="" />
+    </div>
   </div>
 </template>
 
@@ -59,12 +62,30 @@ export default {
 </script>
 
 <style scoped>
+.filtro-filas {
+  color: var(--text-color);
+  padding: 10px;
+  display: flex;
+  justify-content: right;
+  border: 1px solid red;
+  width: 100%;
+  height: 40px;
+}
+
+.filtro-filas input {
+  width: 20%;
+}
+
 .tabla-container {
   width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 table {
-  width: 70%;
+  width: 100%;
 }
 
 th,
@@ -77,6 +98,20 @@ td {
   font-size: 0.9em;
 }
 
-td {
+.fila-tabla:hover {
+  outline: 1px solid var(--blue);
+  cursor: pointer;
+  user-select: none;
+}
+
+.estado-fila p {
+  background: var(--grey-bk);
+  border-radius: 20px;
+  padding: 3px;
+}
+
+input:hover {
+  cursor: pointer;
+  box-shadow: 0px 0px 15px rgba(70, 70, 70, 0.459);
 }
 </style>

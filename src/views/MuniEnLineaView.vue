@@ -22,6 +22,5 @@ export default {
 <style scoped>
 main {
   width: 100%;
-  border: 1px solid red;
 }
 </style>
