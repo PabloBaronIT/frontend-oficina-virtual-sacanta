@@ -15,7 +15,6 @@
           style="text-decoration: none; color: #222"
         >
           <img :src="sector.src" :alt="sector.name" />
-          {{ sector.name }}
         </router-link>
       </div>
     </div>
@@ -33,8 +32,8 @@ export default {
       sectores: [
         {
           id: 1,
-          name: "Turnero Digital",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Turnero%20Digital.png?raw=true",
+
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/accion-social.png?raw=true",
         },
         {
           id: 2,
@@ -129,7 +128,7 @@ img {
 .card img {
   border-radius: 50%;
   object-fit: cover;
-  width: 70px;
+  width: 100%;
 }
 
 .card {
