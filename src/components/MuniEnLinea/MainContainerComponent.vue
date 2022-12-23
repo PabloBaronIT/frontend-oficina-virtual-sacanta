@@ -124,12 +124,11 @@ img {
 .card {
   background: var(--grey-bk);
   font-weight: bold;
-  padding: 15px;
   border: none;
-  box-shadow: 5px 5px 12px #444;
+  box-shadow: 5px 5px 15px rgb(137, 137, 137);
   width: 320px;
-  height: 110px;
-  margin: 20px 20px;
+  height: 100px;
+  margin: 15px 15px;
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
