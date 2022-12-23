@@ -1,10 +1,13 @@
 <template>
   <main class="flex-container">
+    <div class="header">
+      <h1>Tramites mas frecuentes</h1>
+      <Busqueda />
+    </div>
     <TramitesFrecuentes />
 
     <div class="header">
       <h1>Servicios</h1>
-      <Busqueda />
     </div>
 
     <div class="card-container">
@@ -38,47 +41,37 @@ export default {
         {
           id: 2,
           name: "App Ciudadana",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/App%20Ciudadana.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/cultura-y-recreacion.png?raw=true",
         },
         {
           id: 3,
           name: "Boletín Electronico",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Bolet%C3%ADn%20Electronico.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/deportes.png?raw=true",
         },
         {
           id: 4,
           name: "Ciudad Transparente",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Ciudad%20Transparente.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/gobierno-y-desarrollo.png?raw=true",
         },
         {
           id: 5,
           name: "Consulta de Expedientes",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Consulta%20de%20Expedientes.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/infraestructura-y-servicios-publicos.png?raw=true",
         },
         {
           id: 5,
           name: "Obras Publicas",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Obras%20Publicas.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/transito-y-seguridad-vial.png?raw=true",
         },
         {
           id: 5,
           name: "Salud",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Salud.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/medio-ambiente.png?raw=true",
         },
         {
           id: 5,
           name: "Registro Civil",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Registro%20Civil.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "GuíadeTrámites",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Gu%C3%ADa%20de%20Tr%C3%A1mites.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "Habilitación de Negocios Online",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Habilitaci%C3%B3n%20de%20Negocios%20Online.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/prensa-y-difusion.png?raw=true",
         },
       ],
     };
@@ -96,13 +89,11 @@ img {
 }
 
 .header {
-  width: 100%;
-  border: 1px solid red;
-  margin: 0;
+  margin: 10px 0;
   display: flex;
-  justify-content: left;
-  align-items: center;
-  text-align: left;
+  justify-content: space-between;
+  width: 90%;
+  height: 50px;
 }
 
 .flex-container {
@@ -122,7 +113,6 @@ img {
   justify-content: center;
   align-items: center;
   flex-flow: row wrap;
-  padding: 0;
 }
 
 .card img {
@@ -151,12 +141,9 @@ img {
 }
 
 h1 {
-  margin-left: 30px;
   color: var(--red);
-  width: 100%;
-  text-align: center;
+
   font-weight: bold;
-  padding-top: 20px;
 }
 @media (max-width: 800px) {
   .flex-container {
