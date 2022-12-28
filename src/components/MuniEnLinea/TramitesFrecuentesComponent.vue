@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-container">
-    <Carousel :autoplay="800" :items-to-show="4" :wrap-around="true">
+    <Carousel :autoplay="1700" :items-to-show="4" :wrap-around="true">
       <Slide class="tramite" v-for="tramite in sectores" :key="tramite.id">
         <router-link :to="`/sector/${tramite.name}`" class="carousel__item">
           {{ tramite.name }}
@@ -48,52 +48,42 @@ export default defineComponent({
         {
           id: 1,
           name: "Turnero Digital",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Turnero%20Digital.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/accion-social.png?raw=true",
         },
         {
           id: 2,
           name: "App Ciudadana",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/App%20Ciudadana.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/cultura-y-recreacion.png?raw=true",
         },
         {
           id: 3,
           name: "Boletín Electronico",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Bolet%C3%ADn%20Electronico.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/deportes.png?raw=true",
         },
         {
           id: 4,
           name: "Ciudad Transparente",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Ciudad%20Transparente.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/gobierno-y-desarrollo.png?raw=true",
         },
         {
           id: 5,
           name: "Consulta de Expedientes",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Consulta%20de%20Expedientes.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/infraestructura-y-servicios-publicos.png?raw=true",
         },
         {
           id: 5,
           name: "Obras Publicas",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Obras%20Publicas.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/transito-y-seguridad-vial.png?raw=true",
         },
         {
           id: 5,
           name: "Salud",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Salud.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/medio-ambiente.png?raw=true",
         },
         {
           id: 5,
           name: "Registro Civil",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Registro%20Civil.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "GuíadeTrámites",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Gu%C3%ADa%20de%20Tr%C3%A1mites.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "Habilitación de Negocios Online",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/public/img/Habilitaci%C3%B3n%20de%20Negocios%20Online.png?raw=true",
+          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/prensa-y-difusion.png?raw=true",
         },
       ],
     };

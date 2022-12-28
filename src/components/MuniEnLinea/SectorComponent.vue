@@ -14,8 +14,17 @@
           <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
           <p>{{ tramite.tramite }}</p>
         </div>
-        <a href="">Ver requisitos</a>
+        <div class="requisitos">
+          <a href="">Ver requisitos</a>
+          <img
+            src="@/assets/arancel.svg"
+            alt="arancel"
+            @mouseover="Hover"
+            @mouseleave="Hover"
+          />
+        </div>
         <input type="button" value="Iniciar tramite" />
+        <p class="hover" v-if="this.hover">Este tramite es arancelado</p>
       </div>
     </div>
   </div>
@@ -24,6 +33,7 @@
 export default {
   data() {
     return {
+      hover: false,
       tramites: [
         {
           id: 1,
@@ -62,6 +72,9 @@ export default {
     };
   },
   methods: {
+    Hover() {
+      this.hover = !this.hover;
+    },
     back() {
       this.$router.go(-1);
     },
@@ -77,6 +90,18 @@ export default {
 </script>
 
 <style scoped>
+.hover {
+  position: absolute;
+  bottom: 0;
+  font-weight: 100;
+  color: var(--text-color);
+}
+
+.requisitos img {
+  width: 22px;
+  margin: 0 10px;
+}
+
 .sector-component {
   width: 80vw;
   height: 100vh;
@@ -134,7 +159,7 @@ h1 {
 
 .card {
   font-weight: bold;
-  padding: 15px;
+  padding: 0px 10px;
   border: none;
   box-shadow: 5px 5px 12px #444;
   width: 220px;
