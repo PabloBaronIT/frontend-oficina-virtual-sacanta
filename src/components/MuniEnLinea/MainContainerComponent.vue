@@ -35,7 +35,7 @@ export default {
       sectores: [
         {
           id: 1,
-
+          name: "Turnero Digital",
           src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/accion-social.png?raw=true",
         },
         {
