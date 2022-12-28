@@ -1,13 +1,9 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "//localhost:3000/oficina",
-  withCredentials: true,
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    "x-apikey": localStorage.getItem("token"),
-  },
+  baseURL: "//localhost:3000/",
+  withCredentials: false,
+  headers: {},
 });
 
 export default {

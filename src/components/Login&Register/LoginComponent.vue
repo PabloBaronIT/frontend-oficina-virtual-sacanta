@@ -87,11 +87,14 @@ export default {
       dbService
         .postLoginUser(log)
         .then((response) => {
+          console.log("hola");
           console.log(response);
           if (response.status == 200) {
+            console.log(response.headers);
             this.validacion = true;
             this.mockLogin();
             this.$router.push("munienlinea");
+            localStorage.setItem("token", JSON.stringify(response));
           }
         })
         .catch((error) => {
