@@ -2,10 +2,11 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: "//localhost:3000/oficina",
-  withCredentials: false,
+  withCredentials: true,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
+    "x-apikey": localStorage.getItem("token"),
   },
 });
 
@@ -20,9 +21,15 @@ export default {
     });
   },
   postLoginUser(login) {
-    return apiClient.post("/signin", {
+    return apiClient.post("/auth/signin", {
       cuil: login.cuil,
       password: login.password,
     });
+  },
+  getAllCategories() {
+    return apiClient.get("/oficina/categories/getCategories");
+  },
+  getCategorieById(id) {
+    return apiClient.get("/oficina/categories/getCategories/" + id);
   },
 };

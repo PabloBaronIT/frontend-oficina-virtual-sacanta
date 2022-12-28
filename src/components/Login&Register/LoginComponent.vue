@@ -57,7 +57,7 @@
 
 <script>
 import { mapActions } from "vuex";
-//import dbService from "@/services/dbService";
+import dbService from "@/services/dbService";
 
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
@@ -78,40 +78,40 @@ export default {
 
     //Login con AXIOS, hablar con patricio para mayor cant de detalles en response.data
 
-    // log() {
-    //   let log = {
-    //     password: this.password,
-    //     cuil: this.cuil,
-    //   };
-
-    //   dbService
-    //     .postLoginUser(log)
-    //     .then((response) => {
-    //       console.log(response);
-    //       if (response.status == 200) {
-    //         this.validacion = true;
-    //         this.mockLogin();
-    //         this.$router.push("munienlinea");
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
-
     log() {
-      if (this.validacion) {
-        this.mockLogin();
-        //$router.go(numero) para avanzar o retroceder en la pagina
-        this.$router.push({
-          path: "munienlinea",
-          // query: {
-          //   variable1: 1,
-          // },
-          replace: true,
+      let log = {
+        password: this.password,
+        cuil: this.cuil,
+      };
+
+      dbService
+        .postLoginUser(log)
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            this.validacion = true;
+            this.mockLogin();
+            this.$router.push("munienlinea");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      }
     },
+
+    // log() {
+    //   if (this.validacion) {
+    //     this.mockLogin();
+    //     //$router.go(numero) para avanzar o retroceder en la pagina
+    //     this.$router.push({
+    //       path: "munienlinea",
+    //       // query: {
+    //       //   variable1: 1,
+    //       // },
+    //       replace: true,
+    //     });
+    //   }
+    // },
   },
 };
 </script>
