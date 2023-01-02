@@ -5,13 +5,15 @@ import store from "@/store";
 const routes = [
   {
     path: "/",
+    redirect: "/login",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
   },
   {
     path: "/login",
     name: "login", //para usar el router link sin modificar la ruta web
-    component: () => import("../views/LoginView.vue"),
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
   },
   {
     path: "/munienlinea",

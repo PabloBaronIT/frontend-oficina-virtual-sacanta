@@ -88,7 +88,6 @@ export default {
       dbService
         .postLoginUser(log)
         .then((response) => {
-          console.log("hola");
           console.log(response);
           if (response.status == 200) {
             this.validacion = true;

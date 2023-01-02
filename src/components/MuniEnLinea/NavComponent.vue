@@ -61,7 +61,11 @@ export default {
       permission: true,
     };
   },
-  props: {},
+  methods: {
+    log() {
+      console.log(this.login);
+    },
+  },
 };
 </script>
 
