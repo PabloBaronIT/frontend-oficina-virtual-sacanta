@@ -50,7 +50,18 @@
             length: 'El CUIL debe tener 11 caracteres',
           }"
         />
-
+        <FormKit
+          v-model="this.adress"
+          type="text"
+          name="adress"
+          label="Direccion"
+          placeholder="Direccion"
+          validation="required|length:3,30|text"
+          :validation-messages="{
+            required: 'Ingresa una dirección',
+            length: 'Debe tener entre 3 a 30 caracteres',
+          }"
+        />
         <FormKit
           v-model="this.email"
           type="text"
@@ -115,6 +126,7 @@ export default {
       password: "",
       confirmPassword: "",
       cuil: null,
+      adress: "",
     };
   },
   methods: {
@@ -128,9 +140,10 @@ export default {
       let registro = {
         name: this.name,
         lastname: this.lastname,
-        email: this.email,
         password: this.password,
+        email: this.email,
         cuil: this.cuil,
+        adress: this.adress,
       };
 
       dbService

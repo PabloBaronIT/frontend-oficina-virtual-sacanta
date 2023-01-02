@@ -45,6 +45,9 @@
       <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
         Domicilio fiscal electronico
       </router-link>
+      <router-link v-show="permission" :to="`/muni`" class="bn3">
+        Registrar Usuario
+      </router-link>
       <input class="bn3" type="button" value="Representados" />
     </nav>
   </div>

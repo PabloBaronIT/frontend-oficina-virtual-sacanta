@@ -53,6 +53,12 @@ const routes = [
     component: () => import("@/views/PruebaView.vue"),
     meta: { requiresAuth: false },
   },
+  {
+    path: "/muni",
+    name: "muni",
+    component: () => import("@/views/MuniView.vue"),
+    meta: { requiresAuth: false },
+  },
 ];
 
 const router = createRouter({

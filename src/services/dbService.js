@@ -10,12 +10,13 @@ const apiClient = axios.create({
 
 export default {
   postCreateUser(registro) {
-    return apiClient.post("/createUser", {
+    return apiClient.post("/auth/signUp", {
       firstname: registro.name,
       lastname: registro.lastname,
       password: registro.password,
       email: registro.email,
       cuil: registro.cuil,
+      adress: registro.adress,
     });
   },
   postLoginUser(login) {
