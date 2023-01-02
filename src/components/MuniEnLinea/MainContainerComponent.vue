@@ -27,6 +27,7 @@
 <script>
 import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
 import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
+import dbService from "@/services/dbService.js";
 
 export default {
   name: "MainCointainerComponent",
@@ -74,7 +75,19 @@ export default {
           src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/prensa-y-difusion.png?raw=true",
         },
       ],
+      categorias: [],
     };
+  },
+  mounted() {
+    dbService
+      .getAllCategories()
+      .then((response) => {
+        console.log(response.data);
+        this.categorias = response.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   components: {
     TramitesFrecuentes,

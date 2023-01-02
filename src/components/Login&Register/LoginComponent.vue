@@ -90,11 +90,11 @@ export default {
           console.log("hola");
           console.log(response);
           if (response.status == 200) {
-            console.log(response.headers.AxiosHeaders);
             this.validacion = true;
             this.mockLogin();
             this.$router.push("munienlinea");
-            localStorage.setItem("token", JSON.stringify(response));
+            console.log(response);
+            localStorage.setItem("token", response.data.token);
           }
         })
         .catch((error) => {

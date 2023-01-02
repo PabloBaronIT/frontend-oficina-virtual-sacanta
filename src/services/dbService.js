@@ -3,7 +3,9 @@ import axios from "axios";
 const apiClient = axios.create({
   baseURL: "//localhost:3000/",
   withCredentials: false,
-  headers: {},
+  headers: {
+    "auth-header": localStorage.getItem("token"),
+  },
 });
 
 export default {
