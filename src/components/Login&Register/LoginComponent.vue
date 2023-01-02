@@ -95,6 +95,7 @@ export default {
             this.mockLogin();
             this.$router.push("munienlinea");
             console.log(response);
+            localStorage.removeItem("token");
             localStorage.setItem("token", response.data.token);
           }
         })
