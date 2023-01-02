@@ -12,10 +12,6 @@ export default {
   components: {
     MainContainerComponent,
   },
-  mounted() {
-    // if(!localStorage.getItem('acces_token')){
-    // }
-  },
 };
 </script>
 

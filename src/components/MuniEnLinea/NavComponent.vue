@@ -21,7 +21,16 @@
         />
       </svg>
       <div class="usuario-details">
-        <a href="">Mi cuenta</a>
+        <div class="datos">
+          <a href="">Mi cuenta</a>
+          <a href="">
+            <img
+              class="svg"
+              src="@/assets/comunicacion.svg"
+              alt="comunicaciones"
+            />
+          </a>
+        </div>
         <strong>
           {{ this.usuario }},<br />
           {{ this.apellido }}<br />
@@ -41,15 +50,53 @@
         Comprobantes
       </router-link>
       <input class="bn3" type="button" value="Servicios" />
-      <input class="bn3" type="button" value="Comunicaciones" />
       <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
         Domicilio fiscal electronico
       </router-link>
       <router-link v-show="permission" :to="`/muni`" class="bn3">
         Registrar Usuario
       </router-link>
-      <input class="bn3" type="button" value="Representados" />
+      <input
+        class="bn3"
+        type="button"
+        value="Representados"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      />
     </nav>
+
+    <!-- <div
+      class="z10 modal fade"
+      id="exampleModal"
+      tabindex="1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">opciones opciones opciones opciones</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -73,8 +120,28 @@ export default {
 </script>
 
 <style scoped>
+.svg {
+  max-width: 25px;
+  margin-left: 10px;
+  animation-name: comunicacion;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes comunicacion {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
 nav {
-  padding: 30px;
+  padding: 15px;
 }
 
 nav a {
@@ -132,13 +199,13 @@ a {
 .usuario {
   display: flex;
   flex-flow: row wrap;
-  justify-content: left;
+  justify-content: center;
   align-items: left;
   width: 300px;
 }
 
 .logo {
-  width: 80%;
+  width: 70%;
   margin: 10% 0;
 }
 
@@ -149,10 +216,9 @@ a {
 .usuario-details {
   display: flex;
   align-items: flex-start;
-  justify-content: left;
+  justify-content: center;
   flex-flow: column wrap;
   padding-left: 20px;
-
   text-align: left;
 }
 

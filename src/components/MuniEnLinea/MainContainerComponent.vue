@@ -135,6 +135,7 @@ img {
 }
 
 .card {
+  z-index: 1;
   background: var(--grey-bk);
   font-weight: bold;
   border: none;

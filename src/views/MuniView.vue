@@ -1,5 +1,7 @@
 <template>
-  <RegisterComponent />
+  <article>
+    <RegisterComponent />
+  </article>
 </template>
 
 <script>
@@ -12,4 +14,15 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+article {
+  width: 100%;
+  display: flex;
+  background: rgb(235, 235, 235);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding: 30px;
+  justify-content: center;
+  align-items: center;
+}
+</style>
