@@ -9,6 +9,9 @@
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 
 export default {
+  data() {
+    return {};
+  },
   components: {
     NavComponent,
   },
