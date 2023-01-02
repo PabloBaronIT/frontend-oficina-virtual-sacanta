@@ -37,6 +37,7 @@
             required: 'Ingresa una contraseña',
             matches: 'Incluir un simbolo',
           }"
+          @keyup.enter="log"
         />
         <input
           class="btn btn-primary"

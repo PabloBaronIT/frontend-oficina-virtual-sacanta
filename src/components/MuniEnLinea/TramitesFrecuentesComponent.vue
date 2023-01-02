@@ -1,11 +1,28 @@
 <template>
   <div class="carousel-container">
     <Carousel :autoplay="1700" :items-to-show="4" :wrap-around="true">
-      <Slide class="tramite" v-for="tramite in sectores" :key="tramite.id">
-        <router-link :to="`/sector/${tramite.name}`" class="carousel__item">
-          {{ tramite.name }}
+      <Slide class="tramite">
+        <router-link :to="`/sector/renovacion de dni`" class="carousel__item">
+          <p>Renovacion de DNI</p>
 
-          <img :src="tramite.src" :alt="tramite.src" />
+          <img src="@/assets/tramitesSVG/dni.svg" />
+        </router-link>
+      </Slide>
+      <Slide class="tramite">
+        <router-link
+          :to="`/sector/permiso de construccion`"
+          class="carousel__item"
+        >
+          <p>Permiso de construccion</p>
+
+          <img src="@/assets/tramitesSVG/construccion.svg" />
+        </router-link>
+      </Slide>
+      <Slide class="tramite">
+        <router-link :to="`/sector/registro civil`" class="carousel__item">
+          <p>Registro civil</p>
+
+          <img src="@/assets/tramitesSVG/registro.svg" />
         </router-link>
       </Slide>
 
@@ -37,12 +54,12 @@ export default defineComponent({
         {
           id: 1,
           name: "Renovacion de DNI",
-          src: "@/assets/dni.svg",
+          src: "@/assets/busqueda.svg",
         },
         {
           id: 2,
           name: "App Ciudadana",
-          src: "@/assets/jucio.svg",
+          src: "jucio.svg",
         },
       ],
     };
@@ -64,25 +81,17 @@ export default defineComponent({
 }
 
 .tramite img {
-  margin: 5px;
-  border-radius: 50%;
-  object-fit: cover;
-  width: 60px;
+  width: 50px;
 }
 
 .tramite {
-  background: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(6.5px);
-  -webkit-backdrop-filter: blur(6.5px);
   border-radius: 10px;
   border: 1px solid var(--red);
   font-weight: bold;
-  padding: 15px;
+  padding: 20px;
   box-shadow: 0px 2px 5px rgb(97, 97, 97);
-  width: 10px;
   height: 110px;
-  margin: 30px 20px;
+  margin: 20px 20px;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
