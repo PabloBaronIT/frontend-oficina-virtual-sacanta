@@ -56,7 +56,7 @@
           name="adress"
           label="Direccion"
           placeholder="Direccion"
-          validation="required|length:3,30|text"
+          validation="required|length:3,30"
           :validation-messages="{
             required: 'Ingresa una dirección',
             length: 'Debe tener entre 3 a 30 caracteres',
@@ -64,7 +64,7 @@
         />
         <FormKit
           v-model="this.email"
-          type="text"
+          type="email"
           name="email"
           label="Tu email"
           placeholder="ejemplo@ejemplo.com"
@@ -80,14 +80,14 @@
             type="password"
             name="password"
             label="Contraseña"
-            validation="required|length:8,30|matches:/[^a-zA-Z]/"
+            validation="required|length:8,30"
             :validation-messages="{
-              length: 'Debe ser mayor a 6 caracteres',
+              length: 'Debe ser mayor a 8 caracteres',
               required: 'Ingresa una contraseña',
-              matches: 'Incluir un simbolo',
             }"
             placeholder="Your password"
           />
+          <!-- matches: 'Incluir un simbolo',|matches:/[^a-zA-Z]/ -->
           <FormKit
             v-model="this.confirmPassword"
             type="password"
@@ -169,7 +169,6 @@ export default {
   z-index: 10;
   background: #fff;
   box-shadow: 0px 0px 10px #333;
-  margin: 50px;
 }
 
 .form-container {

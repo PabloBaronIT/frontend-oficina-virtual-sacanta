@@ -21,8 +21,8 @@ export default {
 
 <style scoped>
 .form-container {
-  width: 80vw;
-  margin-left: 20vw;
+  width: 100vw;
+  margin-left: 0;
   display: flex;
   justify-content: center;
   align-items: center;

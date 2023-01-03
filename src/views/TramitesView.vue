@@ -1,5 +1,6 @@
 <template>
   <main class="main-container">
+    <p>hola</p>
     <ul>
       <li v-for="tramite in tramites" :key="tramite.id">
         <router-link :to="`/tramites/${tramite.nombre}`">

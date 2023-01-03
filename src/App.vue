@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <NavComponent />
+    <NavComponent v-if="this.$router.currentRoute.value.fullPath != '/login'" />
     <router-view />
   </div>
 </template>
@@ -9,6 +9,12 @@
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 
 export default {
+  data() {
+    return {
+      ruta: this.$router.currentRoute.value.name,
+    };
+  },
+
   components: {
     NavComponent,
   },
@@ -33,7 +39,7 @@ export default {
   text-align: center;
   color: var(--text-color);
   margin: 0;
-  width: 100vw;
+  width: 100%;
 }
 </style>
 

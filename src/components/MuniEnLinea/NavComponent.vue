@@ -40,7 +40,7 @@
     </div>
 
     <nav id="sidebarMenu" class="btn-container">
-      <router-link v-show="permission" :to="`/tramites`" class="bn3">
+      <router-link v-show="permission" :to="`/munienlinea`" class="bn3">
         Inicio
       </router-link>
       <router-link v-show="permission" :to="`/tramites`" class="bn3">
@@ -54,9 +54,10 @@
         Domicilio fiscal electronico
       </router-link>
       <router-link v-show="permission" :to="`/muni`" class="bn3">
-        Registrar Usuario
+        Back
       </router-link>
       <input
+        @click="log"
         class="bn3"
         type="button"
         value="Representados"
@@ -105,6 +106,7 @@ export default {
   name: "NavComponent",
   data() {
     return {
+      ruta: this.$router.currentRoute.value.fullPath,
       usuario: "Joaquin",
       apellido: "Nuñez Bovo",
       dni: 44203460,
@@ -113,7 +115,7 @@ export default {
   },
   methods: {
     log() {
-      console.log(this.login);
+      console.log(localStorage.getItem("token"));
     },
   },
 };

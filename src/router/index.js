@@ -1,7 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
-import store from "@/store";
-
 const routes = [
   {
     path: "/",
@@ -51,13 +49,13 @@ const routes = [
     path: "/prueba",
     name: "prueba",
     component: () => import("@/views/PruebaView.vue"),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
   {
     path: "/muni",
     name: "muni",
     component: () => import("@/views/MuniView.vue"),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
 ];
 
@@ -67,11 +65,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  let actual = localStorage.getItem("token");
+
   if (to.matched.some((route) => route.meta.requiresAuth)) {
-    if (!store.state.loggedIn) {
-      next("/login");
-    } else {
+    if (actual != null) {
       next();
+    } else {
+      next("/login");
     }
   } else {
     next();
