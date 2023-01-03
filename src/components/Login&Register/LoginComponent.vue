@@ -92,6 +92,12 @@ export default {
           if (response.status == 200) {
             this.validacion = true;
             this.mockLogin();
+            localStorage.removeItem("name");
+            localStorage.removeItem("lastname");
+            localStorage.removeItem("cuil");
+            localStorage.setItem("name", response.data.user.firstname);
+            localStorage.setItem("lastname", response.data.user.lastname);
+            localStorage.setItem("cuil", response.data.user.cuil);
             this.$router.push("munienlinea");
             console.log(response);
             localStorage.removeItem("token");

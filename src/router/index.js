@@ -57,6 +57,12 @@ const routes = [
     component: () => import("@/views/MuniView.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/formulario/:formularioId",
+    name: "formulario",
+    component: () => import("@/views/FormularioView.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

@@ -1,34 +1,50 @@
 <template>
-  <main class="main-container">
-    <p>hola</p>
-    <ul>
-      <li v-for="tramite in tramites" :key="tramite.id">
-        <router-link :to="`/tramites/${tramite.nombre}`">
-          {{ tramite.nombre }}
-        </router-link>
-      </li>
-    </ul>
-    <article>
-      <router-view />
-    </article>
-
-    <h2 style="color: red">{{ this.$route.params.tramiteId }}</h2>
-  </main>
+  <div class="main-container">
+    <h4>Casos activos</h4>
+    <FiltroTabla />
+    <Tabla />
+    <h4>Casos requeridos</h4>
+    <FiltroTabla />
+    <Tabla />
+    <h4>Casos finalizados</h4>
+    <FiltroTabla />
+    <Tabla />
+  </div>
 </template>
 
 <script>
+import Tabla from "@/components/Tramites/TablaComponent.vue";
+import FiltroTabla from "@/components/Busqueda/Filtrado/FiltroTabla.vue";
+
 export default {
   name: "TramitesView",
   data() {
     return {};
   },
-  components: {},
+  components: {
+    Tabla,
+    FiltroTabla,
+  },
 };
 </script>
 
 <style scoped>
+h4 {
+  width: 100%;
+  text-align: left;
+  margin-top: 20px;
+  color: var(--blue);
+}
+
 .main-container {
+  width: 100%;
   display: flex;
-  justify-content: left;
+  padding: 20px;
+  flex-flow: column wrap;
+  background: rgb(235, 235, 235);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  justify-content: center;
+  align-items: center;
 }
 </style>

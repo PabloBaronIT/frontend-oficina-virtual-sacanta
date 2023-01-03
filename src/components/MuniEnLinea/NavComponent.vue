@@ -49,7 +49,6 @@
       <router-link v-show="permission" :to="`/prueba`" class="bn3">
         Comprobantes
       </router-link>
-      <input class="bn3" type="button" value="Servicios" />
       <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
         Domicilio fiscal electronico
       </router-link>
@@ -64,6 +63,20 @@
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       />
+
+      <div class="modal">
+        <div class="inside-modal">
+          <ul>
+            <li>holasd</li>
+            <li>holasd</li>
+            <li>holasd</li>
+            <li>holasd</li>
+            <li>holasd</li>
+          </ul>
+        </div>
+      </div>
+
+      <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>
 
     <!-- <div
@@ -107,15 +120,21 @@ export default {
   data() {
     return {
       ruta: this.$router.currentRoute.value.fullPath,
-      usuario: "Joaquin",
-      apellido: "Nuñez Bovo",
-      dni: 44203460,
+      usuario: localStorage.getItem("name"),
+      apellido: localStorage.getItem("lastname"),
+      dni: localStorage.getItem("cuil"),
       permission: true,
     };
   },
   methods: {
     log() {
       console.log(localStorage.getItem("token"));
+    },
+    logOf() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("name");
+      localStorage.removeItem("lastname");
+      localStorage.removeItem("cuil");
     },
   },
 };

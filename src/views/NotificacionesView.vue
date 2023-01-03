@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="tabla-container">
-      <FiltroNotificaciones />
+      <FiltroTabla />
       <Tabla />
     </div>
   </main>
@@ -9,12 +9,12 @@
 
 <script>
 import Tabla from "@/components/Notificaciones/TablaComponent.vue";
-import FiltroNotificaciones from "@/components/Busqueda/Filtrado/FiltroNotificacionesComponent.vue";
+import FiltroTabla from "@/components/Busqueda/Filtrado/FiltroTabla.vue";
 
 export default {
   components: {
     Tabla,
-    FiltroNotificaciones,
+    FiltroTabla,
   },
 };
 </script>

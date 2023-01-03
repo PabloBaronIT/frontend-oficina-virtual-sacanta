@@ -23,7 +23,10 @@
             @mouseleave="Hover"
           />
         </div>
-        <input type="button" value="Iniciar tramite" />
+
+        <router-link class="btn-iniciar" :to="`/formulario/${tramite.tramite}`">
+          Iniciar tramite
+        </router-link>
         <p class="hover" v-if="this.hover">Este tramite es arancelado</p>
       </div>
     </div>
@@ -122,7 +125,7 @@ export default {
   flex-flow: row wrap;
   padding: 0;
 }
-.tramites input {
+.btn-iniciar {
   width: 100%;
   border: none;
   border-radius: 10px;
