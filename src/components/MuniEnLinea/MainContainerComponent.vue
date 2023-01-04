@@ -78,16 +78,23 @@ export default {
       categorias: [],
     };
   },
-  mounted() {
-    dbService
-      .getAllCategories()
-      .then((response) => {
-        console.log(response.data);
-        this.categorias = response.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  created() {
+    let token = localStorage.getItem("token");
+
+    if (token) {
+      dbService
+        .getAllCategories()
+        .then(async (response) => {
+          this.categorias = response.data;
+
+          await console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log(token);
+    }
   },
   components: {
     TramitesFrecuentes,

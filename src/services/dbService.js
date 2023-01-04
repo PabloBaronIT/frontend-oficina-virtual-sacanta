@@ -8,6 +8,14 @@ const apiClient = axios.create({
   },
 });
 
+const apiClientAuth = axios.create({
+  baseURL: "//localhost:3000/",
+  withCredentials: false,
+  headers: {
+    "auth-header": localStorage.getItem("token"),
+  },
+});
+
 export default {
   postCreateUser(registro) {
     return apiClient.post("/auth/signUp", {
@@ -26,7 +34,7 @@ export default {
     });
   },
   getAllCategories() {
-    return apiClient.get("/oficina/categories/getCategories");
+    return apiClientAuth.get("/oficina/categories/getCategories");
   },
   getCategorieById(id) {
     return apiClient.get("/oficina/categories/getCategories/" + id);

@@ -90,6 +90,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
+            localStorage.removeItem("token");
             this.validacion = true;
             this.mockLogin();
             localStorage.removeItem("name");
@@ -98,10 +99,9 @@ export default {
             localStorage.setItem("name", response.data.user.firstname);
             localStorage.setItem("lastname", response.data.user.lastname);
             localStorage.setItem("cuil", response.data.user.cuil);
-            this.$router.push("munienlinea");
             console.log(response);
-            localStorage.removeItem("token");
             localStorage.setItem("token", response.data.token);
+            this.$router.push("munienlinea");
           }
         })
         .catch((error) => {
