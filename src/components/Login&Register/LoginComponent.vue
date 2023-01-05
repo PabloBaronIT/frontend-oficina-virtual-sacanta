@@ -96,9 +96,18 @@ export default {
             localStorage.removeItem("name");
             localStorage.removeItem("lastname");
             localStorage.removeItem("cuil");
+            localStorage.removeItem("adress");
+            localStorage.removeItem("email");
+            localStorage.removeItem("fecha-creacion");
             localStorage.setItem("name", response.data.user.firstname);
             localStorage.setItem("lastname", response.data.user.lastname);
             localStorage.setItem("cuil", response.data.user.cuil);
+            localStorage.setItem("adress", response.data.user.adress);
+            localStorage.setItem("email", response.data.user.email);
+            localStorage.setItem(
+              "fecha-creacion",
+              response.data.user.created_at
+            );
             console.log(response);
             localStorage.setItem("token", response.data.token);
             this.$router.push("munienlinea");

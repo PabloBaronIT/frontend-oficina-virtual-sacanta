@@ -1,10 +1,20 @@
 <template>
-  <div class="cuenta-container"></div>
+  <div class="cuenta-container">
+    <Header />
+    <Datos />
+  </div>
 </template>
 
 <script>
+import Header from "@/components/MiCuenta/HeaderComponent.vue";
+import Datos from "@/components/MiCuenta/DatosComponent.vue";
+
 export default {
   name: "CuentaView",
+  components: {
+    Header,
+    Datos,
+  },
 };
 </script>
 
@@ -12,6 +22,8 @@ export default {
 .cuenta-container {
   width: 100%;
   display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
