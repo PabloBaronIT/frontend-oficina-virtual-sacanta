@@ -11,13 +11,13 @@
     </div>
 
     <div class="card-container">
-      <div v-for="sector in sectores" :key="sector.Id">
+      <div v-for="sector in categorias" :key="sector.Id">
         <router-link
-          :to="`/sector/${sector.name}`"
+          :to="`/sector/${sector.title}`"
           class="card"
           style="text-decoration: none; color: #222"
         >
-          <img :src="sector.src" :alt="sector.name" />
+          <img :src="sector.description" :alt="sector.title" />
         </router-link>
       </div>
     </div>
@@ -27,74 +27,77 @@
 <script>
 import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
 import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
-import dbService from "@/services/dbService.js";
+// import dbService from "@/services/dbService.js";
+import axios from "axios";
 
 export default {
   name: "MainCointainerComponent",
   data() {
     return {
-      sectores: [
-        {
-          id: 1,
-          name: "Turnero Digital",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/accion-social.png?raw=true",
-        },
-        {
-          id: 2,
-          name: "App Ciudadana",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/cultura-y-recreacion.png?raw=true",
-        },
-        {
-          id: 3,
-          name: "Boletín Electronico",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/deportes.png?raw=true",
-        },
-        {
-          id: 4,
-          name: "Ciudad Transparente",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/gobierno-y-desarrollo.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "Consulta de Expedientes",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/infraestructura-y-servicios-publicos.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "Obras Publicas",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/transito-y-seguridad-vial.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "Salud",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/medio-ambiente.png?raw=true",
-        },
-        {
-          id: 5,
-          name: "Registro Civil",
-          src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/prensa-y-difusion.png?raw=true",
-        },
-      ],
+      // sectores: [
+      //   {
+      //     id: 1,
+      //     name: "Turnero Digital",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/accion-social.png?raw=true",
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "App Ciudadana",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/cultura-y-recreacion.png?raw=true",
+      //   },
+      //   {
+      //     id: 3,
+      //     name: "Boletín Electronico",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/deportes.png?raw=true",
+      //   },
+      //   {
+      //     id: 4,
+      //     name: "Ciudad Transparente",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/gobierno-y-desarrollo.png?raw=true",
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "Consulta de Expedientes",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/infraestructura-y-servicios-publicos.png?raw=true",
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "Obras Publicas",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/transito-y-seguridad-vial.png?raw=true",
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "Salud",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/medio-ambiente.png?raw=true",
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "Registro Civil",
+      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/prensa-y-difusion.png?raw=true",
+      //   },
+      // ],
       categorias: [],
     };
   },
   created() {
-    let token = localStorage.getItem("token");
+    const apiClient = axios.create({
+      baseURL: "//localhost:3000/",
+      withCredentials: false,
+      headers: {
+        "auth-header": localStorage.getItem("token"),
+      },
+    });
 
-    if (token) {
-      dbService
-        .getAllCategories()
-        .then(async (response) => {
-          this.categorias = response.data;
-
-          await console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log(token);
-    }
+    apiClient
+      .get("/oficina/categories/getCategories")
+      .then((response) => {
+        this.categorias = response.data;
+        console.log(response.data);
+        console.log(this.categorias[1].title);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   components: {
     TramitesFrecuentes,

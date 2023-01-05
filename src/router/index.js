@@ -63,6 +63,12 @@ const routes = [
     component: () => import("@/views/FormularioView.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/micuenta",
+    name: "micuenta",
+    component: () => import("@/views/CuentaView.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

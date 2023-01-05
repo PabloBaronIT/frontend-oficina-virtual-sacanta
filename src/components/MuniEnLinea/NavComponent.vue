@@ -22,7 +22,9 @@
       </svg>
       <div class="usuario-details">
         <div class="datos">
-          <a href="">Mi cuenta</a>
+          <router-link v-show="permission" :to="`/micuenta`">
+            Mi cuenta
+          </router-link>
           <a href="">
             <img
               class="svg"
@@ -135,6 +137,7 @@ export default {
       localStorage.removeItem("name");
       localStorage.removeItem("lastname");
       localStorage.removeItem("cuil");
+      this.$router.push("login");
     },
   },
 };
