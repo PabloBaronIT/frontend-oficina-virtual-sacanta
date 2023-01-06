@@ -39,4 +39,7 @@ export default {
   getCategorieById(id) {
     return apiClient.get("/oficina/categories/getCategories/" + id);
   },
+  getQuestions(id) {
+    return apiClient.get("/oficina/categories/getQuestions/" + id);
+  },
 };

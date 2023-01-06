@@ -1,13 +1,28 @@
 <template>
-  <div class="main-container"></div>
+  <div class="main-container">
+    <h2>Test</h2>
+  </div>
 </template>
 
 <script>
+import dbService from "@/services/dbService";
 export default {
   data() {
-    return {};
+    return {
+      questionsLength: 0,
+    };
   },
-  created() {},
+  created() {
+    dbService.getQuestions(this.$router).then((response) => {
+      try {
+        if (response.status == 200) {
+          this.questionsLength = response.data.length();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  },
 };
 </script>
 
