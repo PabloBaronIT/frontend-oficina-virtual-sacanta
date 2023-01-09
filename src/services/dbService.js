@@ -42,4 +42,9 @@ export default {
   getQuestions(id) {
     return apiClient.get("/oficina/categories/getQuestions/" + id);
   },
+  getTramites(categoryId) {
+    return apiClient.get(
+      "/oficina/categories/category/procedure/" + categoryId
+    );
+  },
 };
