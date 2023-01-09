@@ -27,7 +27,7 @@ export default {
 }
 
 #app {
-  --green: #d1e9ea;
+  --green: #68b984;
   --blue: #415f77;
   --yellow: #fff7e9;
   --red: #e14d2a;

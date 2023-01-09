@@ -22,7 +22,7 @@ const routes = [
   {
     path: "/sector/:sectorId",
     name: "sector",
-    component: () => import("../views/SectorView.vue"),
+    component: () => import("../views/ProcesoTramite/SectorView.vue"),
 
     // children: [
     //   {
@@ -36,7 +36,7 @@ const routes = [
   {
     path: "/tramites",
     name: "tramites",
-    component: () => import("@/views/TramitesView.vue"),
+    component: () => import("@/views/HistorialTramites/TramitesView.vue"),
     meta: { requiresAuth: true },
   },
   {
@@ -60,7 +60,7 @@ const routes = [
   {
     path: "/formulario/:formularioId",
     name: "formulario",
-    component: () => import("@/views/FormularioView.vue"),
+    component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },
   },
   {

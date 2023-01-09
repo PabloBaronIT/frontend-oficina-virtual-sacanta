@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Sector from "../components/MuniEnLinea/SectorComponent.vue";
+import Sector from "../../components/MuniEnLinea/SectorComponent.vue";
 
 export default {
   name: "SectorView",

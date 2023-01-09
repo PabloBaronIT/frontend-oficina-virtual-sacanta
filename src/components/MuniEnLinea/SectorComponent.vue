@@ -24,7 +24,7 @@
           />
         </div>
 
-        <router-link class="btn-iniciar" :to="`/formulario/${tramite.tramite}`">
+        <router-link class="btn-iniciar" :to="`/formulario/${tramite.id}`">
           Iniciar tramite
         </router-link>
         <p class="hover" v-if="this.hover">Este tramite es arancelado</p>
@@ -41,12 +41,12 @@ export default {
         {
           id: 1,
           tramite: "Carnet sanitario (primera vez)",
-          sector: "Turnero Digital",
+          sector: "Turnero digital",
         },
         {
           id: 1,
           tramite: "Carnet sanitario (primera vez)",
-          sector: "Turnero Digital",
+          sector: "Turnero digital",
         },
         {
           id: 2,

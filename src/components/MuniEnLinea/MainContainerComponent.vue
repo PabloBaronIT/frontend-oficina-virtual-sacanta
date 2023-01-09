@@ -89,10 +89,11 @@ export default {
     });
 
     apiClient
-      .get("/oficina/categories/getCategories")
+      .get("/oficina/categories/categories")
       .then((response) => {
         this.categorias = response.data;
-        console.log(response.data);
+
+        console.log("getCategories", response.data);
         console.log(this.categorias[1].title);
       })
       .catch((err) => {

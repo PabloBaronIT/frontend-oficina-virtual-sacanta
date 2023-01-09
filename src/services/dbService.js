@@ -34,10 +34,10 @@ export default {
     });
   },
   getAllCategories() {
-    return apiClientAuth.get("/oficina/categories/getCategories");
+    return apiClientAuth.get("/oficina/categories/categories");
   },
   getCategorieById(id) {
-    return apiClient.get("/oficina/categories/getCategories/" + id);
+    return apiClient.get("/oficina/categories/categories/" + id);
   },
   getQuestions(id) {
     return apiClient.get("/oficina/categories/getQuestions/" + id);
