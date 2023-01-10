@@ -20,17 +20,10 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/sector/:sectorId",
+    path: "/sector/:sectorTitle/:sectorId",
     name: "sector",
     component: () => import("../views/ProcesoTramite/SectorView.vue"),
 
-    // children: [
-    //   {
-    //     path: "/munienlinea/:tramiteId",
-    //     component: () =>
-    //       import("@/components/Tramites/FormularioComponent.vue"),
-    //   },
-    // ],
     meta: { requiresAuth: true },
   },
   {
@@ -58,7 +51,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/formulario/:formularioId",
+    path: "/formulario/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },
@@ -67,6 +60,12 @@ const routes = [
     path: "/micuenta",
     name: "micuenta",
     component: () => import("@/views/CuentaView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/comunicaciones",
+    name: "comunicaciones",
+    component: () => import("@/views/comunicacionesView.vue"),
     meta: { requiresAuth: true },
   },
 ];

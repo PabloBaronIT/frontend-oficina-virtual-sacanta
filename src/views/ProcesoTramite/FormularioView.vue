@@ -1,11 +1,11 @@
 <template>
   <div class="main-container">
     <h1>
-      <img src="@/assets/back-arrow.svg" alt="Volver" />
-      {{ this.$route.params.formularioId }}
+      <img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />
+      {{ this.$route.params.formularioTitle }}
     </h1>
     <div class="question" v-for="(question, key) in questions" :key="key">
-      {{ question["question"] }}
+      <h4>{{ question["question"] }}</h4>
       <div class="options-container">
         <form
           class="option"
@@ -63,7 +63,7 @@ export default {
     dbService.getQuestions(this.$router).then((response) => {
       try {
         if (response.status == 200) {
-          this.questionsLength = response.data.length();
+          this.questionsLength = response.data.length;
         }
       } catch (error) {
         console.log(error);
@@ -72,6 +72,11 @@ export default {
   },
   components: {
     PagarComponent,
+  },
+  methods: {
+    back() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>
@@ -91,10 +96,9 @@ export default {
 
 .options-container {
   width: 500px;
-  padding: 15px 5px;
-  border: 1px solid var(--red);
+  padding: 0px 5px;
+  border-top: 1px solid var(--red);
   text-align: left;
-  border-radius: 10px;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -111,6 +115,12 @@ export default {
 }
 
 h1 {
-  display: flex;
+  text-align: center;
+  width: 50%;
+  justify-content: center;
+}
+
+h1 img {
+  max-width: 40px;
 }
 </style>

@@ -10,11 +10,7 @@
     <div class="text">
       <h2>Tramite arancelado</h2>
       <p>Este tramite tiene un valor total de <b>$430</b></p>
-      <input
-        class="btn"
-        type="button"
-        value="Realizar pago desde PagoTic para finalizar"
-      />
+      <input class="btn" type="button" value="Ir a PagoTic" />
     </div>
   </div>
 </template>
@@ -52,7 +48,7 @@ export default {
 .btn {
   background: var(--green);
   color: #000;
-  height: 50px;
+  width: 90%;
 }
 
 img {

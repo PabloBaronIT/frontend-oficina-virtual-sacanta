@@ -13,7 +13,7 @@
     <div class="card-container">
       <div v-for="sector in categorias" :key="sector.Id">
         <router-link
-          :to="`/sector/${sector.title}`"
+          :to="`/sector/${sector.title}/${sector.id}`"
           class="card"
           style="text-decoration: none; color: #222"
         >
@@ -27,7 +27,7 @@
 <script>
 import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
 import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
-// import dbService from "@/services/dbService.js";
+
 import axios from "axios";
 
 export default {

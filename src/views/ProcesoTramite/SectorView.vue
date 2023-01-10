@@ -17,7 +17,11 @@ export default {
 
 <style scoped>
 .sector-container {
+  width: 100%;
   display: flex;
-  flex-flow: row nowrap;
+  background: rgb(235, 235, 235);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding: 30px;
 }
 </style>

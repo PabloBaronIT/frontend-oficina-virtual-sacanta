@@ -5,14 +5,14 @@
     <header>
       <h1>
         <img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />
-        {{ this.$route.params.sectorId }}
+        {{ this.$route.params.sectorTitle }}
       </h1>
     </header>
     <div class="tramites">
-      <div class="card" v-for="tramite in tramitesFiltered" :key="tramite.id">
+      <div class="card" v-for="tramite in tramitesApi" :key="tramite.id">
         <div class="descripcion">
           <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
-          <p>{{ tramite.tramite }}</p>
+          <p>{{ tramite.title }}</p>
         </div>
         <div class="requisitos">
           <a href="">Ver requisitos</a>
@@ -24,55 +24,47 @@
           />
         </div>
 
-        <router-link class="btn-iniciar" :to="`/formulario/${tramite.id}`">
+        <router-link
+          class="btn-iniciar"
+          :to="`/formulario/${tramite.title}/${tramite.id}`"
+        >
           Iniciar tramite
         </router-link>
-        <p class="hover" v-if="this.hover">Este tramite es arancelado</p>
+        <p class="hover" v-if="this.hover">{{ tramite.description }}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import dbService from "@/services/dbService";
+
 export default {
   data() {
     return {
+      title: "",
       hover: false,
-      tramites: [
-        {
-          id: 1,
-          tramite: "Carnet sanitario (primera vez)",
-          sector: "Turnero digital",
-        },
-        {
-          id: 1,
-          tramite: "Carnet sanitario (primera vez)",
-          sector: "Turnero digital",
-        },
-        {
-          id: 2,
-          tramite: "Carnet sanitario - renovación (particulares)",
-          sector: "Turnero Digital",
-        },
-        {
-          id: 3,
-          tramite:
-            "Solicitud de turno para especialista o estudio médico en Dirección de Especialidades Médicas",
-          sector: "Turnero Digital",
-        },
-        {
-          id: 4,
-          tramite:
-            "Solicitud de turno para estudio médico en Medicina Preventiva",
-          sector: "Boletín Electronico",
-        },
-        {
-          id: 5,
-          tramite:
-            "Solicitud de turno para estudio médico en Medicina Preventiva",
-          sector: "App Ciudadana",
-        },
-      ],
+      tramitesApi: [],
     };
+  },
+  created() {
+    console.log(this.$route);
+
+    dbService
+      .getTramites(this.$route.params.sectorId)
+      .then((response) => {
+        if (response.status == 200) {
+          console.log(response.data.length);
+          for (let i = 0; i < response.data.length; i++) {
+            this.tramitesApi.push(response.data[i]);
+          }
+          console.log(this.tramitesApi);
+        } else {
+          console.log(response.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     Hover() {

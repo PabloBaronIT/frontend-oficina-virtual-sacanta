@@ -25,13 +25,15 @@
           <router-link v-show="permission" :to="`/micuenta`">
             Mi cuenta
           </router-link>
-          <a href="">
-            <img
-              class="svg"
-              src="@/assets/comunicacion.svg"
-              alt="comunicaciones"
-            />
-          </a>
+          <router-link v-show="permission" :to="`/comunicaciones`">
+            <a href="">
+              <img
+                class="svg"
+                src="@/assets/comunicacion.svg"
+                alt="comunicaciones"
+              />
+            </a>
+          </router-link>
         </div>
         <strong>
           {{ this.usuario }},<br />
