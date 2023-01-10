@@ -164,7 +164,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
+  width: 350px;
   position: relative;
   z-index: 10;
   background: #fff;

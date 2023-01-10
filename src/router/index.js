@@ -65,7 +65,7 @@ const routes = [
   {
     path: "/comunicaciones",
     name: "comunicaciones",
-    component: () => import("@/views/comunicacionesView.vue"),
+    component: () => import("@/views/ComunicacionesView.vue"),
     meta: { requiresAuth: true },
   },
 ];

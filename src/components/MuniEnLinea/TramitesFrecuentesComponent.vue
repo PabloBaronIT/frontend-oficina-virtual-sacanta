@@ -2,24 +2,21 @@
   <div class="carousel-container">
     <Carousel :autoplay="1700" :items-to-show="4" :wrap-around="true">
       <Slide class="tramite">
-        <router-link :to="`/sector/renovacion de dni`" class="carousel__item">
+        <router-link :to="`/formulario/Sacar%20turno/1`" class="carousel__item">
           <p>Renovacion de DNI</p>
 
           <img src="@/assets/tramitesSVG/dni.svg" />
         </router-link>
       </Slide>
       <Slide class="tramite">
-        <router-link
-          :to="`/sector/permiso de construccion`"
-          class="carousel__item"
-        >
+        <router-link :to="`/formulario/Sacar%20turno/1`" class="carousel__item">
           <p>Permiso de construccion</p>
 
           <img src="@/assets/tramitesSVG/construccion.svg" />
         </router-link>
       </Slide>
       <Slide class="tramite">
-        <router-link :to="`/sector/registro civil`" class="carousel__item">
+        <router-link :to="`/formulario/Sacar%20turno/1`" class="carousel__item">
           <p>Registro civil</p>
 
           <img src="@/assets/tramitesSVG/registro.svg" />
