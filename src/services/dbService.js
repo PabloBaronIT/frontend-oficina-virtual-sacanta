@@ -47,4 +47,7 @@ export default {
       "/oficina/categories/category/procedure/" + categoryId
     );
   },
+  getMunicipal(id) {
+    return apiClient.get("/municipales/munis/" + id);
+  },
 };

@@ -2,20 +2,22 @@
   <div class="grafico-container">
     <Doughnut :data="chartData" :options="chartOptions" />
   </div>
-  <div class="grafico-container">
+  <!-- <div class="grafico-container">
     <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-  </div>
+  </div> -->
 </template>
 
 <script>
-import { Bar } from "vue-chartjs";
+import dbservice from "@/services/dbService";
+
+// import { Bar } from "vue-chartjs";
 import { Doughnut } from "vue-chartjs";
 import {
   Chart as ChartJS,
   Title,
   Tooltip,
   Legend,
-  BarElement,
+  // BarElement,
   CategoryScale,
   LinearScale,
   ArcElement,
@@ -25,7 +27,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  BarElement,
+  // BarElement,
   CategoryScale,
   LinearScale,
   ArcElement
@@ -33,21 +35,56 @@ ChartJS.register(
 
 export default {
   name: "GraficoComponent",
-  components: { Bar, Doughnut },
+
+  mounted() {
+    dbservice
+      .getMunicipal(4)
+      .then((response) => {
+        console.log(response.data);
+        let r = response.data.required;
+        let f = response.data.finalized;
+        let i = response.data.inprocess;
+
+        this.sampleAsync(r, f, i);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+  methods: {
+    sampleAsync(r, f, i) {
+      this.chartData = {
+        labels: ["En proceso", "Finalizado", "Requerido"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [r, f, i],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      };
+    },
+  },
+  components: { Doughnut },
   data() {
     return {
       chartData: {
-        labels: ["En proceso", "Requerido", "Finalizado"],
+        labels: ["En proceso", "Finalizado", "Requerido"],
         datasets: [
           {
-            label: "Requerido",
-            backgroundColor: "#f87979",
-            data: [40],
-          },
-          {
-            label: "Tramites",
-            backgroundColor: "#f87979",
-            data: [20],
+            label: "My First Dataset",
+            data: [1, 2, 3],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
           },
         ],
       },

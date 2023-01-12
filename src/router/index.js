@@ -20,6 +20,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    //SectorTitle se pasa unicamente como prop para header de la vista
     path: "/sector/:sectorTitle/:sectorId",
     name: "sector",
     component: () => import("../views/ProcesoTramite/SectorView.vue"),
