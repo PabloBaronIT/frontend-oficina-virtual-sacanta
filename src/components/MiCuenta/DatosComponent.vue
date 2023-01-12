@@ -13,17 +13,35 @@
 </template>
 
 <script>
+import dbservice from "@/services/dbService";
+
 export default {
   name: "DatosCompnent",
   data() {
     return {
-      name: localStorage.getItem("name"),
+      name: "",
       lastname: localStorage.getItem("lastname"),
       cuil: localStorage.getItem("cuil"),
       email: localStorage.getItem("email"),
       adress: localStorage.getItem("adress"),
       fecha_creacion: localStorage.getItem("fecha-creacion"),
     };
+  },
+  created() {
+    dbservice
+      .getMunicipal(1)
+      .then((response) => {
+        console.log(response.data);
+        let res = response.data;
+        this.name = res.firstname;
+        this.lastname = res.lastname;
+        this.cuil = res.cuil;
+        this.email = res.email;
+        this.fecha_creacion = res.created_at;
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+      });
   },
   computed: {
     fecha() {
