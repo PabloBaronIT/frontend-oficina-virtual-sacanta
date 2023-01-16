@@ -1,76 +1,20 @@
 <template>
   <div class="main-container">
-    <h1>
-      <img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />
-      {{ this.$route.params.formularioTitle }}
-    </h1>
-    <div class="question" v-for="(question, key) in questions" :key="key">
-      <h4>{{ question["question"] }}</h4>
-      <div class="options-container">
-        <form
-          class="option"
-          v-for="(option, key2) in Object.keys(question).length - 1"
-          :key="key2"
-        >
-          <label for="option"
-            >{{ question[key2 + 1][0] }}
-            <input :type="question[key2 + 1][1]" name="option" />
-          </label>
-        </form>
-      </div>
-    </div>
+    <FormularioComponent />
     <PagarComponent />
   </div>
 </template>
 
 <script>
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
-import dbService from "@/services/dbService";
+import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
+
 export default {
   data() {
-    return {
-      questionsLength: 0,
-      questions: [
-        {
-          question: "Que modelo es su automovil?",
-          1: [2002, "checkbox"],
-          2: [2003, "checkbox"],
-          3: [2004, "checkbox"],
-          4: ["Otro año", "number"],
-        },
-        {
-          question: "De que pais es su automovil?",
-          1: ["Argentina", "checkbox"],
-          2: ["Brasil", "checkbox"],
-          3: ["Devoto", "checkbox"],
-          4: ["Japon", "checkbox"],
-          5: ["Japon", "color"],
-          6: ["Otro año", "number"],
-        },
-        {
-          question: "De que pais es su automovil?",
-          1: ["Argentina", "checkbox"],
-          2: ["Brasil", "checkbox"],
-          3: ["Devoto", "checkbox"],
-          4: ["Japon", "checkbox"],
-          5: ["Japon", "color"],
-          6: ["Otro año", "number"],
-        },
-      ],
-    };
-  },
-  created() {
-    dbService.getQuestions(this.$router).then((response) => {
-      try {
-        if (response.status == 200) {
-          this.questionsLength = response.data.length;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    return {};
   },
   components: {
+    FormularioComponent,
     PagarComponent,
   },
   methods: {
@@ -103,24 +47,5 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-}
-
-.option {
-  margin: 10px;
-}
-
-.btn {
-  margin: 10px;
-  background: var(--red);
-}
-
-h1 {
-  text-align: center;
-  width: 50%;
-  justify-content: center;
-}
-
-h1 img {
-  max-width: 40px;
 }
 </style>

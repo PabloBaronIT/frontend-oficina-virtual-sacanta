@@ -11,6 +11,7 @@
       <h2>Tramite arancelado</h2>
       <p>Este tramite tiene un valor total de <b>$430</b></p>
       <input class="btn" type="button" value="Ir a PagoTic" />
+      <input class="cancel" type="button" value="Cancelar" @click="cancel" />
     </div>
   </div>
 </template>
@@ -18,10 +19,23 @@
 <script>
 export default {
   name: "PagarComponent",
+  methods: {
+    cancel() {
+      alert("Terminar method y radio btns");
+    },
+  },
 };
 </script>
 
 <style scoped>
+.cancel {
+  border: none;
+  background: none;
+  font-weight: 100;
+  text-decoration: underline;
+  color: var(--text-color);
+}
+
 .pagotic {
   max-width: 100px;
 }
