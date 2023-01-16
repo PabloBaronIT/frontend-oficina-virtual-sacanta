@@ -67,7 +67,7 @@ export default {
   padding: 10px;
   display: flex;
   justify-content: right;
-  border: 1px solid red;
+  border: 1px solid var(--grey);
   width: 100%;
   height: 40px;
 }
@@ -91,7 +91,7 @@ table {
 th,
 td {
   padding: 8px;
-  border-bottom: 1px solid var(--green);
+  border-bottom: 1px solid var(--grey);
   background: #fff;
   height: 40px;
   color: var(--blue);

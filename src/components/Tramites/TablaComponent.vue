@@ -70,7 +70,7 @@ export default {
   display: flex;
   align-items: baseline;
   justify-content: right;
-  border-bottom: 1px solid rgba(70, 70, 70, 0.459);
+  border-bottom: 1px solid var(--grey);
   width: 100%;
   height: 40px;
 }
@@ -95,7 +95,7 @@ table {
 th,
 td {
   padding: 8px;
-  border-bottom: 1px solid var(--green);
+  border-bottom: 1px solid var(--grey);
   background: #fff;
   height: 40px;
   color: var(--blue);

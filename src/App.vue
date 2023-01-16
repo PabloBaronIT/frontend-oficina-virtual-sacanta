@@ -33,6 +33,7 @@ export default {
   --red: #e14d2a;
   --text-color: #2c3e50;
   --grey-bk: #ebebeb;
+  --grey: rgba(70, 70, 70, 0.459);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

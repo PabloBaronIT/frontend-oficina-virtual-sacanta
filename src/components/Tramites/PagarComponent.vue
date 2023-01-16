@@ -19,6 +19,7 @@
 <script>
 export default {
   name: "PagarComponent",
+
   methods: {
     cancel() {
       alert("Terminar method y radio btns");
