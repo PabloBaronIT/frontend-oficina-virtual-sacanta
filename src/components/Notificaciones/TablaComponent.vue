@@ -1,6 +1,6 @@
 <template>
   <div class="tabla-container">
-    <table>
+    <table v-if="this.hayDatos == true">
       <tr>
         <th><input type="checkbox" name="" id="" /></th>
         <th>Fecha</th>
@@ -30,8 +30,9 @@
         <td class="estado-fila"><p>Germany</p></td>
       </tr>
     </table>
-    <div class="filtro-filas">
-      <input type="number" name="" id="" />
+    <p v-if="this.hayDatos == false">Aun no tienes ninguna notificación</p>
+    <div table v-if="this.hayDatos == true" class="filtro-filas">
+      <input v-model="numFilas" min="3" max="10" type="number" name="" id="" />
     </div>
   </div>
 </template>
@@ -43,6 +44,8 @@ export default {
   components: {},
   data() {
     return {
+      numFilas: 0,
+      hayDatos: false,
       tablas: [],
     };
   },
@@ -56,6 +59,13 @@ export default {
   methods: {
     update() {
       return "";
+    },
+  },
+  computed: {
+    filas() {
+      return Array(this.numFilas)
+        .fill()
+        .map((_, i) => i + 1);
     },
   },
 };
@@ -82,6 +92,7 @@ export default {
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
+  background-color: var(--grey);
 }
 
 table {
