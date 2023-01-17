@@ -50,4 +50,14 @@ export default {
   getMunicipal(id) {
     return apiClient.get("/municipales/munis/" + id);
   },
+  postProcedure(registro) {
+    return apiClient.post("/oficina/procedures/submit-procedure", {
+      firstname: registro.name,
+      lastname: registro.lastname,
+      password: registro.password,
+      email: registro.email,
+      cuil: registro.cuil,
+      adress: registro.adress,
+    });
+  },
 };

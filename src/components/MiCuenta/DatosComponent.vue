@@ -1,14 +1,24 @@
 <template>
   <div class="datos-container">
-    <p>Nombre completo: {{ this.name }} {{ this.lastname }}</p>
-    <p>CUIL: {{ this.cuil }}</p>
+    <p>
+      Nombre completo: <b> {{ this.name }} {{ this.lastname }}</b>
+    </p>
+    <p>
+      CUIL: <b>{{ this.cuil }}</b>
+    </p>
     <div class="edit">
       <p>Contraseña: *********</p>
       <img src="@/assets/edit.svg" alt="edit" />
     </div>
-    <p>Email: {{ this.email }}</p>
-    <p>Dirección: {{ this.adress }}</p>
-    <p>Cuenta creada el {{ fecha }}</p>
+    <p>
+      Email: <b>{{ this.email }}</b>
+    </p>
+    <p>
+      Dirección: <b>{{ this.adress }}</b>
+    </p>
+    <p>
+      Cuenta creada el <b>{{ fecha }}</b>
+    </p>
   </div>
 </template>
 
@@ -60,8 +70,18 @@ export default {
 <style scoped>
 .datos-container {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: row wrap;
   text-align: left;
+  width: 100%;
+  border: 1px solid var(--grey);
+  border-radius: 10px;
+}
+
+p {
+  margin: 20px;
+  padding: 10px;
+  background: var(--grey);
+  height: auto;
 }
 
 .datos-container img {

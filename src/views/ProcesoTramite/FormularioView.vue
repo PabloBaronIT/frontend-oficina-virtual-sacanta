@@ -1,6 +1,9 @@
 <template>
   <div class="main-container">
     <FormularioComponent />
+
+    <!-- Armar componente de formulario con props -->
+
     <PagarComponent />
   </div>
 </template>

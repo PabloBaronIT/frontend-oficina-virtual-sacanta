@@ -8,6 +8,7 @@
 <script>
 import Header from "@/components/MiCuenta/HeaderComponent.vue";
 import Datos from "@/components/MiCuenta/DatosComponent.vue";
+import dbService from "@/services/dbService";
 
 export default {
   name: "CuentaView",

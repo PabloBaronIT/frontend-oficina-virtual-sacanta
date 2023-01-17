@@ -21,7 +21,7 @@
           {{ questions[questionsLength][option][0] }}
         </label>
         <br />
-        <label for="option">
+        <label>
           <p>{{ questions[questionsLength][option][2] }}</p>
         </label>
         <input
@@ -39,7 +39,7 @@
     <input
       class="btn btn-success"
       type="button"
-      value="Siguiente"
+      value="Submitt"
       @click="next"
     />
   </div>
@@ -127,6 +127,8 @@ export default {
   },
   methods: {
     next() {
+      alert("Boton de prueba, se envia sin validacion");
+
       this.questionsLength++;
       console.log(this.selectedOption);
     },
