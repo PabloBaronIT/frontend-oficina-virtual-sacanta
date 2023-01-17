@@ -46,7 +46,7 @@
           @click="log"
         />
       </FormKit>
-      <div v-if="validar">
+      <div v-if="this.validar">
         <h2>Ingresaste correctamente</h2>
       </div>
     </form>
@@ -71,7 +71,7 @@ export default {
     return {
       cuil: null,
       password: "",
-      validacion: true,
+      validar: true,
     };
   },
   methods: {

@@ -2,45 +2,46 @@
   <h1>
     {{ this.$route.params.formularioTitle }}
   </h1>
-
-  <div class="question" v-for="(question, key) in questions" :key="key">
-    <h4>{{ question["question"] }}</h4>
-    <p>Completa las preguntas para presentar el tramite</p>
+  <div class="question">
+    <h4>{{ questions[questionsLength].title }}</h4>
+    <p>Completar las preguntas para cada tramite</p>
     <div class="options-container">
-      <form
-        class="option"
-        v-for="(option, key2) in Object.keys(question).length - 1"
-        :key="key2"
-      >
+      <form v-for="(option, key) in optionsLength" :key="key" class="option">
         <label class="option-text" :for="option">
           <input
-            v-if="question[key2 + 1][1] === 'radio'"
-            name="opcion"
-            :key="key2"
-            :value="key2"
-            v-model="selectedOption"
+            v-if="questions[questionsLength][option][1] === 'radio'"
+            :name="key"
+            :key="key"
+            :value="key"
             required
-            :type="question[key2 + 1][1]"
+            :type="questions[questionsLength][option][1]"
+            v-model="selected"
           />
-          {{ question[key2 + 1][0] }}
+
+          {{ questions[questionsLength][option][0] }}
         </label>
         <br />
-        <label for="option"
-          ><p>{{ question[key2 + 1][2] }}</p></label
-        >
-        <br />
+        <label for="option">
+          <p>{{ questions[questionsLength][option][2] }}</p>
+        </label>
         <input
-          v-if="question[key2 + 1][1] != 'radio'"
+          v-if="questions[questionsLength][option][1] != 'radio'"
           placeholder="Escriba su respuesta..."
           class="input-option"
-          :key="key2"
-          :value="key2"
-          v-model="selectedOption"
+          :key="key"
+          :value="key"
+          v-model="textInput"
           required
-          :type="question[key2 + 1][1]"
+          :type="questions[questionsLength][1]"
         />
       </form>
     </div>
+    <input
+      class="btn btn-success"
+      type="button"
+      value="Siguiente"
+      @click="next"
+    />
   </div>
 </template>
 
@@ -51,11 +52,49 @@ export default {
   name: "FormularioComponent",
   data() {
     return {
-      selectedOption: null,
+      textInput: "",
+      selected: null,
       questionsLength: 0,
+      optionsLength: 3,
       questions: [
         {
-          question: "Tipo De Negocio",
+          title: "Tipo De Negocio",
+          1: [
+            "Voy a realizar un trabajo independiente",
+            "radio",
+            "Venta de productos o servicios con o sin empleado.",
+          ],
+          2: [
+            "Como miembro de una cooperativa",
+            "radio",
+            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
+          ],
+          3: [
+            "Como trabajador promovido",
+            "radio",
+            "Opción especial para trabajadores en condiciones precarias.",
+          ],
+        },
+        {
+          title: "Tipo De Negocio",
+          1: [
+            "Voy a realizar un trabajo independiente",
+            "radio",
+            "Venta de productos o servicios con o sin empleado.",
+          ],
+          2: [
+            "Como miembro de una cooperativa",
+            "radio",
+            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
+          ],
+          3: [
+            "Como trabajador promovido",
+            "radio",
+            "Opción especial para trabajadores en condiciones precarias.",
+          ],
+        },
+        {
+          title: "Tipo De Negocio",
           1: [
             "Voy a realizar un trabajo independiente",
             "radio",
@@ -85,6 +124,12 @@ export default {
         console.log(error);
       }
     });
+  },
+  methods: {
+    next() {
+      this.questionsLength++;
+      console.log(this.selectedOption);
+    },
   },
 };
 </script>
