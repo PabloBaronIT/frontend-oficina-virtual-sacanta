@@ -94,7 +94,6 @@ export default {
         this.categorias = response.data;
 
         console.log("getCategories", response.data);
-        console.log(this.categorias[1].title);
       })
       .catch((err) => {
         console.log(err);

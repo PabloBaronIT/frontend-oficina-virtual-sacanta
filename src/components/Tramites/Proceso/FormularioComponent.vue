@@ -3,7 +3,7 @@
     {{ this.$route.params.formularioTitle }}
   </h1>
   <div class="question">
-    <!-- <h4>{{ questions[questionsLength].title }}</h4> -->
+    <h4>{{ questions[questionsLength].title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
     <div class="options-container">
       <form v-for="(option, key) in optionsLength" :key="key" class="option">
@@ -15,7 +15,7 @@
             :value="key"
             required
             :type="questions[questionsLength][option][1]"
-            v-model="selected"
+            v-model="this.selectedOption"
           />
 
           {{ questions[questionsLength][option][0] }}
@@ -37,7 +37,13 @@
       </form>
     </div>
     <input
-      class="btn btn-success"
+      class="btn btn-secondary"
+      type="button"
+      value="Siguiente"
+      @click="sig"
+    />
+    <input
+      class="btn btn-success m-1"
       type="button"
       value="Submitt"
       @click="next"
@@ -53,7 +59,7 @@ export default {
   data() {
     return {
       textInput: "",
-      selected: null,
+      selectedOption: null,
       questionsLength: 0,
       optionsLength: 3,
       questions: [
@@ -76,19 +82,19 @@ export default {
           ],
         },
         {
-          title: "Tipo De Negocio",
+          title: " Otro tipo de negocio Tipo De Negocio",
           1: [
-            "Voy a realizar un trabajo independiente",
+            " un trabajo independiente",
             "radio",
             "Venta de productos o servicios con o sin empleado.",
           ],
           2: [
-            "Como miembro de una cooperativa",
+            " miembro de una cooperativa",
             "radio",
             "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
           ],
           3: [
-            "Como trabajador promovido",
+            " trabajador promovido",
             "radio",
             "Opción especial para trabajadores en condiciones precarias.",
           ],
@@ -143,25 +149,40 @@ export default {
     });
   },
   methods: {
+    sig() {},
     next() {
-      console.log(this.selected);
-      console.log(this.procedure);
-
+      let selected = this.selectedOption;
+      let nroPregunta = this.questionsLength;
+      console.log(selected);
       this.procedure.user_id = 1;
       this.procedure.procedureTitle = this.$route.params.formularioTitle;
       this.procedure.procedureDescription = this.questions[0].title;
       this.procedure.categoryId = 6;
-      this.procedure.questions[0].title = this.questions[0].title;
-      this.procedure.questions[0].options[0].title =
-        this.questions[0][this.selected][0];
-      // this.procedure.questions[this.questionsLength].options[
-      //   this.optionsLength
-      // ].enabled = true;
+      // this.procedure.questions[0].title = this.questions[0].title;
+      // this.procedure.questions[0].options[0].title =
+      //   this.questions[0][selected][0];
+      // this.procedure.questions[this.questionsLength].options[0].enabled = true;
 
-      this.questionsLength++;
+      let question = {
+        title: this.questions[0].title,
+        options: [
+          {
+            title: this.questions[0][selected][0],
+            enabled: true,
+          },
+        ],
+      };
+
+      this.procedure.questions.push(question);
+
+      nroPregunta++;
       console.log(this.selectedOption);
       console.log(this.procedure);
+      console.log(nroPregunta);
 
+      this.submitted();
+    },
+    submitted() {
       dbService
         .postProcedure(this.procedure)
         .then((response) => {
@@ -171,7 +192,6 @@ export default {
           console.log(err);
         });
     },
-    submitted() {},
   },
 };
 </script>

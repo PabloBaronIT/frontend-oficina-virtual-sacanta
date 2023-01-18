@@ -46,9 +46,9 @@
           @click="log"
         />
       </FormKit>
-      <div v-if="this.validar">
+      <!-- <div v-if="this.validar">
         <h2>Ingresaste correctamente</h2>
-      </div>
+      </div> -->
     </form>
     <div class="deco">
       <h2>Muni En Linea</h2>
@@ -88,7 +88,6 @@ export default {
       dbService
         .postLoginUser(log)
         .then((response) => {
-          console.log(response);
           if (response.status == 200) {
             localStorage.removeItem("token");
             this.validacion = true;
@@ -108,7 +107,7 @@ export default {
               "fecha-creacion",
               response.data.user.created_at
             );
-            console.log(response);
+            console.log(response.data);
             localStorage.setItem("token", response.data.token);
             this.$router.push("munienlinea");
           }
