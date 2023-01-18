@@ -3,7 +3,7 @@
     {{ this.$route.params.formularioTitle }}
   </h1>
   <div class="question">
-    <h4>{{ questions[questionsLength].title }}</h4>
+    <h4>{{ this.questions[this.nroPreguntas].title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
     <div class="options-container">
       <form v-for="(option, key) in optionsLength" :key="key" class="option">
@@ -60,6 +60,7 @@ export default {
     return {
       textInput: "",
       selectedOption: null,
+      nroPreguntas: 0,
       questionsLength: 0,
       optionsLength: 3,
       questions: [
@@ -148,8 +149,12 @@ export default {
       }
     });
   },
+
   methods: {
-    sig() {},
+    sig() {
+      this.nroPreguntas++;
+      console.log(this.nroPreguntas);
+    },
     next() {
       let selected = this.selectedOption;
       let nroPregunta = this.questionsLength;
