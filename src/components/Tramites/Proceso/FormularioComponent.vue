@@ -3,7 +3,7 @@
     {{ this.$route.params.formularioTitle }}
   </h1>
   <div class="question">
-    <h4>{{ questions[questionsLength].title }}</h4>
+    <!-- <h4>{{ questions[questionsLength].title }}</h4> -->
     <p>Completar las preguntas para cada tramite</p>
     <div class="options-container">
       <form v-for="(option, key) in optionsLength" :key="key" class="option">
@@ -112,6 +112,23 @@ export default {
           ],
         },
       ],
+      procedure: {
+        user_id: null,
+        procedureTitle: "",
+        procedureDescription: "",
+        categoryId: null,
+        questions: [
+          {
+            title: "",
+            options: [
+              {
+                title: "",
+                enabled: false,
+              },
+            ],
+          },
+        ],
+      },
     };
   },
   created() {
@@ -127,11 +144,34 @@ export default {
   },
   methods: {
     next() {
-      alert("Boton de prueba, se envia sin validacion");
+      console.log(this.selected);
+      console.log(this.procedure);
+
+      this.procedure.user_id = 1;
+      this.procedure.procedureTitle = this.$route.params.formularioTitle;
+      this.procedure.procedureDescription = this.questions[0].title;
+      this.procedure.categoryId = 6;
+      this.procedure.questions[0].title = this.questions[0].title;
+      this.procedure.questions[0].options[0].title =
+        this.questions[0][this.selected][0];
+      // this.procedure.questions[this.questionsLength].options[
+      //   this.optionsLength
+      // ].enabled = true;
 
       this.questionsLength++;
       console.log(this.selectedOption);
+      console.log(this.procedure);
+
+      dbService
+        .postProcedure(this.procedure)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
+    submitted() {},
   },
 };
 </script>

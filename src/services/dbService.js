@@ -50,14 +50,23 @@ export default {
   getMunicipal(id) {
     return apiClient.get("/municipales/munis/" + id);
   },
-  postProcedure(registro) {
+  postProcedure(procedure) {
     return apiClient.post("/oficina/procedures/submit-procedure", {
-      firstname: registro.name,
-      lastname: registro.lastname,
-      password: registro.password,
-      email: registro.email,
-      cuil: registro.cuil,
-      adress: registro.adress,
+      user_id: procedure.user_id,
+      procedureTitle: procedure.procedureTitle,
+      procedureDescription: procedure.procedureDescription,
+      categoryId: procedure.categoryId,
+      questions: [
+        {
+          title: procedure.questions[0].title,
+          options: [
+            {
+              title: procedure.questions[0].options[0].title,
+              enabled: false,
+            },
+          ],
+        },
+      ],
     });
   },
 };
