@@ -45,7 +45,7 @@ export default {
 
   mounted() {
     dbservice
-      .getMunicipal(2)
+      .getMunicipal(1)
       .then((response) => {
         console.log(response.data);
         let r = response.data.required;
