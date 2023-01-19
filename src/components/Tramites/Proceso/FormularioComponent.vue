@@ -53,16 +53,10 @@
         <label>
           <p>{{ questionProp.question[key][1] }}</p> </label
         ><br />
-        <input v-if="questionProp.type != 'radio'" />
+        <input v-if="questionProp.type != 'radio'" :type="questionProp.type" />
       </div>
     </form>
 
-    <input
-      class="btn btn-secondary"
-      type="button"
-      value="Siguiente"
-      @click="sig"
-    />
     <input
       class="btn btn-success m-1"
       type="button"
@@ -110,35 +104,16 @@ export default {
       },
     };
   },
-  created() {
-    dbService.getQuestions(this.$router).then((response) => {
-      try {
-        if (response.status == 200) {
-          this.questionsLength = response.data.length;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  },
 
   methods: {
-    sig() {
-      this.nroPreguntas++;
-      console.log(this.nroPreguntas);
-    },
     next() {
       let selected = this.selectedOption;
-      let nroPregunta = this.questionsLength;
+
       console.log(selected);
       this.procedure.user_id = 1;
       this.procedure.procedureTitle = this.$route.params.formularioTitle;
       this.procedure.procedureDescription = this.questions[0].title;
       this.procedure.categoryId = 6;
-      // this.procedure.questions[0].title = this.questions[0].title;
-      // this.procedure.questions[0].options[0].title =
-      //   this.questions[0][selected][0];
-      // this.procedure.questions[this.questionsLength].options[0].enabled = true;
 
       let question = {
         title: this.questions[0].title,
@@ -152,10 +127,7 @@ export default {
 
       this.procedure.questions.push(question);
 
-      nroPregunta++;
-      console.log(this.selectedOption);
       console.log(this.procedure);
-      console.log(nroPregunta);
 
       this.submitted();
     },

@@ -4,7 +4,14 @@
       {{ this.$route.params.formularioTitle }}
     </h1>
 
-    <FormularioComponent :questionProp="this.questions[1]" />
+    <FormularioComponent :questionProp="questions[this.paso]" />
+
+    <input
+      class="btn btn-secondary"
+      type="button"
+      value="Siguiente"
+      @click="sig"
+    />
 
     <!-- Armar componente de formulario con props -->
 
@@ -19,6 +26,7 @@ import FormularioComponent from "@/components/Tramites/Proceso/FormularioCompone
 export default {
   data() {
     return {
+      paso: 0,
       questions: [
         {
           title: "Tipo De Negocio",
@@ -45,6 +53,13 @@ export default {
             1: ["Ingrese el número sin comas:"],
           },
         },
+        {
+          title: " Ingreso anual bruto",
+          type: "number",
+          question: {
+            1: ["Ingrese el número sin comas:"],
+          },
+        },
       ],
       procedure: {
         user_id: "",
@@ -57,6 +72,9 @@ export default {
   },
 
   methods: {
+    sig() {
+      this.paso++;
+    },
     back() {
       this.$router.go(-1);
     },
@@ -65,6 +83,10 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  color: var(--red);
+}
+
 .main-container {
   width: 100%;
   display: flex;
