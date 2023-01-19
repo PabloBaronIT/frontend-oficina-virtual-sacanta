@@ -1,6 +1,10 @@
 <template>
   <div class="main-container">
-    <FormularioComponent />
+    <h1>
+      {{ this.$route.params.formularioTitle }}
+    </h1>
+
+    <FormularioComponent :questionProp="this.questions[1]" />
 
     <!-- Armar componente de formulario con props -->
 
@@ -18,59 +22,33 @@ export default {
       questions: [
         {
           title: "Tipo De Negocio",
-          1: [
-            "Voy a realizar un trabajo independiente",
-            "radio",
-            "Venta de productos o servicios con o sin empleado.",
-          ],
-          2: [
-            "Como miembro de una cooperativa",
-            "radio",
-            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
-          ],
-          3: [
-            "Como trabajador promovido",
-            "radio",
-            "Opción especial para trabajadores en condiciones precarias.",
-          ],
+          type: "radio",
+          question: {
+            1: [
+              "Voy a realizar un trabajo independiente",
+              "Venta de productos o servicios con o sin empleado.",
+            ],
+            2: [
+              "Como miembro de una cooperativa",
+              "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
+            ],
+            3: [
+              "Como trabajador promovido",
+              "Opción especial para trabajadores en condiciones precarias.",
+            ],
+          },
         },
         {
-          title: " Otro tipo de negocio Tipo De Negocio",
-          1: [
-            " un trabajo independiente",
-            "radio",
-            "Venta de productos o servicios con o sin empleado.",
-          ],
-          2: [
-            " miembro de una cooperativa",
-            "radio",
-            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
-          ],
-          3: [
-            " trabajador promovido",
-            "radio",
-            "Opción especial para trabajadores en condiciones precarias.",
-          ],
-        },
-        {
-          title: "Tipo De Negocio",
-          1: [
-            "Voy a realizar un trabajo independiente",
-            "radio",
-            "Venta de productos o servicios con o sin empleado.",
-          ],
-          2: [
-            "Como miembro de una cooperativa",
-            "radio",
-            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
-          ],
-          3: [
-            "Como trabajador promovido",
-            "radio",
-            "Opción especial para trabajadores en condiciones precarias.",
-          ],
+          title: " Ingreso anual bruto",
+          type: "number",
+          question: {
+            1: ["Ingrese el número sin comas:"],
+          },
         },
       ],
+      procedure: {
+        user_id: "",
+      },
     };
   },
   components: {

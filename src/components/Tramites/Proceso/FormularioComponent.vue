@@ -1,12 +1,9 @@
 <template>
-  <h1>
-    {{ this.$route.params.formularioTitle }}
-  </h1>
   <div class="question">
-    <h4>{{ this.questions[this.nroPreguntas].title }}</h4>
+    <h4>{{ questionProp.title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
-    <div class="options-container">
-      <form v-for="(option, key) in optionsLength" :key="key" class="option">
+
+    <!-- <form v-for="(option, key) in optionsLength" :key="key" class="option">
         <label class="option-text" :for="option">
           <input
             v-if="questions[questionsLength][option][1] === 'radio'"
@@ -15,7 +12,7 @@
             :value="key"
             required
             :type="questions[questionsLength][option][1]"
-            v-model="this.selectedOption"
+            :v-model="question"
           />
 
           {{ questions[questionsLength][option][0] }}
@@ -34,8 +31,32 @@
           required
           :type="questions[questionsLength][1]"
         />
-      </form>
-    </div>
+      </form> -->
+
+    <form class="option-container">
+      <div
+        class="option"
+        v-for="(option, key) in questionProp.question"
+        :key="key"
+      >
+        <label class="option-text" for="option">
+          <input
+            v-if="questionProp.type === 'radio'"
+            :type="questionProp.type"
+            :value="key"
+            v-model="this.selected"
+          />
+
+          {{ questionProp.question[key][0] }}
+        </label>
+        <br />
+        <label>
+          <p>{{ questionProp.question[key][1] }}</p> </label
+        ><br />
+        <input v-if="questionProp.type != 'radio'" />
+      </div>
+    </form>
+
     <input
       class="btn btn-secondary"
       type="button"
@@ -56,69 +77,20 @@ import dbService from "@/services/dbService";
 
 export default {
   name: "FormularioComponent",
+  props: {
+    questionProp: {
+      title: String,
+      type: String,
+      question: Object,
+    },
+  },
   data() {
     return {
       textInput: "",
-      selectedOption: null,
+      selected: null,
       nroPreguntas: 0,
       questionsLength: 0,
       optionsLength: 3,
-      questions: [
-        {
-          title: "Tipo De Negocio",
-          1: [
-            "Voy a realizar un trabajo independiente",
-            "radio",
-            "Venta de productos o servicios con o sin empleado.",
-          ],
-          2: [
-            "Como miembro de una cooperativa",
-            "radio",
-            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
-          ],
-          3: [
-            "Como trabajador promovido",
-            "radio",
-            "Opción especial para trabajadores en condiciones precarias.",
-          ],
-        },
-        {
-          title: " Otro tipo de negocio Tipo De Negocio",
-          1: [
-            " un trabajo independiente",
-            "radio",
-            "Venta de productos o servicios con o sin empleado.",
-          ],
-          2: [
-            " miembro de una cooperativa",
-            "radio",
-            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
-          ],
-          3: [
-            " trabajador promovido",
-            "radio",
-            "Opción especial para trabajadores en condiciones precarias.",
-          ],
-        },
-        {
-          title: "Tipo De Negocio",
-          1: [
-            "Voy a realizar un trabajo independiente",
-            "radio",
-            "Venta de productos o servicios con o sin empleado.",
-          ],
-          2: [
-            "Como miembro de una cooperativa",
-            "radio",
-            "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
-          ],
-          3: [
-            "Como trabajador promovido",
-            "radio",
-            "Opción especial para trabajadores en condiciones precarias.",
-          ],
-        },
-      ],
       procedure: {
         user_id: null,
         procedureTitle: "",
