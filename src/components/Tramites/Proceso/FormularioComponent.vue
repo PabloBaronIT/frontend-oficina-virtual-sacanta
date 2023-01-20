@@ -53,7 +53,17 @@
         <label>
           <p>{{ questionProp.question[key][1] }}</p> </label
         ><br />
-        <input v-if="questionProp.type != 'radio'" :type="questionProp.type" />
+        <input
+          v-if="questionProp.type != 'radio' && questionProp.type != 'file'"
+          :type="questionProp.type"
+          v-model="this.textInput"
+        />
+        <div v-if="questionProp.type === 'file'" class="file-container">
+          <img src="@/assets/tramite-logo.svg" alt="" />
+
+          <hr />
+          <input accept=".pdf" :type="questionProp.type" />
+        </div>
       </div>
     </form>
 
@@ -72,6 +82,7 @@ import dbService from "@/services/dbService";
 export default {
   name: "FormularioComponent",
   props: {
+    question_id: Number,
     questionProp: {
       title: String,
       type: String,
@@ -87,39 +98,35 @@ export default {
       optionsLength: 3,
       procedure: {
         user_id: null,
-        procedureTitle: "",
-        procedureDescription: "",
         categoryId: null,
-        questions: [
-          {
-            title: "",
-            options: [
-              {
-                title: "",
-                enabled: false,
-              },
-            ],
-          },
-        ],
+        status_id: null,
+        questions: [],
       },
     };
   },
 
   methods: {
     next() {
-      let selected = this.selectedOption;
+      let selected = this.selected;
+      let optionTitle;
+
+      if (selected == 0) {
+        optionTitle = this.textInput;
+      } else {
+        optionTitle = this.questionProp.question[selected][0];
+      }
 
       console.log(selected);
-      this.procedure.user_id = 1;
-      this.procedure.procedureTitle = this.$route.params.formularioTitle;
-      this.procedure.procedureDescription = this.questions[0].title;
-      this.procedure.categoryId = 6;
+      console.log(optionTitle);
 
+      this.procedure.user_id = 1;
+      this.procedure.categoryId = 6;
+      this.procedure.status_id = 1;
       let question = {
-        title: this.questions[0].title,
+        question: this.questionProp.question_id,
         options: [
           {
-            title: this.questions[0][selected][0],
+            title: optionTitle,
             enabled: true,
           },
         ],
@@ -130,6 +137,7 @@ export default {
       console.log(this.procedure);
 
       this.submitted();
+      this.selected = 0;
     },
     submitted() {
       dbService
@@ -146,6 +154,15 @@ export default {
 </script>
 
 <style scoped>
+.file-container {
+  border: 1px solid var(--grey);
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+
 h1 {
   color: var(--red);
 }

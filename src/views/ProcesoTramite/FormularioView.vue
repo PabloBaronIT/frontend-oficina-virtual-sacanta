@@ -6,12 +6,21 @@
 
     <FormularioComponent :questionProp="questions[this.paso]" />
 
-    <input
-      class="btn btn-secondary"
-      type="button"
-      value="Siguiente"
-      @click="sig"
-    />
+    <div class="">
+      <input
+        class="btn btn-secondary"
+        type="button"
+        value="Siguiente"
+        @click="sig"
+      />
+
+      <input
+        class="m-2 btn btn-secondary"
+        type="button"
+        value="Anterior"
+        @click="ant"
+      />
+    </div>
 
     <!-- Armar componente de formulario con props -->
 
@@ -29,6 +38,7 @@ export default {
       paso: 0,
       questions: [
         {
+          question_id: 1,
           title: "Tipo De Negocio",
           type: "radio",
           question: {
@@ -47,6 +57,7 @@ export default {
           },
         },
         {
+          question_id: 2,
           title: " Ingreso anual bruto",
           type: "number",
           question: {
@@ -54,16 +65,17 @@ export default {
           },
         },
         {
-          title: " Ingreso anual bruto",
-          type: "number",
+          question_id: 3,
+          title: " Subir constancia de AFIP",
+          type: "file",
           question: {
-            1: ["Ingrese el número sin comas:"],
+            1: [
+              "Seleccione su constancia de AFIP:",
+              "Solo en formato pdf digital o escaneado.",
+            ],
           },
         },
       ],
-      procedure: {
-        user_id: "",
-      },
     };
   },
   components: {

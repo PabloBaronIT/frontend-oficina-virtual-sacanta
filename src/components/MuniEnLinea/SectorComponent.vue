@@ -48,12 +48,14 @@ export default {
   },
   created() {
     console.log(this.$route);
+    console.log(this.$route.params.sectorId);
 
     dbService
       .getTramites(this.$route.params.sectorId)
       .then((response) => {
         if (response.status == 200) {
           console.log(response.data.length);
+          console.log("Get tramites ");
           for (let i = 0; i < response.data.length; i++) {
             this.tramitesApi.push(response.data[i]);
           }
