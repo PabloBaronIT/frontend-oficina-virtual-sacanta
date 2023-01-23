@@ -33,6 +33,12 @@ export default {
       password: login.password,
     });
   },
+  postLoginMunicipal(login) {
+    return apiClient.post("/auth/signinmunicipal", {
+      cuil: login.cuil,
+      password: login.password,
+    });
+  },
   getAllCategories() {
     return apiClientAuth.get("/oficina/categories/categories");
   },

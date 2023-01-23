@@ -1,6 +1,6 @@
 <template>
   <div class="question">
-    <h4>{{ questionProp.title }}</h4>
+    <h4>{{ questionProp[this.paso].title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
 
     <!-- <form v-for="(option, key) in optionsLength" :key="key" class="option">
@@ -36,33 +36,39 @@
     <form class="option-container">
       <div
         class="option"
-        v-for="(option, key) in questionProp.question"
+        v-for="(option, key) in questionProp[this.paso].question"
         :key="key"
       >
         <label class="option-text" for="option">
           <input
-            v-if="questionProp.type === 'radio'"
-            :type="questionProp.type"
+            v-if="questionProp[this.paso].type === 'radio'"
+            :type="questionProp[this.paso].type"
             :value="key"
             v-model="this.selected"
           />
 
-          {{ questionProp.question[key][0] }}
+          {{ questionProp[this.paso].question[key][0] }}
         </label>
         <br />
         <label>
-          <p>{{ questionProp.question[key][1] }}</p> </label
+          <p>{{ questionProp[this.paso].question[key][1] }}</p> </label
         ><br />
         <input
-          v-if="questionProp.type != 'radio' && questionProp.type != 'file'"
-          :type="questionProp.type"
+          v-if="
+            questionProp[this.paso].type != 'radio' &&
+            questionProp[this.paso].type != 'file'
+          "
+          :type="questionProp[this.paso].type"
           v-model="this.textInput"
         />
-        <div v-if="questionProp.type === 'file'" class="file-container">
+        <div
+          v-if="questionProp[this.paso].type === 'file'"
+          class="file-container"
+        >
           <img src="@/assets/tramite-logo.svg" alt="" />
 
           <hr />
-          <input accept=".pdf" :type="questionProp.type" />
+          <input accept=".pdf" :type="questionProp[this.paso].type" />
         </div>
       </div>
     </form>
@@ -72,13 +78,13 @@
       class="btn btn-success m-1"
       type="button"
       value="Submitt"
-      @click="next"
+      @click="submitted"
     />
   </div>
 </template>
 
 <script>
-// import dbService from "@/services/dbService";
+import dbService from "@/services/dbService";
 
 export default {
   name: "FormularioComponent",
@@ -107,7 +113,13 @@ export default {
       },
     };
   },
-
+  watch: {
+    paso(n, o) {
+      if (n > o) {
+        this.next();
+      }
+    },
+  },
   methods: {
     next() {
       let selected = this.selected;
@@ -116,17 +128,17 @@ export default {
       if (selected == 0) {
         optionTitle = this.textInput;
       } else {
-        optionTitle = this.questionProp.question[selected][0];
+        optionTitle = this.questionProp[this.paso - 1].question[selected][0];
       }
 
       console.log(selected);
       console.log(optionTitle);
 
-      this.procedure.user_id = 1;
+      this.procedure.userId = 1;
       this.procedure.categoryId = 6;
-      this.procedure.status_id = 1;
+      this.procedure.statusId = 1;
       let question = {
-        question: this.questionProp.question_id,
+        question: this.questionProp[this.paso].question_id,
         options: [
           {
             questionOption: optionTitle,
@@ -139,19 +151,18 @@ export default {
 
       console.log(this.procedure);
 
-      // this.submitted();
       this.selected = 0;
     },
-    // submitted() {
-    //   dbService
-    //     .postProcedure(this.procedure)
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
+    submitted() {
+      dbService
+        .postProcedure(this.procedure)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

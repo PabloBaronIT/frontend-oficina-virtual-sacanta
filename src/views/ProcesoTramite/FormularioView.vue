@@ -5,7 +5,7 @@
     </h1>
 
     <FormularioComponent
-      :questionProp="questions[this.paso]"
+      :questionProp="questions"
       :length="questions.length"
       :paso="this.paso"
     />
