@@ -68,6 +68,7 @@
     </form>
 
     <input
+      v-if="this.paso + 1 == this.length"
       class="btn btn-success m-1"
       type="button"
       value="Submitt"
@@ -77,11 +78,13 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
+// import dbService from "@/services/dbService";
 
 export default {
   name: "FormularioComponent",
   props: {
+    paso: Number,
+    length: Number,
     question_id: Number,
     questionProp: {
       title: String,
@@ -97,9 +100,9 @@ export default {
       questionsLength: 0,
       optionsLength: 3,
       procedure: {
-        user_id: null,
+        userId: null,
         categoryId: null,
-        status_id: null,
+        statusId: null,
         questions: [],
       },
     };
@@ -126,8 +129,8 @@ export default {
         question: this.questionProp.question_id,
         options: [
           {
-            title: optionTitle,
-            enabled: true,
+            questionOption: optionTitle,
+            answer: optionTitle,
           },
         ],
       };
@@ -136,19 +139,19 @@ export default {
 
       console.log(this.procedure);
 
-      this.submitted();
+      // this.submitted();
       this.selected = 0;
     },
-    submitted() {
-      dbService
-        .postProcedure(this.procedure)
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    // submitted() {
+    //   dbService
+    //     .postProcedure(this.procedure)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
   },
 };
 </script>

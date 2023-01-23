@@ -4,11 +4,16 @@
       {{ this.$route.params.formularioTitle }}
     </h1>
 
-    <FormularioComponent :questionProp="questions[this.paso]" />
+    <FormularioComponent
+      :questionProp="questions[this.paso]"
+      :length="questions.length"
+      :paso="this.paso"
+    />
 
     <div class="">
       <input
         class="btn btn-secondary"
+        v-if="this.paso + 1 < questions.length"
         type="button"
         value="Siguiente"
         @click="sig"
@@ -86,6 +91,10 @@ export default {
   methods: {
     sig() {
       this.paso++;
+    },
+    ant() {
+      this.paso--;
+      alert("Borrar data de la question");
     },
     back() {
       this.$router.go(-1);

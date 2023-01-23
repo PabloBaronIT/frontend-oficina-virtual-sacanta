@@ -98,11 +98,13 @@ export default {
             localStorage.removeItem("adress");
             localStorage.removeItem("email");
             localStorage.removeItem("fecha-creacion");
+            localStorage.removeItem("id");
             localStorage.setItem("name", response.data.user.firstname);
             localStorage.setItem("lastname", response.data.user.lastname);
             localStorage.setItem("cuil", response.data.user.cuil);
             localStorage.setItem("adress", response.data.user.adress);
             localStorage.setItem("email", response.data.user.email);
+            localStorage.setItem("id", response.data.user.id);
             localStorage.setItem(
               "fecha-creacion",
               response.data.user.created_at

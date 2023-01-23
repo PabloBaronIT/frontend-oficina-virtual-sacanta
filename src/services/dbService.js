@@ -50,6 +50,9 @@ export default {
   getMunicipal(id) {
     return apiClient.get("/municipales/munis/" + id);
   },
+  getUser(id) {
+    return apiClient.get("/oficina/users/" + id);
+  },
   postProcedure(procedure) {
     return apiClient.post("/oficina/procedures/submit-procedure", {
       user_id: procedure.user_id,

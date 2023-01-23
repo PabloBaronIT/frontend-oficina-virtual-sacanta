@@ -16,7 +16,7 @@ const routes = [
   {
     path: "/munienlinea",
     name: "munienlinea",
-    component: () => import("../views/MuniEnLineaView.vue"),
+    component: () => import("../views/HomeVecinoView.vue"),
     meta: { requiresAuth: true },
   },
   {

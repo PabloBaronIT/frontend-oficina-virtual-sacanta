@@ -8,7 +8,7 @@
 import MainContainerComponent from "@/components/MuniEnLinea/MainContainerComponent.vue";
 
 export default {
-  name: "MuniEnLineaView",
+  name: "HomeVecinoView",
   components: {
     MainContainerComponent,
   },

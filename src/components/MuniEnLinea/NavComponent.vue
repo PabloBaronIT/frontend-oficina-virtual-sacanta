@@ -38,27 +38,28 @@
         <strong>
           {{ this.usuario }},<br />
           {{ this.apellido }}<br />
+          {{ this.role }}<br />
         </strong>
         <p>DNI: {{ this.dni }}</p>
       </div>
     </div>
 
-    <nav id="sidebarMenu" class="btn-container">
+    <nav
+      v-if="this.role !== 'MUNI_ROLE'"
+      id="sidebarMenu"
+      class="btn-container"
+    >
       <router-link v-show="permission" :to="`/munienlinea`" class="bn3">
         Inicio
       </router-link>
-      <router-link v-show="permission" :to="`/tramites`" class="bn3">
-        Mis tramites
-      </router-link>
+
       <router-link v-show="permission" :to="`/prueba`" class="bn3">
         Comprobantes
       </router-link>
       <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
         Domicilio fiscal electronico
       </router-link>
-      <router-link v-show="permission" :to="`/muni`" class="bn3">
-        Back
-      </router-link>
+
       <input
         @click="log"
         class="bn3"
@@ -67,58 +68,24 @@
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       />
-
-      <div class="modal">
-        <div class="inside-modal">
-          <ul>
-            <li>holasd</li>
-            <li>holasd</li>
-            <li>holasd</li>
-            <li>holasd</li>
-            <li>holasd</li>
-          </ul>
-        </div>
-      </div>
-
       <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>
 
-    <!-- <div
-      class="z10 modal fade"
-      id="exampleModal"
-      tabindex="1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">opciones opciones opciones opciones</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div> -->
+    <nav v-if="this.role == 'MUNI_ROLE'" id="sidebarMenu" class="btn-container">
+      <router-link v-show="permission" :to="`/muni`" class="bn3">
+        Back
+      </router-link>
+      <router-link v-show="permission" :to="`/tramites`" class="bn3">
+        Mis tramites
+      </router-link>
+      <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
+    </nav>
   </div>
 </template>
 
 <script>
+import dbService from "@/services/dbService";
+
 export default {
   name: "NavComponent",
   data() {
@@ -128,7 +95,20 @@ export default {
       apellido: localStorage.getItem("lastname"),
       dni: localStorage.getItem("cuil"),
       permission: true,
+      user_id: localStorage.getItem("id"),
+      role: "",
     };
+  },
+  created() {
+    dbService
+      .getUser(this.user_id)
+      .then((response) => {
+        console.log(response.data.role);
+        this.role = response.data.role;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     log() {
