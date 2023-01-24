@@ -59,23 +59,12 @@ export default {
   getUser(id) {
     return apiClient.get("/oficina/users/" + id);
   },
-  postProcedure(procedure) {
+  postProcedure(p) {
     return apiClient.post("/oficina/procedures/submit-procedure", {
-      user_id: procedure.user_id,
-      procedureTitle: procedure.procedureTitle,
-      procedureDescription: procedure.procedureDescription,
-      categoryId: procedure.categoryId,
-      questions: [
-        {
-          title: procedure.questions[0].title,
-          options: [
-            {
-              title: procedure.questions[0].options[0].title,
-              enabled: false,
-            },
-          ],
-        },
-      ],
+      userId: p.userId,
+      categoryId: p.categoryId,
+      statusId: p.statusId,
+      questions: p.questions,
     });
   },
 };

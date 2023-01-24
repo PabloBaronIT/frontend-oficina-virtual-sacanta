@@ -80,7 +80,7 @@ export default {
 p {
   margin: 20px;
   padding: 10px;
-  background: var(--grey);
+
   height: auto;
 }
 

@@ -47,17 +47,20 @@ export default {
           title: "Tipo De Negocio",
           type: "radio",
           question: {
-            1: [
+            2: [
               "Voy a realizar un trabajo independiente",
               "Venta de productos o servicios con o sin empleado.",
-            ],
-            2: [
-              "Como miembro de una cooperativa",
-              "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
+              1,
             ],
             3: [
+              "Como miembro de una cooperativa",
+              "La cooperativa debe estar registrada en AFIP y tenés que tener la CUIT.",
+              2,
+            ],
+            4: [
               "Como trabajador promovido",
               "Opción especial para trabajadores en condiciones precarias.",
+              5,
             ],
           },
         },
@@ -66,17 +69,22 @@ export default {
           title: " Ingreso anual bruto",
           type: "number",
           question: {
-            1: ["Ingrese el número sin comas:"],
+            1: [
+              "Ingrese el número sin comas:",
+              "Ingrese el número sin comas:",
+              4,
+            ],
           },
         },
         {
-          question_id: 3,
+          question_id: 333,
           title: " Subir constancia de AFIP",
           type: "file",
           question: {
             1: [
               "Seleccione su constancia de AFIP:",
               "Solo en formato pdf digital o escaneado.",
+              5,
             ],
           },
         },

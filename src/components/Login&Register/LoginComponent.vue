@@ -49,6 +49,7 @@
       <!-- <div v-if="this.validar">
         <h2>Ingresaste correctamente</h2>
       </div> -->
+      <p>{{ error }}</p>
     </form>
     <div class="deco">
       <h2>Muni En Linea</h2>
@@ -71,7 +72,8 @@ export default {
     return {
       cuil: null,
       password: "",
-      validar: true,
+      validacion: false,
+      msj: "",
     };
   },
   methods: {
@@ -133,10 +135,19 @@ export default {
     //   }
     // },
   },
+  computed: {
+    error() {
+      return this.msj;
+    },
+  },
 };
 </script>
 
 <style scoped>
+.error {
+  color: red;
+}
+
 .deco {
   text-align: center;
   width: 200px;

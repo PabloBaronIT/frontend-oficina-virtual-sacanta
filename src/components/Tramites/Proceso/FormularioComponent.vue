@@ -3,36 +3,6 @@
     <h4>{{ questionProp[this.paso].title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
 
-    <!-- <form v-for="(option, key) in optionsLength" :key="key" class="option">
-        <label class="option-text" :for="option">
-          <input
-            v-if="questions[questionsLength][option][1] === 'radio'"
-            :name="key"
-            :key="key"
-            :value="key"
-            required
-            :type="questions[questionsLength][option][1]"
-            :v-model="question"
-          />
-
-          {{ questions[questionsLength][option][0] }}
-        </label>
-        <br />
-        <label>
-          <p>{{ questions[questionsLength][option][2] }}</p>
-        </label>
-        <input
-          v-if="questions[questionsLength][option][1] != 'radio'"
-          placeholder="Escriba su respuesta..."
-          class="input-option"
-          :key="key"
-          :value="key"
-          v-model="textInput"
-          required
-          :type="questions[questionsLength][1]"
-        />
-      </form> -->
-
     <form class="option-container">
       <div
         class="option"
@@ -68,13 +38,16 @@
           <img src="@/assets/tramite-logo.svg" alt="" />
 
           <hr />
-          <input accept=".pdf" :type="questionProp[this.paso].type" />
+          <input
+            accept=".pdf"
+            :type="questionProp[this.paso].type"
+            v-model="this.textInput"
+          />
         </div>
       </div>
     </form>
-
+    <!-- v-if="this.paso + 1 == this.length" -->
     <input
-      v-if="this.paso + 1 == this.length"
       class="btn btn-success m-1"
       type="button"
       value="Submitt"
@@ -85,6 +58,13 @@
 
 <script>
 import dbService from "@/services/dbService";
+
+let procedure = {
+  userId: 1,
+  categoryId: 6,
+  statusId: 1,
+  questions: [],
+};
 
 export default {
   name: "FormularioComponent",
@@ -105,12 +85,12 @@ export default {
       nroPreguntas: 0,
       questionsLength: 0,
       optionsLength: 3,
-      procedure: {
-        userId: null,
-        categoryId: null,
-        statusId: null,
-        questions: [],
-      },
+      // procedure: {
+      //   userId: null,
+      //   categoryId: null,
+      //   statusId: null,
+      //   questions: [],
+      // },
     };
   },
   watch: {
@@ -125,7 +105,7 @@ export default {
       let selected = this.selected;
       let optionTitle;
 
-      if (selected == 0) {
+      if (selected == 1) {
         optionTitle = this.textInput;
       } else {
         optionTitle = this.questionProp[this.paso - 1].question[selected][0];
@@ -134,28 +114,29 @@ export default {
       console.log(selected);
       console.log(optionTitle);
 
-      this.procedure.userId = 1;
-      this.procedure.categoryId = 6;
-      this.procedure.statusId = 1;
-      let question = {
-        question: this.questionProp[this.paso].question_id,
+      let q = {
+        question: this.questionProp[this.paso - 1].question_id,
         options: [
           {
-            questionOption: optionTitle,
+            questionOption:
+              this.questionProp[this.paso - 1].question[this.selected][2],
             answer: optionTitle,
           },
         ],
       };
 
-      this.procedure.questions.push(question);
+      procedure.questions.push(q);
 
-      console.log(this.procedure);
+      console.log(procedure);
 
-      this.selected = 0;
+      this.selected = 1;
+      this.textInput = "";
     },
     submitted() {
+      this.next();
+
       dbService
-        .postProcedure(this.procedure)
+        .postProcedure(procedure)
         .then((response) => {
           console.log(response.data);
         })
