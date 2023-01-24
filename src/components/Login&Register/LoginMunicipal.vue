@@ -1,6 +1,7 @@
 <template>
   <div class="login-container">
     <form action="">
+      <h1>Login Municipal</h1>
       <FormKit
         type="text"
         name="Cuil"
@@ -17,12 +18,25 @@
         help="Your password"
         placeholder="********"
       />
+
+      <input
+        @click="login()"
+        class="btn btn-primary"
+        type="button"
+        value="Ingresar"
+      />
     </form>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    login() {
+      alert("Terminar funcion");
+    },
+  },
+};
 </script>
 
 <style scoped>

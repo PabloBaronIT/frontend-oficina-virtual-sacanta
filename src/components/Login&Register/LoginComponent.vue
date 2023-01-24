@@ -5,14 +5,13 @@
     </div>
 
     <form>
+      <h1>Login de vecino</h1>
       <FormKit
         type="form"
         id="registration-example"
         :actions="false"
         incomplete-message="Aun no has completado todos los campos."
       >
-        <h1>Iniciar sesión</h1>
-
         <FormKit
           v-model="this.cuil"
           type="number"
