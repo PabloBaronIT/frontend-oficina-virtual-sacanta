@@ -69,11 +69,7 @@ export default {
           title: " Ingreso anual bruto",
           type: "number",
           question: {
-            1: [
-              "Ingrese el número sin comas:",
-              "Ingrese el número sin comas:",
-              4,
-            ],
+            1: ["Ingrese el número sin comas:", "", 4],
           },
         },
         {

@@ -3,34 +3,46 @@
     <h4>{{ questionProp[this.paso].title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
 
+    <div v-show="this.loading" class="spinner-border" role="status">
+      <span>cargando rey</span>
+    </div>
+
     <form class="option-container">
       <div
         class="option"
         v-for="(option, key) in questionProp[this.paso].question"
         :key="key"
       >
-        <label class="option-text" for="option">
-          <input
-            v-if="questionProp[this.paso].type === 'radio'"
-            :type="questionProp[this.paso].type"
-            :value="key"
-            v-model="this.selected"
-          />
+        <input
+          :id="key"
+          :name="key"
+          v-if="questionProp[this.paso].type === 'radio'"
+          :type="questionProp[this.paso].type"
+          :value="key"
+          v-model="this.selected"
+        />
 
+        <label class="option-text" :for="key">
           {{ questionProp[this.paso].question[key][0] }}
         </label>
+
         <br />
         <label>
           <p>{{ questionProp[this.paso].question[key][1] }}</p> </label
         ><br />
-        <input
-          v-if="
-            questionProp[this.paso].type != 'radio' &&
-            questionProp[this.paso].type != 'file'
-          "
-          :type="questionProp[this.paso].type"
-          v-model="this.textInput"
-        />
+
+        <div class="form-outline">
+          <input
+            class="form-control"
+            v-if="
+              questionProp[this.paso].type != 'radio' &&
+              questionProp[this.paso].type != 'file'
+            "
+            :type="questionProp[this.paso].type"
+            v-model="this.textInput"
+          />
+        </div>
+
         <div
           v-if="questionProp[this.paso].type === 'file'"
           class="file-container"
@@ -48,10 +60,11 @@
     </form>
     <!-- v-if="this.paso + 1 == this.length" -->
     <input
+      v-if="this.paso + 1 == this.length"
       class="btn btn-success m-1"
       type="button"
       value="Submitt"
-      @click="submitted"
+      @click="submitt"
     />
   </div>
 </template>
@@ -80,11 +93,14 @@ export default {
   },
   data() {
     return {
+      validation: false,
+      loading: false,
       textInput: "",
       selected: null,
       nroPreguntas: 0,
       questionsLength: 0,
       optionsLength: 3,
+      submitted: false,
       // procedure: {
       //   userId: null,
       //   categoryId: null,
@@ -132,17 +148,24 @@ export default {
       this.selected = 1;
       this.textInput = "";
     },
-    submitted() {
+    submitt() {
       this.next();
-
+      this.loading = true;
       dbService
         .postProcedure(procedure)
         .then((response) => {
-          console.log(response.data);
+          alert(response.status);
+          if (response.status == 201) {
+            this.submitted = true;
+            this.$router.replace({ path: "/munienlinea" });
+          }
+          alert(this.submitted);
+          console.log(response);
         })
         .catch((err) => {
           console.log(err);
         });
+      this.loading = false;
     },
   },
 };
@@ -164,6 +187,7 @@ h1 {
 
 .option-text {
   font-size: 1.1em;
+  margin: 0 5px;
 }
 
 .input-option {
@@ -183,7 +207,7 @@ h1 {
 }
 
 .option input {
-  margin: 0 10px;
+  margin: 0 0px;
 }
 
 p {

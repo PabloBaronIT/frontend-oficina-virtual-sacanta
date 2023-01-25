@@ -3,7 +3,7 @@
     <Carousel :autoplay="1700" :items-to-show="4" :wrap-around="true">
       <Slide class="tramite">
         <router-link :to="`/formulario/Sacar%20turno/1`" class="carousel__item">
-          <p>Renovacion de DNI</p>
+          <p>Habilitacion de comercio</p>
 
           <img src="@/assets/tramitesSVG/dni.svg" />
         </router-link>
