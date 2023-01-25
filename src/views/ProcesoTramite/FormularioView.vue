@@ -4,28 +4,7 @@
       {{ this.$route.params.formularioTitle }}
     </h1>
 
-    <FormularioComponent
-      :questionProp="questions"
-      :length="questions.length"
-      :paso="this.paso"
-    />
-
-    <div class="">
-      <input
-        class="btn btn-secondary"
-        v-if="this.paso + 1 < questions.length"
-        type="button"
-        value="Siguiente"
-        @click="sig"
-      />
-
-      <input
-        class="m-2 btn btn-secondary"
-        type="button"
-        value="Anterior"
-        @click="ant"
-      />
-    </div>
+    <FormularioComponent :questionProp="questions" :length="questions.length" />
 
     <!-- Armar componente de formulario con props -->
 
@@ -40,7 +19,6 @@ import FormularioComponent from "@/components/Tramites/Proceso/FormularioCompone
 export default {
   data() {
     return {
-      paso: 0,
       questions: [
         {
           question_id: 1,
@@ -69,7 +47,7 @@ export default {
           title: " Ingreso anual bruto",
           type: "number",
           question: {
-            1: ["Ingrese el número sin comas:", "", 4],
+            1: ["Ingrese el número sin comas:", " ", 4],
           },
         },
         {
@@ -93,13 +71,6 @@ export default {
   },
 
   methods: {
-    sig() {
-      this.paso++;
-    },
-    ant() {
-      this.paso--;
-      alert("Borrar data de la question");
-    },
     back() {
       this.$router.go(-1);
     },

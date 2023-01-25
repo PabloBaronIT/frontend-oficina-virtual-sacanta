@@ -57,7 +57,29 @@
           />
         </div>
       </div>
+
+      <p class="error" v-show="validation == false">
+        Debe seleccionar una opcion para continuar
+      </p>
     </form>
+
+    <div class="">
+      <input
+        class="btn btn-secondary"
+        v-if="this.paso + 1 < this.length"
+        type="button"
+        value="Siguiente"
+        @click="preNext()"
+      />
+
+      <input
+        class="m-2 btn btn-secondary"
+        type="button"
+        value="Anterior"
+        @click="back()"
+      />
+    </div>
+
     <!-- v-if="this.paso + 1 == this.length" -->
     <input
       v-if="this.paso + 1 == this.length"
@@ -82,7 +104,6 @@ let procedure = {
 export default {
   name: "FormularioComponent",
   props: {
-    paso: Number,
     length: Number,
     question_id: Number,
     questionProp: {
@@ -93,49 +114,48 @@ export default {
   },
   data() {
     return {
-      validation: false,
+      paso: 0,
+      validation: null,
       loading: false,
       textInput: "",
-      selected: null,
-      nroPreguntas: 0,
-      questionsLength: 0,
-      optionsLength: 3,
+      selected: 0,
       submitted: false,
-      // procedure: {
-      //   userId: null,
-      //   categoryId: null,
-      //   statusId: null,
-      //   questions: [],
-      // },
     };
   },
-  watch: {
-    paso(n, o) {
-      if (n > o) {
+  methods: {
+    preNext() {
+      console.log(this.selected);
+      if (this.selected == 0 && this.textInput == "") {
+        this.validation = false;
+      } else if (this.selected == 0 && this.textInput != "") {
+        this.next();
+      } else if (this.selected != 0 && this.textInput == "") {
         this.next();
       }
     },
-  },
-  methods: {
-    next() {
-      let selected = this.selected;
-      let optionTitle;
 
-      if (selected == 1) {
+    next() {
+      debugger;
+      let selected = this.selected;
+      let optionTitle = "";
+
+      if (this.textInput != "") {
         optionTitle = this.textInput;
       } else {
-        optionTitle = this.questionProp[this.paso - 1].question[selected][0];
+        optionTitle = this.questionProp[this.paso].question[this.selected][0];
       }
 
       console.log(selected);
+      console.log("holas");
+
       console.log(optionTitle);
 
       let q = {
-        question: this.questionProp[this.paso - 1].question_id,
+        question: this.questionProp[this.paso].question_id,
         options: [
           {
             questionOption:
-              this.questionProp[this.paso - 1].question[this.selected][2],
+              this.questionProp[this.paso].question[this.selected + 1][2],
             answer: optionTitle,
           },
         ],
@@ -145,8 +165,10 @@ export default {
 
       console.log(procedure);
 
-      this.selected = 1;
+      this.selected = 0;
       this.textInput = "";
+      this.validation = true;
+      this.paso++;
     },
     submitt() {
       this.next();
@@ -154,7 +176,7 @@ export default {
       dbService
         .postProcedure(procedure)
         .then((response) => {
-          alert(response.status);
+          alert(response.data);
           if (response.status == 201) {
             this.submitted = true;
             this.$router.replace({ path: "/munienlinea" });
@@ -181,7 +203,8 @@ export default {
   justify-content: center;
 }
 
-h1 {
+h1,
+.error {
   color: var(--red);
 }
 
