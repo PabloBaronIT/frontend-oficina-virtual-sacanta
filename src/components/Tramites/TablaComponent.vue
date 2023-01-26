@@ -3,31 +3,21 @@
     <table>
       <tr>
         <th><input type="checkbox" name="" id="" /></th>
-        <th>Fecha</th>
-        <th>Servicio</th>
+        <th>Titulo</th>
+        <th>ID</th>
+        <th>Cuil</th>
         <th>Asunto</th>
         <th>Estado</th>
       </tr>
-      <tr class="fila-tabla">
-        <td><input type="checkbox" name="" id="" /></td>
-        <td>Alfreds Futterkiste</td>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td class="estado-fila"><p>Germany</p></td>
-      </tr>
-      <tr class="fila-tabla">
-        <td><input type="checkbox" name="" id="" /></td>
-        <td>Alfreds Futterkiste</td>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td class="estado-fila"><p>Germany</p></td>
-      </tr>
-      <tr class="fila-tabla">
-        <td><input type="checkbox" name="" id="" /></td>
-        <td>Alfreds Futterkiste</td>
-        <td>Alfreds Futterkiste</td>
-        <td>Maria Anders</td>
-        <td class="estado-fila"><p>Germany</p></td>
+      <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
+        <td><input type="checkbox" name="" :id="p.id" /></td>
+        <td>Escritura terreno</td>
+        <td>{{ p.id }}</td>
+        <td>{{ p.cuil }}</td>
+        <td>{{ p.categoria }}</td>
+        <td :class="'estado-fila'">
+          <p :style="`background: ${color}`">{{ this.status }}</p>
+        </td>
       </tr>
     </table>
     <div class="filtro-filas">
@@ -39,21 +29,55 @@
 </template>
 
 <script>
-import pruebasService from "@/services/pruebasService";
+import dbService from "@/services/dbService";
 
 export default {
-  components: {},
+  props: {
+    status: String,
+    color: String,
+  },
   data() {
     return {
-      tablas: [],
+      activos: [],
     };
   },
-  created() {
-    pruebasService.getList().then(async (response) => {
-      this.tablas.push(response.data.data);
 
-      console.log(response.data.data);
-    });
+  created() {
+    //Pedir solamente los que vengan desde una prop del status
+    dbService
+      .getHistorialTramites()
+      .then((response) => {
+        let h = response.data.history;
+        let l = h.length;
+
+        for (let i = 0; i < l; i++) {
+          //Procedure
+          let p = {
+            id: null,
+            cuil: null,
+            categoria: "",
+          };
+
+          p.id = h[i].id;
+          p.cuil = h[i].user.cuil;
+          p.categoria = h[i].category.title;
+
+          if (h[i].status.status == "SOLICITADO") {
+            this.activos.push(p);
+          }
+
+          console.log(p);
+        }
+
+        this.length = response.data.length;
+
+        console.log(response.data.history);
+
+        console.log(h[0].status);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     update() {

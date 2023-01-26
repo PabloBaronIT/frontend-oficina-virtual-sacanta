@@ -2,13 +2,13 @@
   <div class="main-container">
     <h4>Casos activos</h4>
     <FiltroTabla />
-    <Tabla />
+    <Tabla status="SOLICITADO" color="var(--green)" />
     <h4>Casos requeridos</h4>
     <FiltroTabla />
-    <Tabla />
+    <Tabla status="REQUERIDO" color="var(--red)" />
     <h4>Casos finalizados</h4>
     <FiltroTabla />
-    <Tabla />
+    <Tabla status="FINALIZADO" color="" />
   </div>
 </template>
 
@@ -18,9 +18,6 @@ import FiltroTabla from "@/components/Busqueda/Filtrado/FiltroTabla.vue";
 
 export default {
   name: "TramitesView",
-  data() {
-    return {};
-  },
   components: {
     Tabla,
     FiltroTabla,

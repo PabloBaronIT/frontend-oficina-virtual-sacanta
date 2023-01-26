@@ -9,14 +9,16 @@
         label="Cuil"
         help="Your full name"
         placeholder="“Jon Doe”"
+        v-model="this.cuil"
       />
       <FormKit
-        type="text"
+        type="password"
         name="password"
         id="password"
         label="Password"
         help="Your password"
         placeholder="********"
+        v-model="this.password"
       />
 
       <input
@@ -30,10 +32,59 @@
 </template>
 
 <script>
+import dbService from "@/services/dbService";
+import { mapActions } from "vuex";
 export default {
+  data() {
+    return {
+      cuil: null,
+      password: "",
+    };
+  },
   methods: {
+    ...mapActions(["mockLogin"]),
+
     login() {
-      alert("Terminar funcion");
+      let log = {
+        password: this.password,
+        cuil: this.cuil,
+      };
+
+      dbService
+        .postLoginMunicipal(log)
+        .then((response) => {
+          if (response.status == 200) {
+            localStorage.removeItem("token");
+            this.validacion = true;
+            this.mockLogin();
+            localStorage.removeItem("name");
+            localStorage.removeItem("lastname");
+            localStorage.removeItem("cuil");
+            localStorage.removeItem("adress");
+            localStorage.removeItem("email");
+            localStorage.removeItem("fecha-creacion");
+            localStorage.removeItem("id");
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            localStorage.setItem("name", response.data.user.firstname);
+            localStorage.setItem("lastname", response.data.user.lastname);
+            localStorage.setItem("cuil", response.data.user.cuil);
+            localStorage.setItem("adress", response.data.user.adress);
+            localStorage.setItem("email", response.data.user.email);
+            localStorage.setItem("id", response.data.user.id);
+            localStorage.setItem(
+              "fecha-creacion",
+              response.data.user.created_at
+            );
+            localStorage.setItem("role", response.data.user.role);
+            console.log(response.data);
+            localStorage.setItem("token", response.data.token);
+            this.$router.push("munienlinea");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

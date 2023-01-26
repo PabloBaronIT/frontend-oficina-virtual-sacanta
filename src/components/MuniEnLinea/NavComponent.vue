@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
+//import dbService from "@/services/dbService";
 
 export default {
   name: "NavComponent",
@@ -96,19 +96,30 @@ export default {
       dni: localStorage.getItem("cuil"),
       permission: true,
       user_id: localStorage.getItem("id"),
-      role: "",
+      role: localStorage.getItem("role"),
     };
   },
   created() {
-    dbService
-      .getUser(this.user_id)
-      .then((response) => {
-        console.log(response.data.role);
-        this.role = response.data.role;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.role = localStorage.getItem("role");
+
+    // this.role = "";
+    // dbService
+    //   .getUser(this.user_id)
+    //   .then((response) => {
+    //     this.role = "";
+    //     console.log(response.data);
+    //     this.role = response.data.role;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // dbService.getMunicipal(this.user_id).then((response) => {
+    //   if (this.role == "") {
+    //     this.role = response.data.role;
+    //   }
+    //   console.log(response.data);
+    //   this.role = response.data.role;
+    // });
   },
   methods: {
     log() {

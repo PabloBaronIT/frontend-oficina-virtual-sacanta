@@ -34,7 +34,7 @@ export default {
     });
   },
   postLoginMunicipal(login) {
-    return apiClient.post("/auth/signinmunicipal", {
+    return apiClient.post("/auth/signinMunicipales", {
       cuil: login.cuil,
       password: login.password,
     });
@@ -52,6 +52,9 @@ export default {
     return apiClient.get(
       "/oficina/categories/category/procedure/" + categoryId
     );
+  },
+  getHistorialTramites() {
+    return apiClient.get("/oficina/procedures/history");
   },
   getMunicipal(id) {
     return apiClient.get("/municipales/munis/" + id);

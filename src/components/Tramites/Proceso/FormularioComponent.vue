@@ -135,7 +135,7 @@ export default {
     },
 
     next() {
-      debugger;
+      //   debugger;
       let selected = this.selected;
       let optionTitle = "";
 
@@ -146,7 +146,6 @@ export default {
       }
 
       console.log(selected);
-      console.log("holas");
 
       console.log(optionTitle);
 
@@ -154,8 +153,8 @@ export default {
         question: this.questionProp[this.paso].question_id,
         options: [
           {
-            questionOption:
-              this.questionProp[this.paso].question[this.selected + 1][2],
+            questionOption: 1,
+            // this.questionProp[this.paso].question[this.selected][2],
             answer: optionTitle,
           },
         ],
@@ -171,7 +170,7 @@ export default {
       this.paso++;
     },
     submitt() {
-      this.next();
+      this.preNext();
       this.loading = true;
       dbService
         .postProcedure(procedure)
@@ -181,7 +180,7 @@ export default {
             this.submitted = true;
             this.$router.replace({ path: "/munienlinea" });
           }
-          alert(this.submitted);
+
           console.log(response);
         })
         .catch((err) => {

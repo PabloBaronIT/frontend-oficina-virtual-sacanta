@@ -15,6 +15,7 @@
 <script>
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
 import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
+// import dbService from "@/services/dbService";
 
 export default {
   data() {
@@ -51,7 +52,7 @@ export default {
           },
         },
         {
-          question_id: 333,
+          question_id: 3,
           title: " Subir constancia de AFIP",
           type: "file",
           question: {
@@ -69,7 +70,7 @@ export default {
     FormularioComponent,
     PagarComponent,
   },
-
+  created() {},
   methods: {
     back() {
       this.$router.go(-1);
