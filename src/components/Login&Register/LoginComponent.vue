@@ -31,11 +31,6 @@
           name="password"
           label="Clave"
           placeholder="clave"
-          validation="required|matches:/[^a-zA-Z]/"
-          :validation-messages="{
-            required: 'Ingresa una contraseña',
-            matches: 'Incluir un simbolo',
-          }"
           @keyup.enter="log"
         />
         <input
@@ -48,7 +43,7 @@
       <!-- <div v-if="this.validar">
         <h2>Ingresaste correctamente</h2>
       </div> -->
-      <p>{{ error }}</p>
+      <p class="error">{{ this.msj }}</p>
     </form>
     <div class="deco">
       <h2>Muni En Linea</h2>
@@ -71,7 +66,7 @@ export default {
     return {
       cuil: null,
       password: "",
-      validacion: false,
+      validacion: null,
       msj: "",
     };
   },
@@ -93,15 +88,7 @@ export default {
             localStorage.removeItem("token");
             this.validacion = true;
             this.mockLogin();
-            localStorage.removeItem("name");
-            localStorage.removeItem("lastname");
-            localStorage.removeItem("cuil");
-            localStorage.removeItem("adress");
-            localStorage.removeItem("email");
-            localStorage.removeItem("fecha-creacion");
-            localStorage.removeItem("id");
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
+            localStorage.clear();
             localStorage.setItem("name", response.data.user.firstname);
             localStorage.setItem("lastname", response.data.user.lastname);
             localStorage.setItem("cuil", response.data.user.cuil);
@@ -116,10 +103,17 @@ export default {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.user.role);
             this.$router.push("munienlinea");
+          } else {
+            this.validacion = false;
+            this.msj = "Usuario incorrecto";
+            console.log(this.msj);
           }
         })
         .catch((error) => {
           console.log(error);
+          this.validacion = false;
+          this.msj = "Usuario incorrecto";
+          console.log(this.msj);
         });
     },
 
@@ -136,11 +130,6 @@ export default {
     //     });
     //   }
     // },
-  },
-  computed: {
-    error() {
-      return this.msj;
-    },
   },
 };
 </script>

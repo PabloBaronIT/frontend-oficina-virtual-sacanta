@@ -57,12 +57,12 @@ export default {
             cuil: null,
             categoria: "",
           };
-
+          //Carga del procedure
           p.id = h[i].id;
           p.cuil = h[i].user.cuil;
           p.categoria = h[i].category.title;
 
-          if (h[i].status.status == "SOLICITADO") {
+          if (h[i].status.status == this.status) {
             this.activos.push(p);
           }
 
@@ -88,6 +88,25 @@ export default {
 </script>
 
 <style scoped>
+input[type="checkbox"] {
+  appearance: none;
+  border: 1px solid #666;
+  border-radius: 0.125rem;
+  box-shadow: inset 0 0 0 0.125rem #fff;
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+  vertical-align: bottom;
+}
+
+input[type="checkbox"]:checked {
+  background: var(--green);
+}
+
+input:hover {
+  border: 1px solid var(--green);
+}
+
 .filtro-filas {
   color: var(--text-color);
   padding: 10px;
@@ -136,10 +155,5 @@ td {
   background: var(--grey-bk);
   border-radius: 20px;
   padding: 3px;
-}
-
-input:hover {
-  cursor: pointer;
-  box-shadow: 0px 0px 15px rgba(70, 70, 70, 0.459);
 }
 </style>

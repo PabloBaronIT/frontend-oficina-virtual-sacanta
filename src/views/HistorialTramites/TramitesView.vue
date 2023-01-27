@@ -5,7 +5,7 @@
     <Tabla status="SOLICITADO" color="var(--green)" />
     <h4>Casos requeridos</h4>
     <FiltroTabla />
-    <Tabla status="REQUERIDO" color="var(--red)" />
+    <Tabla status="EN PROCESO" color="var(--red)" />
     <h4>Casos finalizados</h4>
     <FiltroTabla />
     <Tabla status="FINALIZADO" color="" />

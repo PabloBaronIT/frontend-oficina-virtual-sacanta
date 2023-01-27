@@ -171,22 +171,24 @@ export default {
     },
     submitt() {
       this.preNext();
-      this.loading = true;
-      dbService
-        .postProcedure(procedure)
-        .then((response) => {
-          alert(response.data);
-          if (response.status == 201) {
-            this.submitted = true;
-            this.$router.replace({ path: "/munienlinea" });
-          }
+      if (this.validation) {
+        this.loading = true;
+        dbService
+          .postProcedure(procedure)
+          .then((response) => {
+            alert(response.data);
+            if (response.status == 201) {
+              this.submitted = true;
+              this.$router.replace({ path: "/munienlinea" });
+            }
 
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      this.loading = false;
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.loading = false;
+      }
     },
   },
 };

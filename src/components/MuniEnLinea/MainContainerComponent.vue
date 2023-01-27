@@ -34,48 +34,6 @@ export default {
   name: "MainCointainerComponent",
   data() {
     return {
-      // sectores: [
-      //   {
-      //     id: 1,
-      //     name: "Turnero Digital",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/accion-social.png?raw=true",
-      //   },
-      //   {
-      //     id: 2,
-      //     name: "App Ciudadana",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/cultura-y-recreacion.png?raw=true",
-      //   },
-      //   {
-      //     id: 3,
-      //     name: "Boletín Electronico",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/deportes.png?raw=true",
-      //   },
-      //   {
-      //     id: 4,
-      //     name: "Ciudad Transparente",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/gobierno-y-desarrollo.png?raw=true",
-      //   },
-      //   {
-      //     id: 5,
-      //     name: "Consulta de Expedientes",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/infraestructura-y-servicios-publicos.png?raw=true",
-      //   },
-      //   {
-      //     id: 5,
-      //     name: "Obras Publicas",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/transito-y-seguridad-vial.png?raw=true",
-      //   },
-      //   {
-      //     id: 5,
-      //     name: "Salud",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/medio-ambiente.png?raw=true",
-      //   },
-      //   {
-      //     id: 5,
-      //     name: "Registro Civil",
-      //     src: "https://github.com/OficinaVirtualBaron/oficina-vue/blob/main/src/assets/tramites/prensa-y-difusion.png?raw=true",
-      //   },
-      // ],
       categorias: [],
     };
   },

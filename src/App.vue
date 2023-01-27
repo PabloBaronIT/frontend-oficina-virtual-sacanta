@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <NavComponent v-if="this.$router.currentRoute.value.fullPath != '/login'" />
+    <NavComponent v-if="this.role != 'MUNI_ROLE' && this.role != undefined" />
     <router-view />
   </div>
 </template>
@@ -12,9 +12,17 @@ export default {
   data() {
     return {
       ruta: this.$router.currentRoute.value.name,
+      role: "",
     };
   },
-
+  created() {
+    this.role = localStorage.getItem("role");
+  },
+  watch: {
+    $route() {
+      this.role = localStorage.getItem("role");
+    },
+  },
   components: {
     NavComponent,
   },

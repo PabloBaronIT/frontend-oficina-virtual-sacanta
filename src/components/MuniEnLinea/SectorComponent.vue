@@ -100,7 +100,7 @@ export default {
 }
 
 .sector-component {
-  width: 80vw;
+  width: 70vw;
   height: 100vh;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;

@@ -20,7 +20,7 @@
         placeholder="********"
         v-model="this.password"
       />
-
+      <p style="color: red">{{ this.msj }}</p>
       <input
         @click="login()"
         class="btn btn-primary"
@@ -39,6 +39,7 @@ export default {
     return {
       cuil: null,
       password: "",
+      msj: "",
     };
   },
   methods: {
@@ -57,15 +58,7 @@ export default {
             localStorage.removeItem("token");
             this.validacion = true;
             this.mockLogin();
-            localStorage.removeItem("name");
-            localStorage.removeItem("lastname");
-            localStorage.removeItem("cuil");
-            localStorage.removeItem("adress");
-            localStorage.removeItem("email");
-            localStorage.removeItem("fecha-creacion");
-            localStorage.removeItem("id");
-            localStorage.removeItem("token");
-            localStorage.removeItem("role");
+            localStorage.clear();
             localStorage.setItem("name", response.data.user.firstname);
             localStorage.setItem("lastname", response.data.user.lastname);
             localStorage.setItem("cuil", response.data.user.cuil);
@@ -79,11 +72,12 @@ export default {
             localStorage.setItem("role", response.data.user.role);
             console.log(response.data);
             localStorage.setItem("token", response.data.token);
-            this.$router.push("munienlinea");
+            this.$router.push("muni");
           }
         })
         .catch((error) => {
           console.log(error);
+          this.msj = "Usuario incorrecto";
         });
     },
   },

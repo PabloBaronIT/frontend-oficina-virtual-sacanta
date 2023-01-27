@@ -45,7 +45,7 @@ export default {
 
   mounted() {
     dbservice
-      .getMunicipal(1)
+      .getMunicipal(localStorage.getItem("id"))
       .then((response) => {
         console.log(response.data);
         let r = response.data.required;

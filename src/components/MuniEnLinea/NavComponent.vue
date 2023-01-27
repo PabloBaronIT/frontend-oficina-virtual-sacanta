@@ -52,6 +52,9 @@
       <router-link v-show="permission" :to="`/munienlinea`" class="bn3">
         Inicio
       </router-link>
+      <router-link v-show="permission" :to="`/tramites`" class="bn3">
+        Mis tramites
+      </router-link>
 
       <router-link v-show="permission" :to="`/prueba`" class="bn3">
         Comprobantes
@@ -75,9 +78,7 @@
       <router-link v-show="permission" :to="`/muni`" class="bn3">
         Back
       </router-link>
-      <router-link v-show="permission" :to="`/tramites`" class="bn3">
-        Mis tramites
-      </router-link>
+
       <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>
   </div>
@@ -101,35 +102,16 @@ export default {
   },
   created() {
     this.role = localStorage.getItem("role");
-
-    // this.role = "";
-    // dbService
-    //   .getUser(this.user_id)
-    //   .then((response) => {
-    //     this.role = "";
-    //     console.log(response.data);
-    //     this.role = response.data.role;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // dbService.getMunicipal(this.user_id).then((response) => {
-    //   if (this.role == "") {
-    //     this.role = response.data.role;
-    //   }
-    //   console.log(response.data);
-    //   this.role = response.data.role;
-    // });
   },
+  watch: {},
+
   methods: {
     log() {
       console.log(localStorage.getItem("token"));
     },
     logOf() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("name");
-      localStorage.removeItem("lastname");
-      localStorage.removeItem("cuil");
+      localStorage.clear();
+      location.reload();
       this.$router.push("login");
     },
   },

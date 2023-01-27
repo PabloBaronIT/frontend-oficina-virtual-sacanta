@@ -1,11 +1,14 @@
 <template>
   <article>
     <GraficoComponent />
+    <Tabla />
+    <hr />
     <RegisterComponent />
   </article>
 </template>
 
 <script>
+import Tabla from "@/components/Tramites/TablaComponent.vue";
 import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue";
 import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 
@@ -14,6 +17,7 @@ export default {
   components: {
     GraficoComponent,
     RegisterComponent,
+    Tabla,
   },
 };
 </script>
