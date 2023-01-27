@@ -7,13 +7,10 @@
     <FormularioComponent :questionProp="questions" :length="questions.length" />
 
     <!-- Armar componente de formulario con props -->
-
-    <PagarComponent />
   </div>
 </template>
 
 <script>
-import PagarComponent from "@/components/Tramites/PagarComponent.vue";
 import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
 // import dbService from "@/services/dbService";
 
@@ -68,7 +65,6 @@ export default {
   },
   components: {
     FormularioComponent,
-    PagarComponent,
   },
   created() {},
   methods: {
@@ -86,6 +82,7 @@ h1 {
 
 .main-container {
   width: 100%;
+  height: 100vh;
   display: flex;
   padding: 20px;
   flex-flow: column wrap;

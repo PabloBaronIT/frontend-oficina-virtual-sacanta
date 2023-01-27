@@ -1,32 +1,49 @@
 <template>
-  <div class="prueba-container" id="elemento">
-    <h2>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum qui
-      deserunt, voluptas sunt inventore tempora reiciendis praesentium veritatis
-      voluptatum debitis maiores rem tempore similique ullam, amet aliquam
-      aperiam, quisquam et.
-    </h2>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
-      aspernatur cupiditate tempore quae facere unde ex ipsa at quaerat dolorem
-      quo obcaecati nisi dolorum, quibusdam aliquam quis tempora nemo aperiam?
-    </p>
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Placeat,
-      quisquam alias neque nesciunt quaerat commodi expedita cupiditate
-      voluptates! Atque nisi dolor animi et voluptate. Dolore quidem quas enim
-      laudantium fugit!
-    </p>
-    <input type="button" @click="PDF" value="Exportar a pdf" />
+  <div class="container">
+    <div class="prueba-container l" v-if="!modal">
+      <div class="spinner-grow text-primary" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div class="spinner-grow text-secondary" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+    <div v-show="modal" class="prueba-container" id="elemento">
+      <h2>Último paso:</h2>
+      <p>
+        Este tramite es arancelado, una vez que se <br />
+        procese el pago podra descargar su comprobante.
+      </p>
+      <PagarComponent />
+      <input
+        class="btn btn-secondary"
+        type="button"
+        @click="PDF"
+        value="Exportar  pdf"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import PagarComponent from "@/components/Tramites/PagarComponent.vue";
 import html2pdf from "html2pdf.js";
 export default {
   name: "PruebaView",
-  components: {},
-
+  data() {
+    return {
+      modal: false,
+    };
+  },
+  created() {
+    setTimeout(() => {
+      this.modal = true;
+    }, 1000);
+  },
+  components: { PagarComponent },
   methods: {
     PDF() {
       var element = document.getElementById("elemento");
@@ -39,21 +56,27 @@ export default {
 
 <style scoped>
 .prueba-container {
-  width: 80vw;
-  margin-left: 20vw;
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-flow: wrap;
+  padding: 20px;
+  flex-flow: column wrap;
+  background: rgb(235, 235, 235);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
   justify-content: center;
   align-items: center;
-  padding: 10px;
 }
 
-* {
-  margin-top: 60px;
-  text-align: center;
+.l {
+  flex-direction: row;
+}
+
+p {
+  font-weight: 10;
 }
 
 h2 {
-  color: red;
+  color: var(--red);
 }
 </style>

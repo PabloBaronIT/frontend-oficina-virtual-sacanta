@@ -7,7 +7,7 @@
       <span>cargando rey</span>
     </div>
 
-    <form class="option-container">
+    <form v-show="!modal" class="option-container">
       <div
         class="option"
         v-for="(option, key) in questionProp[this.paso].question"
@@ -103,6 +103,7 @@ let procedure = {
 
 export default {
   name: "FormularioComponent",
+
   props: {
     length: Number,
     question_id: Number,
@@ -114,6 +115,7 @@ export default {
   },
   data() {
     return {
+      modal: false,
       paso: 0,
       validation: null,
       loading: false,
@@ -136,6 +138,7 @@ export default {
 
     next() {
       //   debugger;
+
       let selected = this.selected;
       let optionTitle = "";
 
@@ -173,13 +176,13 @@ export default {
       this.preNext();
       if (this.validation) {
         this.loading = true;
+        this.modal = true;
         dbService
           .postProcedure(procedure)
           .then((response) => {
-            alert(response.data);
             if (response.status == 201) {
               this.submitted = true;
-              this.$router.replace({ path: "/munienlinea" });
+              this.$router.replace({ path: "/prueba" });
             }
 
             console.log(response);
