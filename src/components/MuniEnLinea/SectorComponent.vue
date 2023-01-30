@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import dbService from "@/services/dbService";
+import axios from "axios";
 
 export default {
   data() {
@@ -50,8 +50,18 @@ export default {
     console.log(this.$route);
     console.log(this.$route.params.sectorId);
 
-    dbService
-      .getTramites(this.$route.params.sectorId)
+    const apiClient = axios.create({
+      baseURL: "//localhost:3000/",
+      withCredentials: false,
+      headers: {
+        "auth-header": localStorage.getItem("token"),
+      },
+    });
+
+    apiClient
+      .get(
+        "/oficina/categories/category/procedure/" + this.$route.params.sectorId
+      )
       .then((response) => {
         if (response.status == 200) {
           console.log(response.data.length);
@@ -68,6 +78,7 @@ export default {
         console.log(err);
       });
   },
+
   methods: {
     Hover() {
       this.hover = !this.hover;

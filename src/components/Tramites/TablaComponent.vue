@@ -2,7 +2,9 @@
   <div class="tabla-container">
     <table>
       <tr>
-        <th><input type="checkbox" name="" id="" /></th>
+        <th>
+          <input @click="select" type="checkbox" name="" id="" />
+        </th>
         <th>Titulo</th>
         <th>ID</th>
         <th>Cuil</th>
@@ -16,14 +18,22 @@
         <td>{{ p.cuil }}</td>
         <td>{{ p.categoria }}</td>
         <td :class="'estado-fila'">
-          <p :style="`background: ${color}`">{{ this.status }}</p>
+          <p :style="`background: ${p.color}`">{{ p.estado }}</p>
         </td>
       </tr>
     </table>
     <div class="filtro-filas">
-      <p>Cantidad de casos:</p>
+      <div class="nav">
+        <img class="svg" src="@/assets/previous.svg" alt="" />
+        <b>1</b> 2 3
+        <img class="svg" src="@/assets/next.svg" alt="" />
+      </div>
 
-      <input type="number" value="3" name="" id="" />
+      <div class="cant">
+        <p>Cantidad de tramites:</p>
+
+        <input type="number" value="3" class="cant-input" />
+      </div>
     </div>
   </div>
 </template>
@@ -33,7 +43,6 @@ import dbService from "@/services/dbService";
 
 export default {
   props: {
-    status: String,
     color: String,
   },
   data() {
@@ -56,15 +65,28 @@ export default {
             id: null,
             cuil: null,
             categoria: "",
+            estado: "",
+            color: "",
           };
           //Carga del procedure
           p.id = h[i].id;
           p.cuil = h[i].user.cuil;
           p.categoria = h[i].category.title;
+          p.estado = h[i].status.status;
 
-          if (h[i].status.status == this.status) {
-            this.activos.push(p);
+          switch (p.estado) {
+            case "SOLICITADO":
+              p.color = "var(--green)";
+              break;
+            case "EN PROCESO":
+              p.color = "var(--red)";
+              break;
+
+            default:
+              break;
           }
+
+          this.activos.push(p);
 
           console.log(p);
         }
@@ -80,6 +102,9 @@ export default {
       });
   },
   methods: {
+    select() {
+      alert("Terminar metodo");
+    },
     update() {
       return "";
     },
@@ -88,6 +113,19 @@ export default {
 </script>
 
 <style scoped>
+.cant {
+  display: flex;
+  margin: 0;
+}
+
+.nav {
+  align-self: flex-start;
+}
+
+.svg {
+  max-width: 15px;
+}
+
 input[type="checkbox"] {
   appearance: none;
   border: 1px solid #666;
@@ -112,14 +150,14 @@ input:hover {
   padding: 10px;
   display: flex;
   align-items: baseline;
-  justify-content: right;
+  justify-content: space-between;
   border-bottom: 1px solid var(--grey);
   width: 100%;
   height: 40px;
 }
 
 .filtro-filas input {
-  width: 5%;
+  width: 15%;
   height: 20px;
 }
 

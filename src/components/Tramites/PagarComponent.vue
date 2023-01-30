@@ -42,12 +42,10 @@ export default {
 }
 
 .container {
-  width: 60%;
-  margin: 20px;
+  width: 50%;
   border: 1px solid var(--green);
   padding: 0;
   display: flex;
-
   height: 150px;
 }
 
@@ -56,14 +54,14 @@ export default {
 }
 
 .img {
-  width: 30%;
+  width: 20%;
   background: var(--green);
 }
 
 .btn {
   background: var(--green);
   color: #000;
-  width: 90%;
+  width: 80%;
 }
 
 img {

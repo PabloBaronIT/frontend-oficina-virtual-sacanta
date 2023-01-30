@@ -45,7 +45,7 @@ export default {
   data() {
     return {
       numFilas: 0,
-      hayDatos: false,
+      hayDatos: true,
       tablas: [],
     };
   },

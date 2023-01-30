@@ -7,7 +7,7 @@
     <TramitesFrecuentes />
 
     <div class="header">
-      <h1>Servicios</h1>
+      <h1>Tramites</h1>
     </div>
 
     <div class="card-container">
