@@ -16,7 +16,7 @@ export default {
     };
   },
   created() {
-    this.role = localStorage.getItem("role");
+    this.role = undefined;
   },
   watch: {
     $route() {
