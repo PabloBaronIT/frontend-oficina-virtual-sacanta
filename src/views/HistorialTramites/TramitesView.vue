@@ -1,14 +1,8 @@
 <template>
   <div class="main-container">
-    <h4>Casos activos</h4>
+    <h4>Tus tramites</h4>
     <FiltroTabla />
-    <Tabla status="SOLICITADO" color="var(--green)" />
-    <h4>Casos requeridos</h4>
-    <FiltroTabla />
-    <Tabla status="EN PROCESO" color="var(--red)" />
-    <h4>Casos finalizados</h4>
-    <FiltroTabla />
-    <Tabla status="FINALIZADO" color="" />
+    <Tabla color="var(--green)" />
   </div>
 </template>
 
