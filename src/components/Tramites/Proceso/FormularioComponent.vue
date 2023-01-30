@@ -88,11 +88,18 @@
       value="Submitt"
       @click="submitt"
     />
+    <input
+      class="btn btn-success m-1"
+      type="button"
+      value="Verpdf"
+      @click="ver"
+    />
   </div>
 </template>
 
 <script>
 import dbService from "@/services/dbService";
+import { jsPDF } from "jspdf";
 
 let procedure = {
   userId: 1,
@@ -192,6 +199,19 @@ export default {
           });
         this.loading = false;
       }
+    },
+    ver() {
+      var doc = new jsPDF();
+      doc.setTextColor(120, 12, 3);
+      doc.setFontSize(22);
+
+      doc.text(20, 20, `${procedure.questions[0].options[0].answer}`);
+
+      doc.setTextColor(20);
+      doc.setFontSize(16);
+      doc.text(20, 30, "This is some normal sized text underneath.");
+
+      doc.save("a4.pdf");
     },
   },
 };

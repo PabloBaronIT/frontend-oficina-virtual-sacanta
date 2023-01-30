@@ -103,7 +103,7 @@ export default {
   created() {
     setTimeout(() => {
       this.modal = true;
-    }, 100);
+    }, 1000);
   },
   components: { PagarComponent },
   methods: {
