@@ -11,12 +11,8 @@ import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 export default {
   data() {
     return {
-      ruta: this.$router.currentRoute.value.name,
       role: "",
     };
-  },
-  created() {
-    this.role = undefined;
   },
   watch: {
     $route() {

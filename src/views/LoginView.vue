@@ -18,6 +18,9 @@ export default {
     LoginComponent,
     LoginMunicipal,
   },
+  created() {
+    localStorage.clear();
+  },
 };
 </script>
 

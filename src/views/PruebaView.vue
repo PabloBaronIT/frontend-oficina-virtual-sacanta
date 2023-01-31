@@ -1,86 +1,90 @@
 <template>
-  <div class="container">
-    <div class="prueba-container l" v-if="!modal">
-      <div class="spinner-grow text-primary" role="status">
-        <span class="sr-only"></span>
+  <div class="main">
+    <div class="container">
+      <div class="prueba-container l" v-if="!modal">
+        <div class="spinner-grow text-primary" role="status">
+          <span class="sr-only"></span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="sr-only"></span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+          <span class="sr-only"></span>
+        </div>
       </div>
-      <div class="spinner-grow text-secondary" role="status">
-        <span class="sr-only"></span>
-      </div>
-      <div class="spinner-grow text-success" role="status">
-        <span class="sr-only"></span>
-      </div>
-    </div>
-    <div v-show="modal" class="prueba-container" id="elemento">
-      <h2>Último paso:</h2>
-      <p>
-        Este tramite es arancelado, una vez que se <br />
-        procese el pago podra descargar su comprobante.
-      </p>
-      <PagarComponent />
-      <input
-        class="btn btn-secondary m-1"
-        type="button"
-        @click="PDF"
-        value="Exportar  pdf"
-      />
+      <div v-show="modal" class="prueba-container" id="elemento">
+        <h2>Último paso:</h2>
+        <p>
+          Este tramite es arancelado, una vez que se <br />
+          procese el pago podra descargar su comprobante.
+        </p>
+        <PagarComponent />
+        <input
+          class="btn btn-secondary m-1"
+          type="button"
+          @click="PDF"
+          value="Exportar  pdf"
+        />
 
-      <button
-        type="button"
-        class="btn btn-primary m-1"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Ver comprobante
-      </button>
+        <button
+          type="button"
+          class="btn btn-primary m-1"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Ver comprobante
+        </button>
 
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Comprobante
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body text-start">
-              <h2>Nombre del tramite</h2>
-              <h4>Pregunta 1</h4>
-              <p>respuesta, opcion elegida</p>
-              <h4>Pregunta 1</h4>
-              <p>respuesta, opcion elegida</p>
-              <h4>Pregunta 1</h4>
-              <p>respuesta, opcion elegida</p>
-              <h4>Pregunta 1</h4>
-              <p>respuesta, opcion elegida</p>
-              <h4>Pregunta 1</h4>
-              <p>respuesta, opcion elegida</p>
-              <h4>Pregunta 1</h4>
-              <p>respuesta, opcion elegida</p>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cerrar
-              </button>
-              <button type="button" @click="download" class="btn btn-primary">
-                Descargar
-              </button>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div
+            class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+          >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Comprobante
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body text-start">
+                <h2>Nombre del tramite</h2>
+                <h4>Pregunta 1</h4>
+                <p>respuesta, opcion elegida</p>
+                <h4>Pregunta 1</h4>
+                <p>respuesta, opcion elegida</p>
+                <h4>Pregunta 1</h4>
+                <p>respuesta, opcion elegida</p>
+                <h4>Pregunta 1</h4>
+                <p>respuesta, opcion elegida</p>
+                <h4>Pregunta 1</h4>
+                <p>respuesta, opcion elegida</p>
+                <h4>Pregunta 1</h4>
+                <p>respuesta, opcion elegida</p>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button type="button" @click="download" class="btn btn-primary">
+                  Descargar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -132,9 +136,19 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.main {
   width: 100%;
-  padding: 0;
+  height: 100vh;
+  background-color: var(--grey-bk);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
 }
 
 .comprobante {
@@ -143,14 +157,8 @@ export default {
 }
 
 .prueba-container {
-  width: 100%;
-  height: 100vh;
   display: flex;
-  padding: 20px;
   flex-flow: column wrap;
-  background: rgb(235, 235, 235);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
   justify-content: center;
   align-items: center;
 }

@@ -7,6 +7,7 @@ export default createStore({
     lastname: "",
     cuil: 11,
     token: localStorage.getItem("token"),
+    procedure: {},
   },
   getters: {},
   mutations: {
@@ -16,10 +17,17 @@ export default createStore({
       state.name = n;
       state.lastname = l;
     },
+    saveProcedure(p, state) {
+      console.log("Vuex: " + p);
+      state.procedure = p;
+    },
   },
   actions: {
     mockLogin(context) {
       context.commit("loggedIn");
+    },
+    saveP(context) {
+      context.commit("saveProcedure");
     },
   },
   modules: {},

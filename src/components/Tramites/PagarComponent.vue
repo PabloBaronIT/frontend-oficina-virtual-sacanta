@@ -42,10 +42,10 @@ export default {
 }
 
 .container {
-  width: 50%;
   border: 1px solid var(--green);
   padding: 0;
   display: flex;
+  flex-flow: row wrap;
   height: 150px;
 }
 

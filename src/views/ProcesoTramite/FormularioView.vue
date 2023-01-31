@@ -66,7 +66,9 @@ export default {
   components: {
     FormularioComponent,
   },
-  created() {},
+  created() {
+    console.log();
+  },
   methods: {
     back() {
       this.$router.go(-1);

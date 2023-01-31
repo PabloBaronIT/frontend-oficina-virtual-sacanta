@@ -100,6 +100,7 @@
 <script>
 import dbService from "@/services/dbService";
 import { jsPDF } from "jspdf";
+import { mapActions } from "vuex";
 
 let procedure = {
   userId: 1,
@@ -132,6 +133,8 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["saveP"]),
+
     preNext() {
       console.log(this.selected);
       if (this.selected == 0 && this.textInput == "") {
@@ -184,10 +187,14 @@ export default {
       if (this.validation) {
         this.loading = true;
         this.modal = true;
+        // this.saveP(procedure);
+        this.saveP("hola");
         dbService
           .postProcedure(procedure)
           .then((response) => {
             if (response.status == 201) {
+              debugger;
+
               this.submitted = true;
               this.$router.replace({ path: "/prueba" });
             }
