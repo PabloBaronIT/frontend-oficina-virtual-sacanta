@@ -104,7 +104,7 @@ import { mapActions } from "vuex";
 
 let procedure = {
   userId: 1,
-  categoryId: 6,
+  categoryId: 5,
   statusId: 1,
   questions: [],
 };

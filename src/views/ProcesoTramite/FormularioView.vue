@@ -4,7 +4,7 @@
       {{ this.$route.params.formularioTitle }}
     </h1>
 
-    <FormularioComponent :questionProp="questions" :length="questions.length" />
+    <FormularioComponent :questionProp="preguntas" :length="this.length" />
 
     <!-- Armar componente de formulario con props -->
   </div>
@@ -13,10 +13,12 @@
 <script>
 import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
 // import dbService from "@/services/dbService";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      category: this.$route.params,
       questions: [
         {
           question_id: 9,
@@ -61,6 +63,8 @@ export default {
           },
         },
       ],
+      length: null,
+      preguntas: [],
     };
   },
   components: {
@@ -68,6 +72,27 @@ export default {
   },
   created() {
     console.log(localStorage.getItem("token"));
+
+    const apiClient = axios.create({
+      baseURL: "//localhost:3000/",
+      withCredentials: false,
+      headers: {
+        "auth-header": localStorage.getItem("token"),
+      },
+    });
+
+    apiClient
+      .get("/oficina/procedures/template/" + this.$route.params.formularioId)
+      .then((response) => {
+        console.log(response.data);
+        let r = response.data;
+
+        this.length = r.question.length;
+        this.preguntas.push(r);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     back() {
