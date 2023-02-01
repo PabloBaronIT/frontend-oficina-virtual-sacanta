@@ -1,23 +1,28 @@
 <template>
   <article>
-    <GraficoComponent />
+    <ModalGraficoComponent />
     <Tabla />
     <hr />
-    <RegisterComponent />
+    <div class="article-container">
+      <RegisterComponent />
+      <GraficoComponent />
+    </div>
   </article>
 </template>
 
 <script>
 import Tabla from "@/components/Tramites/TablaComponent.vue";
 import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue";
+import ModalGraficoComponent from "@/components/Municipal/ModalGraficoComponent.vue";
 import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 
 export default {
   name: "MuniView",
   components: {
-    GraficoComponent,
+    ModalGraficoComponent,
     RegisterComponent,
     Tabla,
+    GraficoComponent,
   },
 };
 </script>
@@ -33,5 +38,12 @@ article {
   padding: 30px;
   justify-content: center;
   align-items: center;
+}
+
+.article-container {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
 }
 </style>
