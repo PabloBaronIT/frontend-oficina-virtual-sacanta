@@ -39,7 +39,8 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
+// import dbService from "@/services/dbService";
+import axios from "axios";
 
 export default {
   props: {
@@ -53,8 +54,16 @@ export default {
 
   created() {
     //Pedir solamente los que vengan desde una prop del status
-    dbService
-      .getHistorialTramites()
+    const apiClient = axios.create({
+      baseURL: "//localhost:3000/",
+      withCredentials: false,
+      headers: {
+        "auth-header": localStorage.getItem("token"),
+      },
+    });
+
+    apiClient
+      .get("/oficina/procedures/history")
       .then((response) => {
         let h = response.data.history;
         let l = h.length;
@@ -100,6 +109,54 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+
+    // dbService
+    //   .getHistorialTramites()
+    //   .then((response) => {
+    //     let h = response.data.history;
+    //     let l = h.length;
+
+    //     for (let i = 0; i < l; i++) {
+    //       //Procedure
+    //       let p = {
+    //         id: null,
+    //         cuil: null,
+    //         categoria: "",
+    //         estado: "",
+    //         color: "",
+    //       };
+    //       //Carga del procedure
+    //       p.id = h[i].id;
+    //       p.cuil = h[i].user.cuil;
+    //       p.categoria = h[i].category.title;
+    //       p.estado = h[i].status.status;
+
+    //       switch (p.estado) {
+    //         case "SOLICITADO":
+    //           p.color = "var(--green)";
+    //           break;
+    //         case "EN PROCESO":
+    //           p.color = "var(--red)";
+    //           break;
+
+    //         default:
+    //           break;
+    //       }
+
+    //       this.activos.push(p);
+
+    //       console.log(p);
+    //     }
+
+    //     this.length = response.data.length;
+
+    //     console.log(response.data.history);
+
+    //     console.log(h[0].status);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   },
   methods: {
     select() {

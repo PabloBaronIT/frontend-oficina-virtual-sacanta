@@ -47,29 +47,31 @@ export default {
 
     login() {
       let log = {
-        password: this.password,
         cuil: this.cuil,
+        password: this.password,
       };
 
       dbService
         .postLoginMunicipal(log)
         .then((response) => {
           if (response.status == 200) {
+            console.log(response);
             localStorage.removeItem("token");
+
             this.validacion = true;
             this.mockLogin();
             localStorage.clear();
-            localStorage.setItem("name", response.data.user.firstname);
-            localStorage.setItem("lastname", response.data.user.lastname);
-            localStorage.setItem("cuil", response.data.user.cuil);
-            localStorage.setItem("adress", response.data.user.adress);
-            localStorage.setItem("email", response.data.user.email);
-            localStorage.setItem("id", response.data.user.id);
+            localStorage.setItem("name", response.data.userMuni.firstname);
+            localStorage.setItem("lastname", response.data.userMuni.lastname);
+            localStorage.setItem("cuil", response.data.userMuni.cuil);
+            localStorage.setItem("adress", response.data.userMuni.adress);
+            localStorage.setItem("email", response.data.userMuni.email);
+            localStorage.setItem("id", response.data.userMuni.id);
             localStorage.setItem(
               "fecha-creacion",
-              response.data.user.created_at
+              response.data.userMuni.created_at
             );
-            localStorage.setItem("role", response.data.user.role);
+            localStorage.setItem("role", response.data.userMuni.role);
             console.log(response.data);
             localStorage.setItem("token", response.data.token);
             this.$router.push("muni");
@@ -77,6 +79,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          console.log("Fail");
           this.msj = "Usuario incorrecto";
         });
     },

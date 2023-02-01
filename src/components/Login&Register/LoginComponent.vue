@@ -34,9 +34,9 @@
           @keyup.enter="log"
         />
         <input
-          class="btn btn-primary"
+          class="btn log-btn"
           type="button"
-          value="Login"
+          value="Ingresar"
           @click="log"
         />
       </FormKit>
@@ -142,6 +142,10 @@ export default {
   color: red;
 }
 
+.log-btn {
+  background: var(--red);
+}
+
 .deco {
   text-align: center;
   width: 200px;
@@ -170,5 +174,9 @@ form {
 
 form input {
   margin: 20px;
+}
+
+form h1 {
+  color: var(--red);
 }
 </style>
