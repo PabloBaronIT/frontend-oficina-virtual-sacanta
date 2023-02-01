@@ -1,6 +1,10 @@
 <template>
   <div class="main-container">
-    <NavComponent v-if="this.role != 'MUNI_ROLE' && this.role != undefined" />
+    <NavComponent
+      v-if="
+        this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
+      "
+    />
     <router-view />
   </div>
 </template>
@@ -13,6 +17,11 @@ export default {
     return {
       role: "",
     };
+  },
+  mounted() {
+    window.addEventListener("token-localstorage-changed", (event) => {
+      this.role = event.detail.storage;
+    });
   },
   watch: {
     $route() {

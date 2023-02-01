@@ -113,6 +113,13 @@ export default {
       localStorage.clear();
       location.reload();
       this.$router.push("login");
+      window.dispatchEvent(
+        new CustomEvent("token-localstorage-changed", {
+          detail: {
+            storage: localStorage.getItem("token"),
+          },
+        })
+      );
     },
   },
 };

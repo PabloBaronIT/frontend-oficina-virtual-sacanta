@@ -70,6 +70,9 @@ export default {
       msj: "",
     };
   },
+  created() {
+    localStorage.clear();
+  },
   methods: {
     ...mapActions(["mockLogin"]),
 
@@ -146,10 +149,13 @@ export default {
 }
 
 .login-container {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   margin: 50px;
   justify-content: space-around;
   align-items: center;
+  z-index: 50;
 }
 
 form {

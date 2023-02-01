@@ -1,7 +1,6 @@
 <template>
   <div class="form-container">
     <div>
-      <h2>Municipalidad de Campo Bravo</h2>
       <LoginComponent />
       <LoginMunicipal />
     </div>
@@ -20,6 +19,15 @@ export default {
   },
   created() {
     localStorage.clear();
+    localStorage.setItem("token", "");
+
+    window.dispatchEvent(
+      new CustomEvent("token-localstorage-changed", {
+        detail: {
+          storage: localStorage.getItem("token"),
+        },
+      })
+    );
   },
 };
 </script>

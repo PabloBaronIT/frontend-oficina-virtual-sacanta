@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
+import axios from "axios";
 import { jsPDF } from "jspdf";
 import { mapActions } from "vuex";
 
@@ -136,7 +136,6 @@ export default {
     ...mapActions(["saveP"]),
 
     preNext() {
-      console.log(this.selected);
       if (this.selected == 0 && this.textInput == "") {
         this.validation = false;
       } else if (this.selected == 0 && this.textInput != "") {
@@ -154,28 +153,26 @@ export default {
 
       if (this.textInput != "") {
         optionTitle = this.textInput;
+        selected = 1;
       } else {
         optionTitle = this.questionProp[this.paso].question[this.selected][0];
       }
 
       console.log(selected);
 
-      console.log(optionTitle);
-
       let q = {
         question: this.questionProp[this.paso].question_id,
         options: [
           {
-            questionOption: 1,
-            // this.questionProp[this.paso].question[this.selected][2],
+            questionOption: this.questionProp[this.paso].question[selected][2],
             answer: optionTitle,
           },
         ],
       };
 
-      procedure.questions.push(q);
-
       console.log(procedure);
+
+      procedure.questions.push(q);
 
       this.selected = 0;
       this.textInput = "";
@@ -184,17 +181,29 @@ export default {
     },
     submitt() {
       this.preNext();
+
+      console.log(procedure);
+
       if (this.validation) {
         this.loading = true;
         this.modal = true;
-        // this.saveP(procedure);
-        this.saveP("hola");
-        dbService
-          .postProcedure(procedure)
+        const apiClient = axios.create({
+          baseURL: "//localhost:3000/",
+          withCredentials: false,
+          headers: {
+            "auth-header": localStorage.getItem("token"),
+          },
+        });
+
+        apiClient
+          .post("/oficina/procedures/submit-procedure", {
+            userId: procedure.userId,
+            categoryId: procedure.categoryId,
+            statusId: procedure.statusId,
+            questions: procedure.questions,
+          })
           .then((response) => {
             if (response.status == 201) {
-              debugger;
-
               this.submitted = true;
               this.$router.replace({ path: "/prueba" });
             }
@@ -204,6 +213,20 @@ export default {
           .catch((err) => {
             console.log(err);
           });
+
+        // dbService
+        //   .postProcedure(procedure)
+        //   .then((response) => {
+        //     if (response.status == 201) {
+        //       this.submitted = true;
+        //       this.$router.replace({ path: "/prueba" });
+        //     }
+
+        //     console.log(response);
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
         this.loading = false;
       }
     },

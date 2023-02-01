@@ -19,7 +19,7 @@ export default {
     return {
       questions: [
         {
-          question_id: 1,
+          question_id: 9,
           title: "Tipo De Negocio",
           type: "radio",
           question: {
@@ -41,7 +41,7 @@ export default {
           },
         },
         {
-          question_id: 2,
+          question_id: 5,
           title: " Ingreso anual bruto",
           type: "number",
           question: {
@@ -49,7 +49,7 @@ export default {
           },
         },
         {
-          question_id: 3,
+          question_id: 6,
           title: " Subir constancia de AFIP",
           type: "file",
           question: {
@@ -67,7 +67,7 @@ export default {
     FormularioComponent,
   },
   created() {
-    console.log();
+    console.log(localStorage.getItem("token"));
   },
   methods: {
     back() {
