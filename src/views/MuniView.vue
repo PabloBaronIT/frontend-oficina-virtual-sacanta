@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Tabla from "@/components/Tramites/TablaComponent.vue";
+import Tabla from "@/components/Municipal/TablaComponent.vue";
 import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue";
 import ModalGraficoComponent from "@/components/Municipal/ModalGraficoComponent.vue";
 import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
