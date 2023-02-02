@@ -7,7 +7,7 @@
         </th>
         <th>Titulo</th>
         <th>ID</th>
-        <th>Cuil</th>
+        <th>Ultimo movimiento</th>
         <th>Asunto</th>
         <th>Estado</th>
       </tr>
@@ -15,7 +15,7 @@
         <td><input type="checkbox" name="" :id="p.id" /></td>
         <td>Escritura terreno</td>
         <td>{{ p.id }}</td>
-        <td>{{ p.cuil }}</td>
+        <td>{{ p.fecha }}</td>
         <td>{{ p.categoria }}</td>
         <td :class="'estado-fila'">
           <p :style="`background: ${p.color}`">{{ p.estado }}</p>
@@ -63,23 +63,32 @@ export default {
     });
 
     apiClient
-      .get("/oficina/procedures/history")
+      .get("/oficina/procedures/history/user")
       .then((response) => {
-        let h = response.data.history;
+        let h = response.data;
+
+        console.log(h);
         let l = h.length;
 
         for (let i = 0; i < l; i++) {
           //Procedure
           let p = {
             id: null,
-            cuil: null,
+            fecha: null,
             categoria: "",
             estado: "",
             color: "",
           };
+
+          let iso = h[i].created_at;
+          let date = new Date(iso);
+          const day = date.getDate();
+          const month = date.getMonth() + 1;
+          const year = date.getFullYear();
+
           //Carga del procedure
           p.id = h[i].id;
-          p.cuil = h[i].user.cuil;
+          p.fecha = `${day}/${month}/${year}`;
           p.categoria = h[i].category.title;
           p.estado = h[i].status.status;
 
@@ -100,11 +109,11 @@ export default {
           console.log(p);
         }
 
-        this.length = response.data.length;
+        // this.length = response.data.length;
 
-        console.log(response.data.history);
+        // console.log(response.data);
 
-        console.log(h[0].status);
+        // console.log(h[0].status);
       })
       .catch((err) => {
         console.log(err);
