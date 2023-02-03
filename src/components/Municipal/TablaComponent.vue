@@ -1,5 +1,6 @@
 <template>
   <div class="tabla-container">
+    <button @click="getFiltro(1)" class="btn btn-primary">SOLICITADOS</button>
     <table>
       <tr>
         <th>
@@ -159,6 +160,9 @@ export default {
     //   });
   },
   methods: {
+    getFiltro(s) {
+      const apiClient=
+    },
     select() {
       alert("Terminar metodo");
     },
