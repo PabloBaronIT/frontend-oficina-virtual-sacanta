@@ -1,6 +1,6 @@
 <template>
   <div class="question">
-    <h4>{{ questionProp[this.paso].title }}</h4>
+    <h4>{{ questionProp[0].question[this.paso].title }}</h4>
     <p>Completar las preguntas para cada tramite</p>
 
     <div v-show="this.loading" class="spinner-border" role="status">
@@ -10,41 +10,58 @@
     <form v-show="!modal" class="option-container">
       <div
         class="option"
-        v-for="(option, key) in questionProp[this.paso].question"
+        v-for="(option, key) in questionProp[0].question"
         :key="key"
       >
         <input
           :id="key"
           :name="key"
-          v-if="questionProp[this.paso].type === 'radio'"
-          :type="questionProp[this.paso].type"
+          v-if="
+            questionProp[0].question[this.paso].question_options[key].type ===
+            'radio'
+          "
+          :type="questionProp[0].question[this.paso].question_options[key].type"
           :value="key"
           v-model="this.selected"
         />
 
         <label class="option-text" :for="key">
-          {{ questionProp[this.paso].question[key][0] }}
+          {{ questionProp[0].question[this.paso].question_options[key].title }}
+
+          <!-- {{ questionProp.question[this.paso].question[key][0] }} -->
         </label>
 
         <br />
         <label>
-          <p>{{ questionProp[this.paso].question[key][1] }}</p> </label
+          <p>
+            {{
+              questionProp[0].question[this.paso].question_options[key]
+                .description
+            }}
+          </p> </label
         ><br />
 
         <div class="form-outline">
           <input
             class="form-control"
             v-if="
-              questionProp[this.paso].type != 'radio' &&
-              questionProp[this.paso].type != 'file'
+              questionProp[0].question[this.paso].question_options[key].type !=
+                'radio' &&
+              questionProp[0].question[this.paso].question_options[key].type !=
+                'file'
             "
-            :type="questionProp[this.paso].type"
+            :type="
+              questionProp[0].question[this.paso].question_options[key].type
+            "
             v-model="this.textInput"
           />
         </div>
 
         <div
-          v-if="questionProp[this.paso].type === 'file'"
+          v-if="
+            questionProp[0].question[this.paso].question_options[key].type ===
+            'file'
+          "
           class="file-container"
         >
           <img src="@/assets/tramite-logo.svg" alt="" />
@@ -52,7 +69,9 @@
           <hr />
           <input
             accept=".pdf"
-            :type="questionProp[this.paso].type"
+            :type="
+              questionProp[0].question[this.paso].question_options[key].type
+            "
             v-model="this.textInput"
           />
         </div>
@@ -118,7 +137,7 @@ export default {
     questionProp: {
       title: String,
       type: String,
-      question: Object,
+      question: Array,
     },
   },
   data() {
@@ -131,6 +150,9 @@ export default {
       selected: 0,
       submitted: false,
     };
+  },
+  created() {
+    console.log(this.questionProp);
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -155,16 +177,21 @@ export default {
         optionTitle = this.textInput;
         selected = 1;
       } else {
-        optionTitle = this.questionProp[this.paso].question[this.selected][0];
+        optionTitle =
+          this.questionProp[0].question[this.paso].question_options[selected]
+            .title;
       }
 
       console.log(selected);
 
       let q = {
-        question: this.questionProp[this.paso].question_id,
+        question: this.questionProp[0].question[this.paso].id,
         options: [
           {
-            questionOption: this.questionProp[this.paso].question[selected][2],
+            questionOption:
+              this.questionProp[0].question[this.paso].question_options[
+                selected
+              ].id,
             answer: optionTitle,
           },
         ],
