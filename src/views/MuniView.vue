@@ -1,22 +1,82 @@
 <template>
   <article>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link est" aria-current="page">Ver estadisticas</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Herramientas
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item">Registrar usuario</a></li>
+                <li><a class="dropdown-item" href="#">Gestionar cuenta</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#">Cerrar Sesion</a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Perfil
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Alguna accion</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" @click="logOf()">Cerrar Sesion</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link pointer" @click="refresh()">Refrescar</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Nombre del tramite"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Buscar
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
     <ModalGraficoComponent />
-    <div class="options">
-      <input
-        @click="logOf"
-        class="btn btn-outline-success"
-        type="button"
-        value="Cerrar Sesion"
-      />
-      <button class="btn btn-outline-success ms-2">Estadisticas</button>
-      <input
-        @click="refresh"
-        class="btn btn-outline-dark ms-2"
-        type="button"
-        value="Refrescar"
-      />
-    </div>
-    <Filtro />
     <Tabla />
     <hr />
     <div class="article-container">
@@ -32,12 +92,10 @@ import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue
 import ModalGraficoComponent from "@/components/Municipal/ModalGraficoComponent.vue";
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 import BarComponent from "@/components/Municipal/BarComponent.vue";
-import Filtro from "@/components/Busqueda/Filtrado/FiltroTabla.vue";
 
 export default {
   name: "MuniView",
   components: {
-    Filtro,
     ModalGraficoComponent,
     RegisterComponent,
     Tabla,
@@ -65,6 +123,14 @@ export default {
 </script>
 
 <style scoped>
+.pointer {
+  cursor: pointer;
+}
+
+.est {
+  color: var(--red);
+}
+
 .options {
   width: 100%;
   margin-bottom: 20px;

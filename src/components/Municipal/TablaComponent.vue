@@ -1,6 +1,17 @@
 <template>
+  <div class="filtro-container">
+    <input type="button" @click="getFiltro(1)" value="Solicitados" />
+    <input type="button" value="En proceso" @click="getFiltro(2)" />
+    <input type="button" value="Finalizado" @click="getFiltro(4)" />
+    <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
+
+    <select name="" id="">
+      <option>Todos</option>
+      <option>Leido</option>
+      <option>No leido</option>
+    </select>
+  </div>
   <div class="tabla-container">
-    <button @click="getFiltro(1)" class="btn btn-primary">SOLICITADOS</button>
     <table>
       <tr>
         <th>
@@ -52,7 +63,6 @@ export default {
       activos: [],
     };
   },
-
   created() {
     //Pedir solamente los que vengan desde una prop del status
     const apiClient = axios.create({
@@ -161,7 +171,65 @@ export default {
   },
   methods: {
     getFiltro(s) {
-      const apiClient=
+      let apiClientAuth = axios.create({
+        baseURL: "//localhost:3000/",
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      this.activos = [];
+
+      apiClientAuth
+        .get("/oficina/procedures/history-procedures/status/" + s)
+        .then((response) => {
+          console.log(response);
+          let h = response.data;
+
+          let l = h.length;
+
+          for (let i = 0; i < l; i++) {
+            //Procedure
+            let p = {
+              id: null,
+              cuil: null,
+              categoria: "",
+              estado: "",
+              color: "",
+            };
+            //Carga del procedure
+            p.id = h[i].id;
+            // p.cuil = h[i].user.cuil;
+            p.categoria = h[i].category.title;
+            p.estado = h[i].status.status;
+
+            switch (p.estado) {
+              case "SOLICITADO":
+                p.color = "var(--green)";
+                break;
+              case "EN PROCESO":
+                p.color = "var(--red)";
+                break;
+
+              default:
+                break;
+            }
+
+            this.activos.push(p);
+
+            console.log(p);
+          }
+
+          this.length = response.data.length;
+
+          console.log(response.data.history);
+
+          console.log(h[0].status);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
     select() {
       alert("Terminar metodo");
@@ -254,5 +322,71 @@ td {
   background: var(--grey-bk);
   border-radius: 20px;
   padding: 3px;
+}
+
+.filtro-img {
+  max-width: 20px;
+}
+
+.filtro-container {
+  width: 100%;
+  color: var(--text-color);
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.filtro-container input {
+  margin: 0 20px;
+  background: inherit;
+  color: var(--text-color);
+  border: none;
+  border-bottom: 1px solid var(--red);
+}
+
+.filtro-container input:hover {
+  border-bottom: 2px solid var(--green);
+  animation-name: border-animation;
+  animation-duration: 2s;
+}
+
+select {
+  margin: 0 10px;
+  color: var(--text-color);
+  text-align: center;
+  background: var(--green);
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+
+select option {
+  background: var(--green);
+  color: var(--text-color);
+  border: none;
+  outline: none;
+}
+select option:hover {
+  background: var(--green);
+  outline: none;
+  border: none;
+}
+
+@keyframe border-animation {
+  0% {
+    background-color: var(--red);
+    left: 0px;
+    top: 0px;
+  }
+  50% {
+    background-color: var(--blue);
+    left: 200px;
+    top: 200px;
+  }
+  100% {
+    background-color: var(--green);
+    left: 0px;
+    top: 0px;
+  }
 }
 </style>
