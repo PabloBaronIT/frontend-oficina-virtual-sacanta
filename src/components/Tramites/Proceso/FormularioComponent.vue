@@ -26,8 +26,7 @@
         />
 
         <label class="option-text" :for="key">
-          {{ questionProp[0].question[this.paso].question_options[key].title }}
-
+          {{ questionProp[0].question[0].question_options[key].title }}
           <!-- {{ questionProp.question[this.paso].question[key][0] }} -->
         </label>
 
@@ -147,12 +146,13 @@ export default {
       validation: null,
       loading: false,
       textInput: "",
-      selected: 0,
+      selected: 1,
       submitted: false,
     };
   },
   created() {
-    console.log(this.questionProp);
+    console.log(this.questionProp[0]);
+    console.log(this.questionProp[0].question);
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -197,6 +197,7 @@ export default {
         ],
       };
 
+      console.log(q);
       console.log(procedure);
 
       procedure.questions.push(q);
@@ -205,6 +206,7 @@ export default {
       this.textInput = "";
       this.validation = true;
       this.paso++;
+      console.log(this.paso + "rey");
     },
     submitt() {
       this.preNext();

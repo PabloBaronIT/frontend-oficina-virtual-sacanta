@@ -1,14 +1,17 @@
 <template>
   <div class="filtro-container">
-    <input type="button" @click="getFiltro(1)" value="Solicitados" />
-    <input type="button" value="En proceso" @click="getFiltro(2)" />
-    <input type="button" value="Finalizado" @click="getFiltro(4)" />
+    <input type="button" @click="updateStatus()" value="Actualizar estado" />
     <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
-
     <select name="" id="">
-      <option>Todos</option>
-      <option>Leido</option>
-      <option>No leido</option>
+      <option>
+        <input type="button" @click="getFiltro(1)" value="Solicitados" />
+      </option>
+      <option>
+        <input type="button" value="En proceso" @click="getFiltro(2)" />
+      </option>
+      <option>
+        <input type="button" value="Finalizado" @click="getFiltro(4)" />
+      </option>
     </select>
   </div>
   <div class="tabla-container">
@@ -24,7 +27,7 @@
         <th>Estado</th>
       </tr>
       <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
-        <td><input type="checkbox" name="" :id="p.id" /></td>
+        <td><input type="checkbox" @click="check(p.id)" :value="p.id" /></td>
         <td>Escritura terreno</td>
         <td>{{ p.id }}</td>
         <td>{{ p.cuil }}</td>
@@ -60,6 +63,7 @@ export default {
   },
   data() {
     return {
+      checkbox: [],
       activos: [],
     };
   },
@@ -170,6 +174,36 @@ export default {
     //   });
   },
   methods: {
+    updateStatus() {
+      let apiClientAuth = axios.create({
+        baseURL: "//localhost:3000/",
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      for (let i = 0; i < this.checkbox.length; i++) {
+        console.log(this.checkbox[i]);
+        apiClientAuth
+          .put(
+            "/oficina/procedures/procedure/update-status/" + this.checkbox[i],
+            { status: 1 }
+          )
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+
+    check(id) {
+      this.checkbox.push(id);
+      console.log(this.checkbox);
+    },
+
     getFiltro(s) {
       let apiClientAuth = axios.create({
         baseURL: "//localhost:3000/",
