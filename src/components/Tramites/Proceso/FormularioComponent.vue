@@ -7,7 +7,67 @@
       <span>cargando rey</span>
     </div>
 
-    <form v-show="!modal" class="option-container">
+    <form action="">
+      <div
+        class="cuestions"
+        v-for="(opcion, key) in questionProp[0].question[this.paso]
+          .question_options"
+        :key="key"
+      >
+        <input
+          v-if="
+            questionProp[0].question[this.paso].question_options[key].type ==
+              'radio' ||
+            questionProp[0].question[this.paso].question_options[key].type ==
+              'checkbox'
+          "
+          :type="questionProp[0].question[this.paso].question_options[key].type"
+          :value="questionProp[0].question[this.paso].question_options[key].id"
+          v-model="this.selected"
+        />
+
+        <label for="" class="option-text">{{
+          questionProp[0].question[this.paso].question_options[key].title
+        }}</label>
+        <br />
+        <label for="" class=""
+          ><p>
+            {{
+              questionProp[0].question[this.paso].question_options[key]
+                .description
+            }}
+          </p></label
+        >
+
+        <input
+          v-if="
+            questionProp[0].question[this.paso].question_options[key].type ==
+            'number'
+          "
+          :type="questionProp[0].question[this.paso].question_options[key].type"
+          :value="questionProp[0].question[this.paso].question_options[key].id"
+          v-model="textInput"
+        />
+
+        <div class="file-input-container">
+          <input
+            v-if="
+              questionProp[0].question[this.paso].question_options[key].type ==
+              'file'
+            "
+            :type="
+              questionProp[0].question[this.paso].question_options[key].type
+            "
+            :value="
+              questionProp[0].question[this.paso].question_options[key].id
+            "
+            v-model="this.selected"
+          />
+        </div>
+      </div>
+    </form>
+
+    <!-- <form v-show="!modal" class="option-container">
       <div
         class="option"
         v-for="(option, key) in questionProp[0].question"
@@ -27,7 +87,7 @@
 
         <label class="option-text" :for="key">
           {{ questionProp[0].question[0].question_options[key].title }}
-          <!-- {{ questionProp.question[this.paso].question[key][0] }} -->
+          {{ questionProp.question[this.paso].question[key][0] }}
         </label>
 
         <br />
@@ -79,7 +139,9 @@
       <p class="error" v-show="validation == false">
         Debe seleccionar una opcion para continuar
       </p>
-    </form>
+    </form>  -->
+
+    <p>{{ questionProp[0].question[this.paso] }}</p>
 
     <div class="">
       <input
@@ -87,7 +149,7 @@
         v-if="this.paso + 1 < this.length"
         type="button"
         value="Siguiente"
-        @click="preNext()"
+        @click="next()"
       />
 
       <input
@@ -124,6 +186,7 @@ let procedure = {
   userId: 1,
   categoryId: 5,
   statusId: 1,
+  selected: null,
   questions: [],
 };
 
@@ -165,6 +228,10 @@ export default {
       } else if (this.selected != 0 && this.textInput == "") {
         this.next();
       }
+    },
+
+    back() {
+      this.paso--;
     },
 
     next() {
