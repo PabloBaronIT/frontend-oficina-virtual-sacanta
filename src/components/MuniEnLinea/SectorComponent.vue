@@ -50,6 +50,8 @@ export default {
     console.log(this.$route);
     console.log(this.$route.params.sectorId);
 
+    // get tramites para la vista sectores con el id de categoria sacado del path con vue router
+
     const apiClient = axios.create({
       baseURL: "//localhost:3000/",
       withCredentials: false,

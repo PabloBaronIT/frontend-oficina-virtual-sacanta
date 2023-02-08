@@ -1,4 +1,6 @@
 <template>
+  <!-- Barra de nusqueda con svg de lupa  -->
+  <!-- Componente usado en MainCointainerComponent -->
   <div class="busqueda-container">
     <input type="text" placeholder="Buscar servicio" />
     <img src="@/assets/busqueda.svg" alt="" />

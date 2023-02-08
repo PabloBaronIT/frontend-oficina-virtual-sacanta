@@ -22,7 +22,7 @@
               'checkbox'
           "
           :type="questionProp[0].question[this.paso].question_options[key].type"
-          :value="questionProp[0].question[this.paso].question_options[key].id"
+          :value="key"
           v-model="this.selected"
         />
 
@@ -46,7 +46,7 @@
           "
           :type="questionProp[0].question[this.paso].question_options[key].type"
           :value="questionProp[0].question[this.paso].question_options[key].id"
-          v-model="textInput"
+          v-model="this.textInput"
         />
 
         <div class="file-input-container">
@@ -58,10 +58,7 @@
             :type="
               questionProp[0].question[this.paso].question_options[key].type
             "
-            :value="
-              questionProp[0].question[this.paso].question_options[key].id
-            "
-            v-model="this.selected"
+            v-model="this.textInput"
           />
         </div>
       </div>
@@ -235,11 +232,9 @@ export default {
     },
 
     next() {
-      //   debugger;
-
       let selected = this.selected;
       let optionTitle = "";
-
+      debugger;
       if (this.textInput != "") {
         optionTitle = this.textInput;
         selected = 1;

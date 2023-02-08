@@ -1,4 +1,5 @@
 <template>
+  <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <main class="flex-container">
     <div class="header">
       <h1>Tramites mas frecuentes</h1>
@@ -10,6 +11,7 @@
       <h1>Tramites</h1>
     </div>
 
+    <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
     <div class="card-container">
       <div v-for="sector in categorias" :key="sector.Id">
         <router-link
@@ -38,6 +40,9 @@ export default {
     };
   },
   created() {
+    // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
+    // Trae imagenes, id y titulo de categoria
+
     const apiClient = axios.create({
       baseURL: "//localhost:3000/",
       withCredentials: false,
