@@ -1,7 +1,10 @@
 # Oficina virtual 
 
-Tecnologias: Vue 3, JavaScript, CSS, Bootstrap.
-Librerias: Axios, ChartJS, vue-carrousel.
+Tecnologias: Vue 3, JavaScript, CSS, Bootstrap
+
+Librerias: Axios, ChartJS, vue-carrousel
+
+Linter / Formaterr utilizado:  PRETTIER
 
 
 ## Setup del proyecto
@@ -13,11 +16,5 @@ npm install
 ```
 npm run serve
 ```
-
-# Linter / Formaterr utilizado: PRETTIER
-
-Conexiones realizadas con #AXIOS 
-
-
 
 
