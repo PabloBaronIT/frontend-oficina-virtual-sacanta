@@ -28,8 +28,6 @@ export default {
     FormularioComponent,
   },
   created() {
-    console.log(localStorage.getItem("token"));
-
     // Get a los templates de procedures para enviarlos por pro a formulario componente
     const apiClient = axios.create({
       baseURL: "//localhost:3000/",

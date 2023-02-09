@@ -15,6 +15,8 @@
         :key="key"
       >
         <input
+          :id="key"
+          :name="key"
           v-if="
             questionProp[0].question[this.paso].question_options[key].type ==
               'radio' ||
@@ -22,15 +24,15 @@
               'checkbox'
           "
           :type="questionProp[0].question[this.paso].question_options[key].type"
-          :value="key"
+          :value="key + 1"
           v-model="this.selected"
         />
 
-        <label for="" class="option-text">{{
+        <label :for="key" class="option-text">{{
           questionProp[0].question[this.paso].question_options[key].title
         }}</label>
         <br />
-        <label for="" class=""
+        <label :for="key" class=""
           ><p>
             {{
               questionProp[0].question[this.paso].question_options[key]
@@ -45,7 +47,6 @@
             'number'
           "
           :type="questionProp[0].question[this.paso].question_options[key].type"
-          :value="questionProp[0].question[this.paso].question_options[key].id"
           v-model="this.textInput"
         />
 
@@ -62,6 +63,9 @@
           />
         </div>
       </div>
+      <p class="error" v-show="validation == false">
+        Debe seleccionar una opcion para continuar
+      </p>
     </form>
 
     <!-- <form v-show="!modal" class="option-container">
@@ -133,12 +137,8 @@
         </div>
       </div>
 
-      <p class="error" v-show="validation == false">
-        Debe seleccionar una opcion para continuar
-      </p>
+    
     </form>  -->
-
-    <p>{{ questionProp[0].question[this.paso] }}</p>
 
     <div class="">
       <input
@@ -146,7 +146,7 @@
         v-if="this.paso + 1 < this.length"
         type="button"
         value="Siguiente"
-        @click="next()"
+        @click="preNext()"
       />
 
       <input
@@ -193,11 +193,7 @@ export default {
   props: {
     length: Number,
     question_id: Number,
-    questionProp: {
-      title: String,
-      type: String,
-      question: Array,
-    },
+    questionProp: Object,
   },
   data() {
     return {
@@ -206,14 +202,11 @@ export default {
       validation: null,
       loading: false,
       textInput: "",
-      selected: 1,
+      selected: 0,
       submitted: false,
     };
   },
-  created() {
-    console.log(this.questionProp[0]);
-    console.log(this.questionProp[0].question);
-  },
+  created() {},
   methods: {
     ...mapActions(["saveP"]),
 
@@ -232,43 +225,42 @@ export default {
     },
 
     next() {
-      let selected = this.selected;
+      let choice = this.selected - 1;
       let optionTitle = "";
-      debugger;
+
       if (this.textInput != "") {
         optionTitle = this.textInput;
-        selected = 1;
+        choice = 0;
       } else {
         optionTitle =
-          this.questionProp[0].question[this.paso].question_options[selected]
+          this.questionProp[0].question[this.paso].question_options[choice]
             .title;
       }
 
-      console.log(selected);
+      console.log(choice);
 
       let q = {
         question: this.questionProp[0].question[this.paso].id,
         options: [
           {
             questionOption:
-              this.questionProp[0].question[this.paso].question_options[
-                selected
-              ].id,
+              this.questionProp[0].question[this.paso].question_options[choice]
+                .id,
             answer: optionTitle,
           },
         ],
       };
 
       console.log(q);
-      console.log(procedure);
 
       procedure.questions.push(q);
 
       this.selected = 0;
+      choice = 0;
       this.textInput = "";
       this.validation = true;
       this.paso++;
-      console.log(this.paso + "rey");
+      console.log(this.paso + " paso");
     },
     submitt() {
       this.preNext();
@@ -288,7 +280,6 @@ export default {
 
         apiClient
           .post("/oficina/procedures/submit-procedure", {
-            userId: procedure.userId,
             categoryId: procedure.categoryId,
             statusId: procedure.statusId,
             questions: procedure.questions,
