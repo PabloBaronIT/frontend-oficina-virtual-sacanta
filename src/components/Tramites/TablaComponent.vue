@@ -32,7 +32,7 @@
       <div class="cant">
         <p>Cantidad de tramites:</p>
 
-        <input type="number" value="3" class="cant-input" />
+        <input type="number" :value="this.length" class="cant-input" />
       </div>
     </div>
   </div>
@@ -48,6 +48,7 @@ export default {
   },
   data() {
     return {
+      length: null,
       activos: [],
     };
   },
@@ -109,7 +110,7 @@ export default {
           console.log(p);
         }
 
-        // this.length = response.data.length;
+        this.length = response.data.length;
 
         // console.log(response.data);
 

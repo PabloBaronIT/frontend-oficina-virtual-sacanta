@@ -19,8 +19,8 @@
           <img
             src="@/assets/arancel.svg"
             alt="arancel"
-            @mouseover="Hover"
-            @mouseleave="Hover"
+            :@mouseover="Hover(key)"
+            @mouseleave="Hover(null)"
           />
         </div>
 
@@ -30,7 +30,9 @@
         >
           Iniciar tramite
         </router-link>
-        <p class="hover" v-if="this.hover">{{ tramite.description }}</p>
+        <p :id="key" class="hover" v-if="this.hover && id == this.id">
+          {{ tramite.description }}
+        </p>
       </div>
     </div>
   </div>
@@ -41,6 +43,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      id: null,
       title: "",
       hover: false,
       tramitesApi: [],
@@ -82,8 +85,9 @@ export default {
   },
 
   methods: {
-    Hover() {
+    Hover(id) {
       this.hover = !this.hover;
+      this.id = id;
     },
     back() {
       this.$router.go(-1);
