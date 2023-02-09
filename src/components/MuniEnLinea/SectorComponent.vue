@@ -19,8 +19,8 @@
           <img
             src="@/assets/arancel.svg"
             alt="arancel"
-            :@mouseover="Hover(key)"
-            @mouseleave="Hover(null)"
+            @mouseover="Hover"
+            @mouseleave="Hover"
           />
         </div>
 

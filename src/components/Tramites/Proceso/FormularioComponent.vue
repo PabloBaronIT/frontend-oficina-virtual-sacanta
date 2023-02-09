@@ -251,9 +251,25 @@ export default {
         ],
       };
 
+      let p = [
+        {
+          question: this.questionProp[0].question[this.paso].id,
+          options: [
+            {
+              questionOption:
+                this.questionProp[0].question[this.paso].question_options[
+                  choice
+                ].id,
+              answer: optionTitle,
+            },
+          ],
+        },
+      ];
+
       console.log(q);
 
       procedure.questions.push(q);
+      this.$store.commit("saveProcedure", p);
 
       this.selected = 0;
       choice = 0;
