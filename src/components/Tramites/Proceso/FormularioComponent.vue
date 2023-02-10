@@ -190,8 +190,8 @@ import { mapActions } from "vuex";
 
 let procedure = {
   userId: 1,
-  categoryId: 9,
-  statusId: 13,
+  categoryId: 6,
+  statusId: 1,
   selected: null,
   questions: [],
 };
@@ -278,7 +278,7 @@ export default {
       console.log(q);
 
       procedure.questions.push(q);
-      this.$store.commit("saveProcedure", p);
+      this.$store.commit("saveProcedure", JSON.stringify(p[0]));
 
       this.selected = 0;
       choice = 0;

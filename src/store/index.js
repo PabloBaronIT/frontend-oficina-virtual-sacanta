@@ -17,9 +17,13 @@ export default createStore({
       state.name = n;
       state.lastname = l;
     },
-    saveProcedure(p, state) {
-      console.log("Vuex: " + state);
-      state.procedure = state;
+    saveProcedure(state, p) {
+      console.log("Vuex: " + p);
+      console.log(p);
+      debugger;
+      let obj = JSON.parse(p);
+      console.log(obj);
+      state.procedure.push(obj);
     },
   },
   actions: {
