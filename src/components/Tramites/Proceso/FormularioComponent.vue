@@ -45,7 +45,9 @@
           class="form-control"
           v-if="
             questionProp[0].question[this.paso].question_options[key].type ==
-            'number'
+              'number' ||
+            questionProp[0].question[this.paso].question_options[key].type ==
+              'text'
           "
           :type="questionProp[0].question[this.paso].question_options[key].type"
           v-model="this.textInput"
@@ -188,8 +190,8 @@ import { mapActions } from "vuex";
 
 let procedure = {
   userId: 1,
-  categoryId: 5,
-  statusId: 1,
+  categoryId: 9,
+  statusId: 13,
   selected: null,
   questions: [],
 };
@@ -271,7 +273,7 @@ export default {
     },
     submitt() {
       this.preNext();
-
+      alert("categoryID HardCodeado");
       console.log(procedure);
 
       if (this.validation) {
