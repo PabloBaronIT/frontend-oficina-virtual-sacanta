@@ -1,20 +1,18 @@
 <template>
   <div class="main-container">
     <h4>Tus tramites</h4>
-    <FiltroTabla />
+
     <Tabla color="var(--green)" />
   </div>
 </template>
 
 <script>
 import Tabla from "@/components/Tramites/TablaComponent.vue";
-import FiltroTabla from "@/components/Busqueda/Filtrado/FiltroTabla.vue";
 
 export default {
   name: "TramitesView",
   components: {
     Tabla,
-    FiltroTabla,
   },
 };
 </script>

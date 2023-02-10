@@ -7,9 +7,9 @@
       <span>cargando rey</span>
     </div>
 
-    <form action="">
+    <form action="" class="option-container">
       <div
-        class="cuestions"
+        class="option cuestions"
         v-for="(opcion, key) in questionProp[0].question[this.paso]
           .question_options"
         :key="key"
@@ -42,20 +42,29 @@
         >
 
         <input
+          class="form-control"
           v-if="
             questionProp[0].question[this.paso].question_options[key].type ==
-            'number'
+              'number' ||
+            questionProp[0].question[this.paso].question_options[key].type ==
+              'text'
           "
           :type="questionProp[0].question[this.paso].question_options[key].type"
           v-model="this.textInput"
         />
 
-        <div class="file-input-container">
+        <div
+          v-if="
+            questionProp[0].question[this.paso].question_options[key].type ==
+            'file'
+          "
+          class="file-container"
+        >
+          <img src="@/assets/tramite-logo.svg" alt="" />
+
+          <hr />
           <input
-            v-if="
-              questionProp[0].question[this.paso].question_options[key].type ==
-              'file'
-            "
+            accept=".pdf"
             :type="
               questionProp[0].question[this.paso].question_options[key].type
             "
@@ -181,8 +190,8 @@ import { mapActions } from "vuex";
 
 let procedure = {
   userId: 1,
-  categoryId: 5,
-  statusId: 1,
+  categoryId: 9,
+  statusId: 13,
   selected: null,
   questions: [],
 };
@@ -280,7 +289,7 @@ export default {
     },
     submitt() {
       this.preNext();
-
+      alert("categoryID HardCodeado");
       console.log(procedure);
 
       if (this.validation) {
