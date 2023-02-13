@@ -127,6 +127,7 @@ import { jsPDF } from "jspdf";
 import { mapActions } from "vuex";
 
 let procedure = {
+  title: "",
   userId: 1,
   categoryId: null,
   statusId: 1,
@@ -141,6 +142,7 @@ export default {
     length: Number,
     question_id: Number,
     questionProp: Object,
+    title: String,
   },
   data() {
     return {
@@ -157,7 +159,8 @@ export default {
   created() {
     console.log(this.$route.params.categoriaId);
     this.catId = this.$route.params.categoriaId;
-    procedure.categoryId = this.$route.params.categoriaId;
+    procedure.categoryId = parseInt(this.$route.params.categoriaId);
+    procedure.title = this.title;
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -227,7 +230,7 @@ export default {
     },
     submitt() {
       this.preNext();
-      alert("categoryID HardCodeado");
+
       console.log(procedure);
 
       if (this.validation) {

@@ -4,7 +4,11 @@
       {{ this.$route.params.formularioTitle }}
     </h1>
 
-    <FormularioComponent :questionProp="preguntas" :length="this.length" />
+    <FormularioComponent
+      :title="title"
+      :questionProp="preguntas"
+      :length="this.length"
+    />
 
     <!-- Armar componente de formulario con props -->
   </div>
@@ -22,6 +26,7 @@ export default {
       category: this.$route.params,
       length: null,
       preguntas: [],
+      title: "",
     };
   },
   components: {
@@ -42,7 +47,7 @@ export default {
       .then((response) => {
         console.log(response.data);
         let r = response.data;
-
+        this.title = r.title;
         this.length = r.question.length;
         this.preguntas.push(r);
       })

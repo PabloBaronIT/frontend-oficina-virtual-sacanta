@@ -59,20 +59,16 @@
                 ></button>
               </div>
               <div class="modal-body text-start">
-                <h2>{{ this.$store.state.procedure[0] }}</h2>
+                <h2>{{ this.$store.state.procedure[0].title }}</h2>
 
-                <h4>Pregunta 1</h4>
-                <p>respuesta, opcion elegida</p>
-                <h4>Pregunta 1</h4>
-                <p>respuesta, opcion elegida</p>
-                <h4>Pregunta 1</h4>
-                <p>respuesta, opcion elegida</p>
-                <h4>Pregunta 1</h4>
-                <p>respuesta, opcion elegida</p>
-                <h4>Pregunta 1</h4>
-                <p>respuesta, opcion elegida</p>
-                <h4>Pregunta 1</h4>
-                <p>respuesta, opcion elegida</p>
+                <div
+                  v-for="(ans, key) in this.$store.state.procedure[0].questions"
+                  :key="key"
+                  class="answer"
+                >
+                  <h4>{{ ans.question }}</h4>
+                  <p>{{ ans.options[0].answer }}</p>
+                </div>
               </div>
               <div class="modal-footer">
                 <button
