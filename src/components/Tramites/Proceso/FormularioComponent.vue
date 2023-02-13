@@ -1,6 +1,6 @@
 <template>
   <div class="question">
-    <h4>{{ questionProp[0].question[this.paso].title }}</h4>
+    <h3>{{ questionProp[0].question[this.paso].title }}</h3>
     <p>Completar las preguntas para cada tramite</p>
 
     <div v-show="this.loading" class="spinner-border" role="status">
@@ -15,6 +15,7 @@
         :key="key"
       >
         <input
+          class="radio-input"
           :id="key"
           :name="key"
           v-if="
@@ -42,7 +43,7 @@
         >
 
         <input
-          class="form-control"
+          class="form-control text-number-input"
           v-if="
             questionProp[0].question[this.paso].question_options[key].type ==
               'number' ||
@@ -77,79 +78,7 @@
       </p>
     </form>
 
-    <!-- <form v-show="!modal" class="option-container">
-      <div
-        class="option"
-        v-for="(option, key) in questionProp[0].question"
-        :key="key"
-      >
-        <input
-          :id="key"
-          :name="key"
-          v-if="
-            questionProp[0].question[this.paso].question_options[key].type ===
-            'radio'
-          "
-          :type="questionProp[0].question[this.paso].question_options[key].type"
-          :value="key"
-          v-model="this.selected"
-        />
-
-        <label class="option-text" :for="key">
-          {{ questionProp[0].question[0].question_options[key].title }}
-          {{ questionProp.question[this.paso].question[key][0] }}
-        </label>
-
-        <br />
-        <label>
-          <p>
-            {{
-              questionProp[0].question[this.paso].question_options[key]
-                .description
-            }}
-          </p> </label
-        ><br />
-
-        <div class="form-outline">
-          <input
-            class="form-control"
-            v-if="
-              questionProp[0].question[this.paso].question_options[key].type !=
-                'radio' &&
-              questionProp[0].question[this.paso].question_options[key].type !=
-                'file'
-            "
-            :type="
-              questionProp[0].question[this.paso].question_options[key].type
-            "
-            v-model="this.textInput"
-          />
-        </div>
-
-        <div
-          v-if="
-            questionProp[0].question[this.paso].question_options[key].type ===
-            'file'
-          "
-          class="file-container"
-        >
-          <img src="@/assets/tramite-logo.svg" alt="" />
-
-          <hr />
-          <input
-            accept=".pdf"
-            :type="
-              questionProp[0].question[this.paso].question_options[key].type
-            "
-            v-model="this.textInput"
-          />
-        </div>
-      </div>
-
-    
-    </form>  -->
-
-    <div class="">
+    <div class="btn-div">
       <input
         class="btn btn-secondary"
         v-if="this.paso + 1 < this.length"
@@ -159,14 +88,22 @@
       />
 
       <input
+        v-if="this.paso + 1 > 1"
         class="m-2 btn btn-secondary"
         type="button"
         value="Anterior"
         @click="back()"
       />
+
+      <input
+        class="m-2 btn btn-outline-secondary"
+        type="button"
+        value="Cancelar"
+        @click="cancel()"
+      />
     </div>
 
-    <!-- v-if="this.paso + 1 == this.length" -->
+    <!-- Si esta en el ultimo paso se habilita el submitt -->
     <input
       v-if="this.paso + 1 == this.length"
       class="btn btn-success m-1"
@@ -175,6 +112,7 @@
       @click="submitt"
     />
     <input
+      v-if="this.paso + 1 == this.length"
       class="btn btn-success m-1"
       type="button"
       value="Verpdf"
@@ -190,7 +128,7 @@ import { mapActions } from "vuex";
 
 let procedure = {
   userId: 1,
-  categoryId: 6,
+  categoryId: null,
   statusId: 1,
   selected: null,
   questions: [],
@@ -213,9 +151,14 @@ export default {
       textInput: "",
       selected: 0,
       submitted: false,
+      catId: null,
     };
   },
-  created() {},
+  created() {
+    console.log(this.$route.params.categoriaId);
+    this.catId = this.$route.params.categoriaId;
+    procedure.categoryId = this.$route.params.categoriaId;
+  },
   methods: {
     ...mapActions(["saveP"]),
 
@@ -227,10 +170,6 @@ export default {
       } else if (this.selected != 0 && this.textInput == "") {
         this.next();
       }
-    },
-
-    back() {
-      this.paso--;
     },
 
     next() {
@@ -260,25 +199,24 @@ export default {
         ],
       };
 
-      let p = [
-        {
-          question: this.questionProp[0].question[this.paso].id,
-          options: [
-            {
-              questionOption:
-                this.questionProp[0].question[this.paso].question_options[
-                  choice
-                ].id,
-              answer: optionTitle,
-            },
-          ],
-        },
-      ];
+      // let p = [
+      //   {
+      //     question: this.questionProp[0].question[this.paso].id,
+      //     options: [
+      //       {
+      //         questionOption:
+      //           this.questionProp[0].question[this.paso].question_options[
+      //             choice
+      //           ].id,
+      //         answer: optionTitle,
+      //       },
+      //     ],
+      //   },
+      // ];
 
       console.log(q);
 
       procedure.questions.push(q);
-      this.$store.commit("saveProcedure", JSON.stringify(p[0]));
 
       this.selected = 0;
       choice = 0;
@@ -311,6 +249,8 @@ export default {
           })
           .then((response) => {
             if (response.status == 201) {
+              this.$store.commit("saveProcedure", JSON.stringify(procedure));
+
               this.submitted = true;
               this.$router.replace({ path: "/prueba" });
             }
@@ -321,21 +261,17 @@ export default {
             console.log(err);
           });
 
-        // dbService
-        //   .postProcedure(procedure)
-        //   .then((response) => {
-        //     if (response.status == 201) {
-        //       this.submitted = true;
-        //       this.$router.replace({ path: "/prueba" });
-        //     }
-
-        //     console.log(response);
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
         this.loading = false;
       }
+    },
+
+    back() {
+      this.paso--;
+      procedure.questions.pop();
+      console.log(procedure.questions);
+    },
+    cancel() {
+      location.replace("/munienlinea");
     },
     ver() {
       var doc = new jsPDF();
@@ -355,6 +291,10 @@ export default {
 </script>
 
 <style scoped>
+.btn-div {
+  margin-top: 5%;
+}
+
 .file-container {
   border: 1px solid var(--grey);
   padding: 20px;
@@ -371,7 +311,6 @@ h1,
 
 .option-text {
   font-size: 1.1em;
-  margin: 0 5px;
 }
 
 .input-option {
@@ -386,8 +325,8 @@ h1,
 }
 
 .option {
-  margin: 10px;
   text-align: left;
+  margin-top: 10px;
 }
 
 .option input {

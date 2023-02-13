@@ -30,7 +30,7 @@
 
         <router-link
           class="btn-iniciar"
-          :to="`/formulario/${tramite.title}/${tramite.id}`"
+          :to="`/formulario/${this.$route.params.sectorId}/${tramite.title}/${tramite.id}`"
         >
           Iniciar tramite
         </router-link>

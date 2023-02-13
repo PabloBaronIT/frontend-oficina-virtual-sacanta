@@ -20,7 +20,7 @@ export default createStore({
     saveProcedure(state, p) {
       console.log("Vuex: " + p);
       console.log(p);
-      debugger;
+
       let obj = JSON.parse(p);
       console.log(obj);
       state.procedure.push(obj);

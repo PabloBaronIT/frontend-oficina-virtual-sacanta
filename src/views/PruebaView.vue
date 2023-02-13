@@ -59,7 +59,8 @@
                 ></button>
               </div>
               <div class="modal-body text-start">
-                <h2>{{ this.$store }}</h2>
+                <h2>{{ this.$store.state.procedure[0] }}</h2>
+
                 <h4>Pregunta 1</h4>
                 <p>respuesta, opcion elegida</p>
                 <h4>Pregunta 1</h4>
@@ -105,7 +106,7 @@ export default {
     };
   },
   created() {
-    console.log(this.$store);
+    console.log(this.$store.state);
     setTimeout(() => {
       this.modal = true;
     }, 1000);
