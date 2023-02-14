@@ -2,7 +2,10 @@
   <div class="carousel-container">
     <Carousel :autoplay="1700" :items-to-show="4" :wrap-around="true">
       <Slide class="tramite">
-        <router-link :to="`/formulario/Sacar%20turno/1`" class="carousel__item">
+        <router-link
+          :to="`/formulario/1/Habilitación%20de%20negocio/1`"
+          class="carousel__item"
+        >
           <p>Habilitacion de comercio</p>
 
           <img src="@/assets/tramitesSVG/dni.svg" />

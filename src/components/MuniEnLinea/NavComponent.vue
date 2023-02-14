@@ -42,9 +42,8 @@
         <strong>
           {{ this.usuario }},<br />
           {{ this.apellido }}<br />
-          {{ this.role }}<br />
         </strong>
-        <p>DNI: {{ this.dni }}</p>
+        <p>CUIL: {{ this.dni }}</p>
       </div>
     </div>
 
@@ -60,21 +59,6 @@
         Mis tramites
       </router-link>
 
-      <router-link v-show="permission" :to="`/prueba`" class="bn3">
-        Comprobantes
-      </router-link>
-      <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
-        Domicilio fiscal electronico
-      </router-link>
-
-      <input
-        @click="log"
-        class="bn3"
-        type="button"
-        value="Representados"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      />
       <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>
 

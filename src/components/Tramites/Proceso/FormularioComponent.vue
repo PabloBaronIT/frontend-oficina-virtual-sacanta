@@ -1,5 +1,5 @@
 <template>
-  <div class="question">
+  <div class="question" v-if="!loading">
     <h3>{{ questionProp[0].question[this.paso].title }}</h3>
     <p>Completar las preguntas para cada tramite</p>
 

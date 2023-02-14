@@ -2,14 +2,14 @@
   <!-- Barra de nusqueda con svg de lupa  -->
   <!-- Componente usado en MainCointainerComponent -->
   <div class="busqueda-container">
-    <input type="text" placeholder="Buscar servicio" />
+    <input type="text" placeholder="Buscar trámite" />
     <img src="@/assets/busqueda.svg" alt="" />
   </div>
 </template>
 
 <style scoped>
 img {
-  max-width: 25px;
+  max-width: 20px;
 }
 
 img:hover {
@@ -21,13 +21,14 @@ img:hover {
   margin: 0 50px;
   background: var(--red);
   padding: 10px;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 
 .busqueda-container input {
-  border-radius: 30px;
+  border-radius: 8px;
   border: none;
-  margin-right: 10px;
+  margin-right: 6px;
   outline: none;
+  padding: 10px;
 }
 </style>

@@ -26,7 +26,44 @@
         <th>Asunto</th>
         <th>Estado</th>
       </tr>
-      <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
+      <tr
+        class="fila-tabla"
+        v-for="(p, key) in this.activos"
+        @click="verTramite(p.id)"
+        :key="key"
+      >
+        <div class="grafico-container" v-if="selectedTramite === p.id">
+          <div class="modal-content">
+            <h1>Historial del trámite "{{ selectedTramite }}"</h1>
+
+            <div v-for="item in history" :key="item.id">
+              <span v-if="item.id === selectedTramite">
+                <span
+                  class="question"
+                  v-for="(q, key) in item.questions"
+                  :key="key"
+                >
+                  {{ q.question.title }}
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <!-- <h2>{{ p.id }}</h2>
+
+          {{ p.cuil }}
+
+          {{ this.selectedHistory }} -->
+
+          <!-- <div v-for="(option, key) in this.history" :key="key">
+            <h2>{{ key }}</h2>
+            <section v-for="(q, key) in option.questions" :key="key">
+              {{ q.question.title }}
+              {{ q.question_option_history[0].answer }}
+            </section>
+          </div> -->
+        </div>
+
         <td><input type="checkbox" @click="check(p.id)" :value="p.id" /></td>
         <td>Escritura terreno</td>
         <td>{{ p.id }}</td>
@@ -63,8 +100,11 @@ export default {
   },
   data() {
     return {
+      selectedHistory: null,
+      selectedTramite: null,
       checkbox: [],
       activos: [],
+      history: null,
     };
   },
   created() {
@@ -82,6 +122,11 @@ export default {
       .then((response) => {
         let h = response.data.history;
         let l = h.length;
+
+        this.history = h;
+
+        console.log("Hola");
+        console.log(response);
 
         for (let i = 0; i < l; i++) {
           //Procedure
@@ -174,29 +219,23 @@ export default {
     //   });
   },
   methods: {
-    updateStatus() {
-      let apiClientAuth = axios.create({
-        baseURL: "//localhost:3000/",
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
+    verTramite(id) {
+      this.selectedTramite = id;
 
-      for (let i = 0; i < this.checkbox.length; i++) {
-        console.log(this.checkbox[i]);
-        apiClientAuth
-          .put(
-            "/oficina/procedures/procedure/update-status/" + this.checkbox[i],
-            { status: 1 }
-          )
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
+      // Buscamos el elemento en el array history con el mismo id que selectedTramite
+
+      for (let i = 0; i < this.history.length; i++) {
+        if (this.history[i].id === id) {
+          this.selectedHistory = this.history[i];
+          break;
+        }
       }
+
+      // Mostramos el estado del elemento encontrado
+      console.log(this.selectedHistory);
+
+      this.modal = !this.modal;
+      console.log(id);
     },
 
     check(id) {
@@ -276,6 +315,43 @@ export default {
 </script>
 
 <style scoped>
+.modal-content {
+  border: 1px solid red;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.question {
+}
+
+.grafico-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 5%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px; /* Need a specific value to work */
+  height: auto;
+  border-radius: 10px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(5.5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
 .cant {
   display: flex;
   margin: 0;
