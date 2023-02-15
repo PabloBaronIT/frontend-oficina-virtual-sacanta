@@ -2,16 +2,17 @@
   <div class="filtro-container">
     <input type="button" @click="updateStatus()" value="Actualizar estado" />
     <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
+    VER FILTROS DE ESTADO
     <select name="" id="">
       <option>
+        Solicitados
         <input type="button" @click="getFiltro(1)" value="Solicitados" />
       </option>
       <option>
+        En proceso
         <input type="button" value="En proceso" @click="getFiltro(2)" />
       </option>
-      <option>
-        <input type="button" value="Finalizado" @click="getFiltro(4)" />
-      </option>
+      <option @click="getFiltro(4)">Finalizados</option>
     </select>
   </div>
   <div class="tabla-container">
@@ -53,16 +54,16 @@
                 <h3>Datos del vecino:</h3>
                 <div class="user-data-container">
                   <div class="user-data">
-                    <p>Nombre: {{ item.user.firstname }}</p>
+                    <p><b>Nombre:</b> {{ item.user.firstname }}</p>
 
-                    <p>Apellido: {{ item.user.lastname }}</p>
+                    <p><b>Apellido:</b> {{ item.user.lastname }}</p>
 
-                    <p>Email: {{ item.user.email }}</p>
+                    <p><b>Email:</b> {{ item.user.email }}</p>
                   </div>
                   <div class="user-data">
-                    <p>CUIL: {{ item.user.cuil }}</p>
+                    <p><b>CUIL:</b> {{ item.user.cuil }}</p>
 
-                    <p>Dirección: {{ item.user.adress }}</p>
+                    <p><b>Dirección:</b> {{ item.user.adress }}</p>
                   </div>
                 </div>
               </div>
@@ -78,6 +79,17 @@
                 </h5>
                 <p>{{ q.question_option_history[0].answer }}</p>
               </section>
+              <input
+                class="btn btn-primary mx-2"
+                type="button"
+                value="Modificar Estado"
+              />
+
+              <input
+                class="btn btn-outline-primary"
+                type="button"
+                value="Documento"
+              />
             </section>
           </div>
         </div>
