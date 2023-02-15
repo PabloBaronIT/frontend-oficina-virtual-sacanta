@@ -252,10 +252,13 @@ export default {
           })
           .then((response) => {
             if (response.status == 201) {
+              this.$store.commit("cleanStore");
               this.$store.commit("saveProcedure", JSON.stringify(procedure));
 
               this.submitted = true;
               this.$router.replace({ path: "/prueba" });
+              debugger;
+              procedure.questions = [];
             }
 
             console.log(response);
@@ -267,7 +270,6 @@ export default {
         this.loading = false;
       }
     },
-
     back() {
       this.paso--;
       procedure.questions.pop();
@@ -280,13 +282,10 @@ export default {
       var doc = new jsPDF();
       doc.setTextColor(120, 12, 3);
       doc.setFontSize(22);
-
       doc.text(20, 20, `${procedure.questions[0].options[0].answer}`);
-
       doc.setTextColor(20);
       doc.setFontSize(16);
       doc.text(20, 30, "This is some normal sized text underneath.");
-
       doc.save("a4.pdf");
     },
   },

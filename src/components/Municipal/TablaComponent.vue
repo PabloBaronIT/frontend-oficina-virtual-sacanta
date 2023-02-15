@@ -32,38 +32,6 @@
         @click="verTramite(p.id)"
         :key="key"
       >
-        <div class="grafico-container" v-if="selectedTramite === p.id">
-          <div class="modal-content">
-            <h1>Historial del trámite "{{ selectedTramite }}"</h1>
-
-            <div v-for="item in history" :key="item.id">
-              <span v-if="item.id === selectedTramite">
-                <span
-                  class="question"
-                  v-for="(q, key) in item.questions"
-                  :key="key"
-                >
-                  {{ q.question.title }}
-                </span>
-              </span>
-            </div>
-          </div>
-
-          <!-- <h2>{{ p.id }}</h2>
-
-          {{ p.cuil }}
-
-          {{ this.selectedHistory }} -->
-
-          <!-- <div v-for="(option, key) in this.history" :key="key">
-            <h2>{{ key }}</h2>
-            <section v-for="(q, key) in option.questions" :key="key">
-              {{ q.question.title }}
-              {{ q.question_option_history[0].answer }}
-            </section>
-          </div> -->
-        </div>
-
         <td><input type="checkbox" @click="check(p.id)" :value="p.id" /></td>
         <td>Escritura terreno</td>
         <td>{{ p.id }}</td>
@@ -73,6 +41,61 @@
           <p :style="`background: ${p.color}`">{{ p.estado }}</p>
         </td>
       </tr>
+      <div class="grafico-container" v-if="this.modal === true">
+        <div class="modal-content">
+          <div class="modal-top">
+            <h3>Historial del trámite Id: {{ selectedTramite }}</h3>
+            <img @click="Modal()" class="svg" src="@/assets/close.svg" alt="" />
+          </div>
+          <div class="data-container" v-for="item in history" :key="item.id">
+            <section v-if="item.id === selectedTramite">
+              <div class="data-container">
+                <h3>Datos del vecino:</h3>
+                <div class="user-data-container">
+                  <div class="user-data">
+                    <p>Nombre: {{ item.user.firstname }}</p>
+
+                    <p>Apellido: {{ item.user.lastname }}</p>
+
+                    <p>Email: {{ item.user.email }}</p>
+                  </div>
+                  <div class="user-data">
+                    <p>CUIL: {{ item.user.cuil }}</p>
+
+                    <p>Dirección: {{ item.user.adress }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3>Info tramite:</h3>
+              <section
+                class="question"
+                v-for="(q, key) in item.questions"
+                :key="key"
+              >
+                <h5>
+                  {{ q.question.title }}
+                </h5>
+                <p>{{ q.question_option_history[0].answer }}</p>
+              </section>
+            </section>
+          </div>
+        </div>
+
+        <!-- <h2>{{ p.id }}</h2>
+
+          {{ p.cuil }}
+
+          {{ this.selectedHistory }} -->
+
+        <!-- <div v-for="(option, key) in this.history" :key="key">
+            <h2>{{ key }}</h2>
+            <section v-for="(q, key) in option.questions" :key="key">
+              {{ q.question.title }}
+              {{ q.question_option_history[0].answer }}
+            </section>
+          </div> -->
+      </div>
     </table>
     <div class="filtro-filas">
       <div class="nav">
@@ -100,6 +123,7 @@ export default {
   },
   data() {
     return {
+      modal: false,
       selectedHistory: null,
       selectedTramite: null,
       checkbox: [],
@@ -221,7 +245,7 @@ export default {
   methods: {
     verTramite(id) {
       this.selectedTramite = id;
-
+      this.modal = true;
       // Buscamos el elemento en el array history con el mismo id que selectedTramite
 
       for (let i = 0; i < this.history.length; i++) {
@@ -234,7 +258,6 @@ export default {
       // Mostramos el estado del elemento encontrado
       console.log(this.selectedHistory);
 
-      this.modal = !this.modal;
       console.log(id);
     },
 
@@ -307,6 +330,10 @@ export default {
     select() {
       alert("Terminar metodo");
     },
+    Modal() {
+      this.selectedTramite = null;
+      this.modal = false;
+    },
     update() {
       return "";
     },
@@ -315,8 +342,34 @@ export default {
 </script>
 
 <style scoped>
+section h3 {
+  text-decoration: underline;
+}
+
+.user-data-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.user-data {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.modal-top {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
 .modal-content {
-  border: 1px solid red;
   height: 100%;
   width: 100%;
   display: flex;
@@ -325,7 +378,13 @@ export default {
   align-items: center;
 }
 
-.question {
+.data-container {
+  display: flex;
+  flex-flow: column wrap;
+  height: auto;
+  width: 100%;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .grafico-container {
@@ -335,7 +394,7 @@ export default {
   align-items: center;
   z-index: 15;
   position: absolute;
-  top: 5%;
+  top: 30%;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -343,11 +402,13 @@ export default {
   width: 500px; /* Need a specific value to work */
   height: auto;
   border-radius: 10px;
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(5.5px);
-  -webkit-backdrop-filter: blur(5.5px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
@@ -362,7 +423,7 @@ export default {
 }
 
 .svg {
-  max-width: 15px;
+  max-width: 20px;
 }
 
 input[type="checkbox"] {
