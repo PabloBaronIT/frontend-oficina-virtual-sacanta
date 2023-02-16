@@ -3,16 +3,11 @@
     <input type="button" @click="updateStatus()" value="Actualizar estado" />
     <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
     VER FILTROS DE ESTADO
-    <select name="" id="">
-      <option>
-        Solicitados
-        <input type="button" @click="getFiltro(1)" value="Solicitados" />
-      </option>
-      <option>
-        En proceso
-        <input type="button" value="En proceso" @click="getFiltro(2)" />
-      </option>
-      <option @click="getFiltro(4)">Finalizados</option>
+    <select @change="getFiltro($event)" name="" id="">
+      <option value="0">Todos</option>
+      <option value="1">Solicitado</option>
+      <option value="2">En proceso</option>
+      <option value="3">Finalizados</option>
     </select>
   </div>
   <div class="tabla-container">
@@ -42,6 +37,8 @@
           <p :style="`background: ${p.color}`">{{ p.estado }}</p>
         </td>
       </tr>
+
+      <!-- - - - - - - Inicio modal - - - - - -   -->
       <div class="grafico-container" v-if="this.modal === true">
         <div class="modal-content">
           <div class="modal-top">
@@ -144,74 +141,13 @@ export default {
     };
   },
   created() {
+    this.getProcedures();
+
     //Pedir solamente los que vengan desde una prop del status
-    const apiClient = axios.create({
-      baseURL: "//localhost:3000/",
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get("/oficina/procedures/history")
-      .then((response) => {
-        let h = response.data.history;
-        let l = h.length;
-
-        this.history = h;
-
-        console.log("Hola");
-        console.log(response);
-
-        for (let i = 0; i < l; i++) {
-          //Procedure
-          let p = {
-            id: null,
-            cuil: null,
-            categoria: "",
-            estado: "",
-            color: "",
-          };
-          //Carga del procedure
-          p.id = h[i].id;
-          p.cuil = h[i].user.cuil;
-          p.categoria = h[i].category.title;
-          p.estado = h[i].status.status;
-
-          switch (p.estado) {
-            case "SOLICITADO":
-              p.color = "var(--green)";
-              break;
-            case "EN PROCESO":
-              p.color = "var(--red)";
-              break;
-
-            default:
-              break;
-          }
-
-          this.activos.push(p);
-
-          console.log(p);
-        }
-
-        this.length = response.data.length;
-
-        console.log(response.data.history);
-
-        console.log(h[0].status);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    // dbService
     //   .getHistorialTramites()
     //   .then((response) => {
     //     let h = response.data.history;
     //     let l = h.length;
-
     //     for (let i = 0; i < l; i++) {
     //       //Procedure
     //       let p = {
@@ -226,7 +162,6 @@ export default {
     //       p.cuil = h[i].user.cuil;
     //       p.categoria = h[i].category.title;
     //       p.estado = h[i].status.status;
-
     //       switch (p.estado) {
     //         case "SOLICITADO":
     //           p.color = "var(--green)";
@@ -234,20 +169,14 @@ export default {
     //         case "EN PROCESO":
     //           p.color = "var(--red)";
     //           break;
-
     //         default:
     //           break;
     //       }
-
     //       this.activos.push(p);
-
     //       console.log(p);
     //     }
-
     //     this.length = response.data.length;
-
     //     console.log(response.data.history);
-
     //     console.log(h[0].status);
     //   })
     //   .catch((err) => {
@@ -255,31 +184,8 @@ export default {
     //   });
   },
   methods: {
-    verTramite(id) {
-      this.selectedTramite = id;
-      this.modal = true;
-      // Buscamos el elemento en el array history con el mismo id que selectedTramite
-
-      for (let i = 0; i < this.history.length; i++) {
-        if (this.history[i].id === id) {
-          this.selectedHistory = this.history[i];
-          break;
-        }
-      }
-
-      // Mostramos el estado del elemento encontrado
-      console.log(this.selectedHistory);
-
-      console.log(id);
-    },
-
-    check(id) {
-      this.checkbox.push(id);
-      console.log(this.checkbox);
-    },
-
-    getFiltro(s) {
-      let apiClientAuth = axios.create({
+    getProcedures() {
+      const apiClient = axios.create({
         baseURL: "//localhost:3000/",
         withCredentials: false,
         headers: {
@@ -287,15 +193,16 @@ export default {
         },
       });
 
-      this.activos = [];
-
-      apiClientAuth
-        .get("/oficina/procedures/history-procedures/status/" + s)
+      apiClient
+        .get("/oficina/procedures/history")
         .then((response) => {
-          console.log(response);
-          let h = response.data;
-
+          let h = response.data.history;
           let l = h.length;
+
+          this.history = h;
+
+          console.log("Hola");
+          console.log(response);
 
           for (let i = 0; i < l; i++) {
             //Procedure
@@ -308,7 +215,7 @@ export default {
             };
             //Carga del procedure
             p.id = h[i].id;
-            // p.cuil = h[i].user.cuil;
+            p.cuil = h[i].user.cuil;
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
 
@@ -335,19 +242,111 @@ export default {
 
           console.log(h[0].status);
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((err) => {
+          console.log(err);
         });
+
+      // dbService
     },
-    select() {
-      alert("Terminar metodo");
+
+    verTramite(id) {
+      this.selectedTramite = id;
+      this.modal = true;
+      // Buscamos el elemento en el array history con el mismo id que selectedTramite
+
+      for (let i = 0; i < this.history.length; i++) {
+        if (this.history[i].id === id) {
+          this.selectedHistory = this.history[i];
+          break;
+        }
+      }
+
+      // Mostramos el estado del elemento encontrado
+      console.log(this.selectedHistory);
+
+      console.log(id);
     },
+
+    check(id) {
+      this.checkbox.push(id);
+      console.log(this.checkbox);
+    },
+
+    getFiltro(event) {
+      let apiClient = axios.create({
+        baseURL: "//localhost:3000/",
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      this.activos = [];
+
+      if (event.target.value == 0) {
+        this.getProcedures();
+      } else {
+        apiClient
+          .get(
+            "/oficina/procedures/history-procedures/status/" +
+              event.target.value
+          )
+          .then((response) => {
+            console.log(response);
+            let h = response.data;
+
+            let l = h.length;
+
+            for (let i = 0; i < l; i++) {
+              //Procedure
+              let p = {
+                id: null,
+                cuil: null,
+                categoria: "",
+                estado: "",
+                color: "",
+              };
+              //Carga del procedure
+              p.id = h[i].id;
+              // p.cuil = h[i].user.cuil;
+              p.categoria = h[i].category.title;
+              p.estado = h[i].status.status;
+
+              switch (p.estado) {
+                case "SOLICITADO":
+                  p.color = "var(--green)";
+                  break;
+                case "EN PROCESO":
+                  p.color = "var(--red)";
+                  break;
+
+                default:
+                  break;
+              }
+
+              this.activos.push(p);
+
+              console.log(p);
+            }
+
+            this.length = response.data.length;
+
+            console.log(response.data.history);
+
+            console.log(h[0].status);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+
     Modal() {
       this.selectedTramite = null;
       this.modal = false;
     },
-    update() {
-      return "";
+    updateStatus() {
+      console.log("jpña");
     },
   },
 };
