@@ -22,6 +22,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "ResetView",
@@ -51,6 +52,9 @@ export default {
         })
         .then((response) => {
           console.log(response);
+          if ((response.status = 200)) {
+            router.go("/munienlinea");
+          }
         })
         .catch((e) => {
           console.log(e);
