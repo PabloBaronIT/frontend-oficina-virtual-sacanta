@@ -69,6 +69,12 @@ const routes = [
     component: () => import("@/views/ComunicacionesView.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/auth/reset-password/:token",
+    name: "reset-password",
+    component: () => import("@/views/ResetView.vue"),
+    meta: { requiresAuth: false },
+  },
 ];
 
 const router = createRouter({

@@ -58,6 +58,13 @@
       <router-link v-show="permission" :to="`/tramites`" class="bn3">
         Mis tramites
       </router-link>
+      <router-link
+        v-show="permission"
+        :to="`/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjc2NTc5MjM4LCJleHAiOjE2NzY1ODAxMzh9.sWwDOv_FoM8ruehI3NIcYgeyFzYCSe4aJWOe_8c3dx0`"
+        class="bn3"
+      >
+        Mis tramites
+      </router-link>
 
       <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>

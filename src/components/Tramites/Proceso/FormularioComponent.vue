@@ -140,6 +140,7 @@ export default {
 
   props: {
     length: Number,
+    procedureId: Number,
     question_id: Number,
     questionProp: Object,
     title: String,
@@ -161,6 +162,7 @@ export default {
     this.catId = this.$route.params.categoriaId;
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
+    procedure.procedureId = this.procedureId;
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -231,6 +233,7 @@ export default {
     submitt() {
       this.preNext();
 
+      console.log("hola");
       console.log(procedure);
 
       if (this.validation) {
@@ -249,6 +252,7 @@ export default {
             categoryId: procedure.categoryId,
             statusId: procedure.statusId,
             questions: procedure.questions,
+            procedureId: procedure.procedureId,
           })
           .then((response) => {
             if (response.status == 201) {

@@ -29,7 +29,7 @@
         :key="key"
       >
         <td><input type="checkbox" @click="check(p.id)" :value="p.id" /></td>
-        <td>Escritura terreno</td>
+        <td>{{ p.procedure }}</td>
         <td>{{ p.id }}</td>
         <td>{{ p.cuil }}</td>
         <td>{{ p.categoria }}</td>
@@ -196,7 +196,7 @@ export default {
       apiClient
         .get("/oficina/procedures/history")
         .then((response) => {
-          let h = response.data.history;
+          let h = response.data.historyArray;
           let l = h.length;
 
           this.history = h;
@@ -211,13 +211,14 @@ export default {
               cuil: null,
               categoria: "",
               estado: "",
-              color: "",
+              procedure: "",
             };
             //Carga del procedure
             p.id = h[i].id;
             p.cuil = h[i].user.cuil;
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
+            p.procedure = h[i].procedure.title;
 
             switch (p.estado) {
               case "SOLICITADO":
@@ -304,13 +305,14 @@ export default {
                 cuil: null,
                 categoria: "",
                 estado: "",
-                color: "",
+                procedure: "",
               };
               //Carga del procedure
               p.id = h[i].id;
               // p.cuil = h[i].user.cuil;
               p.categoria = h[i].category.title;
               p.estado = h[i].status.status;
+              p.procedure = h[i].procedure.title;
 
               switch (p.estado) {
                 case "SOLICITADO":

@@ -8,6 +8,7 @@
       :title="title"
       :questionProp="preguntas"
       :length="this.length"
+      :procedureId="this.procedureId"
     />
 
     <!-- Armar componente de formulario con props -->
@@ -47,6 +48,7 @@ export default {
       .then((response) => {
         console.log(response.data);
         let r = response.data;
+        this.procedureId = r.id;
         this.title = r.title;
         this.length = r.question.length;
         this.preguntas.push(r);
