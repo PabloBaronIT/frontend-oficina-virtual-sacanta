@@ -11,28 +11,38 @@
         <th>Asunto</th>
         <th>Estado</th>
       </tr>
-      <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
+
+      <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
         <td><input type="checkbox" name="" :id="p.id" /></td>
         <td>Escritura terreno</td>
         <td>{{ p.id }}</td>
         <td>{{ p.fecha }}</td>
         <td>{{ p.categoria }}</td>
         <td :class="'estado-fila'">
-          <p :style="`background: ${p.color}`">{{ p.estado }}</p>
+          <p :style="`background: ${p.color}`">
+            {{ p.estado }} Realizar seguimiento
+          </p>
         </td>
       </tr>
     </table>
     <div class="filtro-filas">
       <div class="nav">
-        <img class="svg" src="@/assets/previous.svg" alt="" />
-        <b>1</b> 2 3
-        <img class="svg" src="@/assets/next.svg" alt="" />
+        <img
+          class="svg"
+          @click="backTramites"
+          src="@/assets/previous.svg"
+          alt=""
+        />
+        <!-- <div v-for="(i, k) in this.paginaActual" :key="k">
+          {{ i }}
+        </div> -->
+        <img @click="nextPag" class="svg" src="@/assets/next.svg" alt="" />
       </div>
-
-      <div class="cant">
-        <p>Cantidad de tramites:</p>
-
-        <input type="number" :value="this.length" class="cant-input" />
+      <p class="msj" v-if="this.msj != ''">{{ this.msj }}</p>
+      <div v-if="this.msj == ''" class="cant">
+        <p>
+          Cantidad total de tramites: <b>{{ this.activos.length }}</b>
+        </p>
       </div>
     </div>
   </div>
@@ -48,8 +58,14 @@ export default {
   },
   data() {
     return {
+      msj: "",
       length: null,
       activos: [],
+      mostrados: [],
+      paginas: 0,
+      paginaActual: 1.0,
+      cont: 0,
+      l: 0,
     };
   },
 
@@ -69,9 +85,9 @@ export default {
         let h = response.data;
 
         console.log(h);
-        let l = h.length;
+        this.l = h.length;
 
-        for (let i = 0; i < l; i++) {
+        for (let i = 0; i < this.l; i++) {
           //Procedure
           let p = {
             id: null,
@@ -112,74 +128,72 @@ export default {
 
         this.length = response.data.length;
 
-        // console.log(response.data);
-
-        // console.log(h[0].status);
+        this.cantTramites();
       })
       .catch((err) => {
         console.log(err);
       });
-
-    // dbService
-    //   .getHistorialTramites()
-    //   .then((response) => {
-    //     let h = response.data.history;
-    //     let l = h.length;
-
-    //     for (let i = 0; i < l; i++) {
-    //       //Procedure
-    //       let p = {
-    //         id: null,
-    //         cuil: null,
-    //         categoria: "",
-    //         estado: "",
-    //         color: "",
-    //       };
-    //       //Carga del procedure
-    //       p.id = h[i].id;
-    //       p.cuil = h[i].user.cuil;
-    //       p.categoria = h[i].category.title;
-    //       p.estado = h[i].status.status;
-
-    //       switch (p.estado) {
-    //         case "SOLICITADO":
-    //           p.color = "var(--green)";
-    //           break;
-    //         case "EN PROCESO":
-    //           p.color = "var(--red)";
-    //           break;
-
-    //         default:
-    //           break;
-    //       }
-
-    //       this.activos.push(p);
-
-    //       console.log(p);
-    //     }
-
-    //     this.length = response.data.length;
-
-    //     console.log(response.data.history);
-
-    //     console.log(h[0].status);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   },
   methods: {
+    cantTramites() {
+      this.paginas = this.l / 5;
+
+      this.mostrados = [];
+      console.log("paginas " + this.mostrados);
+      for (let i = 0; i < 5; i++) {
+        let p = this.activos[this.cont];
+
+        if (p != undefined) {
+          this.mostrados.push(p);
+          this.cont++;
+        }
+      }
+    },
+    backTramites() {
+      if (parseFloat(this.paginaActual) > 1) {
+        this.paginaActual--;
+        this.mostrados = [];
+        this.cont = (this.paginaActual - 1) * 5;
+        for (let i = 0; i < 5; i++) {
+          let p = this.activos[this.cont];
+          if (p != undefined) {
+            this.mostrados.push(p);
+            this.cont++;
+          }
+        }
+      }
+    },
     select() {
       alert("Terminar metodo");
     },
-    update() {
-      return "";
+    nextPag() {
+      console.log("hola");
+      if (parseFloat(this.paginaActual) < parseFloat(this.paginas)) {
+        this.paginaActual++;
+        this.cantTramites(this.l);
+      } else {
+        console.log("No hay mas páginas disponibles.");
+      }
     },
+    // backPag() {
+    //   console.log("chau");
+    //   if (parseFloat(this.paginaActual) > parseFloat(this.paginas)) {
+    //     this.paginaActual--;
+    //     this.backTramites(this.l);
+    //   } else {
+    //     console.log("No hay mas paginbas disponibles.");
+    //   }
+    // },
   },
 };
 </script>
 
 <style scoped>
+.msj {
+  border: 1px solid red;
+  width: 100%;
+}
+
 .cant {
   display: flex;
   margin: 0;

@@ -1,7 +1,6 @@
 <template>
   <div class="main-container">
     <h4>Tus tramites</h4>
-
     <Tabla color="var(--green)" />
   </div>
 </template>
