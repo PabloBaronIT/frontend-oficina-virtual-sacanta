@@ -39,7 +39,7 @@ export default {
   methods: {
     reset() {
       const apiClient = axios.create({
-        baseURL: "//localhost:3000/",
+        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         withCredentials: false,
         headers: {
           "reset-token": this.token,
