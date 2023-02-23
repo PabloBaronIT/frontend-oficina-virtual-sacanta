@@ -36,7 +36,7 @@ export default {
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
     const apiClient = axios.create({
-      baseURL: "//localhost:3000/",
+      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
       withCredentials: false,
       headers: {
         "auth-header": localStorage.getItem("token"),
