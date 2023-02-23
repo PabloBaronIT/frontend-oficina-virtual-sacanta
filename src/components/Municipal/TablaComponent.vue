@@ -186,7 +186,7 @@ export default {
   methods: {
     getProcedures() {
       const apiClient = axios.create({
-        baseURL: "//localhost:3000/",
+        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -275,7 +275,7 @@ export default {
 
     getFiltro(event) {
       let apiClient = axios.create({
-        baseURL: "//localhost:3000/",
+        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),

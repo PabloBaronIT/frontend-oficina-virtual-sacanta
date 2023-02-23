@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "//localhost:3000/",
+  baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
   withCredentials: false,
   headers: {
     "auth-header": localStorage.getItem("token"),
@@ -9,7 +9,7 @@ const apiClient = axios.create({
 });
 
 const apiClientAuth = axios.create({
-  baseURL: "//localhost:3000/",
+  baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
   withCredentials: false,
   headers: {
     "auth-header": localStorage.getItem("token"),

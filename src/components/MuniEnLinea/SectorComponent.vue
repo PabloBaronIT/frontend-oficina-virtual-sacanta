@@ -60,7 +60,7 @@ export default {
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
 
     const apiClient = axios.create({
-      baseURL: "//localhost:3000/",
+      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
       withCredentials: false,
       headers: {
         "auth-header": localStorage.getItem("token"),

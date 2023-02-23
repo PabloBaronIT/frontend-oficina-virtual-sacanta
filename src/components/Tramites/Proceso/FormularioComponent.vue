@@ -240,7 +240,7 @@ export default {
         this.loading = true;
         this.modal = true;
         const apiClient = axios.create({
-          baseURL: "//localhost:3000/",
+          baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
           withCredentials: false,
           headers: {
             "auth-header": localStorage.getItem("token"),
