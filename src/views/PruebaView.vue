@@ -92,7 +92,7 @@
 
 <script>
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
-import html2pdf from "html2pdf.js";
+import pdfMake from "pdfmake";
 export default {
   name: "PruebaView",
   data() {
@@ -110,24 +110,12 @@ export default {
   components: { PagarComponent },
   methods: {
     download() {
-      alert("Terminar funcion");
-      //     var doc = new jsPDF()
-      // doc.setTextColor(120,12,3)
-      // doc.setFontSize(22)
+      let docDefinition = {};
 
-      // doc.text(20, 20, 'Pregunta 1')
-
-      // doc.setTextColor(20)
-      // doc.setFontSize(16)
-      // doc.text(20, 30, 'This is some normal sized text underneath.')
+      pdfMake.cretePdf(docDefinition).download();
     },
     verComprobante() {
       this.comprobante = !this.comprobante;
-    },
-    PDF() {
-      var element = document.getElementById("elemento");
-
-      html2pdf(element);
     },
   },
 };

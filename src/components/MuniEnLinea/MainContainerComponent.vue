@@ -2,6 +2,7 @@
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <main class="flex-container">
     <div class="header">
+      <SideBar />
       <h1>Tramites mas frecuentes</h1>
       <!-- <Busqueda /> -->
     </div>
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
 // import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
 
@@ -64,6 +66,7 @@ export default {
   },
   components: {
     TramitesFrecuentes,
+    SideBar,
     // Busqueda,
   },
 };
@@ -169,7 +172,7 @@ h1 {
 
   font-weight: bold;
 }
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .flex-container {
     width: 100vw;
   }

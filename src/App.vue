@@ -6,18 +6,12 @@
       "
     />
 
-    <SideBar
-      v-if="
-        this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
-      "
-    />
     <router-view />
   </div>
 </template>
 
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
-import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 
 export default {
   data() {
@@ -37,7 +31,6 @@ export default {
   },
   components: {
     NavComponent,
-    SideBar,
   },
 };
 </script>

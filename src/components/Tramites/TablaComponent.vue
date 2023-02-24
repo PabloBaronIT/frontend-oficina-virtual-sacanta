@@ -20,7 +20,7 @@
         <td>{{ p.categoria }}</td>
         <td :class="'estado-fila'">
           <p :style="`background: ${p.color}`">
-            {{ p.estado }} Realizar seguimiento
+            {{ p.estado }}
           </p>
         </td>
       </tr>
@@ -56,6 +56,7 @@ export default {
   props: {
     color: String,
   },
+
   data() {
     return {
       msj: "",
@@ -68,7 +69,6 @@ export default {
       l: 0,
     };
   },
-
   created() {
     //Pedir solamente los que vengan desde una prop del status
     const apiClient = axios.create({
