@@ -264,10 +264,14 @@ export default {
               debugger;
               procedure.questions = [];
             }
-
             console.log(response);
           })
           .catch((err) => {
+            if (err.response.status == 401) {
+              alert("No esta autorizado para realizar este tramite.");
+              this.$router.replace({ path: "/munienlinea" });
+            }
+
             console.log(err);
           });
 

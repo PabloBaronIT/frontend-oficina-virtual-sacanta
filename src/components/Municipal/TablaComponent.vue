@@ -218,7 +218,7 @@ export default {
             p.cuil = h[i].user.cuil;
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
-            p.procedure = h[i].procedure.title;
+            // p.procedure = h[i].procedure.title;
 
             switch (p.estado) {
               case "SOLICITADO":
@@ -233,7 +233,7 @@ export default {
             }
 
             this.activos.push(p);
-
+            console.log("obj");
             console.log(p);
           }
 
@@ -308,6 +308,7 @@ export default {
                 procedure: "",
               };
               //Carga del procedure
+
               p.id = h[i].id;
               // p.cuil = h[i].user.cuil;
               p.categoria = h[i].category.title;

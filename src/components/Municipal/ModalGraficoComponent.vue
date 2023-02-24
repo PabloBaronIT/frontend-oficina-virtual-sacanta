@@ -47,8 +47,6 @@ export default {
     dbservice
       .getMunicipal(localStorage.getItem("id"))
       .then((response) => {
-        console.log("Grafico");
-        console.log(response);
         let r = response.data.required;
         let f = response.data.finalized;
         let i = response.data.inprocess;
