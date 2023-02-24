@@ -94,7 +94,9 @@ button {
 
 @media (max-width: 1000px) {
   button {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 40px;
     height: 40px;
     margin: 10px;
