@@ -190,6 +190,7 @@ nav a {
 }
 
 .nav-container {
+  color: var(--text-color);
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -217,8 +218,7 @@ nav a {
   text-decoration: none;
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  color: #000;
-  text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
+  color: #2d2d2d;
   text-align: center;
   transition: all 0.2s;
   width: 100%;

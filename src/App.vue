@@ -5,12 +5,19 @@
         this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
       "
     />
+
+    <SideBar
+      v-if="
+        this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
+      "
+    />
     <router-view />
   </div>
 </template>
 
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
+import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 
 export default {
   data() {
@@ -30,6 +37,7 @@ export default {
   },
   components: {
     NavComponent,
+    SideBar,
   },
 };
 </script>
@@ -47,7 +55,7 @@ export default {
   --text-color: #2c3e50;
   --grey-bk: #ebebeb;
   --grey: rgba(70, 70, 70, 0.459);
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto Slab", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -62,7 +70,7 @@ export default {
   display: flex;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   #app {
     width: 100vw;
   }

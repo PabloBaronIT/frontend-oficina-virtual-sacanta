@@ -3,7 +3,7 @@
   <main class="flex-container">
     <div class="header">
       <h1>Tramites mas frecuentes</h1>
-      <Busqueda />
+      <!-- <Busqueda /> -->
     </div>
     <TramitesFrecuentes />
 
@@ -28,7 +28,7 @@
 
 <script>
 import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
-import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
+// import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
 
 import axios from "axios";
 
@@ -64,7 +64,7 @@ export default {
   },
   components: {
     TramitesFrecuentes,
-    Busqueda,
+    // Busqueda,
   },
 };
 </script>

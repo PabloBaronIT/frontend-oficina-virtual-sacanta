@@ -40,9 +40,16 @@
           @click="log"
         />
       </FormKit>
+
       <!-- <div v-if="this.validar">
         <h2>Ingresaste correctamente</h2>
       </div> -->
+      <div class="loading-container text-grey">
+        <div v-if="this.loading" class="spinner-border loading" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
       <p class="error">{{ this.msj }}</p>
     </form>
     <div class="deco">
@@ -68,6 +75,7 @@ export default {
       password: "",
       validacion: null,
       msj: "",
+      loading: false,
     };
   },
   created() {
@@ -79,6 +87,7 @@ export default {
     //Login con AXIOS, hablar con patricio para mayor cant de detalles en response.data
 
     log() {
+      this.loading = true;
       let log = {
         password: this.password,
         cuil: this.cuil,
@@ -106,6 +115,7 @@ export default {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.user.role);
             this.$router.push("munienlinea");
+            this.loading = false;
           } else {
             this.validacion = false;
             this.msj = "Usuario incorrecto";
@@ -116,6 +126,7 @@ export default {
           console.log(error);
           this.validacion = false;
           this.msj = "Usuario incorrecto";
+          this.loading = false;
           console.log(this.msj);
         });
     },
