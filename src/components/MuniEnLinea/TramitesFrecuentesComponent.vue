@@ -85,15 +85,15 @@ export default defineComponent({
 }
 
 .tramite {
+  font-size: 0.9em;
   border-radius: 10px;
   border: 1px solid var(--red);
   font-weight: bold;
   padding: 20px;
   box-shadow: 0px 2px 5px rgb(97, 97, 97);
-  height: 110px;
+  height: 100%;
   margin: 20px 20px;
   display: flex;
-  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
 }

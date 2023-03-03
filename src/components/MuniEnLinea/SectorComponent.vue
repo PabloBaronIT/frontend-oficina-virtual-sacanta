@@ -16,7 +16,7 @@
       >
         <div class="descripcion">
           <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
-          <p>{{ tramite.title }}</p>
+          <p class="title">{{ tramite.title }}</p>
         </div>
         <div class="requisitos">
           <a href="">Ver requisitos</a>
@@ -145,6 +145,9 @@ export default {
     transform: translateY(0);
   }
 }
+.title {
+  color: var(--blue);
+}
 
 .hover {
   position: absolute;
@@ -161,7 +164,7 @@ export default {
 .sector-component {
   width: 70vw;
   height: 100vh;
-  background: rgb(235, 235, 235);
+  background: var;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 10px 0;

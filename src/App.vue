@@ -40,14 +40,32 @@ export default {
   box-sizing: border-box;
 }
 
+@media (prefers-color-scheme: light) {
+  #app {
+    --green: #68b984;
+    --blue: #415f77;
+    --yellow: #fff7e9;
+    --red: #e14d2a;
+    --text-color: #2c3e50;
+    --grey-bk: #ebebeb;
+    --grey: rgba(70, 70, 70, 0.459);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #app {
+    --green: #68b984;
+    --blue: #415f77;
+    --yellow: #ffffff;
+    --red: #e14d2a;
+    --text-color: #2c3e50;
+    --grey-bk: #ebebeb;
+    --grey: rgba(70, 70, 70, 0.459);
+  }
+}
+
 #app {
-  --green: #68b984;
-  --blue: #415f77;
-  --yellow: #fff7e9;
-  --red: #e14d2a;
-  --text-color: #2c3e50;
-  --grey-bk: #ebebeb;
-  --grey: rgba(70, 70, 70, 0.459);
+  overflow-x: hidden;
   font-family: "Roboto Slab", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

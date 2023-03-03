@@ -101,7 +101,6 @@
             }"
           />
         </div>
-
         <input
           class="btn btn-primary"
           type="button"
@@ -114,7 +113,7 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
+// import dbService from "@/services/dbService";
 
 export default {
   name: "RegisterComponent",
@@ -137,23 +136,20 @@ export default {
     // <p v-if="error" class="error">
 
     registrar() {
-      let registro = {
-        name: this.name,
-        lastname: this.lastname,
-        password: this.password,
-        email: this.email,
-        cuil: this.cuil,
-        adress: this.adress,
-      };
-
-      dbService
-        .postCreateUser(registro)
-        .then(function (response) {
-          console.log(response.data);
-        })
-        .catch(function (error) {
-          console.log(error.message);
-        });
+      // let registro = {
+      //   name: this.name,
+      //   lastname: this.lastname,
+      //   password: this.password,
+      //   email: this.email,
+      //   cuil: this.cuil,
+      //   adress: this.adress,
+      // };
+      //   dbService
+      //     .postCreateUser(registro)
+      //     .then(function (response) {})
+      //     .catch(function (error) {
+      //       console.log(error.message);
+      //     });
     },
   },
 };

@@ -17,6 +17,15 @@ export default {
 
 <style scoped>
 main {
-  width: 100%;
+  width: 80%;
+  height: 100vh;
+  background: var(--grey-bk);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
 }
+/* @media (max-width: 1000px) {
+  .main {
+    height: auto;
+  }
+} */
 </style>

@@ -2,7 +2,15 @@
   <div class="filtro-container">
     <input type="button" @click="updateStatus()" value="Actualizar estado" />
     <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
-    VER FILTROS DE ESTADO
+    <form class="d-flex">
+      <input
+        class="buscar"
+        type="search"
+        placeholder="Dato a buscar"
+        aria-label="Buscar"
+      />
+      <button class="btn btn-outline-success" type="submit">Buscar</button>
+    </form>
     <select @change="getFiltro($event)" name="" id="">
       <option value="0">Todos</option>
       <option value="1">Solicitado</option>
@@ -218,7 +226,7 @@ export default {
             p.cuil = h[i].user.cuil;
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
-            // p.procedure = h[i].procedure.title;
+            p.procedure = h[i].procedure.title;
 
             switch (p.estado) {
               case "SOLICITADO":
@@ -356,6 +364,9 @@ export default {
 </script>
 
 <style scoped>
+.buscar {
+}
+
 section h3 {
   text-decoration: underline;
 }
@@ -465,7 +476,7 @@ input:hover {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  border-bottom: 1px solid var(--grey);
+
   width: 100%;
   height: 40px;
 }
@@ -539,16 +550,15 @@ select {
   margin: 0 10px;
   color: var(--text-color);
   text-align: center;
-  background: var(--green);
+  background: none;
   border-radius: 20px;
-  border: none;
+  border: 1px solid var(--red);
   outline: none;
 }
 
 select option {
-  background: var(--green);
-  color: var(--text-color);
-  border: none;
+  background: none;
+  border: 1px solid var(--red);
   outline: none;
 }
 select option:hover {

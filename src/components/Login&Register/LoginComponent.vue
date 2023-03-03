@@ -1,11 +1,12 @@
 <template>
   <div class="login-container">
-    <div class="deco">
-      <h2>Municipalidad de campo Bravo</h2>
-    </div>
-
     <form>
-      <h1>Login de vecino</h1>
+      <img
+        class="w-50"
+        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
+        alt=""
+      />
+
       <FormKit
         type="form"
         id="registration-example"
@@ -13,7 +14,7 @@
         incomplete-message="Aun no has completado todos los campos."
       >
         <FormKit
-          v-model="this.cuil"
+          v-model="cuil"
           type="number"
           name="cuil"
           label="CUIL"
@@ -26,7 +27,7 @@
           }"
         />
         <FormKit
-          v-model="this.password"
+          v-model="password"
           type="password"
           name="password"
           label="Clave"
@@ -52,9 +53,6 @@
 
       <p class="error">{{ this.msj }}</p>
     </form>
-    <div class="deco">
-      <h2>Muni En Linea</h2>
-    </div>
   </div>
 </template>
 
@@ -81,46 +79,38 @@ export default {
   created() {
     localStorage.clear();
   },
+  beforeRouteLeave(to, from, next) {
+    localStorage.clear();
+    next();
+  },
+  beforeRouteEnter(to, from, next) {
+    localStorage.clear();
+    next();
+  },
   methods: {
     ...mapActions(["mockLogin"]),
 
-    //Login con AXIOS, hablar con patricio para mayor cant de detalles en response.data
-
     log() {
       this.loading = true;
-      let log = {
-        password: this.password,
-        cuil: this.cuil,
-      };
 
       dbService
-        .postLoginUser(log)
+        .postLoginUser({ password: this.password, cuil: this.cuil })
         .then((response) => {
-          if (response.status == 200) {
-            localStorage.removeItem("token");
-            this.validacion = true;
-            this.mockLogin();
-            localStorage.clear();
-            localStorage.setItem("name", response.data.user.firstname);
-            localStorage.setItem("lastname", response.data.user.lastname);
-            localStorage.setItem("cuil", response.data.user.cuil);
-            localStorage.setItem("adress", response.data.user.adress);
-            localStorage.setItem("email", response.data.user.email);
-            localStorage.setItem("id", response.data.user.id);
-            localStorage.setItem(
-              "fecha-creacion",
-              response.data.user.created_at
-            );
-            console.log(response.data);
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("role", response.data.user.role);
-            this.$router.push("munienlinea");
-            this.loading = false;
-          } else {
-            this.validacion = false;
-            this.msj = "Usuario incorrecto";
-            console.log(this.msj);
-          }
+          localStorage.removeItem("token");
+          this.validacion = true;
+          this.mockLogin();
+          localStorage.clear();
+          localStorage.setItem("name", response.data.firstname);
+          localStorage.setItem("lastname", response.data.lastname);
+          localStorage.setItem("cuil", response.data.cuil);
+          localStorage.setItem("adress", response.data.adress);
+          localStorage.setItem("email", response.data.email);
+          localStorage.setItem("id", response.data.id);
+          localStorage.setItem("fecha-creacion", response.data.created_at);
+          console.log(response.data);
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("role", response.data.role);
+          this.$router.push("munienlinea");
         })
         .catch((error) => {
           console.log(error);
@@ -128,27 +118,21 @@ export default {
           this.msj = "Usuario incorrecto";
           this.loading = false;
           console.log(this.msj);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
-
-    // log() {
-    //   if (this.validacion) {
-    //     this.mockLogin();
-    //     //$router.go(numero) para avanzar o retroceder en la pagina
-    //     this.$router.push({
-    //       path: "munienlinea",
-    //       // query: {
-    //       //   variable1: 1,
-    //       // },
-    //       replace: true,
-    //     });
-    //   }
-    // },
   },
 };
 </script>
 
 <style scoped>
+h1 {
+  color: var(--red);
+  font-weight: bold;
+}
+
 .error {
   color: red;
 }
@@ -167,17 +151,21 @@ export default {
   width: 100vw;
   height: 100vh;
   display: flex;
-  margin: 50px;
+  margin: 10px;
+  flex-flow: column wrap;
   justify-content: space-around;
   align-items: center;
   z-index: 50;
 }
 
 form {
+  width: 30%;
   box-shadow: 0px 0px 10px #333;
   display: flex;
+  align-items: center;
+  justify-content: baseline;
   flex-flow: column wrap;
-  padding: 120px 40px;
+  padding: 5% 10px;
   position: relative;
   z-index: 1;
   background: #fff;
@@ -187,7 +175,17 @@ form input {
   margin: 20px;
 }
 
-form h1 {
-  color: var(--red);
+form img {
+  margin-bottom: 15%;
+}
+
+@media (max-width: 800px) {
+  .deco {
+    display: none;
+  }
+
+  form {
+    width: 80%;
+  }
 }
 </style>

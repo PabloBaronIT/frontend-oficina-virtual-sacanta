@@ -1,7 +1,8 @@
 <template>
   <article>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
+        <a class="navbar-brand" href="#">OFICINA VIRTUAL</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -16,70 +17,55 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link est" aria-current="page">Ver estadisticas</a>
+              <a class="nav-link active" aria-current="page" href="#"
+                >Tamites</a
+              >
             </li>
-
+            <li class="nav-item">
+              <a class="nav-link" href="#">Vecinos</a>
+            </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
+                id="navbarDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Herramientas
+                Opciones
               </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item">Registrar usuario</a></li>
-                <li><a class="dropdown-item" href="#">Gestionar cuenta</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <a class="dropdown-item" href="#">Cerrar Sesion</a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Perfil
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Alguna accion</a></li>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item" @click="logOf()">Cerrar Sesion</a>
+                  <a @click="logOf()" class="dropdown-item" href="#"
+                    >Cerrar sesión</a
+                  >
                 </li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link pointer" @click="refresh()">Refrescar</a>
+              <a
+                class="nav-link disabled"
+                href="#"
+                tabindex="-1"
+                aria-disabled="true"
+                >Disabled</a
+              >
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Nombre del tramite"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Buscar
-            </button>
-          </form>
         </div>
       </div>
     </nav>
+
     <ModalGraficoComponent />
-    <Tabla />
+
+    <section><Tabla /></section>
+
     <hr />
-    <div class="article-container">
+    <div class="section-container">
       <RegisterComponent />
       <BarComponent class="ms-5" />
     </div>
@@ -123,6 +109,23 @@ export default {
 </script>
 
 <style scoped>
+.section-container {
+  width: 90%;
+  display: flex;
+  justify-content: space-around;
+}
+
+section {
+  border-radius: 10px;
+  width: 95%;
+  margin-top: 3%;
+  background: var(--yellow);
+}
+
+nav {
+  width: 100%;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -144,17 +147,7 @@ article {
   display: flex;
   flex-flow: column wrap;
   background: rgb(235, 235, 235);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  padding: 30px;
   justify-content: center;
   align-items: center;
-}
-
-.article-container {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
 }
 </style>

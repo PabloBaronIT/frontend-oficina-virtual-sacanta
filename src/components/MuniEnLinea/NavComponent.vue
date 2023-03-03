@@ -4,7 +4,7 @@
     <router-link to="/munienlinea">
       <img
         class="logo scale-up-center"
-        src="@/assets/muni-en-linea-logo.png"
+        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
         alt=""
       />
     </router-link>
@@ -29,15 +29,15 @@
           <router-link v-show="permission" :to="`/micuenta`">
             Mi cuenta
           </router-link>
-          <router-link v-show="permission" :to="`/comunicaciones`">
-            <a href="">
-              <img
-                class="svg"
-                src="@/assets/comunicacion.svg"
-                alt="comunicaciones"
-              />
-            </a>
-          </router-link>
+          <!-- <router-link v-show="permission" :to="`/comunicaciones`"> -->
+          <!-- <a href=""> -->
+          <img
+            class="svg"
+            src="@/assets/comunicacion.svg"
+            alt="comunicaciones"
+          />
+          <!-- </a> -->
+          <!-- </router-link> -->
         </div>
         <strong>
           {{ this.usuario }},<br />
@@ -56,13 +56,6 @@
         Inicio
       </router-link>
       <router-link v-show="permission" :to="`/tramites`" class="bn3">
-        Mis tramites
-      </router-link>
-      <router-link
-        v-show="permission"
-        :to="`/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjc2NTc5MjM4LCJleHAiOjE2NzY1ODAxMzh9.sWwDOv_FoM8ruehI3NIcYgeyFzYCSe4aJWOe_8c3dx0`"
-        class="bn3"
-      >
         Mis tramites
       </router-link>
 
@@ -101,9 +94,6 @@ export default {
   watch: {},
 
   methods: {
-    log() {
-      console.log(localStorage.getItem("token"));
-    },
     logOf() {
       localStorage.clear();
       location.reload();
@@ -198,7 +188,7 @@ nav a {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 300px;
+  width: 20%;
   padding: 0;
   height: 90vh;
 }

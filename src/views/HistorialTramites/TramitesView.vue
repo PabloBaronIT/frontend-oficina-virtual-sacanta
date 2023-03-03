@@ -32,8 +32,9 @@ h4 {
 }
 
 .main-container {
+  padding-top: 10px;
   height: 100vh;
-  width: 100%;
+  width: 80%;
   display: flex;
   padding: 0 20px;
   flex-flow: column wrap;
@@ -42,5 +43,12 @@ h4 {
   border-bottom-left-radius: 30px;
   justify-content: flex-start;
   align-items: center;
+}
+
+@media (max-width: 800px) {
+  .main-container {
+    width: 100%;
+    height: auto;
+  }
 }
 </style>

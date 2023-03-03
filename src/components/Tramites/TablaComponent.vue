@@ -2,22 +2,18 @@
   <div class="tabla-container">
     <table>
       <tr>
-        <th>
-          <input @click="select" type="checkbox" name="" id="" />
-        </th>
         <th>Titulo</th>
         <th>ID</th>
         <th>Ultimo movimiento</th>
-        <th>Asunto</th>
+        <th class="media">Asunto</th>
         <th>Estado</th>
       </tr>
 
       <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
-        <td><input type="checkbox" name="" :id="p.id" /></td>
-        <td>Escritura terreno</td>
+        <td>{{ p }}</td>
         <td>{{ p.id }}</td>
         <td>{{ p.fecha }}</td>
-        <td>{{ p.categoria }}</td>
+        <td class="media">{{ p.categoria }}</td>
         <td :class="'estado-fila'">
           <p :style="`background: ${p.color}`">
             {{ p.estado }}
@@ -25,6 +21,31 @@
         </td>
       </tr>
     </table>
+    <div class="loader">
+      <div
+        v-if="this.loading == true && this.msj === ''"
+        class="spinner-grow text-secondary"
+        role="status"
+      >
+        <span class="sr-only"></span>
+      </div>
+      <div
+        v-if="this.loading == true && this.msj === ''"
+        class="spinner-grow text-secondary"
+        role="status"
+      >
+        <span class="sr-only"></span>
+      </div>
+      <div
+        v-if="this.loading == true && this.msj === ''"
+        class="spinner-grow text-secondary"
+        role="status"
+      >
+        <span class="sr-only"></span>
+      </div>
+
+      <p v-if="this.msj !== ''">{{ this.msj }}</p>
+    </div>
     <div class="filtro-filas">
       <div class="nav">
         <img
@@ -33,12 +54,16 @@
           src="@/assets/previous.svg"
           alt=""
         />
-        <!-- <div v-for="(i, k) in this.paginaActual" :key="k">
-          {{ i }}
-        </div> -->
+        <div v-for="(i, k) in this.paginas" :key="k">
+          <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
+          <span v-if="this.paginaActual === k" class="pagNum"
+            ><b>{{ k + 1 }}</b></span
+          >
+          <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
+        </div>
         <img @click="nextPag" class="svg" src="@/assets/next.svg" alt="" />
       </div>
-      <p class="msj" v-if="this.msj != ''">{{ this.msj }}</p>
+
       <div v-if="this.msj == ''" class="cant">
         <p>
           Cantidad total de tramites: <b>{{ this.activos.length }}</b>
@@ -59,14 +84,15 @@ export default {
 
   data() {
     return {
+      loading: true,
       msj: "",
       length: null,
       activos: [],
       mostrados: [],
-      paginas: 0,
-      paginaActual: 1.0,
+      paginaActual: 1,
       cont: 0,
       l: 0,
+      paginas: null,
     };
   },
   created() {
@@ -129,14 +155,16 @@ export default {
         this.length = response.data.length;
 
         this.cantTramites();
+        this.loading = false;
       })
       .catch((err) => {
         console.log(err);
+        this.msj = err.response.data.message;
       });
   },
   methods: {
     cantTramites() {
-      this.paginas = this.l / 5;
+      this.paginas = Math.ceil(this.length / 5);
 
       this.mostrados = [];
       console.log("paginas " + this.mostrados);
@@ -185,13 +213,25 @@ export default {
     //   }
     // },
   },
+  computed: {
+    pags() {
+      return "a";
+    },
+  },
 };
 </script>
 
 <style scoped>
-.msj {
-  border: 1px solid red;
-  width: 100%;
+.pagNum {
+  margin: 0 1.5px;
+}
+
+.loader {
+  margin: 10px;
+  width: 100vw;
+}
+.loader div {
+  margin: 10px;
 }
 
 .cant {
@@ -233,25 +273,25 @@ input:hover {
   align-items: baseline;
   justify-content: space-between;
   border-bottom: 1px solid var(--grey);
-  width: 100%;
+  width: 95%;
   height: 40px;
 }
 
 .filtro-filas input {
   width: 15%;
-  height: 20px;
+  height: 10px;
 }
 
 .tabla-container {
   width: 100%;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 table {
-  width: 100%;
+  width: 95%;
 }
 
 th,
@@ -274,5 +314,16 @@ td {
   background: var(--grey-bk);
   border-radius: 20px;
   padding: 3px;
+}
+
+/* @media (max-width: 1000px) {
+  table {
+    width: 90%;
+  }
+} */
+@media (max-width: 480px) {
+  .media {
+    display: none;
+  }
 }
 </style>

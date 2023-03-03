@@ -19,7 +19,6 @@ export default {
   },
   created() {
     localStorage.clear();
-    localStorage.setItem("token", "");
 
     window.dispatchEvent(
       new CustomEvent("token-localstorage-changed", {

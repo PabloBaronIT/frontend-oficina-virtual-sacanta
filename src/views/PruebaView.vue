@@ -1,4 +1,5 @@
 <template>
+  <SideBar />
   <div class="main">
     <div class="container">
       <div class="prueba-container l" v-if="!modal">
@@ -91,6 +92,7 @@
 </template>
 
 <script>
+import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
 import pdfMake from "pdfmake";
 export default {
@@ -102,12 +104,11 @@ export default {
     };
   },
   created() {
-    console.log(this.$store.state);
     setTimeout(() => {
       this.modal = true;
     }, 1000);
   },
-  components: { PagarComponent },
+  components: { PagarComponent, SideBar },
   methods: {
     download() {
       let docDefinition = {};
@@ -159,5 +160,11 @@ p {
 
 h2 {
   color: var(--red);
+}
+
+@media (max-width: 1000px) {
+  .main {
+    width: 100vw;
+  }
 }
 </style>

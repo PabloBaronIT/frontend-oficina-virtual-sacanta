@@ -57,8 +57,6 @@ export default {
       .get("/oficina/categories/categories")
       .then((response) => {
         this.categorias = response.data;
-
-        console.log("getCategories", response.data);
       })
       .catch((err) => {
         console.log(err);
@@ -125,7 +123,7 @@ img {
 }
 
 .flex-container {
-  width: 78vw;
+  width: 100%;
   height: auto;
   background: var(--grey-bk);
   border-top-left-radius: 30px;
@@ -172,9 +170,11 @@ h1 {
 
   font-weight: bold;
 }
+
 @media (max-width: 1000px) {
   .flex-container {
     width: 100vw;
+    height: auto;
   }
 }
 </style>

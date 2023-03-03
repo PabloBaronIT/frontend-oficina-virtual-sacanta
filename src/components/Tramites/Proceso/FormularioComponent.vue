@@ -1,11 +1,10 @@
 <template>
-  <div class="question" v-if="!loading">
+  <div v-if="this.loading" class="spinner-border" role="status">
+    <span>cargando rey</span>
+  </div>
+  <div class="question" v-if="!this.loading">
     <h3>{{ questionProp[0].question[this.paso].title }}</h3>
     <p>Completar las preguntas para cada tramite</p>
-
-    <div v-show="this.loading" class="spinner-border" role="status">
-      <span>cargando rey</span>
-    </div>
 
     <form action="" class="option-container">
       <div
@@ -158,7 +157,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.categoriaId);
     this.catId = this.$route.params.categoriaId;
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
@@ -190,12 +188,11 @@ export default {
             .title;
       }
 
-      console.log(choice);
-
       let q = {
         question: this.questionProp[0].question[this.paso].id,
         options: [
           {
+            questionTitle: this.questionProp[0].question[this.paso].title,
             questionOption:
               this.questionProp[0].question[this.paso].question_options[choice]
                 .id,
@@ -219,8 +216,6 @@ export default {
       //   },
       // ];
 
-      console.log(q);
-
       procedure.questions.push(q);
 
       this.selected = 0;
@@ -228,13 +223,10 @@ export default {
       this.textInput = "";
       this.validation = true;
       this.paso++;
-      console.log(this.paso + " paso");
     },
     submitt() {
       this.preNext();
-
-      console.log("hola");
-      console.log(procedure);
+      this.loading = true;
 
       if (this.validation) {
         this.loading = true;
@@ -258,13 +250,10 @@ export default {
             if (response.status == 201) {
               this.$store.commit("cleanStore");
               this.$store.commit("saveProcedure", JSON.stringify(procedure));
-
               this.submitted = true;
               this.$router.replace({ path: "/prueba" });
-              debugger;
               procedure.questions = [];
             }
-            console.log(response);
           })
           .catch((err) => {
             if (err.response.status == 401) {
@@ -273,6 +262,9 @@ export default {
             }
 
             console.log(err);
+          })
+          .finally(() => {
+            this.loading = false;
           });
 
         this.loading = false;
@@ -281,10 +273,9 @@ export default {
     back() {
       this.paso--;
       procedure.questions.pop();
-      console.log(procedure.questions);
     },
     cancel() {
-      location.replace("/munienlinea");
+      location.replace("/#/munienlinea");
     },
     ver() {
       var doc = new jsPDF();

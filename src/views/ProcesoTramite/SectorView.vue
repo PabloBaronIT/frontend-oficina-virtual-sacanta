@@ -19,7 +19,7 @@ export default {
 .sector-container {
   width: 100%;
   display: flex;
-  background: rgb(235, 235, 235);
+  background: var(--grey-bk);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 30px;
