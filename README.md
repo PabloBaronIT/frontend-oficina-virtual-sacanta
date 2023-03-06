@@ -7,6 +7,11 @@ Librerias: Axios, ChartJS, vue-carrousel
 Linter / Formaterr utilizado:  PRETTIER
 
 
+#TODO 
+Vlidar duración del token.
+Validar mejor los formularios (sanitizar).
+Vista eleccion de representados.
+
 ## Setup del proyecto
 ```
 npm install
