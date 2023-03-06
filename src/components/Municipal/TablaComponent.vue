@@ -115,11 +115,22 @@
       </div>
     </table>
     <div class="filtro-filas">
+      <div v-for="(i, k) in this.paginas" :key="k">
+        <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
+        <span v-if="this.paginaActual === k" class="pagNum"
+          ><b>{{ k + 1 }}</b></span
+        >
+        <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
+      </div>
+      <!-- 
+
+
+
       <div class="nav">
         <img class="svg" src="@/assets/previous.svg" alt="" />
         <b>1</b> 2 3
         <img class="svg" src="@/assets/next.svg" alt="" />
-      </div>
+      </div> -->
 
       <div class="cant">
         <p>Cantidad de tramites:</p>
@@ -146,6 +157,10 @@ export default {
       checkbox: [],
       activos: [],
       history: null,
+      paginas: null,
+      paginaActual: 1,
+      cont: 0,
+      l: 0,
     };
   },
   created() {
@@ -216,14 +231,14 @@ export default {
             //Procedure
             let p = {
               id: null,
-              cuil: null,
+              cuil: "",
               categoria: "",
               estado: "",
               procedure: "",
             };
             //Carga del procedure
             p.id = h[i].id;
-            p.cuil = h[i].user.cuil;
+            p.cuil = h[i].user;
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
             p.procedure = h[i].procedure.title;
@@ -241,15 +256,9 @@ export default {
             }
 
             this.activos.push(p);
-            console.log("obj");
-            console.log(p);
           }
 
           this.length = response.data.length;
-
-          console.log(response.data.history);
-
-          console.log(h[0].status);
         })
         .catch((err) => {
           console.log(err);
@@ -310,7 +319,7 @@ export default {
               //Procedure
               let p = {
                 id: null,
-                cuil: null,
+                cuil: "",
                 categoria: "",
                 estado: "",
                 procedure: "",
@@ -318,7 +327,7 @@ export default {
               //Carga del procedure
 
               p.id = h[i].id;
-              // p.cuil = h[i].user.cuil;
+              p.cuil = h[i].user.cuil;
               p.categoria = h[i].category.title;
               p.estado = h[i].status.status;
               p.procedure = h[i].procedure.title;
@@ -351,6 +360,43 @@ export default {
           });
       }
     },
+    cantTramites() {
+      this.paginas = Math.ceil(this.length / 5);
+
+      this.mostrados = [];
+      console.log("paginas " + this.mostrados);
+      for (let i = 0; i < 5; i++) {
+        let p = this.activos[this.cont];
+
+        if (p != undefined) {
+          this.mostrados.push(p);
+          this.cont++;
+        }
+      }
+    },
+    backTramites() {
+      if (parseFloat(this.paginaActual) > 1) {
+        this.paginaActual--;
+        this.mostrados = [];
+        this.cont = (this.paginaActual - 1) * 5;
+        for (let i = 0; i < 5; i++) {
+          let p = this.activos[this.cont];
+          if (p != undefined) {
+            this.mostrados.push(p);
+            this.cont++;
+          }
+        }
+      }
+    },
+    nextPag() {
+      console.log("hola");
+      if (parseFloat(this.paginaActual) < parseFloat(this.paginas)) {
+        this.paginaActual++;
+        this.cantTramites(this.l);
+      } else {
+        console.log("No hay mas páginas disponibles.");
+      }
+    },
 
     Modal() {
       this.selectedTramite = null;
@@ -364,9 +410,9 @@ export default {
 </script>
 
 <style scoped>
-.buscar {
+.pagNum {
+  margin: 0 1.5px;
 }
-
 section h3 {
   text-decoration: underline;
 }
