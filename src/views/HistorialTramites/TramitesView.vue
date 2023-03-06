@@ -32,11 +32,10 @@ h4 {
 }
 
 .main-container {
-  padding-top: 10px;
   height: 100vh;
   width: 80%;
   display: flex;
-  padding: 0 20px;
+  padding: 3%;
   flex-flow: column wrap;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
