@@ -121,6 +121,7 @@ export default {
             categoria: "",
             estado: "",
             color: "",
+            titulo: "",
           };
 
           let iso = h[i].created_at;
@@ -134,6 +135,7 @@ export default {
           p.fecha = `${day}/${month}/${year}`;
           p.categoria = h[i].category.title;
           p.estado = h[i].status.status;
+          p.titulo = h[i].procedure;
 
           switch (p.estado) {
             case "SOLICITADO":

@@ -161,6 +161,7 @@ export default {
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
     procedure.procedureId = this.procedureId;
+    procedure.representativeId = 1;
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -241,6 +242,7 @@ export default {
 
         apiClient
           .post("/oficina/procedures/submit-procedure", {
+            representativeId: procedure.representativeId,
             categoryId: procedure.categoryId,
             statusId: procedure.statusId,
             questions: procedure.questions,
