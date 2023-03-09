@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkoficina_vue"]=self["webpackChunkoficina_vue"]||[]).push([[161],{9161:function(n,c,e){e.r(c),e.d(c,{default:function(){return t}});var i=e(3396);const u={class:"comunicaciones-container"};function a(n,c,e,a,o,r){return(0,i.wg)(),(0,i.iD)("div",u)}var o={name:"ComunicacionesView"},r=e(89);const s=(0,r.Z)(o,[["render",a]]);var t=s}}]);
+//# sourceMappingURL=161.5794d479.js.map
