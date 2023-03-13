@@ -10,7 +10,7 @@
       </tr>
 
       <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
-        <td>{{ p }}</td>
+        <td>{{ p.titulo.title }}</td>
         <td>{{ p.id }}</td>
         <td>{{ p.fecha }}</td>
         <td class="media">{{ p.categoria }}</td>

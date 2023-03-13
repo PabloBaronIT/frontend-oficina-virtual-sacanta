@@ -26,7 +26,7 @@
         </th>
         <th>Titulo</th>
         <th>ID</th>
-        <th>Cuil</th>
+        <th>Cuil vecino</th>
         <th>Asunto</th>
         <th>Estado</th>
       </tr>
@@ -39,7 +39,7 @@
         <td><input type="checkbox" @click="check(p.id)" :value="p.id" /></td>
         <td>{{ p.procedure }}</td>
         <td>{{ p.id }}</td>
-        <td>{{ p.cuil }}</td>
+        <td>{{ p.cuil.cuil }}</td>
         <td>{{ p.categoria }}</td>
         <td :class="'estado-fila'">
           <p :style="`background: ${p.color}`">{{ p.estado }}</p>
@@ -546,12 +546,13 @@ table {
 
 th,
 td {
-  padding: 8px;
+  padding: 5px;
   border-bottom: 1px solid var(--grey);
   background: #fff;
   height: 40px;
   color: var(--blue);
   font-size: 0.9em;
+  white-space: normal;
 }
 
 .fila-tabla:hover {
