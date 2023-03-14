@@ -9,7 +9,7 @@
     <TramitesFrecuentes />
 
     <div class="header">
-      <h1>Tramites</h1>
+      <h1>Áreas</h1>
     </div>
 
     <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->

@@ -157,6 +157,7 @@ export default {
     };
   },
   created() {
+    console.log(this.$route);
     this.catId = this.$route.params.categoriaId;
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
@@ -202,21 +203,6 @@ export default {
         ],
       };
 
-      // let p = [
-      //   {
-      //     question: this.questionProp[0].question[this.paso].id,
-      //     options: [
-      //       {
-      //         questionOption:
-      //           this.questionProp[0].question[this.paso].question_options[
-      //             choice
-      //           ].id,
-      //         answer: optionTitle,
-      //       },
-      //     ],
-      //   },
-      // ];
-
       procedure.questions.push(q);
 
       this.selected = 0;
@@ -224,6 +210,8 @@ export default {
       this.textInput = "";
       this.validation = true;
       this.paso++;
+
+      console.log(this.procedureId);
     },
     submitt() {
       this.preNext();
