@@ -54,9 +54,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$route);
-    console.log(this.$route.params.sectorId);
-
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
 
     const apiClient = axios.create({
@@ -73,14 +70,9 @@ export default {
       )
       .then((response) => {
         if (response.status == 200) {
-          console.log(response.data.length);
-          console.log("Get tramites ");
           for (let i = 0; i < response.data.length; i++) {
             this.tramitesApi.push(response.data[i]);
           }
-          console.log(this.tramitesApi);
-        } else {
-          console.log(response.data);
         }
       })
       .catch((err) => {

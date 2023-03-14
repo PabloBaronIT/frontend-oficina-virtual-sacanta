@@ -107,7 +107,7 @@ export default {
           localStorage.setItem("email", response.data.email);
           localStorage.setItem("id", response.data.id);
           localStorage.setItem("fecha-creacion", response.data.created_at);
-          console.log(response.data);
+
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);
           this.$router.push("munienlinea");
@@ -117,7 +117,6 @@ export default {
           this.validacion = false;
           this.msj = "Usuario incorrecto";
           this.loading = false;
-          console.log(this.msj);
         })
         .finally(() => {
           this.loading = false;

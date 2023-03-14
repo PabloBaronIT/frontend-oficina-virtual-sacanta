@@ -46,7 +46,6 @@ export default {
     apiClient
       .get("/oficina/procedures/template/" + this.$route.params.formularioId)
       .then((response) => {
-        console.log(response.data);
         let r = response.data;
         this.procedureId = r.id;
         this.title = r.title;

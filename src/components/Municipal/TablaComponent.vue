@@ -613,22 +613,4 @@ select option:hover {
   outline: none;
   border: none;
 }
-
-@keyframe border-animation {
-  0% {
-    background-color: var(--red);
-    left: 0px;
-    top: 0px;
-  }
-  50% {
-    background-color: var(--blue);
-    left: 200px;
-    top: 200px;
-  }
-  100% {
-    background-color: var(--green);
-    left: 0px;
-    top: 0px;
-  }
-}
 </style>

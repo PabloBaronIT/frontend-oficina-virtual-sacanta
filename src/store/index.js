@@ -13,7 +13,6 @@ export default createStore({
   mutations: {
     loggedIn(state, n, l) {
       state.loggedIn = true;
-      console.log("Estado de ingreso: ", state.loggedIn);
       state.name = n;
       state.lastname = l;
     },
