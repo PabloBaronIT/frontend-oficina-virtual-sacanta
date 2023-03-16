@@ -124,7 +124,7 @@ export default {
             titulo: "",
           };
 
-          let iso = h[i].created_at;
+          let iso = h[i].updated_at;
           let date = new Date(iso);
           const day = date.getDate();
           const month = date.getMonth() + 1;
@@ -143,6 +143,12 @@ export default {
               break;
             case "EN PROCESO":
               p.color = "var(--red)";
+              break;
+            case "COMUNICACIÓN":
+              p.color = "var(--yellow)";
+              break;
+            case "FINALIZADO":
+              p.color = "var(--lblue)";
               break;
 
             default:

@@ -130,6 +130,7 @@ let procedure = {
   userId: 1,
   categoryId: null,
   statusId: 1,
+  procedureId: null,
   selected: null,
   questions: [],
 };
@@ -139,10 +140,9 @@ export default {
 
   props: {
     length: Number,
-    procedureId: Number,
-    question_id: Number,
     questionProp: Object,
     title: String,
+    procedureId: Number,
   },
   data() {
     return {

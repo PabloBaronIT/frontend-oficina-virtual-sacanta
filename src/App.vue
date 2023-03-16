@@ -81,7 +81,8 @@ export default {
   #app {
     --green: #68b984;
     --blue: #415f77;
-    --yellow: #fff7e9;
+    --lblue: #8ba7be;
+    --yellow: #f0a92f;
     --red: #e14d2a;
     --text-color: #2c3e50;
     --grey-bk: #ebebeb;
@@ -93,7 +94,8 @@ export default {
   #app {
     --green: #68b984;
     --blue: #415f77;
-    --yellow: #ffffff;
+    --lblue: #8ba7be;
+    --yellow: #f0a92f;
     --red: #e14d2a;
     --text-color: #2c3e50;
     --grey-bk: #ebebeb;
