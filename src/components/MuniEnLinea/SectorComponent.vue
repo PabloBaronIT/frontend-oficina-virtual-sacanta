@@ -139,6 +139,7 @@ export default {
 }
 .title {
   color: var(--blue);
+  margin-left: 1rem;
 }
 
 .hover {

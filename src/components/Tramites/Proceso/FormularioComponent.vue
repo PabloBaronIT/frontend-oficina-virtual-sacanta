@@ -1,122 +1,128 @@
 <template>
-  <div v-if="this.loading" class="spinner-border" role="status">
-    <span>cargando rey</span>
-  </div>
-  <div class="question" v-if="!this.loading">
-    <h3>{{ questionProp[0].question[this.paso].title }}</h3>
-    <p>Completar las preguntas para cada tramite</p>
+  <div>
+    <div v-if="this.loading" class="spinner-border" role="status">
+      <span>cargando rey</span>
+    </div>
+    <div class="question" v-if="!this.loading">
+      <h3>{{ questionProp[0].question[this.paso].title }}</h3>
+      <p>Completar las preguntas para cada tramite</p>
 
-    <form action="" class="option-container">
-      <div
-        class="option cuestions"
-        v-for="(opcion, key) in questionProp[0].question[this.paso]
-          .question_options"
-        :key="key"
-      >
-        <input
-          class="radio-input"
-          :id="key"
-          :name="key"
-          v-if="
-            questionProp[0].question[this.paso].question_options[key].type ==
-              'radio' ||
-            questionProp[0].question[this.paso].question_options[key].type ==
-              'checkbox'
-          "
-          :type="questionProp[0].question[this.paso].question_options[key].type"
-          :value="key + 1"
-          v-model="this.selected"
-        />
-
-        <label :for="key" class="option-text">{{
-          questionProp[0].question[this.paso].question_options[key].title
-        }}</label>
-        <br />
-        <label :for="key" class=""
-          ><p>
-            {{
-              questionProp[0].question[this.paso].question_options[key]
-                .description
-            }}
-          </p></label
-        >
-
-        <input
-          class="form-control text-number-input"
-          v-if="
-            questionProp[0].question[this.paso].question_options[key].type ==
-              'number' ||
-            questionProp[0].question[this.paso].question_options[key].type ==
-              'text'
-          "
-          :type="questionProp[0].question[this.paso].question_options[key].type"
-          v-model="this.textInput"
-        />
-
+      <form action="" class="option-container">
         <div
-          v-if="
-            questionProp[0].question[this.paso].question_options[key].type ==
-            'file'
-          "
-          class="file-container"
+          class="option cuestions"
+          v-for="(opcion, key) in questionProp[0].question[this.paso]
+            .question_options"
+          :key="key"
         >
-          <img src="@/assets/tramite-logo.svg" alt="" />
-
-          <hr />
           <input
-            accept=".pdf"
+            class="radio-input"
+            :id="key"
+            :name="key"
+            v-if="
+              questionProp[0].question[this.paso].question_options[key].type ==
+                'radio' ||
+              questionProp[0].question[this.paso].question_options[key].type ==
+                'checkbox'
+            "
+            :type="
+              questionProp[0].question[this.paso].question_options[key].type
+            "
+            :value="key + 1"
+            v-model="this.selected"
+          />
+
+          <label :for="key" class="option-text">{{
+            questionProp[0].question[this.paso].question_options[key].title
+          }}</label>
+          <br />
+          <label :for="key" class=""
+            ><p>
+              {{
+                questionProp[0].question[this.paso].question_options[key]
+                  .description
+              }}
+            </p></label
+          >
+
+          <input
+            class="form-control text-number-input"
+            v-if="
+              questionProp[0].question[this.paso].question_options[key].type ==
+                'number' ||
+              questionProp[0].question[this.paso].question_options[key].type ==
+                'text'
+            "
             :type="
               questionProp[0].question[this.paso].question_options[key].type
             "
             v-model="this.textInput"
           />
+
+          <div
+            v-if="
+              questionProp[0].question[this.paso].question_options[key].type ==
+              'file'
+            "
+            class="file-container"
+          >
+            <img src="@/assets/tramite-logo.svg" alt="" />
+
+            <hr />
+            <input
+              accept=".pdf"
+              :type="
+                questionProp[0].question[this.paso].question_options[key].type
+              "
+              v-model="this.textInput"
+            />
+          </div>
         </div>
+        <p class="error" v-show="validation == false">
+          Debe seleccionar una opcion para continuar
+        </p>
+      </form>
+
+      <div class="btn-div">
+        <input
+          class="btn btn-secondary"
+          v-if="this.paso + 1 < this.length"
+          type="button"
+          value="Siguiente"
+          @click="preNext()"
+        />
+
+        <input
+          v-if="this.paso + 1 > 1"
+          class="m-2 btn btn-secondary"
+          type="button"
+          value="Anterior"
+          @click="back()"
+        />
+
+        <input
+          class="m-2 btn btn-outline-secondary"
+          type="button"
+          value="Cancelar"
+          @click="cancel()"
+        />
       </div>
-      <p class="error" v-show="validation == false">
-        Debe seleccionar una opcion para continuar
-      </p>
-    </form>
 
-    <div class="btn-div">
+      <!-- Si esta en el ultimo paso se habilita el submitt -->
       <input
-        class="btn btn-secondary"
-        v-if="this.paso + 1 < this.length"
+        v-if="this.paso + 1 == this.length"
+        class="btn btn-success m-1"
         type="button"
-        value="Siguiente"
-        @click="preNext()"
+        value="Submitt"
+        @click="submitt"
       />
-
       <input
-        v-if="this.paso + 1 > 1"
-        class="m-2 btn btn-secondary"
+        v-if="this.paso + 1 == this.length"
+        class="btn btn-success m-1"
         type="button"
-        value="Anterior"
-        @click="back()"
-      />
-
-      <input
-        class="m-2 btn btn-outline-secondary"
-        type="button"
-        value="Cancelar"
-        @click="cancel()"
+        value="Verpdf"
+        @click="ver"
       />
     </div>
-
-    <!-- Si esta en el ultimo paso se habilita el submitt -->
-    <input
-      v-if="this.paso + 1 == this.length"
-      class="btn btn-success m-1"
-      type="button"
-      value="Submitt"
-      @click="submitt"
-    />
-    <input
-      v-if="this.paso + 1 == this.length"
-      class="btn btn-success m-1"
-      type="button"
-      value="Verpdf"
-      @click="ver"
-    />
   </div>
 </template>
 
