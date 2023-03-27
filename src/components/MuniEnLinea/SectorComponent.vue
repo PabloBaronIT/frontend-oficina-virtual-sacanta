@@ -8,7 +8,11 @@
         {{ this.$route.params.sectorTitle }}
       </h1>
     </header>
+
     <div class="tramites">
+      <div v-if="msj" class="sinTramites">
+        <h2>No hay trámites para esta categoría por el momento</h2>
+      </div>
       <div
         class="card slide-top"
         v-for="tramite in tramitesApi"
@@ -51,13 +55,15 @@ export default {
       title: "",
       hover: false,
       tramitesApi: [],
+      msj: false,
     };
   },
   created() {
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
     console.log(this.$route.params);
     const apiClient = axios.create({
-      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      baseURL: process.env.VUE_APP_BASEURL,
       withCredentials: false,
       headers: {
         "auth-header": localStorage.getItem("token"),
@@ -77,6 +83,7 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+        this.msj = true;
       });
   },
 
@@ -220,5 +227,8 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.sinTramites {
+  margin-top: 4rem;
 }
 </style>

@@ -36,7 +36,8 @@ export default {
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
     const apiClient = axios.create({
-      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      baseURL: process.env.VUE_APP_BASEURL,
       withCredentials: false,
       headers: {
         "auth-header": localStorage.getItem("token"),
@@ -46,11 +47,12 @@ export default {
     apiClient
       .get("/oficina/procedures/template/" + this.$route.params.formularioId)
       .then((response) => {
+        console.log(response.data);
         let r = response.data;
         this.procedureId = r.id;
-        this.procedureId = response.data.id;
+        // this.procedureId = response.data.id;
         parseInt(r.id);
-        console.log(r.id + "parseado" + this.procedureId);
+        //console.log(r.id + "parseado" + this.procedureId);
         this.title = r.title;
         this.length = r.question.length;
         this.preguntas.push(r);
