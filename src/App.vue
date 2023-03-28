@@ -87,6 +87,7 @@ export default {
     --text-color: #2c3e50;
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
+    --white: #fff;
   }
 }
 
@@ -100,6 +101,7 @@ export default {
     --text-color: #2c3e50;
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
+    --white: #fff;
   }
 }
 
