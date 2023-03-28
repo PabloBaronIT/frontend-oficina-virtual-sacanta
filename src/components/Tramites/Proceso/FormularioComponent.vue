@@ -125,7 +125,7 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import { mapActions } from "vuex";
 
-let procedure = {
+var procedure = {
   title: "",
   userId: 1,
   categoryId: null,
@@ -157,7 +157,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$route);
     this.catId = this.$route.params.categoriaId;
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
@@ -210,8 +209,6 @@ export default {
       this.textInput = "";
       this.validation = true;
       this.paso++;
-
-      console.log(this.procedureId);
     },
     submitt() {
       this.preNext();

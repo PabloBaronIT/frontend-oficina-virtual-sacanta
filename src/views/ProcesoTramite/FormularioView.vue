@@ -28,6 +28,7 @@ export default {
       length: null,
       preguntas: [],
       title: "",
+      procedureId: null,
     };
   },
   components: {
@@ -47,10 +48,10 @@ export default {
       .get("/oficina/procedures/template/" + this.$route.params.formularioId)
       .then((response) => {
         let r = response.data;
-        this.procedureId = r.id;
+
         this.procedureId = response.data.id;
         parseInt(r.id);
-        console.log(r.id + "parseado" + this.procedureId);
+
         this.title = r.title;
         this.length = r.question.length;
         this.preguntas.push(r);
