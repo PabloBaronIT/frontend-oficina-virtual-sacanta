@@ -219,7 +219,8 @@ export default {
       apiClient
         .get("/oficina/procedures/history")
         .then((response) => {
-          let h = response.data.historyArray;
+          let h = response.data.proceduresFiltered;
+          console.log(h);
           let l = h.length;
 
           this.history = h;
