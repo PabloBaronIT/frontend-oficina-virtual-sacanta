@@ -131,9 +131,10 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import { mapActions } from "vuex";
 
+//de aca se toman los datos
 let procedure = {
   title: "",
-  userId: 1,
+  userId: "",
   categoryId: null,
   statusId: 1,
   procedureId: null,
@@ -169,6 +170,7 @@ export default {
     procedure.title = this.title;
     procedure.procedureId = this.procedureId;
     procedure.representativeId = 1;
+    procedure.userId = localStorage.getItem("id");
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -222,6 +224,7 @@ export default {
     submitt() {
       this.preNext();
       this.loading = true;
+      console.log(procedure);
 
       if (this.validation) {
         this.loading = true;
