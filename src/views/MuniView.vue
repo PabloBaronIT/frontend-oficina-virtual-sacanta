@@ -110,7 +110,7 @@ section {
   border-radius: 10px;
   width: 95%;
   margin-top: 3%;
-  background: var(--yellow);
+  background: var(--white);
 }
 
 nav {
