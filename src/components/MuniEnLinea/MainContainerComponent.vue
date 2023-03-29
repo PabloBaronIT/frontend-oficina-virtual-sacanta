@@ -3,7 +3,7 @@
   <main class="flex-container">
     <div class="header">
       <SideBar />
-      <h1>Tramites mas frecuentes</h1>
+      <h1>Trámites mas frecuentes</h1>
       <!-- <Busqueda /> -->
     </div>
     <TramitesFrecuentes />
@@ -38,7 +38,7 @@ export default {
   name: "MainCointainerComponent",
   data() {
     return {
-      categorias: [],
+      categorias: null,
     };
   },
   created() {
@@ -58,7 +58,8 @@ export default {
     apiClient
       .get("/oficina/categories/categories")
       .then((response) => {
-        this.categorias = response.data;
+        console.log(response.data);
+        this.categorias = response.data.Categories;
       })
       .catch((err) => {
         console.log(err);

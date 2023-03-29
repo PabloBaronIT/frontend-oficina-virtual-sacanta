@@ -98,18 +98,22 @@ export default {
         .then((response) => {
           localStorage.removeItem("token");
           this.validacion = true;
-          this.mockLogin();
+          console.log(response.data);
+          //this.mockLogin();
           localStorage.clear();
-          localStorage.setItem("name", response.data.firstname);
-          localStorage.setItem("lastname", response.data.lastname);
-          localStorage.setItem("cuil", response.data.cuil);
-          localStorage.setItem("adress", response.data.adress);
-          localStorage.setItem("email", response.data.email);
-          localStorage.setItem("id", response.data.id);
-          localStorage.setItem("fecha-creacion", response.data.created_at);
+          localStorage.setItem("name", response.data.UserLogged.firstname);
+          localStorage.setItem("lastname", response.data.UserLogged.lastname);
+          localStorage.setItem("cuil", response.data.UserLogged.cuil);
+          localStorage.setItem("adress", response.data.UserLogged.adress);
+          localStorage.setItem("email", response.data.UserLogged.email);
+          localStorage.setItem("id", response.data.UserLogged.id);
+          localStorage.setItem(
+            "fecha-creacion",
+            response.data.UserLogged.created_at
+          );
 
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("role", response.data.role);
+          localStorage.setItem("token", response.data.UserLogged.token);
+          localStorage.setItem("role", response.data.UserLogged.role);
           this.$router.push("munienlinea");
         })
         .catch((error) => {

@@ -98,7 +98,8 @@ export default {
   created() {
     //Pedir solamente los que vengan desde una prop del status
     const apiClient = axios.create({
-      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      baseURL: process.env.VUE_APP_BASEURL,
       withCredentials: false,
       headers: {
         "auth-header": localStorage.getItem("token"),
@@ -108,9 +109,9 @@ export default {
     apiClient
       .get("/oficina/procedures/history/user")
       .then((response) => {
-        let h = response.data;
+        let h = response.data.MyProcedures;
 
-        console.log(h);
+        console.log(h + "mis tramites");
         this.l = h.length;
 
         for (let i = 0; i < this.l; i++) {
@@ -157,7 +158,7 @@ export default {
 
           this.activos.push(p);
 
-          console.log(p);
+          //console.log(p);
         }
 
         this.length = response.data.length;

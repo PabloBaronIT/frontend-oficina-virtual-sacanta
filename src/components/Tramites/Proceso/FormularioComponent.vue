@@ -167,7 +167,7 @@ export default {
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
     procedure.procedureId = this.procedureId;
-    procedure.representativeId = 1;
+    //procedure.representativeId = 1;
     procedure.userId = localStorage.getItem("id");
   },
   methods: {
@@ -218,9 +218,11 @@ export default {
       this.paso++;
     },
     submitt() {
+      console.log(this.questionProp + "holaaa");
+
       this.preNext();
       this.loading = true;
-      console.log(procedure);
+      console.log(procedure + "procedure");
 
       if (this.validation) {
         this.loading = true;
@@ -236,7 +238,7 @@ export default {
 
         apiClient
           .post("/oficina/procedures/submit-procedure", {
-            representativeId: procedure.representativeId,
+            //representativeId: procedure.representativeId,
             categoryId: procedure.categoryId,
             statusId: procedure.statusId,
             questions: procedure.questions,

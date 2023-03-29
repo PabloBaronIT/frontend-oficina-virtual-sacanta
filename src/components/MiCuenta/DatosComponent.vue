@@ -23,31 +23,41 @@
 </template>
 
 <script>
-import dbservice from "@/services/dbService";
-
+import axios from "axios";
 export default {
   name: "DatosCompnent",
   data() {
     return {
       name: "",
-      lastname: localStorage.getItem("lastname"),
-      cuil: localStorage.getItem("cuil"),
-      email: localStorage.getItem("email"),
-      adress: localStorage.getItem("adress"),
-      fecha_creacion: localStorage.getItem("fecha-creacion"),
+      lastname: "",
+      cuil: "",
+      email: "",
+      adress: "",
+      fecha_creacion: "",
     };
   },
   created() {
-    dbservice
-      .getMunicipal(1)
+    const apiClient = axios.create({
+      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      baseURL: process.env.VUE_APP_BASEURL,
+
+      withCredentials: false,
+      headers: {
+        "auth-header": localStorage.getItem("token"),
+      },
+    });
+    apiClient
+      .get("/oficina/user/profile")
       .then((response) => {
         console.log(response.data);
-        let res = response.data;
-        this.name = res.firstname;
-        this.lastname = res.lastname;
-        this.cuil = res.cuil;
-        this.email = res.email;
-        this.fecha_creacion = res.created_at;
+        let res = response.data.UserProfile;
+        this.name = res.user.firstname;
+        this.lastname = res.user.lastname;
+        this.cuil = res.user.cuil;
+        this.email = res.user.email;
+        this.adress = res.user.adress;
+
+        this.fecha_creacion = res.user.created_at;
       })
       .catch((err) => {
         console.log(err.response.data);

@@ -49,9 +49,9 @@ export default {
       .get("/oficina/procedures/template/" + this.$route.params.formularioId)
       .then((response) => {
         console.log(response.data);
-        let r = response.data;
+        let r = response.data.Template;
 
-        this.procedureId = response.data.id;
+        this.procedureId = response.data.Template.id;
         parseInt(r.id);
 
         this.title = r.title;

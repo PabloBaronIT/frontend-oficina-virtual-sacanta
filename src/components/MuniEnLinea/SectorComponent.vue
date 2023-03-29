@@ -76,8 +76,8 @@ export default {
       )
       .then((response) => {
         if (response.status == 200) {
-          for (let i = 0; i < response.data.length; i++) {
-            this.tramitesApi.push(response.data[i]);
+          for (let i = 0; i < response.data.Procedures.length; i++) {
+            this.tramitesApi.push(response.data.Procedures[i]);
           }
         }
       })
