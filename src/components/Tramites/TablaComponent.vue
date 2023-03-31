@@ -10,7 +10,7 @@
       </tr>
 
       <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
-        <td>{{ p.titulo.title }}</td>
+        <td>{{ p.titulo || "" }}</td>
         <td>{{ p.id }}</td>
         <td>{{ p.fecha }}</td>
         <td class="media">{{ p.categoria }}</td>
@@ -111,7 +111,7 @@ export default {
       .then((response) => {
         let h = response.data.MyProcedures;
 
-        console.log(h + "mis tramites");
+        console.log(h.length + "mis tramites");
         this.l = h.length;
 
         for (let i = 0; i < this.l; i++) {
@@ -136,7 +136,7 @@ export default {
           p.fecha = `${day}/${month}/${year}`;
           p.categoria = h[i].category.title;
           p.estado = h[i].status.status;
-          p.titulo = h[i].procedure;
+          p.titulo = h[i].procedure.title;
 
           switch (p.estado) {
             case "SOLICITADO":
@@ -161,14 +161,14 @@ export default {
           //console.log(p);
         }
 
-        this.length = response.data.length;
+        this.length = response.data.MyProcedures.length;
 
         this.cantTramites();
         this.loading = false;
       })
       .catch((err) => {
         console.log(err);
-        this.msj = err.response.data.message;
+        //this.msj = err.response.data.message;
       });
   },
   methods: {

@@ -60,15 +60,18 @@ export default {
             this.validacion = true;
             this.mockLogin();
             localStorage.clear();
-            localStorage.setItem("name", response.data.firstname);
-            localStorage.setItem("lastname", response.data.lastname);
-            localStorage.setItem("cuil", response.data.cuil);
-            localStorage.setItem("adress", response.data.adress);
-            localStorage.setItem("email", response.data.email);
-            localStorage.setItem("id", response.data.id);
-            localStorage.setItem("fecha-creacion", response.data.created_at);
-            localStorage.setItem("role", response.data.role);
-            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("name", response.data.MuniLogged.firstname);
+            localStorage.setItem("lastname", response.data.MuniLogged.lastname);
+            localStorage.setItem("cuil", response.data.MuniLogged.cuil);
+            //localStorage.setItem("adress", response.data.MuniLogged.adress);
+            localStorage.setItem("email", response.data.MuniLogged.email);
+            localStorage.setItem("id", response.data.MuniLogged.id);
+            // localStorage.setItem(
+            //"fecha-creacion",
+            //response.data.MuniLogged.created_at
+            // );
+            localStorage.setItem("role", response.data.MuniLogged.role);
+            localStorage.setItem("token", response.data.MuniLogged.token);
             this.$router.push("muni");
           }
         })

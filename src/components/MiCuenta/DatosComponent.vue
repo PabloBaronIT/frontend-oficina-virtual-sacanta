@@ -1,7 +1,8 @@
 <template>
   <div class="datos-container">
     <p>
-      Nombre completo: <b> {{ this.name }} {{ this.lastname }}</b>
+      Nombre completo:
+      <b> {{ this.name }} {{ this.lastname }} </b>
     </p>
     <p>
       CUIL: <b>{{ this.cuil }}</b>
