@@ -9,8 +9,15 @@
           type="search"
           placeholder="Dato a buscar"
           aria-label="Buscar"
+          v-model="search"
         />
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
+        <button
+          class="btn btn-outline-success"
+          type="submit"
+          @click="searchValue(search)"
+        >
+          Buscar
+        </button>
       </form>
       <select @change="getFiltro($event)" name="" id="">
         <option value="0">Todos</option>
@@ -104,6 +111,7 @@
                   class="btn btn-primary mx-2"
                   type="button"
                   value="Modificar Estado"
+                  @click="ModalEstado()"
                 />
 
                 <input
@@ -128,6 +136,59 @@
               {{ q.question_option_history[0].answer }}
             </section>
           </div> -->
+        </div>
+        <!--modalestado-->
+        <div class="modalEstado">
+          <div v-if="this.modalEstado === true" class="modal-content">
+            <div class="modal-top">
+              <h2>Cambiar estado</h2>
+              <img
+                @click="ModalEstado($event)"
+                class="svg"
+                src="@/assets/close.svg"
+                alt=""
+              />
+            </div>
+            <div>
+              <div>
+                <p value="2">
+                  <input
+                    @click="selectEstado($event)"
+                    type="checkbox"
+                    name=""
+                    value="2"
+                  />En proceso
+                </p>
+              </div>
+
+              <div>
+                <p value="2">
+                  <input
+                    @click="selectEstado($event)"
+                    type="checkbox"
+                    name=""
+                    value="3"
+                  />Requerido
+                </p>
+              </div>
+              <div>
+                <p value="2">
+                  <input
+                    @click="selectEstado"
+                    type="checkbox"
+                    name=""
+                    value="4"
+                  />Finalizado
+                </p>
+              </div>
+            </div>
+            <input
+              class="btn btn-primary mx-2"
+              type="button"
+              value="Modificar"
+              @click="updateStatus()"
+            />
+          </div>
         </div>
       </table>
       <div class="sinTramites" v-if="!this.history || !this.activos.length">
@@ -176,6 +237,7 @@ export default {
   data() {
     return {
       modal: false,
+      modalEstado: false,
       selectedHistory: null,
       selectedTramite: null,
       checkbox: [],
@@ -185,6 +247,8 @@ export default {
       paginaActual: 1,
       cont: 0,
       l: 0,
+      search: "",
+      status: "",
     };
   },
   created() {
@@ -273,8 +337,14 @@ export default {
               case "SOLICITADO":
                 p.color = "var(--green)";
                 break;
+              case "REQUERIDO":
+                p.color = "var(--yellow)";
+                break;
               case "EN PROCESO":
                 p.color = "var(--red)";
+                break;
+              case "FINALIZADO":
+                p.color = "var(--lblue)";
                 break;
 
               default:
@@ -310,7 +380,10 @@ export default {
 
       console.log(id);
     },
-
+    selectEstado(event) {
+      this.status = event.target.value;
+      console.log(this.status);
+    },
     check(id) {
       this.checkbox.push(id);
       console.log(this.checkbox);
@@ -363,8 +436,14 @@ export default {
                 case "SOLICITADO":
                   p.color = "var(--green)";
                   break;
+                case "REQUERIDO":
+                  p.color = "var(--yellow)";
+                  break;
                 case "EN PROCESO":
                   p.color = "var(--red)";
+                  break;
+                case "FINALIZADO":
+                  p.color = "var(--lblue)";
                   break;
 
                 default:
@@ -429,8 +508,76 @@ export default {
       this.selectedTramite = null;
       this.modal = false;
     },
+    ModalEstado() {
+      this.modalEstado = !this.modalEstado;
+    },
     updateStatus() {
-      console.log("jpña");
+      console.log("cambiar estado");
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .put(
+          "/oficina/procedures/procedure/update-status/" + this.selectedTramite,
+          { status: this.status }
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            alert("estado actualizado");
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      this.ModalEstado();
+    },
+    searchValue(value) {
+      //console.log(value);
+      let asd = this.history.filter((e) => {
+        return e.id == value;
+      });
+      console.log("soy el" + asd[0].id);
+      //this.activos = asd;
+      this.search = "";
+      let p = {
+        id: null,
+        cuil: "",
+        categoria: "",
+        estado: "",
+        procedure: "",
+      };
+      p.id = asd[0].id;
+      p.cuil = asd[0].user.cuil;
+      p.categoria = asd[0].category.title;
+      p.estado = asd[0].status.status;
+      p.procedure = asd[0].procedure.title;
+
+      switch (p.estado) {
+        case "SOLICITADO":
+          p.color = "var(--green)";
+          break;
+        case "REQUERIDO":
+          p.color = "var(--yellow)";
+          break;
+        case "EN PROCESO":
+          p.color = "var(--red)";
+          break;
+        case "FINALIZADO":
+          p.color = "var(--lblue)";
+          break;
+
+        default:
+          break;
+      }
+
+      this.activos = [];
+      this.activos.push(p);
+      console.log(p);
     },
   },
 };
@@ -474,8 +621,31 @@ section h3 {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 }
-
+.modalEstado {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px; /* Need a specific value to work */
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
 .data-container {
   display: flex;
   flex-flow: column wrap;
