@@ -79,11 +79,11 @@ export default {
 
 @media (prefers-color-scheme: light) {
   #app {
-    --green: #68b984;
+    --green: rgb(104, 185, 132);
     --blue: #415f77;
-    --lblue: #8ba7be;
-    --yellow: #f0a92f;
-    --red: #e14d2a;
+    --lblue: rgb(139, 167, 190);
+    --yellow: rgb(240, 169, 47);
+    --red: rgb(225, 77, 42);
     --text-color: #2c3e50;
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);

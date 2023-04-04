@@ -43,32 +43,29 @@ ChartJS.register(
 export default {
   name: "GraficoComponent",
 
-  mounted() {
-    dbservice
-      .getMunicipal(localStorage.getItem("id"))
-      .then((response) => {
-        let r = response.data.required;
-        let f = response.data.finalized;
-        let i = response.data.inprocess;
-
-        this.sampleAsync(r, f, i);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  components: { Doughnut },
+  data() {
+    return {
+      modal: false,
+      chartData: {},
+      chartOptions: {
+        responsive: true,
+      },
+    };
   },
   methods: {
-    sampleAsync(r, f, i) {
+    sampleAsync(r, f, i, c) {
       this.chartData = {
-        labels: ["En proceso", "Finalizado", "Requerido"],
+        labels: ["Presentados", "En proceso", "Finalizado", "Comunicación"],
         datasets: [
           {
             label: "Tramites",
-            data: [r, f, i],
+            data: [r, f, i, c],
             backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+              "rgb(104, 185, 132",
+              "rgb(225, 77, 42)",
+              "rgb(139, 167, 190)",
+              "rgb(240, 169, 47)",
             ],
             hoverOffset: 4,
           },
@@ -76,29 +73,26 @@ export default {
       };
     },
   },
-  components: { Doughnut },
-  data() {
-    return {
-      modal: true,
-      chartData: {
-        labels: ["En proceso", "Finalizado", "Requerido"],
-        datasets: [
-          {
-            label: "Tramites",
-            data: [1, 2, 3],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
-            ],
-            hoverOffset: 4,
-          },
-        ],
-      },
-      chartOptions: {
-        responsive: true,
-      },
-    };
+  created() {
+    dbservice
+      .getMunicipal()
+      .then((response) => {
+        let r =
+          response.data.MuniProfile.muniStatistics.muniSolicitedProceduresCount;
+        let f =
+          response.data.MuniProfile.muniStatistics.muniInProcessProceduresCount;
+        let i =
+          response.data.MuniProfile.muniStatistics.muniFinalizedProceduresCount;
+        let c =
+          response.data.MuniProfile.muniStatistics
+            .muniUnderReviewProceduresCount;
+        //console.log(r, f, i);
+        this.sampleAsync(r, f, i, c);
+        this.modal = true;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

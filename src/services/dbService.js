@@ -57,8 +57,8 @@ export default {
   getHistorialTramites() {
     return apiClient.get("/oficina/procedures/history");
   },
-  getMunicipal(id) {
-    return apiClient.get("/municipales/munis/" + id);
+  getMunicipal() {
+    return apiClient.get("/municipales/muni-profile");
   },
   getUser(id) {
     return apiClient.get("/oficina/users/" + id);

@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="filtro-container">
-      <input type="button" @click="updateStatus()" value="Actualizar estado" />
+      <input type="button" value="Actualizar estado" />
       <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
       <form class="d-flex">
         <input
           class="buscar"
           type="search"
-          placeholder="Dato a buscar"
+          placeholder="Ingrese ID"
           aria-label="Buscar"
           v-model="search"
         />
@@ -151,41 +151,42 @@
             </div>
             <div>
               <div>
-                <p value="2">
+                <p>
                   <input
                     @click="selectEstado($event)"
-                    type="checkbox"
-                    name=""
+                    type="radio"
+                    name="status"
                     value="2"
                   />En proceso
                 </p>
               </div>
 
               <div>
-                <p value="2">
+                <p>
                   <input
                     @click="selectEstado($event)"
-                    type="checkbox"
-                    name=""
+                    type="radio"
+                    name="status"
                     value="3"
-                  />Requerido
-                </p>
-              </div>
-              <div>
-                <p value="2">
-                  <input
-                    @click="selectEstado"
-                    type="checkbox"
-                    name=""
-                    value="4"
                   />Finalizado
                 </p>
               </div>
+            </div>
+            <div>
+              <p>
+                <input
+                  @click="selectEstado($event)"
+                  type="radio"
+                  name="status"
+                  value="4"
+                />En revisión
+              </p>
             </div>
             <input
               class="btn btn-primary mx-2"
               type="button"
               value="Modificar"
+              v-if="this.status"
               @click="updateStatus()"
             />
           </div>
@@ -334,10 +335,10 @@ export default {
             p.procedure = h[i].procedure.title;
 
             switch (p.estado) {
-              case "SOLICITADO":
+              case "PRESENTADO":
                 p.color = "var(--green)";
                 break;
-              case "REQUERIDO":
+              case "EN REVISIÓN":
                 p.color = "var(--yellow)";
                 break;
               case "EN PROCESO":
@@ -433,10 +434,10 @@ export default {
               p.procedure = h[i].procedure.title;
 
               switch (p.estado) {
-                case "SOLICITADO":
+                case "PRESENTADO":
                   p.color = "var(--green)";
                   break;
-                case "REQUERIDO":
+                case "EN REVISIÓN":
                   p.color = "var(--yellow)";
                   break;
                 case "EN PROCESO":
@@ -513,6 +514,7 @@ export default {
     },
     updateStatus() {
       console.log("cambiar estado");
+      //console.log(this.selectedTramite);
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -530,6 +532,8 @@ export default {
           if (response.status === 200) {
             alert("estado actualizado");
           }
+          this.activos = [];
+          this.getProcedures();
         })
         .catch((e) => {
           console.log(e);
@@ -558,10 +562,10 @@ export default {
       p.procedure = asd[0].procedure.title;
 
       switch (p.estado) {
-        case "SOLICITADO":
+        case "PRESENTADO":
           p.color = "var(--green)";
           break;
-        case "REQUERIDO":
+        case "EN REVISIÓN":
           p.color = "var(--yellow)";
           break;
         case "EN PROCESO":
