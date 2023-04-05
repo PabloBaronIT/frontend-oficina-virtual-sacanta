@@ -96,24 +96,33 @@ export default {
       dbService
         .postLoginUser({ password: this.password, cuil: this.cuil })
         .then((response) => {
-          localStorage.removeItem("token");
+          window.localStorage.removeItem("token");
           this.validacion = true;
           console.log(response.data);
           //this.mockLogin();
-          localStorage.clear();
-          localStorage.setItem("name", response.data.UserLogged.firstname);
-          localStorage.setItem("lastname", response.data.UserLogged.lastname);
-          localStorage.setItem("cuil", response.data.UserLogged.cuil);
-          localStorage.setItem("adress", response.data.UserLogged.adress);
-          localStorage.setItem("email", response.data.UserLogged.email);
-          localStorage.setItem("id", response.data.UserLogged.id);
-          localStorage.setItem(
+          window.localStorage.clear();
+          window.localStorage.setItem(
+            "name",
+            response.data.UserLogged.firstname
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.UserLogged.lastname
+          );
+          window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
+          window.localStorage.setItem(
+            "adress",
+            response.data.UserLogged.adress
+          );
+          window.localStorage.setItem("email", response.data.UserLogged.email);
+          window.localStorage.setItem("id", response.data.UserLogged.id);
+          window.localStorage.setItem(
             "fecha-creacion",
             response.data.UserLogged.created_at
           );
 
-          localStorage.setItem("token", response.data.UserLogged.token);
-          localStorage.setItem("role", response.data.UserLogged.role);
+          window.localStorage.setItem("token", response.data.UserLogged.token);
+          window.localStorage.setItem("role", response.data.UserLogged.role);
           this.$router.push("munienlinea");
         })
         .catch((error) => {
