@@ -39,8 +39,8 @@ export default {
   },
   created() {
     const apiClient = axios.create({
-      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      baseURL: process.env.VUE_APP_BASEURL,
+      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      //baseURL: process.env.VUE_APP_BASEURL,
 
       withCredentials: false,
       headers: {
