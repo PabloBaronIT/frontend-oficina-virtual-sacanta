@@ -51,7 +51,7 @@ export default {
 
       withCredentials: false,
       headers: {
-        "auth-header": localStorage.getItem("token"),
+        "auth-header": window.localStorage.getItem("token"),
       },
     });
 

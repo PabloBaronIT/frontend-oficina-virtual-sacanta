@@ -97,7 +97,6 @@ export default {
         .postLoginUser({ password: this.password, cuil: this.cuil })
         .then((response) => {
           window.localStorage.removeItem("token");
-          this.validacion = true;
           console.log(response.data);
           //this.mockLogin();
           window.localStorage.clear();
@@ -123,6 +122,8 @@ export default {
 
           window.localStorage.setItem("token", response.data.UserLogged.token);
           window.localStorage.setItem("role", response.data.UserLogged.role);
+          this.validacion = true;
+
           this.$router.push("munienlinea");
         })
         .catch((error) => {
