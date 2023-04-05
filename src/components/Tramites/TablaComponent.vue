@@ -139,7 +139,7 @@ export default {
           p.titulo = h[i].procedure.title;
 
           switch (p.estado) {
-            case "SOLICITADO":
+            case "PRESENTADO":
               p.color = "var(--green)";
               break;
             case "EN PROCESO":
