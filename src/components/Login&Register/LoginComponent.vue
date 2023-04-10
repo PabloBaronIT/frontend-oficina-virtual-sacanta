@@ -102,41 +102,26 @@ export default {
           window.localStorage.clear();
           window.localStorage.setItem(
             "name",
-            JSON.stringify(response.data.UserLogged.firstname)
+            response.data.UserLogged.firstname
           );
           window.localStorage.setItem(
             "lastname",
-            JSON.stringify(response.data.UserLogged.lastname)
+            response.data.UserLogged.lastname
           );
-          window.localStorage.setItem(
-            "cuil",
-            JSON.stringify(response.data.UserLogged.cuil)
-          );
+          window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
           window.localStorage.setItem(
             "adress",
-            JSON.stringify(response.data.UserLogged.adress)
+            response.data.UserLogged.adress
           );
-          window.localStorage.setItem(
-            "email",
-            JSON.stringify(response.data.UserLogged.email)
-          );
-          window.localStorage.setItem(
-            "id",
-            JSON.stringify(response.data.UserLogged.id)
-          );
+          window.localStorage.setItem("email", response.data.UserLogged.email);
+          window.localStorage.setItem("id", response.data.UserLogged.id);
           window.localStorage.setItem(
             "fecha-creacion",
-            JSON.stringify(response.data.UserLogged.created_at)
+            response.data.UserLogged.created_at
           );
 
-          window.localStorage.setItem(
-            "token",
-            JSON.stringify(response.data.UserLogged.token)
-          );
-          window.localStorage.setItem(
-            "role",
-            JSON.stringify(response.data.UserLogged.role)
-          );
+          window.localStorage.setItem("token", response.data.UserLogged.token);
+          window.localStorage.setItem("role", response.data.UserLogged.role);
           this.validacion = true;
 
           this.$router.push("munienlinea");
