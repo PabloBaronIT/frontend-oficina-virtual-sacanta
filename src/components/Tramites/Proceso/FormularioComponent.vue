@@ -222,14 +222,14 @@ export default {
 
       this.preNext();
       this.loading = true;
-      console.log(procedure + "procedure");
+      console.log(procedure.procedureId + "procedureId");
 
       if (this.validation) {
         this.loading = true;
         this.modal = true;
         const apiClient = axios.create({
-          baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-          //baseURL: process.env.VUE_APP_BASEURL,
+          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+          baseURL: process.env.VUE_APP_BASEURL,
           withCredentials: false,
           headers: {
             "auth-header": localStorage.getItem("token"),

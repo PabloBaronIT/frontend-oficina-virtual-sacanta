@@ -7,8 +7,8 @@
     <FormularioComponent
       :title="title"
       :questionProp="preguntas"
-      :length="this.length"
-      :procedureId="this.procedureId"
+      :length="length"
+      :procedureId="procedureId"
     />
 
     <!-- Armar componente de formulario con props -->
@@ -37,8 +37,8 @@ export default {
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
     const apiClient = axios.create({
-      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      //baseURL: process.env.VUE_APP_BASEURL,
+      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      baseURL: process.env.VUE_APP_BASEURL,
       withCredentials: false,
       headers: {
         "auth-header": localStorage.getItem("token"),
