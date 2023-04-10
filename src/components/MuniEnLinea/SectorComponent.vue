@@ -66,7 +66,7 @@ export default {
       //baseURL: process.env.VUE_APP_BASEURL,
       withCredentials: false,
       headers: {
-        "auth-header": localStorage.getItem("token"),
+        "auth-header": JSON.parse(localStorage.getItem("token")),
       },
     });
 
