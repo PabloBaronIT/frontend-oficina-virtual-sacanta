@@ -126,16 +126,16 @@ export default {
           );
           window.localStorage.setItem(
             "fecha-creacion",
-            JSN.stringify(response.data.UserLogged.created_at)
+            JSON.stringify(response.data.UserLogged.created_at)
           );
 
           window.localStorage.setItem(
             "token",
-            JSN.stringify(response.data.UserLogged.token)
+            JSON.stringify(response.data.UserLogged.token)
           );
           window.localStorage.setItem(
             "role",
-            JSN.stringify(response.data.UserLogged.role)
+            JSON.stringify(response.data.UserLogged.role)
           );
           this.validacion = true;
 
