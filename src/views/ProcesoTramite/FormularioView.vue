@@ -53,6 +53,7 @@ export default {
 
         this.procedureId = response.data.Template.id;
         parseInt(r.id);
+        //console.log(this.procedureId);
 
         this.title = r.title;
         this.length = r.question.length;
