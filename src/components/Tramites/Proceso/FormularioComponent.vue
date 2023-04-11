@@ -163,12 +163,14 @@ export default {
     };
   },
   created() {
+    // console.log(this.procedureId, "soy el procedureId");
     this.catId = this.$route.params.categoriaId;
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
     procedure.procedureId = this.procedureId;
     //procedure.representativeId = 1;
     procedure.userId = localStorage.getItem("id");
+    console.log(procedure.procedureId, "soy el procedur.procedureid");
   },
   methods: {
     ...mapActions(["saveP"]),
@@ -241,8 +243,8 @@ export default {
             //representativeId: procedure.representativeId,
             categoryId: procedure.categoryId,
             statusId: procedure.statusId,
-            questions: procedure.questions,
             procedureId: procedure.procedureId,
+            questions: procedure.questions,
           })
           .then((response) => {
             if (response.status == 201) {
