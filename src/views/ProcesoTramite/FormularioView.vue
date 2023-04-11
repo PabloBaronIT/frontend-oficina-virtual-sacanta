@@ -51,7 +51,7 @@ export default {
         console.log(response.data);
         let r = response.data.Template;
 
-        this.procedureId = response.data.Template.id;
+        this.procedureId = r.id;
         parseInt(r.id);
         // console.log(this.procedureId, "soy el procedureId");
 
