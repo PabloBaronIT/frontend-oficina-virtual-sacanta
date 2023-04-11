@@ -124,7 +124,8 @@ export default {
           window.localStorage.setItem("role", response.data.UserLogged.role);
           this.validacion = true;
 
-          this.$router.push("munienlinea");
+          //this.$router.push("munienlinea");
+          this.$router.push("representaciones");
         })
         .catch((error) => {
           console.log(error);

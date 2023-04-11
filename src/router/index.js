@@ -75,6 +75,12 @@ const routes = [
     component: () => import("@/views/ResetView.vue"),
     meta: { requiresAuth: false },
   },
+  {
+    path: "/representaciones",
+    name: "representaciones",
+    component: () => import("@/views/Representados/RepresentadosView.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
