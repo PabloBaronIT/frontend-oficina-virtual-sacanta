@@ -192,13 +192,13 @@ form img {
   margin-bottom: 15%;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 750px) {
   .deco {
     display: none;
   }
 
   form {
-    width: 80%;
+    width: 70%;
   }
 }
 </style>

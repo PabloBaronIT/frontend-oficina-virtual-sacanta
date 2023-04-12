@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-container">
     <div v-if="this.loading" class="spinner-border" role="status">
       <span>cargando rey</span>
     </div>
@@ -148,7 +148,6 @@ export default {
     length: Number,
     questionProp: Object,
     title: String,
-    procedureId: Number,
   },
   data() {
     return {
@@ -160,13 +159,34 @@ export default {
       selected: 0,
       submitted: false,
       catId: null,
+      // idProcedure: null,
     };
   },
   created() {
+    // Get a los templates de procedures para enviarlos por pro a formulario componente
+    // const apiClient = axios.create({
+    //   baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+    //   //baseURL: process.env.VUE_APP_BASEURL,
+    //   withCredentials: false,
+    //   headers: {
+    //     "auth-header": localStorage.getItem("token"),
+    //   },
+    // });
+
+    // apiClient
+    //   .get("/oficina/procedures/template/" + this.$route.params.formularioId)
+    //   .then((response) => {
+    //     console.log("Id desde componente: " + response.data.Template.id);
+    //     this.idProcedure = response.data.Template.id;
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
     this.catId = this.$route.params.categoriaId;
     procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
-    procedure.procedureId = this.procedureId;
+    // procedure.procedureId = this.idProcedure;
     //procedure.representativeId = 1;
     procedure.userId = localStorage.getItem("id");
   },
@@ -242,7 +262,7 @@ export default {
             categoryId: procedure.categoryId,
             statusId: procedure.statusId,
             questions: procedure.questions,
-            procedureId: procedure.procedureId,
+            procedureId: parseInt(this.$route.params.formularioId),
           })
           .then((response) => {
             if (response.status == 201) {
