@@ -40,8 +40,8 @@
           <!-- </router-link> -->
         </div>
         <strong>
-          {{ this.usuario }},<br />
-          {{ this.apellido }}<br />
+          {{ $store.state.user.firstname }},<br />
+          {{ $store.state.user.lastname }}<br />
         </strong>
         <p>CUIL: {{ this.dni }}</p>
       </div>
@@ -52,7 +52,12 @@
       id="sidebarMenu"
       class="btn-container scale-up-center"
     >
-      <router-link v-show="permission" :to="`/munienlinea`" class="bn3">
+      <router-link
+        v-show="permission"
+        :to="`/munienlinea`"
+        class="bn3"
+        v-if="!$store.state.representative"
+      >
         Inicio
       </router-link>
       <router-link v-show="permission" :to="`/tramites`" class="bn3">

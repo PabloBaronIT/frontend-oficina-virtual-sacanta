@@ -3,13 +3,16 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     loggedIn: false,
-    name: "joa",
-    lastname: "",
-    cuil: 11,
     token: localStorage.getItem("token"),
     procedure: [],
+    user: { firstname: "hols", lastname: "chau" },
+    representative: false,
   },
-  getters: {},
+  getters: {
+    getProfile(state) {
+      return state.firstname;
+    },
+  },
   mutations: {
     loggedIn(state, n, l) {
       state.loggedIn = true;
@@ -24,6 +27,12 @@ export default createStore({
       state.procedure = [];
       console.log(p);
     },
+    getProfile(state, asd) {
+      state.user = asd;
+    },
+    setRepresentative(state) {
+      state.representative = !state.representative;
+    },
   },
   actions: {
     mockLogin(context) {
@@ -31,6 +40,12 @@ export default createStore({
     },
     saveP(context) {
       context.commit("saveProcedure");
+    },
+    getProfile(context, asd) {
+      context.commit("getProfile", asd);
+    },
+    setRepresentative(context) {
+      context.commit("setRepresentative");
     },
   },
   modules: {},
