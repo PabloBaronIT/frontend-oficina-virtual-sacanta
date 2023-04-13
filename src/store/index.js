@@ -5,7 +5,7 @@ export default createStore({
     loggedIn: false,
     token: localStorage.getItem("token"),
     procedure: [],
-    user: { firstname: "hols", lastname: "chau" },
+    user: {},
     representative: false,
   },
   getters: {
@@ -14,10 +14,8 @@ export default createStore({
     },
   },
   mutations: {
-    loggedIn(state, n, l) {
-      state.loggedIn = true;
-      state.name = n;
-      state.lastname = l;
+    loggedIn(state, asd) {
+      state.user = asd;
     },
     saveProcedure(state, p) {
       let obj = JSON.parse(p);
@@ -35,16 +33,16 @@ export default createStore({
     },
   },
   actions: {
-    mockLogin(context) {
-      context.commit("loggedIn");
+    mockLoginAction(context, asd) {
+      context.commit("loggedIn", asd);
     },
     saveP(context) {
       context.commit("saveProcedure");
     },
-    getProfile(context, asd) {
+    getProfileAction(context, asd) {
       context.commit("getProfile", asd);
     },
-    setRepresentative(context) {
+    setRepresentativeAction(context) {
       context.commit("setRepresentative");
     },
   },

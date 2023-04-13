@@ -106,10 +106,10 @@ export default {
     //acciones del store
 
     dispatchProfile() {
-      this.$store.dispatch("getProfile", this.user);
+      this.$store.dispatch("getProfileAction", this.user);
     },
     dispatchRepresentative() {
-      this.$store.dispatch("setRepresentative");
+      this.$store.dispatch("setRepresentativeAction");
     },
 
     //para obtener el perfil del representado

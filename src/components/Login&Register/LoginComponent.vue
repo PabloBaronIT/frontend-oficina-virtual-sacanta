@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 import dbService from "@/services/dbService";
 
 //ToDo
@@ -74,6 +74,7 @@ export default {
       validacion: null,
       msj: "",
       loading: false,
+      user: {},
     };
   },
   created() {
@@ -88,7 +89,10 @@ export default {
     next();
   },
   methods: {
-    ...mapActions(["mockLogin"]),
+    // ...mapActions(["mockLogin"]),
+    dispatchLogin() {
+      this.$store.dispatch("mockLoginAction", this.user);
+    },
 
     log() {
       this.loading = true;
@@ -98,7 +102,11 @@ export default {
         .then((response) => {
           window.localStorage.removeItem("token");
           console.log(response.data);
-          //this.mockLogin();
+          this.user = response.data.UserLogged;
+
+          //se guarda los datos en el store
+          this.dispatchLogin();
+          //se guardan los datos en localstorage
           window.localStorage.clear();
           window.localStorage.setItem(
             "name",

@@ -24,7 +24,7 @@
           d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
         />
       </svg>
-      <div class="usuario-details">
+      <div class="usuario-details" v-if="this.$store.state.user">
         <div class="datos">
           <router-link v-show="permission" :to="`/micuenta`">
             Mi cuenta
@@ -43,9 +43,10 @@
           {{ $store.state.user.firstname }},<br />
           {{ $store.state.user.lastname }}<br />
         </strong>
-        <p>CUIL: {{ this.dni }}</p>
+        <p>CUIL: {{ $store.state.user.cuil }}</p>
       </div>
     </div>
+    <!-- nav del usuario -->
 
     <nav
       v-if="this.role !== 'MUNI_ROLE'"
@@ -63,10 +64,13 @@
       <router-link v-show="permission" :to="`/tramites`" class="bn3">
         Mis tramites
       </router-link>
+      <router-link v-show="permission" :to="`/representaciones`" class="bn3">
+        Mis representaciones
+      </router-link>
 
       <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>
-
+    <!-- nav del mmunicipal -->
     <nav v-if="this.role == 'MUNI_ROLE'" id="sidebarMenu" class="btn-container">
       <router-link v-show="permission" :to="`/muni`" class="bn3">
         Back
