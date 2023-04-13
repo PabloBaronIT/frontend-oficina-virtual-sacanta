@@ -73,6 +73,17 @@
                     <p>{{ ans.options[0].answer }}</p>
                   </div>
                 </div>
+                <div class="footerCoprobante">
+                  <div>
+                    <p>Declaro que los datos asignados son verdaderos.</p>
+                  </div>
+                  <div v-if="this.$store.state.RepresentativeUser">
+                    este tramite fue presenado por
+                    {{ this.$store.state.RepresentativeUser.firstname }} en
+                    representacion de {{ this.$store.state.user.firstname }}
+                  </div>
+                </div>
+
                 <div class="modal-footer">
                   <button
                     type="button"
@@ -173,5 +184,9 @@ h2 {
   .main {
     width: 100vw;
   }
+}
+.footerCoprobante {
+  width: 100%;
+  font-size: 15px;
 }
 </style>
