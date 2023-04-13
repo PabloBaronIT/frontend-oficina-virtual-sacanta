@@ -15,6 +15,7 @@
           name="representado"
         />
       </div>
+
       <div
         v-for="representado in listaReprentaciones"
         :key="representado.id"
@@ -51,6 +52,7 @@
       <div v-if="nullRepresented">
         <h2>BIENVENIDO!</h2>
         <p>en breve usted será redirigido a la pantalla principal</p>
+        <p>No tiene representaciones registradas</p>
       </div>
     </div>
   </div>
@@ -61,12 +63,12 @@ import axios from "axios";
 export default {
   data() {
     return {
-      user: {},
+      user: null,
       listaReprentaciones: [],
       representativeId: null,
       nullRepresented: false,
       message: "",
-      firstname: "",
+      RepresentativeUser: null,
     };
   },
   methods: {
@@ -74,33 +76,41 @@ export default {
 
     selectRpresentado(event) {
       this.representativeId = event.target.value;
+
       console.log(this.representativeId + "id seleccionado");
     },
     //manda el id para obtener el toquen
 
     postSeleccionado() {
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .post("/representations/choose-representation", {
-          representativeId: this.representativeId,
-        })
-        .then((response) => {
-          console.log(response.data.message);
-          this.message = response.data.message;
-          window.localStorage.removeItem("token");
-          window.localStorage.setItem("token", response.data.token);
-          this.getProfile();
-
-          setTimeout(() => this.$router.push("munienlinea"), 3000);
-          this.dispatchRepresentative();
+      if (this.user.id != this.representativeId) {
+        const apiClient = axios.create({
+          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+          baseURL: process.env.VUE_APP_BASEURL,
+          withCredentials: false,
+          headers: {
+            "auth-header": localStorage.getItem("token"),
+          },
         });
+        apiClient
+          .post("/representations/choose-representation", {
+            representativeId: this.representativeId,
+          })
+          .then((response) => {
+            console.log(response.data.message);
+            this.message = response.data.message;
+            window.localStorage.removeItem("token");
+            window.localStorage.setItem("token", response.data.token);
+            this.getProfile();
+
+            setTimeout(() => this.$router.push("munienlinea"), 2000);
+            this.dispatchRepresentative();
+            this.dispachSaveRepresentativeUser();
+          });
+      } else {
+        this.dispatchRepresentative();
+
+        this.$router.push("munienlinea");
+      }
     },
 
     //acciones del store
@@ -111,7 +121,12 @@ export default {
     dispatchRepresentative() {
       this.$store.dispatch("setRepresentativeAction");
     },
-
+    dispachSaveRepresentativeUser() {
+      this.$store.dispatch(
+        "saveRepresentativeUserAcition",
+        this.RepresentativeUser
+      );
+    },
     //para obtener el perfil del representado
 
     getProfile() {
@@ -124,8 +139,7 @@ export default {
         },
       });
       apiClient.get("/oficina/user/profile").then((response) => {
-        this.user.firstname = response.data.UserProfile.user.firstname;
-        this.user.lastname = response.data.UserProfile.user.lastname;
+        this.user = response.data.UserProfile.user;
         console.log(this.user);
         this.dispatchProfile();
       });
@@ -146,6 +160,7 @@ export default {
         console.log(response.data, "mis representaciones");
         if (response.status == 200) {
           this.user = response.data.Representations[0].user;
+          this.RepresentativeUser = response.data.Representations[0].user;
           for (let i = 0; i < response.data.Representations.length; i++) {
             this.listaReprentaciones.push(
               response.data.Representations[i].represented

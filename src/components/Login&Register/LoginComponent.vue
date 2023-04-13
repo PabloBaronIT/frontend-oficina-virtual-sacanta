@@ -129,6 +129,11 @@ export default {
           );
 
           window.localStorage.setItem("token", response.data.UserLogged.token);
+          window.localStorage.setItem(
+            "tokenCopia",
+            response.data.UserLogged.token
+          );
+
           window.localStorage.setItem("role", response.data.UserLogged.role);
           this.validacion = true;
 

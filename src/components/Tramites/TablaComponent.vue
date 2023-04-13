@@ -21,6 +21,9 @@
         </td>
       </tr>
     </table>
+    <div class="sinTramites" v-if="!this.mostrados || !this.activos.length">
+      <h2>No hay trámites registrados</h2>
+    </div>
     <div class="loader">
       <div
         v-if="this.loading == true && this.msj === ''"
@@ -231,6 +234,13 @@ export default {
 </script>
 
 <style scoped>
+.sinTramites {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  text-align: center;
+  padding-top: 2rem;
+}
 .pagNum {
   margin: 0 1.5px;
 }

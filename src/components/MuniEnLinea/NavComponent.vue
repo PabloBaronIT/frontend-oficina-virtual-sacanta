@@ -44,6 +44,17 @@
           {{ $store.state.user.lastname }}<br />
         </strong>
         <p>CUIL: {{ $store.state.user.cuil }}</p>
+        <p
+          v-if="this.$store.state.RepresentativeUser"
+          @click="changeRepresentative"
+        >
+          Representado por:
+          <br />
+          <strong class="nameRepresntative">
+            {{ $store.state.RepresentativeUser.firstname }}
+            {{ $store.state.RepresentativeUser.lastname }}
+          </strong>
+        </p>
       </div>
     </div>
     <!-- nav del usuario -->
@@ -83,6 +94,7 @@
 
 <script>
 //import dbService from "@/services/dbService";
+import axios from "axios";
 
 export default {
   name: "NavComponent",
@@ -95,6 +107,7 @@ export default {
       permission: true,
       user_id: localStorage.getItem("id"),
       role: localStorage.getItem("role"),
+      user: null,
     };
   },
   created() {
@@ -114,6 +127,55 @@ export default {
           },
         })
       );
+    },
+    dispatchRepresentative() {
+      this.$store.dispatch("setRepresentativeAction");
+    },
+    dispatchProfile() {
+      this.$store.dispatch("getProfileAction", this.user);
+    },
+    dispatchClearRepresentativeUser() {
+      this.$store.dispatch("clearRepresentativeUserAction");
+    },
+    changeRepresentative() {
+      console.log("cambiew");
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("tokenCopia"),
+        },
+      });
+      apiClient
+        .post("/representations/choose-representation", {
+          representativeId: this.$store.state.RepresentativeUser.id,
+        })
+        .then((response) => {
+          console.log(response.data.message);
+          window.localStorage.removeItem("token");
+          window.localStorage.setItem("token", response.data.token);
+          this.getProfile();
+          setTimeout(() => this.$router.push("munienlinea"), 2000);
+          this.dispatchClearRepresentativeUser();
+          //this.dispatchRepresentative();
+          //this.dispachSaveRepresentativeUser();
+        });
+    },
+    getProfile() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/user/profile").then((response) => {
+        this.user = response.data.UserProfile.user;
+        console.log(this.user);
+        this.dispatchProfile();
+      });
     },
   },
 };
@@ -298,5 +360,9 @@ a {
   .nav-container {
     display: none;
   }
+}
+.nameRepresntative {
+  cursor: pointer;
+  color: #2c5777;
 }
 </style>

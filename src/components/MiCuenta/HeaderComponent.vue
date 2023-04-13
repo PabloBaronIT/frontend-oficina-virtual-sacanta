@@ -23,8 +23,8 @@ export default {
   name: "HeaderComponent",
   data() {
     return {
-      name: localStorage.getItem("name"),
-      lastname: localStorage.getItem("lastname"),
+      name: this.$store.state.user.firstname,
+      lastname: this.$store.state.user.lastname,
     };
   },
 };
