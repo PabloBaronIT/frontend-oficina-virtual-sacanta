@@ -7,8 +7,8 @@
     <FormularioComponent
       :title="title"
       :questionProp="preguntas"
-      :length="length"
-      :procedureId="procedureId"
+      :length="this.length"
+      :idProcedure="this.procedureId"
     />
 
     <!-- Armar componente de formulario con props -->

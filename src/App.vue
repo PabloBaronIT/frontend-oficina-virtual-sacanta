@@ -106,6 +106,7 @@ export default {
 }
 
 #app {
+  user-select: none;
   overflow-x: hidden;
   font-family: "Roboto Slab", serif;
   -webkit-font-smoothing: antialiased;
