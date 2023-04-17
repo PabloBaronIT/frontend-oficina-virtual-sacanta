@@ -64,6 +64,7 @@
       id="sidebarMenu"
       class="btn-container scale-up-center"
     >
+      <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
       <router-link
         v-show="permission"
         :to="`/munienlinea`"
@@ -75,7 +76,14 @@
       <router-link v-show="permission" :to="`/tramites`" class="bn3">
         Mis tramites
       </router-link>
-      <router-link v-show="permission" :to="`/representaciones`" class="bn3">
+
+      <!--este link solo se puede acceder en el propio perfil , no como representante-->
+      <router-link
+        v-show="permission"
+        :to="`/representaciones`"
+        v-if="!$store.state.RepresentativeUser"
+        class="bn3"
+      >
         Mis representaciones
       </router-link>
 

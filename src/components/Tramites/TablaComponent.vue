@@ -21,9 +21,7 @@
         </td>
       </tr>
     </table>
-    <div class="sinTramites" v-if="!this.mostrados || !this.activos.length">
-      <h2>No hay trámites registrados</h2>
-    </div>
+
     <div class="loader">
       <div
         v-if="this.loading == true && this.msj === ''"
@@ -47,7 +45,7 @@
         <span class="sr-only"></span>
       </div>
 
-      <p v-if="this.msj !== ''">{{ this.msj }}</p>
+      <h2 v-if="this.msj !== ''" class="sinTramites">{{ this.msj }}</h2>
     </div>
     <div class="filtro-filas">
       <div class="nav">
@@ -57,13 +55,16 @@
           src="@/assets/previous.svg"
           alt=""
         />
-        <div v-for="(i, k) in this.paginas" :key="k">
-          <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
+        <div class="pagNum">
+          {{ this.paginaActual }}
+        </div>
+        <!-- <div v-for="(i, k) in this.paginas" :key="k">
+          <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
             ><b>{{ k + 1 }}</b></span
           >
           <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
-        </div>
+        </div>-->
         <img @click="nextPag" class="svg" src="@/assets/next.svg" alt="" />
       </div>
 
@@ -148,7 +149,7 @@ export default {
             case "EN PROCESO":
               p.color = "var(--red)";
               break;
-            case "COMUNICACIÓN":
+            case "EN REVISIÓN":
               p.color = "var(--yellow)";
               break;
             case "FINALIZADO":
@@ -171,7 +172,7 @@ export default {
       })
       .catch((err) => {
         console.log(err);
-        //this.msj = err.response.data.message;
+        this.msj = err.response.data.message;
       });
   },
   methods: {

@@ -3,7 +3,7 @@
     <!--se muestra si tiene representaciones-->
 
     <div v-if="listaReprentaciones.length" class="containerRepresented">
-      <h2>BIENVENIDO! Seleccione a quien va a representar:</h2>
+      <h2>Seleccione a quien va a representar:</h2>
 
       <div class="list">
         <label for="">A mi mismo</label>
@@ -50,8 +50,7 @@
       <!--se muestra si NO tiene representaciones  y redirige a pagina principal-->
 
       <div v-if="nullRepresented">
-        <h2>BIENVENIDO!</h2>
-        <p>en breve usted será redirigido a la pantalla principal</p>
+        <p>En breve usted será redirigido a la pantalla principal</p>
         <p>No tiene representaciones registradas</p>
       </div>
     </div>
@@ -174,7 +173,7 @@ export default {
         console.log(err);
 
         this.nullRepresented = true;
-        setTimeout(() => this.$router.push("munienlinea"), 3000);
+        setTimeout(() => this.$router.push("munienlinea"), 2000);
       });
   },
 };
