@@ -49,8 +49,8 @@
       </div>
       <!--se muestra si NO tiene representaciones  y redirige a pagina principal-->
 
-      <div v-if="nullRepresented">
-        <p>En breve usted será redirigido a la pantalla principal</p>
+      <div v-if="nullRepresented" class="nullRepresented">
+        <h5>En breve usted será redirigido a la pantalla principal</h5>
         <p>No tiene representaciones registradas</p>
       </div>
     </div>
@@ -230,5 +230,11 @@ export default {
 .bn3:hover {
   background-color: rgb(63, 119, 192);
   color: white;
+}
+.nullRepresented {
+  height: 10rem;
+  width: 35rem;
+  padding-top: 2rem;
+  background-color: rgba(128, 128, 128, 0.233);
 }
 </style>
