@@ -139,6 +139,7 @@ var procedure = {
   procedureId: null,
   selected: null,
   questions: [],
+  date: new Date(),
 };
 
 export default {

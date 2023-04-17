@@ -21,12 +21,12 @@
             procese el pago podra descargar su comprobante.
           </p>
           <PagarComponent />
-          <input
+          <!--<input
             class="btn btn-secondary m-1"
             type="button"
             @click="PDF"
             value="Exportar  pdf"
-          />
+          />-->
 
           <button
             type="button"
@@ -61,6 +61,7 @@
                   ></button>
                 </div>
                 <div class="modal-body text-start">
+                  <p>Fecha: {{ this.verFecha() }}</p>
                   <h2>{{ this.$store.state.procedure[0].title }}</h2>
 
                   <div
@@ -77,10 +78,21 @@
                   <div>
                     <p>Declaro que los datos asignados son verdaderos.</p>
                   </div>
-                  <div v-if="this.$store.state.RepresentativeUser">
-                    este tramite fue presenado por
-                    {{ this.$store.state.RepresentativeUser.firstname }} en
-                    representacion de {{ this.$store.state.user.firstname }}
+                  <div
+                    v-if="this.$store.state.RepresentativeUser"
+                    class="textRepresentative"
+                  >
+                    Este trámite fue presentado por
+                    <strong>
+                      {{ this.$store.state.RepresentativeUser.firstname }}
+                      {{ this.$store.state.RepresentativeUser.lastname }} en
+                    </strong>
+
+                    representacion de
+                    <strong>
+                      {{ this.$store.state.user.firstname }}
+                      {{ this.$store.state.user.lastname }}
+                    </strong>
                   </div>
                 </div>
 
@@ -112,7 +124,7 @@
 <script>
 import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
-import pdfMake from "pdfmake";
+//  import pdfMake from "pdfmake";
 export default {
   name: "PruebaView",
   data() {
@@ -129,12 +141,24 @@ export default {
   components: { PagarComponent, SideBar },
   methods: {
     download() {
-      let docDefinition = {};
+      //let docDefinition = {};
 
-      pdfMake.cretePdf(docDefinition).download();
+      // pdfMake.cretePdf(docDefinition).download();
+      window.print();
     },
     verComprobante() {
       this.comprobante = !this.comprobante;
+    },
+    verFecha() {
+      let iso = this.$store.state.procedure[0].date;
+      let date = new Date(iso);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      //Carga del procedure
+      let fecha = `${day}/${month}/${year}`;
+      return fecha;
     },
   },
 };
@@ -188,5 +212,10 @@ h2 {
 .footerCoprobante {
   width: 100%;
   font-size: 15px;
+}
+.textRepresentative {
+  color: var(--red);
+  padding: 1rem;
+  border-top: 1px solid black;
 }
 </style>
