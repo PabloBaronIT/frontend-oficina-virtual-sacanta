@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-body text-start">
                   <p>Fecha: {{ this.verFecha() }}</p>
-                  <h2>{{ this.$store.state.procedure[0].title }}</h2>
+                  <h2>{{ this.$store.state.procedure[0].title || "" }}</h2>
 
                   <div
                     v-for="(ans, key) in this.$store.state.procedure[0]
@@ -71,7 +71,7 @@
                     class="answer"
                   >
                     <!--<h4>{{ ans.question }}</h4>-->
-                    <p>{{ ans.options[0].answer }}</p>
+                    <p>{{ ans.options[0].answer || "" }}</p>
                   </div>
                 </div>
                 <div class="footerCoprobante">
