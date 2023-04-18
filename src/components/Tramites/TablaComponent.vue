@@ -54,6 +54,7 @@
           @click="backTramites"
           src="@/assets/previous.svg"
           alt=""
+          v-if="this.paginaActual > 1"
         />
         <div class="pagNum">
           {{ this.paginaActual }}
@@ -65,7 +66,13 @@
           >
           <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
         </div>-->
-        <img @click="nextPag" class="svg" src="@/assets/next.svg" alt="" />
+        <img
+          @click="nextPag"
+          class="svg"
+          src="@/assets/next.svg"
+          alt=""
+          v-if="this.paginaActual < this.paginas"
+        />
       </div>
 
       <div v-if="this.msj == ''" class="cant">
@@ -149,7 +156,7 @@ export default {
             case "EN PROCESO":
               p.color = "var(--red)";
               break;
-            case "EN REVISIÓN":
+            case "COMUNICACIÓN":
               p.color = "var(--yellow)";
               break;
             case "FINALIZADO":
@@ -243,7 +250,8 @@ export default {
   padding-top: 2rem;
 }
 .pagNum {
-  margin: 0 1.5px;
+  margin: 0 2px;
+  font-size: 20px;
 }
 
 .loader {
@@ -264,7 +272,7 @@ export default {
 }
 
 .svg {
-  max-width: 15px;
+  max-width: 20px;
 }
 
 input[type="checkbox"] {
