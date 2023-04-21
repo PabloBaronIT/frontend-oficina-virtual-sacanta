@@ -65,31 +65,15 @@
             "
             class="file-container"
           >
-            <img
-              src="@/assets/tramite-logo.svg"
-              alt=""
-              id="img-preview"
-              class="imgFile"
-            />
+            <img src="@/assets/tramite-logo.svg" alt="" />
 
             <hr />
             <input
-              accept=".jpg, .jpeg, .png, .webp"
+              accept=".pdf"
               :type="
                 questionProp[0].question[this.paso].question_options[key].type
               "
               v-model="this.textInput"
-              id="img-uploader"
-              @change="selectFile($event)"
-            />
-
-            <!--INPUT PARA SUBIR EL ARCHIVO-->
-            <input
-              v-if="this.textInput"
-              class="m-2 btn btn-secondary"
-              type="button"
-              value="Subir archivo"
-              @click="postFile()"
             />
           </div>
         </div>
@@ -124,7 +108,6 @@
       </div>
 
       <!-- Si esta en el ultimo paso se habilita el submitt -->
-
       <input
         v-if="this.paso + 1 == this.length"
         class="btn btn-success m-1"
@@ -177,8 +160,6 @@ export default {
       selected: 0,
       submitted: false,
       catId: null,
-      file: null,
-
       // idProcedure: null,
     };
   },
@@ -223,34 +204,7 @@ export default {
         this.next();
       }
     },
-    selectFile($event) {
-      const imgPreview = document.getElementById("img-preview");
 
-      this.file = $event.target.files[0];
-      const objectURL = URL.createObjectURL(this.file);
-      imgPreview.src = objectURL;
-      console.log(this.file, "soy el archivo");
-    },
-    postFile: async function () {
-      const CLOUDINARY_URL =
-        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
-      const CLOUDINARY_UPLOAD_PRESET = "lylceews";
-      const formData = new FormData();
-      formData.append("file", this.file);
-      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-      await fetch(CLOUDINARY_URL, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          this.textInput = data.secure_url;
-          console.log(data.secure_url, "secure_url");
-          console.log(this.textInput, "archivo cargado");
-        });
-
-      //console.log(res.secure_url, "soy la url de la imagen");
-    },
     next() {
       let choice = this.selected - 1;
       let optionTitle = "";
@@ -406,10 +360,5 @@ p {
 
 .question {
   margin-top: 20px;
-}
-.imgFile {
-  height: 4rem;
-  width: 4rem;
-  margin: auto;
 }
 </style>
