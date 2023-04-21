@@ -22,9 +22,8 @@ export default createStore({
       let obj = JSON.parse(p);
       state.procedure.push(obj);
     },
-    cleanStore(state, p) {
+    cleanStore(state) {
       state.procedure = [];
-      console.log(p);
     },
     getProfile(state, asd) {
       state.user = asd;
@@ -57,6 +56,9 @@ export default createStore({
     },
     clearRepresentativeUserAction(context) {
       context.commit("clearRepresentativeUser");
+    },
+    clearAction(context) {
+      context.commit("cleanStore");
     },
   },
   modules: {},
