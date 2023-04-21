@@ -78,14 +78,14 @@
               :type="
                 questionProp[0].question[this.paso].question_options[key].type
               "
-              v-model="this.textInput"
+              v-model="this.fileSelect"
               id="img-uploader"
               @change="selectFile($event)"
             />
 
             <!--INPUT PARA SUBIR EL ARCHIVO-->
             <input
-              v-if="this.textInput"
+              v-if="this.fileSelect"
               class="m-2 btn btn-secondary"
               type="button"
               value="Subir archivo"
@@ -178,8 +178,7 @@ export default {
       submitted: false,
       catId: null,
       file: null,
-      cargado: false,
-
+      fileSelect: null,
       // idProcedure: null,
     };
   },
@@ -214,8 +213,8 @@ export default {
   },
   methods: {
     // ...mapActions(["saveP"]),
-    dispatchClear() {
-      this.$store.dispatch("clearAction");
+    dispatchClean() {
+      this.$store.dispatch("cleanAction");
     },
     preNext() {
       if (this.selected == 0 && this.textInput == "") {
@@ -253,6 +252,7 @@ export default {
           console.log(this.textInput, "archivo cargado en textInput");
           this.preNext();
         });
+
       //console.log(res.secure_url, "soy la url de la imagen");
     },
     next() {
@@ -289,6 +289,9 @@ export default {
       this.validation = true;
       this.paso++;
     },
+
+    //ENVIO DE LAS RESPUESTAS -FINAL DEL FORMULARIO-
+
     submitt() {
       //console.log(this.questionProp + "holaaa");
 
@@ -319,12 +322,12 @@ export default {
           .then((response) => {
             if (response.status == 201) {
               // this.$store.commit("cleanStore");
-              this.dispatchClear();
+              this.dispatchClean();
               this.$store.commit("saveProcedure", JSON.stringify(procedure));
               this.submitted = true;
+              procedure.questions = [];
               this.$router.replace({ path: "/prueba" });
               console.log(this.$store.procedure[0]);
-              procedure.questions = [];
             }
           })
           .catch((err) => {

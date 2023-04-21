@@ -57,7 +57,7 @@ export default createStore({
     clearRepresentativeUserAction(context) {
       context.commit("clearRepresentativeUser");
     },
-    clearAction(context) {
+    cleanAction(context) {
       context.commit("cleanStore");
     },
   },
