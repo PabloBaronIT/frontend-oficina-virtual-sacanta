@@ -86,7 +86,9 @@
       >
         Mis representaciones
       </router-link>
-
+      <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
+        Mis Notificaciones
+      </router-link>
       <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
     </nav>
     <!-- nav del mmunicipal -->
@@ -295,6 +297,7 @@ nav a {
 
 .bn3:hover {
   background-color: rgb(63, 119, 192);
+  color: white;
 }
 
 .bn3:focus {
