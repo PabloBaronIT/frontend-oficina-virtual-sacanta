@@ -65,32 +65,43 @@
             "
             class="file-container"
           >
-            <img
-              src="@/assets/tramite-logo.svg"
-              alt=""
-              id="img-preview"
-              class="imgFile"
-            />
+            <div v-if="!asd" class="file-intro">
+              <img
+                src="@/assets/tramite-logo.svg"
+                alt=""
+                id="img-preview"
+                class="imgFile"
+              />
 
-            <hr />
-            <input
-              accept=".jpg, .jpeg, .png, .webp"
-              :type="
-                questionProp[0].question[this.paso].question_options[key].type
-              "
-              v-model="this.fileSelect"
-              id="img-uploader"
-              @change="selectFile($event)"
-            />
+              <hr />
+              <input
+                accept=".jpg, .jpeg, .png, .webp"
+                :type="
+                  questionProp[0].question[this.paso].question_options[key].type
+                "
+                v-model="this.fileSelect"
+                id="img-uploader"
+                @change="selectFile($event)"
+              />
 
-            <!--INPUT PARA SUBIR EL ARCHIVO-->
-            <input
-              v-if="this.fileSelect"
-              class="m-2 btn btn-secondary"
-              type="button"
-              value="Subir archivo"
-              @click="postFile()"
-            />
+              <!--INPUT PARA SUBIR EL ARCHIVO-->
+              <input
+                v-if="this.fileSelect"
+                class="m-2 btn btn-secondary"
+                type="button"
+                value="Subir archivo"
+                @click="postFile()"
+              />
+            </div>
+            <div v-else class="cargado">
+              <img
+                src="@/assets/red-check-mark-icon.svg"
+                alt=""
+                id="img-preview"
+                class="imgFile"
+              />
+              <p>Archivo cargado</p>
+            </div>
           </div>
         </div>
         <p class="error" v-show="validation == false">
@@ -124,7 +135,7 @@
       </div>
 
       <!-- Si esta en el ultimo paso se habilita el submitt -->
-
+      <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
       <input
         v-if="this.paso + 1 == this.length"
         class="btn btn-success m-1"
@@ -179,6 +190,7 @@ export default {
       catId: null,
       file: null,
       fileSelect: null,
+      asd: false,
       // idProcedure: null,
     };
   },
@@ -224,6 +236,7 @@ export default {
       } else if (this.selected != 0 && this.textInput == "") {
         this.next();
       }
+      this.asd = false;
     },
     selectFile($event) {
       const imgPreview = document.getElementById("img-preview");
@@ -250,11 +263,14 @@ export default {
           console.log(data.secure_url, "secure_url");
           console.log(data);
           console.log(this.textInput, "archivo cargado en textInput");
-          this.preNext();
+          //this.preNext();
+          this.fileSelect = null;
+          this.asd = true;
         });
 
       //console.log(res.secure_url, "soy la url de la imagen");
     },
+
     next() {
       let choice = this.selected - 1;
       let optionTitle = "";
@@ -294,12 +310,17 @@ export default {
 
     submitt() {
       //console.log(this.questionProp + "holaaa");
-
-      // this.preNext();
-      this.loading = true;
+      if (this.selected == 0 && this.textInput == "") {
+        this.validation = false;
+      } else {
+        this.validation = true;
+      }
+      // this.loading = true;
       //console.log(procedure.procedureId + "procedureId");
 
       if (this.validation) {
+        this.preNext();
+
         this.loading = true;
         this.modal = true;
         const apiClient = axios.create({
@@ -350,7 +371,8 @@ export default {
       procedure.questions.pop();
     },
     cancel() {
-      location.replace("/#/munienlinea");
+      this.$router.replace({ path: "/munienlinea" });
+      procedure.questions = [];
     },
     ver() {
       var doc = new jsPDF();
@@ -378,6 +400,14 @@ export default {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
+}
+.file-intro {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+.cargado {
+  text-align: center;
 }
 
 h1,
