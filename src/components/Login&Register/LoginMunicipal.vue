@@ -33,17 +33,21 @@
 
 <script>
 import dbService from "@/services/dbService";
-import { mapActions } from "vuex";
+//import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
       cuil: null,
       password: "",
       msj: "",
+      user: {},
     };
   },
   methods: {
-    ...mapActions(["mockLogin"]),
+    dispatchLogin() {
+      this.$store.dispatch("mockLoginAction", this.user);
+    },
 
     login() {
       let log = {
@@ -56,9 +60,11 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             localStorage.removeItem("token");
+            this.user = response.data.MuniLogged;
+            this.dispatchLogin();
 
             this.validacion = true;
-            this.mockLogin();
+            //this.mockLogin();
             localStorage.clear();
             localStorage.setItem("name", response.data.MuniLogged.firstname);
             localStorage.setItem("lastname", response.data.MuniLogged.lastname);

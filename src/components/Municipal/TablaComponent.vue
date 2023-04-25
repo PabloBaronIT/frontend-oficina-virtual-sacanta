@@ -21,9 +21,9 @@
       </form>
       <select @change="getFiltro($event)" name="" id="">
         <option value="0">Todos</option>
-        <option value="1">Solicitado</option>
+        <option value="1">Presentado</option>
         <option value="2">En proceso</option>
-        <option value="3">Finalizados</option>
+        <option value="4">Finalizados</option>
       </select>
     </div>
     <div class="tabla-container">
@@ -41,7 +41,7 @@
 
         <tr
           class="fila-tabla"
-          v-for="(p, key) in this.activos"
+          v-for="(p, key) in this.mostrados"
           @click="verTramite(p.id)"
           :key="key"
         >
@@ -137,7 +137,9 @@
             </section>
           </div> -->
         </div>
-        <!--modalestado-->
+
+        <!--MODAL PARA CAMBIAR DE ESTADO-->
+
         <div class="modalEstado">
           <div v-if="this.modalEstado === true" class="modal-content">
             <div class="modal-top">
@@ -168,7 +170,7 @@
                     type="radio"
                     name="status"
                     value="3"
-                  />Finalizado
+                  />Comunicación
                 </p>
               </div>
             </div>
@@ -179,7 +181,7 @@
                   type="radio"
                   name="status"
                   value="4"
-                />En revisión
+                />Finalizado
               </p>
             </div>
             <input
@@ -195,7 +197,35 @@
       <div class="sinTramites" v-if="!this.history || !this.activos.length">
         <h2>No hay trámites registrados</h2>
       </div>
+
       <div class="filtro-filas">
+        <div class="nav">
+          <img
+            class="svg"
+            @click="backTramites"
+            src="@/assets/previous.svg"
+            alt=""
+            v-if="this.paginaActual > 1"
+          />
+          <div class="pagNum">
+            {{ this.paginaActual }}
+          </div>
+          <!-- <div v-for="(i, k) in this.paginas" :key="k">
+          <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
+          <span v-if="this.paginaActual === k" class="pagNum"
+            ><b>{{ k + 1 }}</b></span
+          >
+          <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
+        </div>-->
+          <img
+            @click="nextPag"
+            class="svg"
+            src="@/assets/next.svg"
+            alt=""
+            v-if="this.paginaActual < this.paginas"
+          />
+        </div>
+        <!-- <div class="filtro-filas">
         <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
@@ -203,7 +233,7 @@
           >
           <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
         </div>
-        <!-- 
+       
 
 
 
@@ -298,8 +328,8 @@ export default {
   methods: {
     getProcedures() {
       const apiClient = axios.create({
-        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        //baseURL: process.env.VUE_APP_BASEURL,
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -338,7 +368,7 @@ export default {
               case "PRESENTADO":
                 p.color = "var(--green)";
                 break;
-              case "EN REVISIÓN":
+              case "COMUNICACIÓN":
                 p.color = "var(--yellow)";
                 break;
               case "EN PROCESO":
@@ -356,6 +386,7 @@ export default {
           }
 
           this.length = response.data.HistoryOfProcedures.length;
+          this.cantTramites();
         })
         .catch((err) => {
           console.log(err);
@@ -392,8 +423,8 @@ export default {
 
     getFiltro(event) {
       let apiClient = axios.create({
-        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        //baseURL: process.env.VUE_APP_BASEURL,
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -437,7 +468,7 @@ export default {
                 case "PRESENTADO":
                   p.color = "var(--green)";
                   break;
-                case "EN REVISIÓN":
+                case "COMUNICACIÓN":
                   p.color = "var(--yellow)";
                   break;
                 case "EN PROCESO":
@@ -457,7 +488,6 @@ export default {
             }
 
             this.length = response.data.length;
-
             console.log(response.data.history);
 
             console.log(h[0].status);
@@ -565,7 +595,7 @@ export default {
         case "PRESENTADO":
           p.color = "var(--green)";
           break;
-        case "EN REVISIÓN":
+        case "COMUNICACIÓN":
           p.color = "var(--yellow)";
           break;
         case "EN PROCESO":

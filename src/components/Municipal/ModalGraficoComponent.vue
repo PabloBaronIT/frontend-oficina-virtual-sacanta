@@ -56,16 +56,16 @@ export default {
   methods: {
     sampleAsync(r, f, i, c) {
       this.chartData = {
-        labels: ["Presentados", "En proceso", "Finalizado", "Comunicación"],
+        labels: ["Presentado", "Comunicación", "En proceso", "Finalizado"],
         datasets: [
           {
             label: "Tramites",
             data: [r, f, i, c],
             backgroundColor: [
               "rgb(104, 185, 132",
+              "rgb(240, 169, 47)",
               "rgb(225, 77, 42)",
               "rgb(139, 167, 190)",
-              "rgb(240, 169, 47)",
             ],
             hoverOffset: 4,
           },

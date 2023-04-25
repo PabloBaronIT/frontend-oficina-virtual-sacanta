@@ -1,7 +1,7 @@
 <template>
   <main class="flex-container">
     <div class="top">
-      <p>Tenes un mensaje</p>
+      <p>Tienes un mensaje</p>
     </div>
     <p class="descripcion">
       {{ dato.description }}
@@ -27,7 +27,17 @@ export default {
   box-shadow: 5px 5px 12px #444;
 }
 .top {
-  background-color: var(--green);
+  background: #0575e6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #0575e6,
+    #021b79
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #0575e6,
+    #021b79
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   width: 100%;
   color: white;
   padding: 2px;
