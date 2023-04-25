@@ -27,7 +27,6 @@ export default {
   box-shadow: 5px 5px 12px #444;
 }
 .top {
-  text-align: left;
   background-color: var(--green);
   width: 100%;
   color: white;
