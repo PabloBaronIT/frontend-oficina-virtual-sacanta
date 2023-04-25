@@ -3,7 +3,7 @@
     <div class="top">
       <p>Tenes un mensaje</p>
     </div>
-    <p>
+    <p class="descripcion">
       {{ dato.description }}
     </p>
   </main>
@@ -34,5 +34,8 @@ export default {
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   padding-left: 5px;
+}
+.descripcion {
+  padding: 1rem;
 }
 </style>
