@@ -30,7 +30,7 @@
           v-model="password"
           type="password"
           name="password"
-          label="Clave"
+          label="Contraseña"
           placeholder="clave"
           @keyup.enter="log"
         />
@@ -40,6 +40,11 @@
           value="Ingresar"
           @click="log"
         />
+        <button class="btn log-btn">
+          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
+            >Ingresar con Cidi</a
+          >
+        </button>
       </FormKit>
 
       <!-- <div v-if="this.validar">
@@ -100,13 +105,13 @@ export default {
       dbService
         .postLoginUser({ password: this.password, cuil: this.cuil })
         .then((response) => {
-          window.localStorage.removeItem("token");
           console.log(response.data);
           this.user = response.data.UserLogged;
 
           //se guarda los datos en el store
           this.dispatchLogin();
           //se guardan los datos en localstorage
+
           window.localStorage.clear();
           window.localStorage.setItem(
             "name",
@@ -150,6 +155,7 @@ export default {
           this.loading = false;
         });
     },
+    logCidi() {},
   },
 };
 </script>
@@ -158,6 +164,10 @@ export default {
 h1 {
   color: var(--red);
   font-weight: bold;
+}
+a {
+  text-decoration: none;
+  color: var(--text-color);
 }
 
 .error {
@@ -177,12 +187,13 @@ h1 {
 .login-container {
   width: 100vw;
   height: 100vh;
+  --background-image: url("https://entemunicipioscba.org/wp-content/uploads/2018/09/munisacanta.jpg");
+  z-index: 50;
   display: flex;
   margin: 10px;
   flex-flow: column wrap;
   justify-content: space-around;
   align-items: center;
-  z-index: 50;
 }
 
 form {
@@ -195,7 +206,8 @@ form {
   padding: 5% 10px;
   position: relative;
   z-index: 1;
-  background: #fff;
+  background: #ffffff9a;
+  border-radius: 1rem;
 }
 
 form input {

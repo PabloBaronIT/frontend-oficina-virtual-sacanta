@@ -41,7 +41,7 @@
 
         <tr
           class="fila-tabla"
-          v-for="(p, key) in this.mostrados"
+          v-for="(p, key) in this.activos"
           @click="verTramite(p.id)"
           :key="key"
         >
@@ -245,8 +245,8 @@
 
         <div class="cant">
           <p>Cantidad de tramites:</p>
-          <p class="length" v-if="this.history">
-            {{ this.history.length }}
+          <p class="length">
+            {{ this.history.length ? this.history.length : 0 }}
           </p>
 
           <!-- <input type="number" class="cant-input" />-->
@@ -386,7 +386,6 @@ export default {
           }
 
           this.length = response.data.HistoryOfProcedures.length;
-          this.cantTramites();
         })
         .catch((err) => {
           console.log(err);
@@ -442,9 +441,12 @@ export default {
               event.target.value
           )
           .then((response) => {
-            console.log(response);
-            let h = response.data.Procedures;
+            this.activos = [];
 
+            console.log(response);
+
+            let h = response.data.Procedures;
+            this.history = h;
             let l = h.length;
 
             for (let i = 0; i < l; i++) {
@@ -486,14 +488,13 @@ export default {
 
               console.log(p);
             }
-
-            this.length = response.data.length;
             console.log(response.data.history);
 
             console.log(h[0].status);
           })
           .catch((e) => {
             console.log(e);
+            this.history = false;
           });
       }
     },
