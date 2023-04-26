@@ -7,10 +7,8 @@
     <p>
       CUIL: <b>{{ this.cuil }}</b>
     </p>
-    <div class="edit">
-      <p>Contraseña: *********</p>
-      <img src="@/assets/edit.svg" alt="edit" />
-    </div>
+    <p>Contraseña: ********* <img src="@/assets/edit.svg" alt="edit" /></p>
+
     <p>
       Email: <b>{{ this.email }}</b>
     </p>
@@ -80,9 +78,9 @@ export default {
 
 <style scoped>
 .datos-container {
-  display: flex;
-  flex-flow: row wrap;
-  text-align: left;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  text-align: center;
   width: 100%;
   border: 1px solid var(--grey);
   border-radius: 10px;
@@ -103,10 +101,5 @@ p {
 .datos-container img:hover {
   max-width: 22px;
   fill: var(--red);
-}
-
-.edit {
-  display: flex;
-  align-items: baseline;
 }
 </style>

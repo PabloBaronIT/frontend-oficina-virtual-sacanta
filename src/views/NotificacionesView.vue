@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="sector-container">
     <h1>Mis notificaciones</h1>
     <CardNotificacionComponentVue
       :dato="notificacion"
@@ -25,12 +25,12 @@ export default {
         {
           id: 1,
           description:
-            "Informamos que el pago de el trámite que iniciaste está impago. Podés imprimirlo y abonarlo directamente ennuestras oficinas ó desde la comodidad de tu casa en los diferentes medios de pago",
+            "Informamos que el pago de el trámite que iniciaste está impago. Podés imprimirlo y abonarlo directamente ennuestras oficinas ó desde la comodidad de tu casa en los diferentes medios de pago.",
         },
         {
           id: 2,
           description:
-            "Informamos que el pago de el trámite que iniciaste está impago. Podés imprimirlo y abonarlo directamente ennuestras oficinas ó desde la comodidad de tu casa en los diferentes medios de pago",
+            "Informamos que el pago de el trámite que iniciaste está impago. Podés imprimirlo y abonarlo directamente ennuestras oficinas ó desde la comodidad de tu casa en los diferentes medios de pago.",
         },
       ],
     };
@@ -39,13 +39,15 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.sector-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: rgb(235, 235, 235);
+  background: var(--grey-bk);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
+  padding: 3rem;
+  text-align: center;
   justify-content: center;
   align-items: center;
 }

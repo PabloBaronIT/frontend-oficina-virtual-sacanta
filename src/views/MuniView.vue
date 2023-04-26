@@ -2,7 +2,7 @@
   <article>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">OFICINA VIRTUAL</a>
+        <a class="navbar-brand">OFICINA VIRTUAL</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,12 +17,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
-                >Tamites</a
-              >
+              <a class="nav-link active" aria-current="page">Tamites</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Vecinos</a>
+              <a class="nav-link">Vecinos</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -36,19 +34,18 @@
                 Opciones
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item">Action</a></li>
+                <li><a class="dropdown-item">Another action</a></li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a @click="logOf()" class="dropdown-item" href="#"
-                    >Cerrar sesión</a
-                  >
+                  <a @click="logOf()" class="dropdown-item">Cerrar sesión</a>
                 </li>
               </ul>
             </li>
           </ul>
         </div>
       </div>
+      <a @click="logOf()" class="dropdown-item" href="#">Cerrar sesión</a>
     </nav>
 
     <ModalGraficoComponent />

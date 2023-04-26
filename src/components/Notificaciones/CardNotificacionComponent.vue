@@ -25,6 +25,7 @@ export default {
   border-top-right-radius: 30px;
   font-weight: bold;
   box-shadow: 5px 5px 12px #444;
+  text-align: left;
 }
 .top {
   background: #0575e6; /* fallback for old browsers */
@@ -43,7 +44,8 @@ export default {
   padding: 2px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  padding-left: 5px;
+  padding-top: 5px;
+  text-align: center;
 }
 .descripcion {
   padding: 1rem;
