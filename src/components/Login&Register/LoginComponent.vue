@@ -41,7 +41,8 @@
           @click="log"
         />
         <button class="btn log-btn">
-          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
+          <!--<a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"-->
+          <a href="https://cidi.cba.gov.ar/portal-publico/?App=551"
             >Ingresar con Cidi</a
           >
         </button>
@@ -64,6 +65,7 @@
 <script>
 // import { mapActions } from "vuex";
 import dbService from "@/services/dbService";
+import axios from "axios";
 
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
@@ -83,7 +85,55 @@ export default {
     };
   },
   created() {
+    console.log(this.$route.query?.cidi, "cidi");
+    if (this.$route.query?.cidi) {
+      let cidivalue = String.toString(this.$route.query?.cidi);
+
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+      });
+      apiClient.post("/auth/cidi", { cidi: cidivalue }).then((response) => {
+        console.log(response.data);
+      });
+    }
+
     localStorage.clear();
+    //let tokenApi = "4452373549514A43674C534D4A376666";
+
+    let fecha = new Date();
+    let año = fecha.getFullYear();
+    let mes = fecha.getMonth() + 1;
+    let dia = fecha.getDate();
+    let hora = fecha.getHours();
+    let minutos = fecha.getMinutes();
+    let segundos = fecha.getSeconds();
+    let milisegundos = fecha.getMilliseconds();
+    let fechacomplet = `${año}0${mes}${dia}${hora}${minutos}${segundos}${milisegundos}`;
+    //let token = bcrypt.hashSync(fechacomplet, tokenApi);
+
+    let datos = {
+      IdAplicacion: 551,
+      Contrasenia: "LVQNAFwigi13474",
+      //TokenValue: token,
+      TimeStamp: fechacomplet,
+      CUIL: "27322213552",
+      HashCookie: "",
+      SesionHash: "",
+      CUILOperador: "27322213552",
+      HashCookieOperador: "",
+    };
+    console.log(datos);
+    // axios
+    //.post("https://cuentacidi.test.cba.gov.ar/api/Usuario/Obtener_Usuario", {
+    // datos,
+    //})
+    //.then((response) => {
+    // console.log(response.data);
+    //});
+
+    //console.log(año, mes, dia, hora, minutos, segundos, milisegundos);
   },
   beforeRouteLeave(to, from, next) {
     localStorage.clear();
