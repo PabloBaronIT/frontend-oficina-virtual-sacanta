@@ -42,7 +42,8 @@
         />
         <button class="btn log-btn">
           <!--<a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"-->
-          <a href="https://cidi.cba.gov.ar/portal-publico/?App=551"
+          <!--<a href="https://cidi.cba.gov.ar/portal-publico/?App=551"-->
+          <a href="https://cidi.cba.gov.ar/Cuenta/Login?app=551"
             >Ingresar con Cidi</a
           >
         </button>
@@ -94,7 +95,7 @@ export default {
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
       });
-      apiClient.post("/auth/cidi", { cidi: cidivalue }).then((response) => {
+      apiClient.post("/auth/cidi/" + cidivalue).then((response) => {
         console.log(response.data);
       });
     }

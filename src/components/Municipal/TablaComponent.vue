@@ -194,22 +194,24 @@
           </div>
         </div>
       </table>
-      <div class="sinTramites" v-if="!this.history || !this.activos.length">
+      <div class="sinTramites" v-if="!this.history">
         <h2>No hay trámites registrados</h2>
       </div>
 
       <div class="filtro-filas">
         <div class="nav">
-          <img
+          <!-- <img
             class="svg"
             @click="backTramites"
             src="@/assets/previous.svg"
             alt=""
             v-if="this.paginaActual > 1"
-          />
+          />-->
+
           <div class="pagNum">
             {{ this.paginaActual }}
           </div>
+
           <!-- <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
@@ -217,14 +219,16 @@
           >
           <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
         </div>-->
-          <img
+
+          <!-- <img
             @click="nextPag"
             class="svg"
             src="@/assets/next.svg"
             alt=""
             v-if="this.paginaActual < this.paginas"
-          />
+          />-->
         </div>
+
         <!-- <div class="filtro-filas">
         <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
@@ -243,10 +247,10 @@
         <img class="svg" src="@/assets/next.svg" alt="" />
       </div> -->
 
-        <div class="cant">
+        <div class="cant" v-if="this.history">
           <p>Cantidad de tramites:</p>
           <p class="length">
-            {{ this.history.length ? this.history.length : 0 }}
+            {{ this.history.length || 0 }}
           </p>
 
           <!-- <input type="number" class="cant-input" />-->
@@ -341,14 +345,14 @@ export default {
         .then((response) => {
           let h = response.data.HistoryOfProcedures;
           console.log(h + "hitorial");
-          let l = h.length;
+          //let l = h.length;
 
           this.history = h;
 
           console.log("Hola");
           //console.log(response);
 
-          for (let i = 0; i < l; i++) {
+          for (let i = 0; i < h.length; i++) {
             //Procedure
             let p = {
               id: null,
@@ -385,7 +389,7 @@ export default {
             this.activos.push(p);
           }
 
-          this.length = response.data.HistoryOfProcedures.length;
+          //this.length = response.data.HistoryOfProcedures.length;
         })
         .catch((err) => {
           console.log(err);
