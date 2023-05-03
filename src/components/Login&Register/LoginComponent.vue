@@ -100,40 +100,6 @@ export default {
     }
 
     localStorage.clear();
-    //let tokenApi = "4452373549514A43674C534D4A376666";
-
-    let fecha = new Date();
-    let año = fecha.getFullYear();
-    let mes = fecha.getMonth() + 1;
-    let dia = fecha.getDate();
-    let hora = fecha.getHours();
-    let minutos = fecha.getMinutes();
-    let segundos = fecha.getSeconds();
-    let milisegundos = fecha.getMilliseconds();
-    let fechacomplet = `${año}0${mes}${dia}${hora}${minutos}${segundos}${milisegundos}`;
-    //let token = bcrypt.hashSync(fechacomplet, tokenApi);
-
-    let datos = {
-      IdAplicacion: 551,
-      Contrasenia: "LVQNAFwigi13474",
-      //TokenValue: token,
-      TimeStamp: fechacomplet,
-      CUIL: "27322213552",
-      HashCookie: "",
-      SesionHash: "",
-      CUILOperador: "27322213552",
-      HashCookieOperador: "",
-    };
-    console.log(datos);
-    // axios
-    //.post("https://cuentacidi.test.cba.gov.ar/api/Usuario/Obtener_Usuario", {
-    // datos,
-    //})
-    //.then((response) => {
-    // console.log(response.data);
-    //});
-
-    //console.log(año, mes, dia, hora, minutos, segundos, milisegundos);
   },
   beforeRouteLeave(to, from, next) {
     localStorage.clear();

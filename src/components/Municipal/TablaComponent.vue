@@ -277,7 +277,7 @@ export default {
       paginas: null,
       paginaActual: 1,
       cont: 0,
-      l: 0,
+      //l: 0,
       search: "",
       status: "",
     };
