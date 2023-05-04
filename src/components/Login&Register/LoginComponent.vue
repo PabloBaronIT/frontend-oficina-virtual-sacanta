@@ -66,7 +66,7 @@
 <script>
 // import { mapActions } from "vuex";
 import dbService from "@/services/dbService";
-import axios from "axios";
+// import axios from "axios";
 
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
@@ -87,18 +87,18 @@ export default {
   },
   created() {
     console.log(this.$route.query?.cidi, "cidi");
-    if (this.$route.query?.cidi) {
-      let cidivalue = String.toString(this.$route.query?.cidi);
+    // if (this.$route.query?.cidi) {
+    //   let cidivalue = String.toString(this.$route.query?.cidi);
 
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-      });
-      apiClient.post("/auth/cidi/" + cidivalue).then((response) => {
-        console.log(response.data);
-      });
-    }
+    //   const apiClient = axios.create({
+    //     //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+    //     baseURL: process.env.VUE_APP_BASEURL,
+    //     withCredentials: false,
+    //   });
+    //   apiClient.post("/auth/cidi/" + cidivalue).then((response) => {
+    //     console.log(response.data);
+    //   });
+    // }
 
     localStorage.clear();
   },

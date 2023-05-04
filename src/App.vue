@@ -102,6 +102,7 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
+    --h2: rgb(0, 128, 0);
   }
 }
 
@@ -118,6 +119,15 @@ export default {
 }
 body {
   overflow-y: auto;
+}
+h2 {
+  color: var(--h2);
+}
+.claseh2 {
+  font-weight: bold;
+}
+.claseh2lingh {
+  font-weight: 100;
 }
 </style>
 

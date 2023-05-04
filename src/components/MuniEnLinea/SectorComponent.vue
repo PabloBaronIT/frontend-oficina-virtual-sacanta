@@ -13,7 +13,8 @@
       <div v-if="msj" class="sinTramites">
         <h2>No hay trámites para esta categoría por el momento</h2>
       </div>
-      <div
+
+      <!-- <div
         class="card slide-top"
         v-for="tramite in tramitesApi"
         :key="tramite.id"
@@ -41,6 +42,20 @@
         <p :id="key" class="hover" v-if="this.hover && id == this.id">
           {{ tramite.description }}
         </p>
+      </div> -->
+
+      <div
+        v-for="tramite in tramitesApi"
+        :key="tramite.id"
+        class="cardTramites"
+      >
+        <h2 class="claseh2">
+          {{ tramite.title }}
+        </h2>
+        <h2 class="claseh2lingh">Ver Requisitos</h2>
+        <div class="footercard">
+          <h3>Iniciar Tràmite</h3>
+        </div>
       </div>
     </div>
   </div>
@@ -175,11 +190,16 @@ export default {
 }
 
 .tramites {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: row wrap;
-  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* text-align: center; */
+  width: 90%;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-flow: row wrap; */
+  margin: auto;
+  margin-top: 10rem;
+  gap: 20px;
 }
 .btn-iniciar {
   width: 100%;
@@ -230,5 +250,22 @@ h1 {
 }
 .sinTramites {
   margin-top: 4rem;
+}
+.cardTramites {
+  position: relative;
+  width: 90%;
+  height: 13rem;
+  background-color: white;
+  margin: auto;
+  border-radius: 40px 40px 0px 0px;
+  padding-top: 2rem;
+}
+.footercard {
+  position: absolute;
+  color: white;
+  background-color: var(--green);
+  height: 3rem;
+  width: 100%;
+  bottom: 0;
 }
 </style>
