@@ -1,8 +1,10 @@
 <template>
   <div class="main-container">
-    <h1>
-      {{ this.$route.params.formularioTitle }}
-    </h1>
+    <div class="header">
+      <h1>
+        {{ this.$route.params.formularioTitle }}
+      </h1>
+    </div>
 
     <FormularioComponent
       :title="title"
@@ -72,21 +74,20 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  color: var(--red);
+.header {
+  text-align: left;
+  padding-left: 5rem;
 }
 
 .main-container {
   width: 100%;
   height: 100vh;
   display: flex;
-  padding: 20px;
-  flex-flow: column wrap;
+  flex-direction: column;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   justify-content: center;
-  align-items: center;
 }
 
 .options-container {

@@ -43,7 +43,7 @@
         <button class="btn log-btn">
           <!--<a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"-->
           <!--<a href="https://cidi.cba.gov.ar/portal-publico/?App=551"-->
-          <a href="https://cidi.cba.gov.ar/Cuenta/Login?app=551"
+          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
             >Ingresar con Cidi</a
           >
         </button>

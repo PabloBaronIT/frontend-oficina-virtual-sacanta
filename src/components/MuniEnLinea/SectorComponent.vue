@@ -4,16 +4,15 @@
      correspondientes al sector seleccionado -->
     <header>
       <h1>
-        <img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />
+        <!--<img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />-->
         {{ this.$route.params.sectorTitle }}
       </h1>
     </header>
 
+    <div v-if="msj" class="sinTramites">
+      <h2>No hay trámites para esta categoría por el momento</h2>
+    </div>
     <div class="tramites">
-      <div v-if="msj" class="sinTramites">
-        <h2>No hay trámites para esta categoría por el momento</h2>
-      </div>
-
       <!-- <div
         class="card slide-top"
         v-for="tramite in tramitesApi"
@@ -49,12 +48,34 @@
         :key="tramite.id"
         class="cardTramites"
       >
-        <h2 class="claseh2">
-          {{ tramite.title }}
-        </h2>
-        <h2 class="claseh2lingh">Ver Requisitos</h2>
+        <div class="divTitleImag">
+          <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
+          <div class="divTitle">
+            <h2 class="fontB">
+              {{ tramite.title }}
+            </h2>
+            <h3 class="mouse" @click="verRequisitos(tramite.id)">
+              Ver Requisitos
+            </h3>
+          </div>
+          <div
+            v-if="this.modal === true && this.id == tramite.id"
+            :id="key"
+            class="modalDescription"
+          >
+            <div class="modalTop">
+              <p @click="close">X</p>
+            </div>
+            <h3>{{ tramite.description }}</h3>
+          </div>
+        </div>
+
         <div class="footercard">
-          <h3>Iniciar Tràmite</h3>
+          <router-link
+            :to="`/formulario/${this.$route.params.sectorId}/${tramite.title}/${tramite.id}`"
+          >
+            <a>Iniciar Trámite</a>
+          </router-link>
         </div>
       </div>
     </div>
@@ -71,6 +92,7 @@ export default {
       hover: false,
       tramitesApi: [],
       msj: false,
+      modal: false,
     };
   },
   created() {
@@ -107,6 +129,13 @@ export default {
       this.hover = !this.hover;
       this.id = id;
     },
+    verRequisitos(id) {
+      this.modal = true;
+      this.id = id;
+    },
+    close() {
+      this.modal = false;
+    },
     back() {
       this.$router.go(-1);
     },
@@ -122,6 +151,10 @@ export default {
 </script>
 
 <style scoped>
+header {
+  text-align: left;
+  padding-left: 5rem;
+}
 .slide-top {
   -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -198,8 +231,9 @@ export default {
   /* align-items: center; */
   /* flex-flow: row wrap; */
   margin: auto;
-  margin-top: 10rem;
+  margin-top: 3rem;
   gap: 20px;
+  margin-bottom: 3rem;
 }
 .btn-iniciar {
   width: 100%;
@@ -212,14 +246,18 @@ export default {
 }
 
 .tramites a {
-  color: var(--blue);
-  font-size: 0.9em;
+  /*color: var(--blue);*/
+  /*font-size: 0.9em;*/
   text-decoration: none;
+  color: white;
+  font-size: 20px;
 }
 .tramites a:hover {
-  color: var(--red);
+  transition: all 0.3s ease-in-out;
+  color: black;
+  /*color: var(--red);
   font-size: 0.9em;
-  text-decoration: none;
+  text-decoration: none;*/
 }
 
 .tramites input:hover {
@@ -228,12 +266,7 @@ export default {
 }
 
 img {
-  max-width: 30px;
-  align-self: center;
-}
-
-h1 {
-  color: var(--red);
+  max-width: 50px;
 }
 
 .card {
@@ -250,22 +283,72 @@ h1 {
 }
 .sinTramites {
   margin-top: 4rem;
+  text-align: center;
+  width: 100%;
 }
 .cardTramites {
   position: relative;
   width: 90%;
-  height: 13rem;
+  height: 14rem;
   background-color: white;
   margin: auto;
   border-radius: 40px 40px 0px 0px;
   padding-top: 2rem;
 }
+.divTitleImag {
+  display: flex;
+  flex-direction: row;
+  padding-left: 1rem;
+}
+.divTitle {
+  text-align: left;
+  margin-left: 2rem;
+  width: 55%;
+}
 .footercard {
   position: absolute;
-  color: white;
-  background-color: var(--green);
+  background-image: linear-gradient(
+    to right,
+    #88ba3e,
+    #75b23f,
+    #62aa40,
+    #4ea242,
+    #399943,
+    #399943,
+    #399943,
+    #399943,
+    #4ea242,
+    #62aa40,
+    #75b23f,
+    #88ba3e
+  );
   height: 3rem;
   width: 100%;
   bottom: 0;
+  padding-top: 0.5rem;
+}
+.mouse {
+  cursor: pointer;
+}
+.mouse:hover {
+  transition: all 0.3s ease-in-out;
+  color: #88ba3e;
+}
+.modalDescription {
+  position: absolute;
+  width: 250px;
+  height: 50px;
+  top: 7rem;
+  left: 4rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 20px;
+  text-align: center;
+  padding-top: 0.5rem;
+}
+.modalTop {
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
 </style>

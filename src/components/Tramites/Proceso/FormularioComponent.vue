@@ -1,5 +1,5 @@
 <template>
-  <div class="form-container">
+  <div class="container">
     <div v-if="this.loading" class="spinner-border" role="status">
       <span>cargando rey</span>
     </div>
@@ -389,6 +389,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  text-align: left;
+}
 .btn-div {
   margin-top: 5%;
 }

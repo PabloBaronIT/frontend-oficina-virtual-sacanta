@@ -102,14 +102,14 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
-    --h2: rgb(0, 128, 0);
+    --colorh2: #128d44;
   }
 }
 
 #app {
   user-select: none;
   overflow-x: hidden;
-  font-family: "Roboto Slab", serif;
+  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -120,14 +120,31 @@ export default {
 body {
   overflow-y: auto;
 }
-h2 {
-  color: var(--h2);
+h1 {
+  color: #128d44;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
 }
-.claseh2 {
+h2 {
+  font-family: "Roboto", sans-serif;
+  color: #128d44;
+  font-weight: 500;
+}
+h3 {
+  font-family: "Roboto", sans-serif;
+  color: #128d44;
+  font-weight: 500;
+}
+h4 {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-weight: 300;
+}
+.fontB {
   font-weight: bold;
 }
-.claseh2lingh {
-  font-weight: 100;
+.fontL {
+  font-weight: 300;
 }
 </style>
 
