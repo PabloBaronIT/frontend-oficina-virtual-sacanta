@@ -1,6 +1,8 @@
 <template>
   <div class="sector-container">
-    <h1>Mis notificaciones</h1>
+    <div class="top">
+      <h1 class="tituloPrincipal">Mis notificaciones</h1>
+    </div>
     <CardNotificacionComponentVue
       :dato="notificacion"
       v-for="notificacion in notificaciones"
@@ -39,6 +41,9 @@ export default {
 </script>
 
 <style scoped>
+.top {
+  text-align: left;
+}
 .sector-container {
   width: 100%;
   display: flex;
@@ -47,8 +52,5 @@ export default {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 3rem;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
 }
 </style>

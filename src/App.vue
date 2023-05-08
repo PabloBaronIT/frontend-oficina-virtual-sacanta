@@ -109,8 +109,8 @@ export default {
 #app {
   user-select: none;
   overflow-x: hidden;
-  font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
+  font-family: "Roboto", sans-serif;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--text-color);
@@ -122,21 +122,19 @@ body {
 }
 h1 {
   color: #128d44;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
+
+  font-size: 35px;
+  font-weight: 100;
 }
 h2 {
-  font-family: "Roboto", sans-serif;
   color: #128d44;
   font-weight: 500;
 }
 h3 {
-  font-family: "Roboto", sans-serif;
   color: #128d44;
-  font-weight: 500;
+  font-weight: 100;
 }
 h4 {
-  font-family: "Roboto", sans-serif;
   color: white;
   font-weight: 300;
 }
@@ -145,6 +143,10 @@ h4 {
 }
 .fontL {
   font-weight: 300;
+}
+.tituloPrincipal {
+  font-size: 50px;
+  margin-bottom: 4rem;
 }
 </style>
 

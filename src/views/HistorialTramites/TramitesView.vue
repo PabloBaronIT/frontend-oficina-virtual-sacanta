@@ -1,7 +1,11 @@
 <template>
   <div class="main-container">
-    <div class="menu"><SideBar /></div>
-    <h4>Tus tramites</h4>
+    <div class="menu">
+      <SideBar />
+    </div>
+    <div class="top">
+      <h1 class="tituloPrincipal">Mis trámites</h1>
+    </div>
     <Tabla color="var(--green)" />
   </div>
 </template>
@@ -19,6 +23,9 @@ export default {
 </script>
 
 <style scoped>
+.top {
+  text-align: left;
+}
 .menu {
   width: 100%;
   display: flex;
@@ -41,7 +48,6 @@ h4 {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   justify-content: flex-start;
-  align-items: center;
 }
 
 @media (max-width: 800px) {

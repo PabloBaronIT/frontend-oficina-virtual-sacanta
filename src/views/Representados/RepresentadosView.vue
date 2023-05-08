@@ -3,7 +3,9 @@
     <!--se muestra si tiene representaciones-->
 
     <div v-if="listaReprentaciones.length" class="containerRepresented">
-      <h2>Seleccione a quien va a representar:</h2>
+      <div>
+        <h1>Seleccione a quien va a representar:</h1>
+      </div>
 
       <div class="list">
         <label for="">A mi mismo</label>

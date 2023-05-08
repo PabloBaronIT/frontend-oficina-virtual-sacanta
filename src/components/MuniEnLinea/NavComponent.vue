@@ -65,32 +65,36 @@
       class="btn-container scale-up-center"
     >
       <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
-      <router-link
-        v-show="permission"
-        :to="`/munienlinea`"
-        class="bn3"
-        v-if="!$store.state.representative"
-      >
-        Inicio
-      </router-link>
-      <router-link v-show="permission" :to="`/tramites`" class="bn3">
-        Mis tramites
-      </router-link>
 
-      <!--este link solo se puede acceder en el propio perfil , no como representante-->
-      <router-link
-        v-show="permission"
-        :to="`/representaciones`"
-        v-if="!$store.state.RepresentativeUser"
-        class="bn3"
-      >
-        Mis representaciones
-      </router-link>
-      <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
-        Mis Notificaciones
-      </router-link>
-      <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
+      <div class="navUser">
+        <router-link
+          v-show="permission"
+          :to="`/munienlinea`"
+          class="bn3"
+          v-if="!$store.state.representative"
+        >
+          Inicio
+        </router-link>
+        <router-link v-show="permission" :to="`/tramites`" class="bn3">
+          Mis tramites
+        </router-link>
+
+        <!--este link solo se puede acceder en el propio perfil , no como representante-->
+        <router-link
+          v-show="permission"
+          :to="`/representaciones`"
+          v-if="!$store.state.RepresentativeUser"
+          class="bn3"
+        >
+          Mis representaciones
+        </router-link>
+        <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
+          Mis Notificaciones
+        </router-link>
+        <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
+      </div>
     </nav>
+
     <!-- nav del mmunicipal -->
     <nav v-if="this.role == 'MUNI_ROLE'" id="sidebarMenu" class="btn-container">
       <router-link v-show="permission" :to="`/muni`" class="bn3">
@@ -256,8 +260,8 @@ nav {
 }
 
 nav a {
-  font-weight: bold;
-  color: var(--text-color);
+  color: white;
+  font-size: 15px;
 }
 
 .nav-container {
@@ -273,13 +277,17 @@ nav a {
   padding: 0;
   height: 90vh;
 }
+.navUser {
+  display: flex;
+  flex-direction: column;
+}
 
 .bn3:first-child {
   background-color: var(--red);
 }
 
 .bn3 {
-  background: var(--blue);
+  /*background: var(--blue);
   display: inline-block;
   padding: 5px;
   margin: 0 0.1em 0.1em 0;
@@ -292,16 +300,33 @@ nav a {
   color: #2d2d2d;
   text-align: center;
   transition: all 0.2s;
-  width: 100%;
+  width: 100%;*/
+  height: 3rem;
+  width: 11rem;
+  border: 0.16em solid rgb(255, 255, 255);
+  text-align: center;
+  background-image: linear-gradient(
+    to right,
+    #399943,
+    #4ea242,
+    #62aa40,
+    #75b23f,
+    #88ba3e
+  );
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  padding-top: 0.8rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
 }
 
 .bn3:hover {
   background-color: rgb(63, 119, 192);
-  color: white;
+  color: black;
 }
 
 .bn3:focus {
-  background-color: rgb(63, 119, 192);
+  background-color: #88ba3e;
 }
 
 /* CSS */

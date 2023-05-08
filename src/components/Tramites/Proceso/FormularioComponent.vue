@@ -4,59 +4,77 @@
       <span>cargando rey</span>
     </div>
     <div class="question" v-if="!this.loading">
-      <h3>{{ questionProp[0].question[this.paso].title }}</h3>
-      <p>Completar las preguntas para cada tramite</p>
-
+      <div class="topquestion">
+        <h1 class="fontB">{{ questionProp[0].question[this.paso].title }}</h1>
+        <h3>Completar las preguntas para cada tramite</h3>
+      </div>
       <form action="" class="option-container">
         <div
-          class="option cuestions"
+          class="questions"
           v-for="(opcion, key) in questionProp[0].question[this.paso]
             .question_options"
           :key="key"
         >
-          <input
-            class="radio-input"
-            :id="key"
-            :name="key"
-            v-if="
-              questionProp[0].question[this.paso].question_options[key].type ==
-                'radio' ||
-              questionProp[0].question[this.paso].question_options[key].type ==
-                'checkbox'
-            "
-            :type="
-              questionProp[0].question[this.paso].question_options[key].type
-            "
-            :value="key + 1"
-            v-model="this.selected"
-          />
-
-          <label :for="key" class="option-text">{{
-            questionProp[0].question[this.paso].question_options[key].title
-          }}</label>
-          <br />
-          <label :for="key" class=""
-            ><p>
-              {{
+          <!--SELECCION  MULTIPLE-->
+          <div class="tipoRadio">
+            <input
+              :id="key"
+              :name="key"
+              class="radio"
+              v-if="
                 questionProp[0].question[this.paso].question_options[key]
-                  .description
-              }}
-            </p></label
-          >
+                  .type == 'radio' ||
+                questionProp[0].question[this.paso].question_options[key]
+                  .type == 'checkbox'
+              "
+              :type="
+                questionProp[0].question[this.paso].question_options[key].type
+              "
+              :value="key + 1"
+              v-model="this.selected"
+            />
+            <div>
+              <label :for="key" class="option-text">{{
+                questionProp[0].question[this.paso].question_options[key].title
+              }}</label>
+              <br />
+              <label :for="key" class=""
+                ><p>
+                  {{
+                    questionProp[0].question[this.paso].question_options[key]
+                      .description
+                  }}
+                </p></label
+              >
+            </div>
+          </div>
 
-          <input
-            class="form-control text-number-input"
+          <!--INGRESO DE TEXTO-->
+          <div
+            class="tipoTexto"
             v-if="
               questionProp[0].question[this.paso].question_options[key].type ==
                 'number' ||
               questionProp[0].question[this.paso].question_options[key].type ==
                 'text'
             "
-            :type="
-              questionProp[0].question[this.paso].question_options[key].type
-            "
-            v-model="this.textInput"
-          />
+          >
+            <input
+              class="form-control text-number-input"
+              v-if="
+                questionProp[0].question[this.paso].question_options[key]
+                  .type == 'number' ||
+                questionProp[0].question[this.paso].question_options[key]
+                  .type == 'text'
+              "
+              :type="
+                questionProp[0].question[this.paso].question_options[key].type
+              "
+              v-model="this.textInput"
+            />
+          </div>
+
+          <!--SUBIR ARCHIVOS-->
 
           <div
             v-if="
@@ -85,14 +103,18 @@
               />
 
               <!--INPUT PARA SUBIR EL ARCHIVO-->
-              <input
-                v-if="this.fileSelect"
-                class="m-2 btn btn-secondary"
-                type="button"
-                value="Subir archivo"
-                @click="postFile()"
-              />
+              <div class="fileup">
+                <input
+                  v-if="this.fileSelect"
+                  class="m-2 btn btn-secondary"
+                  type="button"
+                  value="Subir archivo"
+                  @click="postFile()"
+                />
+              </div>
             </div>
+            <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
+
             <div v-else class="cargado">
               <img
                 src="@/assets/red-check-mark-icon.svg"
@@ -108,10 +130,9 @@
           Debe seleccionar una opcion para continuar
         </p>
       </form>
-
       <div class="btn-div">
         <input
-          class="btn btn-secondary"
+          class="boton"
           v-if="this.paso + 1 < this.length"
           type="button"
           value="Siguiente"
@@ -120,36 +141,33 @@
 
         <input
           v-if="this.paso + 1 > 1"
-          class="m-2 btn btn-secondary"
+          class="boton"
           type="button"
           value="Anterior"
           @click="back()"
         />
 
-        <input
-          class="m-2 btn btn-outline-secondary"
-          type="button"
-          value="Cancelar"
-          @click="cancel()"
-        />
+        <input class="boton" type="button" value="Cancelar" @click="cancel()" />
       </div>
 
       <!-- Si esta en el ultimo paso se habilita el submitt -->
       <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
-      <input
-        v-if="this.paso + 1 == this.length"
-        class="btn btn-success m-1"
-        type="button"
-        value="Submitt"
-        @click="submitt"
-      />
-      <input
-        v-if="this.paso + 1 == this.length"
-        class="btn btn-success m-1"
-        type="button"
-        value="Verpdf"
-        @click="ver"
-      />
+      <div v-if="this.paso + 1 == this.length" class="btn-submit">
+        <input
+          v-if="this.paso + 1 == this.length"
+          class="botonSubmit"
+          type="button"
+          value="Submitt"
+          @click="submitt"
+        />
+        <input
+          v-if="this.paso + 1 == this.length"
+          class="botonSubmit"
+          type="button"
+          value="Verpdf"
+          @click="ver"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -392,8 +410,38 @@ export default {
 .container {
   text-align: left;
 }
+.boton {
+  width: 100px;
+  height: 45px;
+  background-color: gray;
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  margin-left: 1rem;
+  border-style: none;
+}
+.botonSubmit {
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  margin-left: 1rem;
+  border-style: none;
+}
 .btn-div {
-  margin-top: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: right;
+  padding-right: 2rem;
+}
+.btn-submit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
 }
 
 .file-container {
@@ -403,17 +451,26 @@ export default {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
+  width: 50%;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 .file-intro {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
 }
+
+.file-intro input[type="file"] {
+  margin: auto;
+}
+.fileup {
+  margin: auto;
+}
 .cargado {
   text-align: center;
 }
 
-h1,
 .error {
   color: var(--red);
 }
@@ -431,6 +488,8 @@ h1,
   flex-flow: column wrap;
   justify-content: center;
   align-items: flex-start;
+  flex-wrap: 100%;
+  margin-bottom: 2rem;
 }
 
 .option {
@@ -445,9 +504,40 @@ h1,
 p {
   font-weight: 100;
 }
-
-.question {
-  margin-top: 20px;
+.topquestion {
+  background-color: white;
+  padding-left: 4rem;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 40px 40px 0px 0px;
+  height: 7rem;
+  width: 100%;
+}
+.tipoRadio {
+  display: flex;
+  flex-direction: row;
+}
+.tipoRadio input[type="radio"] {
+  height: 20px;
+  width: 20px;
+  margin-top: 22px;
+  margin-right: 15px;
+}
+.tipoTexto {
+  height: 7rem;
+}
+.tipoTexto input[type="number"] {
+  width: 40%;
+}
+.tipoTexto input[type="text "] {
+  width: 40%;
+}
+.questions {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  background-color: white;
+  padding-left: 2rem;
 }
 .imgFile {
   height: 4rem;

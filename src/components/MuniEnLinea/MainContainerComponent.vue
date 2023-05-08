@@ -9,7 +9,7 @@
     <TramitesFrecuentes />
 
     <div class="header">
-      <h1>Áreas</h1>
+      <h1 class="tituloPrincipal">Áreas</h1>
     </div>
 
     <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
@@ -169,11 +169,11 @@ img {
   box-shadow: 5px 5px 20px #444;
 }
 
-h1 {
+/*h1 {
   color: var(--red);
 
   font-weight: bold;
-}
+}*/
 
 @media (max-width: 1000px) {
   .flex-container {

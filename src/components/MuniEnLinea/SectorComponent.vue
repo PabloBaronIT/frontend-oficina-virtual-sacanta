@@ -3,7 +3,7 @@
     <!-- Mostrar los tramites
      correspondientes al sector seleccionado -->
     <header>
-      <h1>
+      <h1 class="tituloPrincipal">
         <!--<img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />-->
         {{ this.$route.params.sectorTitle }}
       </h1>
@@ -350,5 +350,6 @@ img {
   position: absolute;
   top: 5px;
   right: 10px;
+  cursor: pointer;
 }
 </style>

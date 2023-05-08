@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <div class="header">
-      <h1>
+      <h1 class="tituloPrincipal">
         {{ this.$route.params.formularioTitle }}
       </h1>
     </div>
@@ -88,6 +88,7 @@ export default {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   justify-content: center;
+  padding-top: 0;
 }
 
 .options-container {
