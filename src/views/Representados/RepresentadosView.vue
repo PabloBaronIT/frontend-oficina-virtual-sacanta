@@ -214,7 +214,7 @@ export default {
   margin: auto;
 }
 .bn3 {
-  background: var(--blue);
+  /* background: var(--blue);
   display: inline-block;
   padding: 5px;
   margin: auto;
@@ -227,11 +227,32 @@ export default {
   color: #2d2d2d;
   text-align: center;
   transition: all 0.2s;
-  width: 10rem;
+  width: 10rem; */
+
+  height: 3rem;
+  width: 11rem;
+  border: 0.16em solid rgb(255, 255, 255);
+  text-align: center;
+  background-image: linear-gradient(
+    to right,
+    #399943,
+    #4ea242,
+    #62aa40,
+    #75b23f,
+    #88ba3e
+  );
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  padding-top: 0.8rem;
+  margin-top: 1rem;
+  transition: all 0.2s;
+  margin: auto;
+  color: white;
+  cursor: pointer;
+  border-style: none;
 }
 .bn3:hover {
-  background-color: rgb(63, 119, 192);
-  color: white;
+  color: black;
 }
 .nullRepresented {
   height: 10rem;

@@ -1,35 +1,36 @@
 <template>
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
-  <main class="flex-container">
-    <div class="header">
-      <SideBar />
-      <h1>Trámites mas frecuentes</h1>
-      <!-- <Busqueda /> -->
-    </div>
-    <TramitesFrecuentes />
-
-    <div class="header">
-      <h1 class="tituloPrincipal">Áreas</h1>
-    </div>
-
-    <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
-    <div class="card-container">
-      <div v-for="sector in categorias" :key="sector.Id">
-        <router-link
-          :to="`/sector/${sector.title}/${sector.id}`"
-          class="card scale-up-center"
-          style="text-decoration: none; color: #222"
-        >
-          <img :src="sector.description" :alt="sector.title" />
-        </router-link>
+  <div>
+    <SideBar />
+    <h1 class="tituloPrincipal">Áreas</h1>
+    <main class="flex-container">
+      <div class="header">
+        <!-- <h1>Trámites mas frecuentes</h1> -->
+        <!-- <Busqueda /> -->
       </div>
-    </div>
-  </main>
+      <!-- <TramitesFrecuentes /> -->
+
+      <div class="header"></div>
+
+      <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
+      <div class="card-container">
+        <div v-for="sector in categorias" :key="sector.Id">
+          <router-link
+            :to="`/sector/${sector.title}/${sector.id}`"
+            class="card scale-up-center"
+            style="text-decoration: none; color: #222"
+          >
+            <img :src="sector.description" :alt="sector.title" />
+          </router-link>
+        </div>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
 import SideBar from "@/components/MuniEnLinea/SideBar.vue";
-import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
+// import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
 // import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
 
 import axios from "axios";
@@ -67,7 +68,7 @@ export default {
       });
   },
   components: {
-    TramitesFrecuentes,
+    // TramitesFrecuentes,
     SideBar,
     // Busqueda,
   },
@@ -118,13 +119,13 @@ img {
   width: 10px;
 }
 
-.header {
+/* .header {
   margin: 10px 0;
   display: flex;
   justify-content: space-between;
   width: 90%;
   height: 50px;
-}
+} */
 
 .flex-container {
   width: 100%;
@@ -163,6 +164,8 @@ img {
   flex-flow: column wrap;
   justify-content: space-around;
   align-items: center;
+  border-radius: 40px 40px 0px 0px;
+  background-color: white;
 }
 
 .card:hover {
