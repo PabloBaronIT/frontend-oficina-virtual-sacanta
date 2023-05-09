@@ -1,8 +1,8 @@
 <template>
   <div class="main-container">
-    <div class="menu">
+    <!--<div class="menu">
       <SideBar />
-    </div>
+    </div>-->
     <div class="top">
       <h1 class="tituloPrincipal">Mis trámites</h1>
     </div>
@@ -12,12 +12,12 @@
 
 <script>
 import Tabla from "@/components/Tramites/TablaComponent.vue";
-import SideBar from "@/components/MuniEnLinea/SideBar.vue";
+//import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 export default {
   name: "TramitesView",
   components: {
     Tabla,
-    SideBar,
+    //SideBar,
   },
 };
 </script>
@@ -42,7 +42,7 @@ h4 {
   height: 100vh;
   width: 80%;
   display: flex;
-  padding: 3%;
+  padding: 3rem;
   flex-flow: column wrap;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;

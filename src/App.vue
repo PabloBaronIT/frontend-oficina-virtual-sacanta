@@ -1,55 +1,24 @@
 <template>
-  <div class="main-container">
-    <NavComponent
+  <div>
+    <NavTopVue
       v-if="
         this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
       "
     />
-
-    <div
-      class="modal fade"
-      id="staticBackdrop"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              Modal title
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Understood</button>
-          </div>
-        </div>
-      </div>
+    <div class="main-container">
+      <NavComponent
+        v-if="
+          this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
+        "
+      />
+      <router-view />
     </div>
-
-    <router-view />
   </div>
 </template>
 
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
-
+import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
 export default {
   data() {
     return {
@@ -68,6 +37,7 @@ export default {
   },
   components: {
     NavComponent,
+    NavTopVue,
   },
 };
 </script>
@@ -88,6 +58,14 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
+    --fondo: linear-gradient(
+      to bottom,
+      #dcdddf,
+      #e4e5e6,
+      #ececed,
+      #f4f4f5,
+      #fcfcfc
+    );
   }
 }
 
@@ -102,7 +80,7 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
-    --colorh2: #128d44;
+    --colorpricipal: #128d44;
   }
 }
 
@@ -153,6 +131,11 @@ h4 {
 <style scoped>
 .main-container {
   display: flex;
+  background: var(--fondo);
+}
+.fixed {
+  position: fixed;
+  width: 100vw;
 }
 
 @media (max-width: 1000px) {

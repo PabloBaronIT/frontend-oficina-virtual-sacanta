@@ -2,11 +2,14 @@
   <div class="sector-container">
     <!--se muestra si tiene representaciones-->
 
-    <div v-if="listaReprentaciones.length" class="containerRepresented">
-      <div>
+    <!--<div>
         <h1>Seleccione a quien va a representar:</h1>
-      </div>
-
+      </div>-->
+    <div class="top">
+      <h1 class="tituloPrincipal">Mis Representaciones</h1>
+    </div>
+    <div v-if="listaReprentaciones.length" class="containerRepresented">
+      <h3>Seleccione a quien va a representar</h3>
       <div class="list">
         <label for="">A mi mismo</label>
         <input
@@ -181,6 +184,9 @@ export default {
 };
 </script>
 <style scoped>
+.top {
+  text-align: left;
+}
 .sector-container {
   width: 100%;
   display: flex;
@@ -189,9 +195,9 @@ export default {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 3rem;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+  /*text-align: center;*/
+  /*justify-content: center;
+  align-items: center;*/
 }
 .containerRepresented {
   width: 80%;

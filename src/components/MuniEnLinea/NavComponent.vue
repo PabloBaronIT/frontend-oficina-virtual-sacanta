@@ -1,15 +1,15 @@
 <template>
   <!-- Sidebar -->
   <div class="nav-container">
-    <router-link to="/munienlinea">
+    <!--<router-link to="/munienlinea">
       <img
         class="logo scale-up-center"
         src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
         alt=""
       />
-    </router-link>
+    </router-link>-->
 
-    <div class="usuario">
+    <!--<div class="usuario">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="86"
@@ -29,15 +29,13 @@
           <router-link v-show="permission" :to="`/micuenta`">
             Mi cuenta
           </router-link>
-          <!-- <router-link v-show="permission" :to="`/comunicaciones`"> -->
-          <!-- <a href=""> -->
+       
           <img
             class="svg"
             src="@/assets/comunicacion.svg"
             alt="comunicaciones"
           />
-          <!-- </a> -->
-          <!-- </router-link> -->
+      
         </div>
         <strong>
           {{ $store.state.user.firstname }},<br />
@@ -56,7 +54,7 @@
           </strong>
         </p>
       </div>
-    </div>
+    </div>-->
     <!-- nav del usuario -->
 
     <nav
@@ -91,7 +89,12 @@
         <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
           Mis Notificaciones
         </router-link>
-        <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
+        <input
+          @click="logOf"
+          class="bn3 close"
+          type="button"
+          value="Cerrar Sesion"
+        />
       </div>
     </nav>
 
@@ -276,10 +279,19 @@ nav a {
   width: 20%;
   padding: 0;
   height: 90vh;
+  background-image: linear-gradient(
+    to bottom,
+    #dcdddf,
+    #e4e5e6,
+    #ececed,
+    #f4f4f5,
+    #fcfcfc
+  );
 }
 .navUser {
   display: flex;
   flex-direction: column;
+  margin-top: 6rem;
 }
 
 .bn3:first-child {
@@ -318,6 +330,11 @@ nav a {
   padding-top: 0.8rem;
   margin-top: 1rem;
   transition: all 0.2s;
+  border-style: none;
+}
+.close {
+  color: rgba(255, 0, 0, 0.542);
+  font-weight: bold;
 }
 
 .bn3:hover {

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <SideBar />
     <div class="main">
       <div class="container">
         <div class="prueba-container l" v-if="!modal">
@@ -122,7 +121,6 @@
 </template>
 
 <script>
-import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
 //  import pdfMake from "pdfmake";
 export default {
@@ -138,7 +136,7 @@ export default {
       this.modal = true;
     }, 1000);
   },
-  components: { PagarComponent, SideBar },
+  components: { PagarComponent },
   methods: {
     download() {
       //let docDefinition = {};

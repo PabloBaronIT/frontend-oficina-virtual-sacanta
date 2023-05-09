@@ -1,8 +1,9 @@
 <template>
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <div>
-    <SideBar />
-    <h1 class="tituloPrincipal">Áreas</h1>
+    <div class="top">
+      <h1 class="tituloPrincipal">Áreas</h1>
+    </div>
     <main class="flex-container">
       <div class="header">
         <!-- <h1>Trámites mas frecuentes</h1> -->
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import SideBar from "@/components/MuniEnLinea/SideBar.vue";
+//import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 // import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
 // import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
 
@@ -69,13 +70,19 @@ export default {
   },
   components: {
     // TramitesFrecuentes,
-    SideBar,
+    //SideBar,
     // Busqueda,
   },
 };
 </script>
 
 <style scoped>
+.top {
+  text-align: left;
+  padding-left: 3rem;
+  padding-top: 2rem;
+}
+
 .scale-up-center {
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
@@ -130,7 +137,7 @@ img {
 .flex-container {
   width: 100%;
   height: auto;
-  background: var(--grey-bk);
+  /*background: var(--fondo);*/
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   display: flex;

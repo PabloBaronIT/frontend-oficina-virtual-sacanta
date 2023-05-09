@@ -1,6 +1,68 @@
 <template>
   <div class="container">
-    <p>hoplaaaaaa</p>
+    <!--logo muni-->
+
+    <router-link to="/munienlinea">
+      <img
+        class="logo scale-up-center"
+        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
+        alt=""
+      />
+    </router-link>
+
+    <!--mi cuenta-->
+    <div class="usuario">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="86"
+        height="86"
+        fill="currentColor"
+        class="bi bi-person-circle scale-up-center"
+        viewBox="0 0 16 16"
+      >
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+        <path
+          fill-rule="evenodd"
+          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+        />
+      </svg>
+      <div class="usuario-details" v-if="this.$store.state.user">
+        <div>
+          <router-link v-show="permission" :to="`/micuenta`">
+            Mi cuenta
+          </router-link>
+
+          <!-- <img
+            class="svg"
+            src="@/assets/comunicacion.svg"
+            alt="comunicaciones"
+          />-->
+        </div>
+        <div>
+          <p>
+            {{ $store.state.user.firstname }} {{ $store.state.user.lastname }}
+            <br />
+            <span>CUIL: {{ $store.state.user.cuil }}</span>
+          </p>
+        </div>
+        <div>
+          <p
+            v-if="this.$store.state.RepresentativeUser"
+            @click="changeRepresentative"
+          >
+            Representado por:
+
+            <strong class="nameRepresntative">
+              {{ $store.state.RepresentativeUser.firstname }}
+              {{ $store.state.RepresentativeUser.lastname }}
+            </strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
+
     <!-- <button
       type="button"
       data-bs-toggle="offcanvas"
@@ -106,8 +168,10 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
-  name: "SideBar",
+  name: "NavTopVue",
   data() {
     return {
       ruta: this.$router.currentRoute.value.fullPath,
@@ -137,6 +201,52 @@ export default {
         })
       );
     },
+    dispatchProfile() {
+      this.$store.dispatch("getProfileAction", this.user);
+    },
+    dispatchClearRepresentativeUser() {
+      this.$store.dispatch("clearRepresentativeUserAction");
+    },
+    changeRepresentative() {
+      console.log("cambiew");
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("tokenCopia"),
+        },
+      });
+      apiClient
+        .post("/representations/choose-representation", {
+          representativeId: this.$store.state.RepresentativeUser.id,
+        })
+        .then((response) => {
+          console.log(response.data.message);
+          window.localStorage.removeItem("token");
+          window.localStorage.setItem("token", response.data.token);
+          this.getProfile();
+          setTimeout(() => this.$router.push("munienlinea"), 2000);
+          this.dispatchClearRepresentativeUser();
+          //this.dispatchRepresentative();
+          //this.dispachSaveRepresentativeUser();
+        });
+    },
+    getProfile() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/user/profile").then((response) => {
+        this.user = response.data.UserProfile.user;
+        console.log(this.user);
+        this.dispatchProfile();
+      });
+    },
   },
 };
 </script>
@@ -147,6 +257,11 @@ export default {
   background-color: white;
   position: relative;
   width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
 }
 .body-container {
   display: flex;
@@ -178,6 +293,36 @@ export default {
 .svg {
   max-width: 30px;
 }
+.usuario {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: left;
+}
+.usuario svg {
+  width: 60px;
+}
+
+.usuario-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+  text-align: left;
+  font-size: 15px;
+  color: #128d44;
+  width: 300px;
+}
+.usuario-details a {
+  text-decoration: none;
+  color: red;
+  font-size: 20px;
+  font-weight: bold;
+}
+.svg {
+  max-width: 25px;
+  margin-left: 10px;
+}
 
 button {
   border: none;
@@ -187,6 +332,14 @@ button {
 
 .svg:hover {
   max-width: 45px;
+}
+.nameRepresntative {
+  cursor: pointer;
+  color: #2c5777;
+}
+.imagenlogo {
+  width: 100px;
+  height: 120px;
 }
 
 @media (max-width: 1000px) {
