@@ -11,12 +11,12 @@
 
       <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
         <td>{{ p.titulo || "" }}</td>
-        <td>{{ p.id }}</td>
-        <td>{{ p.fecha }}</td>
-        <td class="media">{{ p.categoria }}</td>
+        <td>{{ p.id || "" }}</td>
+        <td>{{ p.fecha || "" }}</td>
+        <td class="media">{{ p.categoria || "" }}</td>
         <td :class="'estado-fila'">
           <p :style="`background: ${p.color}`">
-            {{ p.estado }}
+            {{ p.estado || "" }}
           </p>
         </td>
       </tr>
