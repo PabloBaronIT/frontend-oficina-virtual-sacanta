@@ -118,7 +118,7 @@ export default {
     });
 
     apiClient
-      .get("oficina/procedures/history/my-procedures")
+      .get("/oficina/procedures/history/my-procedures")
       .then((response) => {
         let h = response.data.MyProcedures;
 

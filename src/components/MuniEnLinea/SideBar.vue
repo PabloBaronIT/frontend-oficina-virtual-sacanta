@@ -1,15 +1,16 @@
 <template>
-  <div>
-    <button
+  <div class="container">
+    <p>hoplaaaaaa</p>
+    <!-- <button
       type="button"
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasScrolling"
       aria-controls="offcanvasScrolling"
     >
       <img class="svg" src="@/assets/menu.svg" alt="" />
-    </button>
+    </button> -->
 
-    <div
+    <!-- <div
       class="offcanvas offcanvas-start"
       daa-bs-scroll="true"
       data-bs-backdrop="false"
@@ -72,18 +73,18 @@
         </div>
         <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
         <router-link :to="`/tramites`" class="bn3"> Mis tramites </router-link>
-        <!-- <router-link
+        <router-link
         :to="`/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjc2NTc5MjM4LCJleHAiOjE2NzY1ODAxMzh9.sWwDOv_FoM8ruehI3NIcYgeyFzYCSe4aJWOe_8c3dx0`"
         class="bn3"
       >
         Mis tramites
-      </router-link> -->
+      </router-link>
 
         <input @click="logOf" class="bn3" type="button" value="Cerrar Sesion" />
       </div>
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       class="offcanvas offcanvas-start"
       data-bs-scroll="true"
       data-bs-backdrop="false"
@@ -101,7 +102,7 @@
           aria-label="Close"
         ></button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -141,6 +142,12 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  height: 10rem;
+  background-color: white;
+  position: relative;
+  width: 100vw;
+}
 .body-container {
   display: flex;
   justify-content: center;
