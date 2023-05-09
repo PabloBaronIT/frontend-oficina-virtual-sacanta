@@ -40,8 +40,9 @@ h4 {
 
 .main-container {
   height: 100vh;
-  width: 80%;
+  width: 80vw;
   display: flex;
+  flex-direction: column;
   padding: 3rem;
   flex-flow: column wrap;
   background: rgb(235, 235, 235);
