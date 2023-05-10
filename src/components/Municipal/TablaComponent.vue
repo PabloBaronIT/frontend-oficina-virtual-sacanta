@@ -1,206 +1,211 @@
 <template>
-  <div>
-    <div class="filtro-container">
-      <input type="button" value="Actualizar estado" />
-      <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
-      <form class="d-flex">
-        <input
-          class="buscar"
-          type="search"
-          placeholder="Ingrese ID"
-          aria-label="Buscar"
-          v-model="search"
-        />
-        <button
-          class="btn btn-outline-success"
-          type="submit"
-          @click="searchValue(search)"
-        >
-          Buscar
-        </button>
-      </form>
-      <select @change="getFiltro($event)" name="" id="">
-        <option value="0">Todos</option>
-        <option value="1">Presentado</option>
-        <option value="2">En proceso</option>
-        <option value="4">Finalizados</option>
-      </select>
-    </div>
-    <div class="tabla-container">
-      <table>
-        <tr>
-          <th>
-            <input @click="select" type="checkbox" name="" id="" />
-          </th>
-          <th>Titulo</th>
-          <th>ID</th>
-          <th>Cuil vecino</th>
-          <th>Asunto</th>
-          <th>Estado</th>
-        </tr>
+  <div class="containerGeneral">
+    <div class="containerTramites">
+      <div class="filtro-container">
+        <input type="button" value="Actualizar estado" />
+        <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
+        <form class="d-flex">
+          <input
+            class="buscar"
+            type="search"
+            placeholder="Ingrese ID"
+            aria-label="Buscar"
+            v-model="search"
+          />
+          <button
+            class="btn btn-outline-success"
+            type="submit"
+            @click="searchValue(search)"
+          >
+            Buscar
+          </button>
+        </form>
+        <select @change="getFiltro($event)" name="" id="">
+          <option value="0">Todos</option>
+          <option value="1">Presentado</option>
+          <option value="2">En proceso</option>
+          <option value="4">Finalizados</option>
+        </select>
+      </div>
+      <div class="tabla-container">
+        <table>
+          <tr>
+            <th>
+              <input @click="select" type="checkbox" name="" id="" />
+            </th>
+            <th>Titulo</th>
+            <th>ID</th>
+            <th>Cuil vecino</th>
+            <th>Asunto</th>
+            <th>Estado</th>
+          </tr>
 
-        <tr
-          class="fila-tabla"
-          v-for="(p, key) in this.activos"
-          @click="verTramite(p.id)"
-          :key="key"
-        >
-          <td>
-            <input type="checkbox" @click="check(p.id)" :value="p.id" />
-          </td>
-          <td>{{ p.procedure }}</td>
-          <td>{{ p.id }}</td>
-          <td>{{ p.cuil.cuil }}</td>
-          <td>{{ p.categoria }}</td>
-          <td :class="'estado-fila'">
-            <p :style="`background: ${p.color}`">{{ p.estado }}</p>
-          </td>
-        </tr>
+          <tr
+            class="fila-tabla"
+            v-for="(p, key) in this.activos"
+            @click="verTramite(p.id)"
+            :key="key"
+          >
+            <td>
+              <input type="checkbox" @click="check(p.id)" :value="p.id" />
+            </td>
+            <td>{{ p.procedure }}</td>
+            <td>{{ p.id }}</td>
+            <td>{{ p.cuil.cuil }}</td>
+            <td>{{ p.categoria }}</td>
+            <td :class="'estado-fila'">
+              <p :style="`background: ${p.color}`">{{ p.estado }}</p>
+            </td>
+          </tr>
 
-        <!--   -->
+          <!--   -->
 
-        <!-- - - - - - - Inicio modal - - - - - -   -->
-        <div class="grafico-container" v-if="this.modal === true">
-          <div class="modal-content">
-            <div class="modal-top">
-              <h3>Historial del trámite Id: {{ selectedTramite }}</h3>
-              <img
-                @click="Modal()"
-                class="svg"
-                src="@/assets/close.svg"
-                alt=""
-              />
-            </div>
-            <div class="data-container" v-for="item in history" :key="item.id">
-              <section v-if="item.id === selectedTramite">
-                <div class="data-container">
-                  <h3>Datos del vecino:</h3>
-                  <div class="user-data-container">
-                    <div class="user-data">
-                      <p><b>Nombre:</b> {{ item.user.firstname }}</p>
+          <!-- - - - - - - Inicio modal - - - - - -   -->
+          <div class="grafico-container" v-if="this.modal === true">
+            <div class="modal-content">
+              <div class="modal-top">
+                <h3>Historial del trámite Id: {{ selectedTramite }}</h3>
+                <img
+                  @click="Modal()"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+              <div
+                class="data-container"
+                v-for="item in history"
+                :key="item.id"
+              >
+                <section v-if="item.id === selectedTramite">
+                  <div class="data-container">
+                    <h3>Datos del vecino:</h3>
+                    <div class="user-data-container">
+                      <div class="user-data">
+                        <p><b>Nombre:</b> {{ item.user.firstname }}</p>
 
-                      <p><b>Apellido:</b> {{ item.user.lastname }}</p>
+                        <p><b>Apellido:</b> {{ item.user.lastname }}</p>
 
-                      <p><b>Email:</b> {{ item.user.email }}</p>
-                    </div>
-                    <div class="user-data">
-                      <p><b>CUIL:</b> {{ item.user.cuil }}</p>
+                        <p><b>Email:</b> {{ item.user.email }}</p>
+                      </div>
+                      <div class="user-data">
+                        <p><b>CUIL:</b> {{ item.user.cuil }}</p>
 
-                      <p><b>Dirección:</b> {{ item.user.adress }}</p>
+                        <p><b>Dirección:</b> {{ item.user.adress }}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <h3>Info tramite:</h3>
-                <section
-                  class="question"
-                  v-for="(q, key) in item.questions"
-                  :key="key"
-                >
-                  <div>
-                    <h5>
-                      {{ q.question.title }}
-                    </h5>
-                    <p v-if="q.question_option_history.length">
-                      {{ q.question_option_history[0].answer }}
-                    </p>
-                    <p v-else>no hay respuesa regitrada</p>
-                  </div>
+                  <h3>Info tramite:</h3>
+                  <section
+                    class="question"
+                    v-for="(q, key) in item.questions"
+                    :key="key"
+                  >
+                    <div>
+                      <h5>
+                        {{ q.question.title }}
+                      </h5>
+                      <p v-if="q.question_option_history.length">
+                        {{ q.question_option_history[0].answer }}
+                      </p>
+                      <p v-else>no hay respuesa regitrada</p>
+                    </div>
+                  </section>
+                  <input
+                    class="btn btn-primary mx-2"
+                    type="button"
+                    value="Modificar Estado"
+                    @click="ModalEstado()"
+                  />
+
+                  <input
+                    class="btn btn-outline-primary"
+                    type="button"
+                    value="Documento"
+                  />
                 </section>
-                <input
-                  class="btn btn-primary mx-2"
-                  type="button"
-                  value="Modificar Estado"
-                  @click="ModalEstado()"
-                />
-
-                <input
-                  class="btn btn-outline-primary"
-                  type="button"
-                  value="Documento"
-                />
-              </section>
+              </div>
             </div>
-          </div>
 
-          <!-- <h2>{{ p.id }}</h2>
+            <!-- <h2>{{ p.id }}</h2>
 
           {{ p.cuil }}
 
           {{ this.selectedHistory }} -->
 
-          <!-- <div v-for="(option, key) in this.history" :key="key">
+            <!-- <div v-for="(option, key) in this.history" :key="key">
             <h2>{{ key }}</h2>
             <section v-for="(q, key) in option.questions" :key="key">
               {{ q.question.title }}
               {{ q.question_option_history[0].answer }}
             </section>
           </div> -->
-        </div>
+          </div>
 
-        <!--MODAL PARA CAMBIAR DE ESTADO-->
+          <!--MODAL PARA CAMBIAR DE ESTADO-->
 
-        <div class="modalEstado">
-          <div v-if="this.modalEstado === true" class="modal-content">
-            <div class="modal-top">
-              <h2>Cambiar estado</h2>
-              <img
-                @click="ModalEstado($event)"
-                class="svg"
-                src="@/assets/close.svg"
-                alt=""
+          <div class="modalEstado">
+            <div v-if="this.modalEstado === true" class="modal-content">
+              <div class="modal-top">
+                <h2>Cambiar estado</h2>
+                <img
+                  @click="ModalEstado($event)"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <div>
+                  <p>
+                    <input
+                      @click="selectEstado($event)"
+                      type="radio"
+                      name="status"
+                      value="2"
+                    />En proceso
+                  </p>
+                </div>
+
+                <div>
+                  <p>
+                    <input
+                      @click="selectEstado($event)"
+                      type="radio"
+                      name="status"
+                      value="3"
+                    />Comunicación
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p>
+                  <input
+                    @click="selectEstado($event)"
+                    type="radio"
+                    name="status"
+                    value="4"
+                  />Finalizado
+                </p>
+              </div>
+              <input
+                class="btn btn-primary mx-2"
+                type="button"
+                value="Modificar"
+                v-if="this.status"
+                @click="updateStatus()"
               />
             </div>
-            <div>
-              <div>
-                <p>
-                  <input
-                    @click="selectEstado($event)"
-                    type="radio"
-                    name="status"
-                    value="2"
-                  />En proceso
-                </p>
-              </div>
-
-              <div>
-                <p>
-                  <input
-                    @click="selectEstado($event)"
-                    type="radio"
-                    name="status"
-                    value="3"
-                  />Comunicación
-                </p>
-              </div>
-            </div>
-            <div>
-              <p>
-                <input
-                  @click="selectEstado($event)"
-                  type="radio"
-                  name="status"
-                  value="4"
-                />Finalizado
-              </p>
-            </div>
-            <input
-              class="btn btn-primary mx-2"
-              type="button"
-              value="Modificar"
-              v-if="this.status"
-              @click="updateStatus()"
-            />
           </div>
+        </table>
+        <div class="sinTramites" v-if="!this.history">
+          <h2>No hay trámites registrados</h2>
         </div>
-      </table>
-      <div class="sinTramites" v-if="!this.history">
-        <h2>No hay trámites registrados</h2>
-      </div>
 
-      <div class="filtro-filas">
-        <div class="nav">
-          <!-- <img
+        <div class="filtro-filas">
+          <div class="nav">
+            <!-- <img
             class="svg"
             @click="backTramites"
             src="@/assets/previous.svg"
@@ -208,11 +213,11 @@
             v-if="this.paginaActual > 1"
           />-->
 
-          <div class="pagNum">
-            {{ this.paginaActual }}
-          </div>
+            <div class="pagNum">
+              {{ this.paginaActual }}
+            </div>
 
-          <!-- <div v-for="(i, k) in this.paginas" :key="k">
+            <!-- <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
             ><b>{{ k + 1 }}</b></span
@@ -220,16 +225,16 @@
           <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
         </div>-->
 
-          <!-- <img
+            <!-- <img
             @click="nextPag"
             class="svg"
             src="@/assets/next.svg"
             alt=""
             v-if="this.paginaActual < this.paginas"
           />-->
-        </div>
+          </div>
 
-        <!-- <div class="filtro-filas">
+          <!-- <div class="filtro-filas">
         <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
@@ -247,15 +252,20 @@
         <img class="svg" src="@/assets/next.svg" alt="" />
       </div> -->
 
-        <div class="cant" v-if="this.history">
-          <p>Cantidad de tramites:</p>
-          <p class="length">
-            {{ this.history.length || 0 }}
-          </p>
+          <div class="cant" v-if="this.history">
+            <p>Cantidad de tramites:</p>
+            <p class="length">
+              {{ this.history.length || 0 }}
+            </p>
 
-          <!-- <input type="number" class="cant-input" />-->
+            <!-- <input type="number" class="cant-input" />-->
+          </div>
         </div>
       </div>
+    </div>
+
+    <div class="containerTareas">
+      <CreateTasksComponentVue />
     </div>
   </div>
 </template>
@@ -264,10 +274,13 @@
 // import dbService from "@/services/dbService";
 import axios from "axios";
 //import Config from "chart.js/dist/core/core.config";
-
+import CreateTasksComponentVue from "./Tareas/CreateTasksComponent.vue";
 export default {
   props: {
     color: String,
+  },
+  components: {
+    CreateTasksComponentVue,
   },
   data() {
     return {
@@ -623,6 +636,17 @@ export default {
 </script>
 
 <style scoped>
+.containerGeneral {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+}
+.containerTramites {
+  width: 50%;
+}
+.containerTareas {
+  width: 45%;
+}
 .pagNum {
   margin: 0 1.5px;
 }
@@ -769,11 +793,12 @@ input:hover {
 }
 
 .tabla-container {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
+  border: 1px solid black;
 }
 
 table {
@@ -808,7 +833,7 @@ td {
 }
 
 .filtro-container {
-  width: 100%;
+  width: 95%;
   color: var(--text-color);
   padding: 10px;
   display: flex;

@@ -48,11 +48,12 @@
       <a @click="logOf()" class="dropdown-item" href="#">Cerrar sesión</a>
     </nav>
 
-    <ModalGraficoComponent />
+    <ModalGraficoComponent v-if="token" />
 
     <section><Tabla /></section>
 
     <hr />
+    <MyTasksComponentVue />
     <div class="section-container">
       <RegisterComponent />
       <BarComponent class="ms-5" />
@@ -66,15 +67,21 @@ import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue
 import ModalGraficoComponent from "@/components/Municipal/ModalGraficoComponent.vue";
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 import BarComponent from "@/components/Municipal/BarComponent.vue";
-
+import MyTasksComponentVue from "../components/Municipal/Tareas/MyTasksComponent.vue";
 export default {
   name: "MuniView",
+  data() {
+    return {
+      token: localStorage.getItem("token"),
+    };
+  },
   components: {
     ModalGraficoComponent,
     RegisterComponent,
     Tabla,
     // GraficoComponent,
     BarComponent,
+    MyTasksComponentVue,
   },
   methods: {
     refresh() {
@@ -101,6 +108,7 @@ export default {
   width: 90%;
   display: flex;
   justify-content: space-around;
+  margin-top: 2rem;
 }
 
 section {
