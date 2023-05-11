@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Tareas</h1>
+    <h3>Asignar Tareas</h3>
 
     <div class="container-tasks">
       <label for="nameUserMuni">
@@ -30,10 +30,15 @@
         v-model="this.descriptionTarea"
         aria-multiline="true"
       />
-      <input type="submit" value="Enviar" @click="submitTasks" />
+
       <p v-if="message">{{ this.message }}</p>
     </div>
-
+    <input
+      type="button"
+      value="Enviar"
+      @click="submitTasks"
+      class="botonSubmit"
+    />
     <!-- TABLA DE TAREAS ASIGNADAS-->
   </div>
 </template>
@@ -44,7 +49,7 @@ export default {
   data() {
     return {
       tasks: [],
-      usersMuni: [],
+      usersMuni: null,
       descriptionTarea: "",
       userMuniAsigned: null,
       title: "",
@@ -67,9 +72,19 @@ export default {
       });
       apiClient
         .get("/municipales/munis")
-        .then((Response) => {
-          this.usersMuni = Response.data.Munis;
-          console.log(Response.data, "municipales");
+        .then((response) => {
+          let MyId = localStorage.getItem("id");
+          let todos = response.data.Munis;
+          let todosF = [];
+          for (let i = 0; i < todos.length; i++) {
+            if (MyId != todos[i].id) {
+              todosF.push(todos[i]);
+            }
+          }
+
+          this.usersMuni = todosF;
+          console.log(this.usersMuni);
+          console.log(response.data, "municipales");
         })
         .catch((e) => console.log(e));
     },
@@ -142,7 +157,7 @@ export default {
           });
       } else {
         this.message =
-          "Debe asignar un agente municipal y describir la tareaa realizar";
+          "Debe asignar un agente municipal y describir la tarea a realizar";
       }
 
       console.log(this.userMuniAsigned, this.descriptionTarea, this.title);
@@ -157,6 +172,12 @@ export default {
   width: 95%;
   border-radius: 30px 30px 0px 0px;
   border: 1px solid black;
+  justify-content: center;
+  text-align: left;
+}
+.container h3 {
+  margin-left: 2rem;
+  margin-top: 1rem;
 }
 .container-tasks {
   display: flex;
@@ -165,28 +186,41 @@ export default {
   border-top-width: 1px;
   border-top-color: black;
   border-top-style: solid;
+  margin-top: 2rem;
 }
 
 select {
   border-radius: 10px;
-  padding: 3px;
+  padding: 4px;
 }
 textarea {
   height: 10rem;
   margin-top: 2rem;
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px;
+  padding-left: 1rem;
 }
 .asunto {
   margin-top: 2rem;
 }
 .asunto input {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px;
+  padding-left: 1rem;
 }
 input[type="submit"] {
   width: 8rem;
   margin: auto;
   border-radius: 10px;
   margin-top: 2rem;
+}
+.botonSubmit {
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  border-style: none;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 </style>

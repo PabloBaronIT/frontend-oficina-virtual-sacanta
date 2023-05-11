@@ -45,6 +45,7 @@
           </ul>
         </div>
       </div>
+      <h3 class="dropdown-item">Hola! {{ name }} {{ lastName }}</h3>
       <a @click="logOf()" class="dropdown-item" href="#">Cerrar sesión</a>
     </nav>
 
@@ -73,6 +74,8 @@ export default {
   data() {
     return {
       token: localStorage.getItem("token"),
+      name: localStorage.getItem("name"),
+      lastName: localStorage.getItem("lastname"),
     };
   },
   components: {
@@ -104,6 +107,9 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  color: red;
+}
 .section-container {
   width: 90%;
   display: flex;

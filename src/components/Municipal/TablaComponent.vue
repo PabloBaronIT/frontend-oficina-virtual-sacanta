@@ -97,7 +97,7 @@
                   </div>
 
                   <h3>Info tramite:</h3>
-                  <section
+                  <div
                     class="question"
                     v-for="(q, key) in item.questions"
                     :key="key"
@@ -109,9 +109,9 @@
                       <p v-if="q.question_option_history.length">
                         {{ q.question_option_history[0].answer }}
                       </p>
-                      <p v-else>no hay respuesa regitrada</p>
+                      <p v-else>No hay respuesta registrada</p>
                     </div>
-                  </section>
+                  </div>
                   <input
                     class="btn btn-primary mx-2"
                     type="button"
@@ -122,7 +122,8 @@
                   <input
                     class="btn btn-outline-primary"
                     type="button"
-                    value="Documento"
+                    value="Generar Comunicacion"
+                    @click="ModalComunicacion()"
                   />
                 </section>
               </div>
@@ -195,6 +196,48 @@
                 value="Modificar"
                 v-if="this.status"
                 @click="updateStatus()"
+              />
+            </div>
+          </div>
+
+          <!--MODAL DE COMUNICACIONES AL CIUDADANO-->
+
+          <div class="modalEstado">
+            <div v-if="this.modalComunicacion === true" class="modal-content">
+              <div class="modal-top">
+                <h3>Comunicado:</h3>
+                <img
+                  @click="ModalComunicacion()"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+              <div class="titleComunicacion">
+                <label for="titleComunicacion">
+                  Asunto
+                  <input
+                    type="text"
+                    name="titleComunicacion"
+                    id=""
+                    v-model="this.titleComunicacion"
+                  />
+                </label>
+              </div>
+
+              <textarea
+                name="comunicado"
+                id=""
+                cols="30"
+                rows="5"
+                v-model="this.comunicacion"
+              ></textarea>
+              <p v-if="messageComunicacion">{{ this.messageComunicacion }}</p>
+              <input
+                type="button"
+                value="Enviar"
+                @click="submitComunicacion"
+                class="botonSubmit"
               />
             </div>
           </div>
@@ -275,17 +318,20 @@
 import axios from "axios";
 //import Config from "chart.js/dist/core/core.config";
 import CreateTasksComponentVue from "./Tareas/CreateTasksComponent.vue";
+//import PruebaView from "../../views/PruebaView.vue";
 export default {
   props: {
     color: String,
   },
   components: {
     CreateTasksComponentVue,
+    //PruebaView,
   },
   data() {
     return {
       modal: false,
       modalEstado: false,
+      modalComunicacion: false,
       selectedHistory: null,
       selectedTramite: null,
       checkbox: [],
@@ -297,50 +343,13 @@ export default {
       //l: 0,
       search: "",
       status: "",
+      titleComunicacion: "",
+      comunicacion: "",
+      messageComunicacion: null,
     };
   },
   created() {
     this.getProcedures();
-
-    //Pedir solamente los que vengan desde una prop del status
-    //   .getHistorialTramites()
-    //   .then((response) => {
-    //     let h = response.data.history;
-    //     let l = h.length;
-    //     for (let i = 0; i < l; i++) {
-    //       //Procedure
-    //       let p = {
-    //         id: null,
-    //         cuil: null,
-    //         categoria: "",
-    //         estado: "",
-    //         color: "",
-    //       };
-    //       //Carga del procedure
-    //       p.id = h[i].id;
-    //       p.cuil = h[i].user.cuil;
-    //       p.categoria = h[i].category.title;
-    //       p.estado = h[i].status.status;
-    //       switch (p.estado) {
-    //         case "SOLICITADO":
-    //           p.color = "var(--green)";
-    //           break;
-    //         case "EN PROCESO":
-    //           p.color = "var(--red)";
-    //           break;
-    //         default:
-    //           break;
-    //       }
-    //       this.activos.push(p);
-    //       console.log(p);
-    //     }
-    //     this.length = response.data.length;
-    //     console.log(response.data.history);
-    //     console.log(h[0].status);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   },
   methods: {
     getProcedures() {
@@ -407,8 +416,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-
-      // dbService
     },
 
     verTramite(id) {
@@ -560,6 +567,10 @@ export default {
     ModalEstado() {
       this.modalEstado = !this.modalEstado;
     },
+    ModalComunicacion() {
+      this.modalComunicacion = !this.modalComunicacion;
+    },
+
     updateStatus() {
       console.log("cambiar estado");
       //console.log(this.selectedTramite);
@@ -631,6 +642,26 @@ export default {
       this.activos.push(p);
       console.log(p);
     },
+    submitComunicacion() {
+      if (this.comunicacion) {
+        console.log(this.comunicacion);
+        const apiClient = axios.create({
+          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+          baseURL: process.env.VUE_APP_BASEURL,
+          withCredentials: false,
+          headers: {
+            "auth-header": localStorage.getItem("token"),
+          },
+        });
+        apiClient
+          .post("/communications/create-communication/" + this.selectedTramite)
+          .then((response) => {
+            if (response.status === 201) {
+              this.messageComunicacion = "Comunicacion enviada!";
+            }
+          });
+      }
+    },
   },
 };
 </script>
@@ -656,7 +687,7 @@ section h3 {
 
 .user-data-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: flex-start;
   width: 100%;
 }
@@ -679,7 +710,7 @@ section h3 {
 
 .modal-content {
   height: 100%;
-  width: 100%;
+  width: 90%;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
@@ -772,9 +803,9 @@ input[type="checkbox"]:checked {
   background: var(--green);
 }
 
-input:hover {
+/*input:hover {
   border: 1px solid var(--green);
-}
+}*/
 
 .filtro-filas {
   color: var(--text-color);
@@ -884,5 +915,31 @@ select option:hover {
   height: 150px;
   text-align: center;
   padding-top: 2rem;
+}
+.question {
+  word-break: break-all;
+}
+.titleComunicacion {
+  margin-bottom: 2rem;
+}
+.titleComunicacion input {
+  width: 80%;
+  border-radius: 10px;
+  padding-left: 1rem;
+}
+textarea {
+  border-radius: 10px 10px 0px 0px;
+  padding-left: 1rem;
+  margin-bottom: 2rem;
+}
+.botonSubmit {
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  border-style: none;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 </style>
