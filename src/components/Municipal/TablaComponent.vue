@@ -232,13 +232,14 @@
                 rows="5"
                 v-model="this.comunicacion"
               ></textarea>
-              <p v-if="messageComunicacion">{{ this.messageComunicacion }}</p>
               <input
                 type="button"
                 value="Enviar"
                 @click="submitComunicacion"
                 class="botonSubmit"
+                v-if="this.comunicacion"
               />
+              <p v-else>{{ this.messageComunicacion }}</p>
             </div>
           </div>
         </table>
@@ -644,6 +645,7 @@ export default {
     },
     submitComunicacion() {
       if (this.comunicacion) {
+        this.status = "3";
         console.log(this.comunicacion);
         const apiClient = axios.create({
           //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -654,11 +656,49 @@ export default {
           },
         });
         apiClient
-          .post("/communications/create-communication/" + this.selectedTramite)
+          .post(
+            "/communications/create-communication/" + this.selectedTramite,
+            { title: this.titleComunicacion, description: this.comunicacion }
+          )
           .then((response) => {
             if (response.status === 201) {
+              //SE ACTUALIZA EL ESTADO DEL TRAMITE A COMUNICACION
               this.messageComunicacion = "Comunicacion enviada!";
+              this.titleComunicacion = "";
+              this.comunicacion = "";
+              const apiClient = axios.create({
+                //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+                baseURL: process.env.VUE_APP_BASEURL,
+                withCredentials: false,
+                headers: {
+                  "auth-header": localStorage.getItem("token"),
+                },
+              });
+              apiClient
+                .put(
+                  "/oficina/procedures/procedure/update-status/" +
+                    this.selectedTramite,
+                  { status: this.status }
+                )
+                .then((response) => {
+                  if (response.status === 200) {
+                    this.messageComunicacion = "";
+
+                    alert("estado actualizado");
+                  }
+                  this.activos = [];
+                  this.getProcedures();
+                })
+                .catch((e) => {
+                  console.log(e);
+                });
             }
+          })
+          .catch((e) => {
+            if (e.response.status === 401) {
+              this.messageComunicacion = e.response.data.message;
+            }
+            console.log(e);
           });
       }
     },

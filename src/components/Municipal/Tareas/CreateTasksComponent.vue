@@ -170,14 +170,14 @@ export default {
   display: flex;
   flex-direction: column;
   width: 95%;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
   border: 1px solid black;
   justify-content: center;
-  text-align: left;
 }
 .container h3 {
   margin-left: 2rem;
   margin-top: 1rem;
+  text-align: left;
 }
 .container-tasks {
   display: flex;
@@ -187,6 +187,7 @@ export default {
   border-top-color: black;
   border-top-style: solid;
   margin-top: 2rem;
+  text-align: left;
 }
 
 select {
@@ -214,13 +215,13 @@ input[type="submit"] {
   margin-top: 2rem;
 }
 .botonSubmit {
+  margin: auto;
   width: 100px;
   height: 45px;
   background-color: var(--green);
   border-radius: 20px 20px 0px 0px;
   color: white;
   border-style: none;
-  margin: auto;
   margin-bottom: 2rem;
 }
 </style>

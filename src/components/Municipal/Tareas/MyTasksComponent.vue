@@ -8,7 +8,7 @@
           <th class="fila">Asunto</th>
           <th class="fila">Descripción</th>
           <th class="fila">Fecha de asignación</th>
-          <th class="fila">Fecha de Finalización</th>
+          <th class="fila">Fecha de actualización</th>
 
           <th class="fila">Estado</th>
         </tr>
@@ -176,7 +176,7 @@ export default {
 <style scoped>
 .container-my-tasks {
   border: 1px solid black;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
   margin-top: 2rem;
   text-align: left;
   width: 90%;
