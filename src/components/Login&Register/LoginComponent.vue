@@ -64,9 +64,8 @@
 </template>
 
 <script>
-// import { mapActions } from "vuex";
 import dbService from "@/services/dbService";
-// import axios from "axios";
+import axios from "axios";
 
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
@@ -86,19 +85,49 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.query?.cidi, "cidi");
-    // if (this.$route.query?.cidi) {
-    //   let cidivalue = String.toString(this.$route.query?.cidi);
+    //LOGUIN A TRAVES DE CIDI!
 
-    //   const apiClient = axios.create({
-    //     //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-    //     baseURL: process.env.VUE_APP_BASEURL,
-    //     withCredentials: false,
-    //   });
-    //   apiClient.post("/auth/cidi/" + cidivalue).then((response) => {
-    //     console.log(response.data);
-    //   });
-    // }
+    if (this.$route.query?.cidi) {
+      console.log(this.$route.query?.cidi, "cidi");
+
+      let cidi = this.$route.query?.cidi;
+
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+      });
+      apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
+        console.log(response.data);
+        this.user = response.data.UserLogged;
+        this.dispatchLogin();
+        window.localStorage.clear();
+        window.localStorage.setItem("name", response.data.UserLogged.firstname);
+        window.localStorage.setItem(
+          "lastname",
+          response.data.UserLogged.lastname
+        );
+        window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
+        window.localStorage.setItem("adress", response.data.UserLogged.adress);
+        window.localStorage.setItem("email", response.data.UserLogged.email);
+        window.localStorage.setItem("id", response.data.UserLogged.id);
+        window.localStorage.setItem(
+          "fecha-creacion",
+          response.data.UserLogged.created_at
+        );
+
+        window.localStorage.setItem("token", response.data.UserLogged.token);
+        window.localStorage.setItem(
+          "tokenCopia",
+          response.data.UserLogged.token
+        );
+
+        window.localStorage.setItem("role", response.data.UserLogged.role);
+        this.validacion = true;
+
+        this.$router.push("representaciones");
+      });
+    }
 
     localStorage.clear();
   },
@@ -111,7 +140,6 @@ export default {
     next();
   },
   methods: {
-    // ...mapActions(["mockLogin"]),
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
@@ -159,7 +187,6 @@ export default {
           window.localStorage.setItem("role", response.data.UserLogged.role);
           this.validacion = true;
 
-          //this.$router.push("munienlinea");
           this.$router.push("representaciones");
         })
         .catch((error) => {

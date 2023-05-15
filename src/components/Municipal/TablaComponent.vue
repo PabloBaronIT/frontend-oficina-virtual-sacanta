@@ -60,7 +60,7 @@
 
           <!--   -->
 
-          <!-- - - - - - - Inicio modal - - - - - -   -->
+          <!-- - - - - - - INICIO MODAL VISTA DE TRAMITE- - - - - -   -->
           <div class="grafico-container" v-if="this.modal === true">
             <div class="modal-content">
               <div class="modal-top">
@@ -115,15 +115,21 @@
                   <input
                     class="btn btn-primary mx-2"
                     type="button"
-                    value="Modificar Estado"
-                    @click="ModalEstado()"
+                    value=" Tarea"
+                    @click="ModalTarea()"
                   />
 
                   <input
-                    class="btn btn-outline-primary"
+                    class="btn btn-primary mx-2"
                     type="button"
-                    value="Generar Comunicacion"
+                    value=" Comunicacion"
                     @click="ModalComunicacion()"
+                  />
+                  <input
+                    class="btn btn-primary mx-2"
+                    type="button"
+                    value=" Requerimiento"
+                    @click="ModalTarea()"
                   />
                 </section>
               </div>
@@ -147,8 +153,19 @@
           <!--MODAL PARA CAMBIAR DE ESTADO-->
 
           <div class="modalEstado">
-            <div v-if="this.modalEstado === true" class="modal-content">
+            <div v-if="this.modalTarea === true" class="modal-content">
               <div class="modal-top">
+                <h3>Asignar Tarea. Trámite n° {{ this.selectedTramite }}</h3>
+                <img
+                  @click="ModalTarea()"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+              <CreateTasksComponentVue :id="this.selectedTramite" />
+
+              <!-- <div class="modal-top">
                 <h2>Cambiar estado</h2>
                 <img
                   @click="ModalEstado($event)"
@@ -176,7 +193,7 @@
                       type="radio"
                       name="status"
                       value="3"
-                    />Comunicación
+                    />Requerido
                   </p>
                 </div>
               </div>
@@ -196,7 +213,7 @@
                 value="Modificar"
                 v-if="this.status"
                 @click="updateStatus()"
-              />
+              />-->
             </div>
           </div>
 
@@ -205,7 +222,7 @@
           <div class="modalEstado">
             <div v-if="this.modalComunicacion === true" class="modal-content">
               <div class="modal-top">
-                <h3>Comunicado:</h3>
+                <h3>Comunicado. Trámite n° {{ this.selectedTramite }}</h3>
                 <img
                   @click="ModalComunicacion()"
                   class="svg"
@@ -308,9 +325,9 @@
       </div>
     </div>
 
-    <div class="containerTareas">
+    <!-- <div class="containerTareas">
       <CreateTasksComponentVue />
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -331,7 +348,7 @@ export default {
   data() {
     return {
       modal: false,
-      modalEstado: false,
+      modalTarea: false,
       modalComunicacion: false,
       selectedHistory: null,
       selectedTramite: null,
@@ -395,11 +412,11 @@ export default {
               case "PRESENTADO":
                 p.color = "var(--green)";
                 break;
-              case "COMUNICACIÓN":
-                p.color = "var(--yellow)";
+              case "REQUERIMIENTO":
+                p.color = "var(--red)";
                 break;
               case "EN PROCESO":
-                p.color = "var(--red)";
+                p.color = "var(--yellow)";
                 break;
               case "FINALIZADO":
                 p.color = "var(--lblue)";
@@ -421,6 +438,7 @@ export default {
 
     verTramite(id) {
       this.selectedTramite = id;
+      this.status = "2";
       this.modal = true;
       // Buscamos el elemento en el array history con el mismo id que selectedTramite
 
@@ -430,7 +448,7 @@ export default {
           break;
         }
       }
-
+      this.updateStatus();
       // Mostramos el estado del elemento encontrado
       console.log(this.selectedHistory);
 
@@ -495,11 +513,11 @@ export default {
                 case "PRESENTADO":
                   p.color = "var(--green)";
                   break;
-                case "COMUNICACIÓN":
-                  p.color = "var(--yellow)";
+                case "REQUERIMIENTO":
+                  p.color = "var(--red)";
                   break;
                 case "EN PROCESO":
-                  p.color = "var(--red)";
+                  p.color = "var(--yellow)";
                   break;
                 case "FINALIZADO":
                   p.color = "var(--lblue)";
@@ -565,8 +583,8 @@ export default {
       this.selectedTramite = null;
       this.modal = false;
     },
-    ModalEstado() {
-      this.modalEstado = !this.modalEstado;
+    ModalTarea() {
+      this.modalTarea = !this.modalTarea;
     },
     ModalComunicacion() {
       this.modalComunicacion = !this.modalComunicacion;
@@ -586,11 +604,11 @@ export default {
       apiClient
         .put(
           "/oficina/procedures/procedure/update-status/" + this.selectedTramite,
-          { status: this.status }
+          { statusId: this.status }
         )
         .then((response) => {
           if (response.status === 200) {
-            alert("estado actualizado");
+            console.log("Estado actualizado");
           }
           this.activos = [];
           this.getProcedures();
@@ -598,7 +616,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-      this.ModalEstado();
+      //this.ModalEstado();
     },
     searchValue(value) {
       //console.log(value);
@@ -625,11 +643,11 @@ export default {
         case "PRESENTADO":
           p.color = "var(--green)";
           break;
-        case "COMUNICACIÓN":
-          p.color = "var(--yellow)";
+        case "REQUERIMIENTO":
+          p.color = "var(--red)";
           break;
         case "EN PROCESO":
-          p.color = "var(--red)";
+          p.color = "var(--yellow)";
           break;
         case "FINALIZADO":
           p.color = "var(--lblue)";
@@ -645,7 +663,6 @@ export default {
     },
     submitComunicacion() {
       if (this.comunicacion) {
-        this.status = "3";
         console.log(this.comunicacion);
         const apiClient = axios.create({
           //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -666,32 +683,6 @@ export default {
               this.messageComunicacion = "Comunicacion enviada!";
               this.titleComunicacion = "";
               this.comunicacion = "";
-              const apiClient = axios.create({
-                //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-                baseURL: process.env.VUE_APP_BASEURL,
-                withCredentials: false,
-                headers: {
-                  "auth-header": localStorage.getItem("token"),
-                },
-              });
-              apiClient
-                .put(
-                  "/oficina/procedures/procedure/update-status/" +
-                    this.selectedTramite,
-                  { status: this.status }
-                )
-                .then((response) => {
-                  if (response.status === 200) {
-                    this.messageComunicacion = "";
-
-                    alert("estado actualizado");
-                  }
-                  this.activos = [];
-                  this.getProcedures();
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
             }
           })
           .catch((e) => {
@@ -713,7 +704,7 @@ export default {
   width: 100vw;
 }
 .containerTramites {
-  width: 50%;
+  width: 98%;
 }
 .containerTareas {
   width: 45%;
@@ -764,12 +755,12 @@ section h3 {
   align-items: center;
   z-index: 15;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  width: 400px; /* Need a specific value to work */
+  width: 600px; /* Need a specific value to work */
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);

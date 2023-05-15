@@ -154,10 +154,10 @@ export default {
               p.color = "var(--green)";
               break;
             case "EN PROCESO":
-              p.color = "var(--red)";
-              break;
-            case "COMUNICACIÓN":
               p.color = "var(--yellow)";
+              break;
+            case "REQUERIMIENTO":
+              p.color = "var(--red)";
               break;
             case "FINALIZADO":
               p.color = "var(--lblue)";

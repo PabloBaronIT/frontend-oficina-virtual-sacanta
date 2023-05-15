@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <h3>Asignar Tareas</h3>
-
     <div class="container-tasks">
       <label for="nameUserMuni">
         <p>Asigne la tarea al personal del área que sea necesario</p>
@@ -46,6 +44,10 @@
 import axios from "axios";
 
 export default {
+  name: "CreateTaksComponent",
+  props: {
+    id: String,
+  },
   data() {
     return {
       tasks: [],
@@ -56,6 +58,7 @@ export default {
       message: null,
     };
   },
+
   created() {
     this.getUsersMuni();
     this.getMyTasks();
@@ -184,9 +187,6 @@ export default {
   flex-direction: column;
   padding: 2rem;
   border-top-width: 1px;
-  border-top-color: black;
-  border-top-style: solid;
-  margin-top: 2rem;
   text-align: left;
 }
 

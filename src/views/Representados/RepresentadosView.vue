@@ -55,7 +55,7 @@
       <!--se muestra si NO tiene representaciones  y redirige a pagina principal-->
 
       <div v-if="nullRepresented" class="nullRepresented">
-        <h5>En breve usted será redirigido a la pantalla principal</h5>
+        <h3>En breve usted será redirigido a la pantalla principal</h3>
         <p>No tiene representaciones registradas</p>
       </div>
     </div>
@@ -262,8 +262,9 @@ export default {
 }
 .nullRepresented {
   height: 10rem;
-  width: 35rem;
+  width: 50rem;
   padding-top: 2rem;
   background-color: rgba(128, 128, 128, 0.233);
+  margin: auto;
 }
 </style>
