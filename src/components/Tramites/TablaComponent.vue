@@ -7,6 +7,7 @@
         <th>Ultimo movimiento</th>
         <th class="media">Asunto</th>
         <th>Estado</th>
+        <th></th>
       </tr>
 
       <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
@@ -19,7 +20,35 @@
             {{ p.estado || "" }}
           </p>
         </td>
+        <td>
+          <p v-if="p.comunicaciones || p.requerimientos">
+            <a class="btn btn-danger" @click="openModalComunicaciones(p.id)">
+              <img
+                class="svg"
+                src="@/assets/comunicacion.svg"
+                alt="comunicaciones"
+              />
+            </a>
+          </p>
+        </td>
+        <div
+          v-if="
+            this.modalComunicaciones === true && p.id === this.selectTramite
+          "
+        >
+          <div class="modalComunicacion">
+            {{ p.comunicaciones[0].title || "" }} :
+            {{ p.comunicaciones[0].description || "" }}
+
+            <span>
+              {{
+                new Date(p.comunicaciones[0].created_at).toLocaleString() || ""
+              }}
+            </span>
+          </div>
+        </div>
       </tr>
+      <tr></tr>
     </table>
 
     <div class="loader">
@@ -104,6 +133,8 @@ export default {
       cont: 0,
       l: 0,
       paginas: null,
+      modalComunicaciones: false,
+      selectTramite: null,
     };
   },
   created() {
@@ -134,6 +165,7 @@ export default {
             estado: "",
             color: "",
             titulo: "",
+            comunicaciones: null,
           };
 
           let iso = h[i].updated_at;
@@ -148,6 +180,12 @@ export default {
           p.categoria = h[i].category.title;
           p.estado = h[i].status.status;
           p.titulo = h[i].procedure.title;
+          p.comunicaciones = Array.isArray(h[i].communication)
+            ? h[i].communication
+            : null;
+          p.requerimientos = Array.isArray(h[i].requirementHistory)
+            ? h[i].communication
+            : null;
 
           switch (p.estado) {
             case "PRESENTADO":
@@ -183,6 +221,10 @@ export default {
       });
   },
   methods: {
+    openModalComunicaciones(id) {
+      this.selectTramite = id;
+      this.modalComunicaciones = !this.modalComunicaciones;
+    },
     cantTramites() {
       this.paginas = Math.ceil(this.length / 5);
 
@@ -319,7 +361,11 @@ input:hover {
 }
 
 table {
-  width: 95%;
+  width: 100%;
+}
+img {
+  height: 25px;
+  width: 25px;
 }
 
 th,
@@ -342,6 +388,17 @@ td {
   background: var(--grey-bk);
   border-radius: 20px;
   padding: 3px;
+}
+.modalComunicacion {
+  min-width: 400px;
+  height: auto;
+  padding: 2rem;
+  position: absolute;
+  right: 8rem;
+  background: var(--grey-bk);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
 }
 
 /* @media (max-width: 1000px) {

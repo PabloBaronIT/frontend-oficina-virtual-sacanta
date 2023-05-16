@@ -49,7 +49,7 @@
             <td @click="verTramite(p.id)">{{ p.id }}</td>
             <td @click="verTramite(p.id)">{{ p.cuil.cuil }}</td>
             <td @click="verTramite(p.id)">{{ p.categoria }}</td>
-            <td :class="'estado-fila'">
+            <td :class="'estado-fila'" @click="verTramite(p.id)">
               <p :style="`background: ${p.color}`">{{ p.estado }}</p>
             </td>
             <!-- BOTON PARA MAS ACCIONES-->
@@ -63,28 +63,21 @@
                 ></button>
                 <ul class="dropdown-menu">
                   <li>
-                    <p class="dropdown-item" @click="ModalTarea()">Tarea</p>
+                    <p class="dropdown-item" @click="ModalTarea(p.id)">Tarea</p>
                   </li>
                   <li>
-                    <p class="dropdown-item" @click="ModalComunicacion()">
+                    <p class="dropdown-item" @click="ModalComunicacion(p.id)">
                       Comunicacion
                     </p>
                   </li>
                   <li>
-                    <a class="dropdown-item" @click="ModalTarea()"
+                    <a class="dropdown-item" @click="ModalRequerimiento(p.id)"
                       >Requerimiento</a
                     >
                   </li>
                 </ul>
               </div>
             </td>
-            <!--<td @click="modalTrespuntos(p.id)" :key="p.id">
-              <div class="contentCirculo">
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-                <div class="circulo"></div>
-              </div>
-            </td>-->
           </tr>
 
           <div class="modaltrespuntos" v-if="this.trespuntos === true">
@@ -155,38 +148,24 @@
                     class="btn btn-primary mx-2"
                     type="button"
                     value=" Tarea"
-                    @click="ModalTarea()"
+                    @click="ModalTarea(item.id)"
                   />
 
                   <input
                     class="btn btn-primary mx-2"
                     type="button"
                     value=" Comunicacion"
-                    @click="ModalComunicacion()"
+                    @click="ModalComunicacion(item.id)"
                   />
                   <input
                     class="btn btn-primary mx-2"
                     type="button"
                     value=" Requerimiento"
-                    @click="ModalTarea()"
+                    @click="ModalTarea(item.id)"
                   />
                 </section>
               </div>
             </div>
-
-            <!-- <h2>{{ p.id }}</h2>
-
-          {{ p.cuil }}
-
-          {{ this.selectedHistory }} -->
-
-            <!-- <div v-for="(option, key) in this.history" :key="key">
-            <h2>{{ key }}</h2>
-            <section v-for="(q, key) in option.questions" :key="key">
-              {{ q.question.title }}
-              {{ q.question_option_history[0].answer }}
-            </section>
-          </div> -->
           </div>
 
           <!--MODAL PARA CREAR TAREA-->
@@ -261,7 +240,10 @@
           <div class="modalEstado">
             <div v-if="this.modalComunicacion === true" class="modal-content">
               <div class="modal-top">
-                <h3>Comunicado. Trámite n° {{ this.selectedTramite }}</h3>
+                <div style="text-aling: center">
+                  <h3>Comunicado.</h3>
+                  <p>Trámite n° {{ this.selectedTramite }}</p>
+                </div>
                 <img
                   @click="ModalComunicacion()"
                   class="svg"
@@ -294,6 +276,37 @@
                 @click="submitComunicacion"
                 class="botonSubmit"
                 v-if="this.comunicacion"
+              />
+              <p v-else>{{ this.messageComunicacion }}</p>
+            </div>
+          </div>
+
+          <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
+
+          <div class="modalEstado">
+            <div v-if="this.modalRequerimiento === true" class="modal-content">
+              <div class="modal-top">
+                <h3>Requerimiento. Trámite n° {{ this.selectedTramite }}</h3>
+                <img
+                  @click="this.modalRequerimiento = false"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+
+              <textarea
+                name="comunicado"
+                id=""
+                cols="30"
+                rows="5"
+                v-model="this.requerimiento"
+              ></textarea>
+              <input
+                type="button"
+                value="Enviar"
+                class="botonSubmit"
+                v-if="this.requerimiento"
               />
               <p v-else>{{ this.messageComunicacion }}</p>
             </div>
@@ -363,15 +376,10 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="containerTareas">
-      <CreateTasksComponentVue />
-    </div>-->
   </div>
 </template>
 
 <script>
-// import dbService from "@/services/dbService";
 import axios from "axios";
 //import Config from "chart.js/dist/core/core.config";
 import CreateTasksComponentVue from "./Tareas/CreateTasksComponent.vue";
@@ -389,6 +397,7 @@ export default {
       modal: false,
       modalTarea: false,
       modalComunicacion: false,
+      modalRequerimiento: false,
       trespuntos: false,
       selectedHistory: null,
       selectedTramite: null,
@@ -404,6 +413,7 @@ export default {
       titleComunicacion: "",
       comunicacion: "",
       messageComunicacion: null,
+      requerimiento: null,
     };
   },
   created() {
@@ -627,14 +637,18 @@ export default {
       this.selectedTramite = null;
       this.modal = false;
     },
-    ModalTarea() {
+    ModalTarea(id) {
+      this.selectedTramite = id;
       this.modalTarea = !this.modalTarea;
     },
-    ModalComunicacion() {
+    ModalComunicacion(id) {
+      this.selectedTramite = id;
+
       this.modalComunicacion = !this.modalComunicacion;
     },
-    modalTrespuntos() {
-      this.trespuntos = !this.trespuntos;
+    ModalRequerimiento(id) {
+      this.selectedTramite = id;
+      this.modalRequerimiento = !this.modalRequerimiento;
     },
 
     updateStatus() {
@@ -1000,9 +1014,10 @@ select option:hover {
 }
 .titleComunicacion {
   margin-bottom: 2rem;
+  width: 100%;
 }
 .titleComunicacion input {
-  width: 80%;
+  width: 60%;
   border-radius: 10px;
   padding-left: 1rem;
 }
