@@ -38,27 +38,66 @@
             <th>Cuil vecino</th>
             <th>Asunto</th>
             <th>Estado</th>
+            <th></th>
           </tr>
 
-          <tr
-            class="fila-tabla"
-            v-for="(p, key) in this.activos"
-            @click="verTramite(p.id)"
-            :key="key"
-          >
+          <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
             <td>
               <input type="checkbox" @click="check(p.id)" :value="p.id" />
             </td>
-            <td>{{ p.procedure }}</td>
-            <td>{{ p.id }}</td>
-            <td>{{ p.cuil.cuil }}</td>
-            <td>{{ p.categoria }}</td>
+            <td @click="verTramite(p.id)">{{ p.procedure }}</td>
+            <td @click="verTramite(p.id)">{{ p.id }}</td>
+            <td @click="verTramite(p.id)">{{ p.cuil.cuil }}</td>
+            <td @click="verTramite(p.id)">{{ p.categoria }}</td>
             <td :class="'estado-fila'">
               <p :style="`background: ${p.color}`">{{ p.estado }}</p>
             </td>
+            <!-- BOTON PARA MAS ACCIONES-->
+            <td>
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                ></button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <p class="dropdown-item" @click="ModalTarea()">Tarea</p>
+                  </li>
+                  <li>
+                    <p class="dropdown-item" @click="ModalComunicacion()">
+                      Comunicacion
+                    </p>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" @click="ModalTarea()"
+                      >Requerimiento</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <!--<td @click="modalTrespuntos(p.id)" :key="p.id">
+              <div class="contentCirculo">
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+                <div class="circulo"></div>
+              </div>
+            </td>-->
           </tr>
 
-          <!--   -->
+          <div class="modaltrespuntos" v-if="this.trespuntos === true">
+            <div class="modal-top">
+              <img
+                @click="modalTrespuntos()"
+                class="svg"
+                src="@/assets/close.svg"
+                alt=""
+              />
+            </div>
+            <p>soy las taeas</p>
+          </div>
 
           <!-- - - - - - - INICIO MODAL VISTA DE TRAMITE- - - - - -   -->
           <div class="grafico-container" v-if="this.modal === true">
@@ -150,7 +189,7 @@
           </div> -->
           </div>
 
-          <!--MODAL PARA CAMBIAR DE ESTADO-->
+          <!--MODAL PARA CREAR TAREA-->
 
           <div class="modalEstado">
             <div v-if="this.modalTarea === true" class="modal-content">
@@ -350,6 +389,7 @@ export default {
       modal: false,
       modalTarea: false,
       modalComunicacion: false,
+      trespuntos: false,
       selectedHistory: null,
       selectedTramite: null,
       checkbox: [],
@@ -453,6 +493,10 @@ export default {
       console.log(this.selectedHistory);
 
       console.log(id);
+    },
+    verTarea(id) {
+      this.selectedTramite = id;
+      this.modalTareas = true;
     },
     selectEstado(event) {
       this.status = event.target.value;
@@ -588,6 +632,9 @@ export default {
     },
     ModalComunicacion() {
       this.modalComunicacion = !this.modalComunicacion;
+    },
+    modalTrespuntos() {
+      this.trespuntos = !this.trespuntos;
     },
 
     updateStatus() {
@@ -735,7 +782,7 @@ section h3 {
   display: flex;
   width: 100%;
   text-align: left;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
 }
 
@@ -760,7 +807,7 @@ section h3 {
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  width: 600px; /* Need a specific value to work */
+  width: 500px; /* Need a specific value to work */
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -770,6 +817,7 @@ section h3 {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  height: auto;
 }
 .data-container {
   display: flex;
@@ -972,5 +1020,23 @@ textarea {
   border-style: none;
   margin: auto;
   margin-bottom: 2rem;
+}
+.contentCirculo {
+  display: flex;
+  flex-direction: column;
+  width: 15px;
+  margin: auto;
+}
+.circulo {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: black;
+  margin-top: 2px;
+}
+.modaltrespuntos {
+  position: absolute;
+  right: 2px;
+  top: 10rem;
 }
 </style>
