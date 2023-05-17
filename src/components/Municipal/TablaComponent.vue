@@ -21,8 +21,9 @@
           </button>
         </form>
         <select @change="getFiltro($event)" name="" id="">
-          <option value="0">Todos</option>
-          <option value="1">Presentado</option>
+          <option>Filtros</option>
+          <option value="0">Todos mis trámites</option>
+          <option value="1">Presentados</option>
           <option value="2">En proceso</option>
           <option value="4">Finalizados</option>
         </select>
@@ -40,6 +41,8 @@
             <th>Estado</th>
             <th></th>
           </tr>
+
+          <!--EN ESTA TABALA SE PUEDE VER TODOS LOS TRAMITES, A LA VEZ REALIZAR TAREAS, COMUNICACIONES O REQUERIMIENTOS A CUALQUIER DE ELLOS-->
 
           <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
             <td>
@@ -62,14 +65,19 @@
                   aria-expanded="false"
                 ></button>
                 <ul class="dropdown-menu">
+                  <!--BOTON PARA REALIZAR TAREA RELACIONADO AL TRAMITE-->
                   <li>
                     <p class="dropdown-item" @click="ModalTarea(p.id)">Tarea</p>
                   </li>
+                  <!--BOTON PARA REALIZAR COMUNICACION RELACIONADO AL TRAMITE-->
+
                   <li>
                     <p class="dropdown-item" @click="ModalComunicacion(p.id)">
                       Comunicacion
                     </p>
                   </li>
+                  <!--BOTON PARA REALIZAR REQUERIMIENTO RELACIONADO AL TRAMITE-->
+
                   <li>
                     <a class="dropdown-item" @click="ModalRequerimiento(p.id)"
                       >Requerimiento</a
@@ -170,12 +178,12 @@
 
           <!--MODAL PARA CREAR TAREA-->
 
-          <div class="modalEstado">
+          <div class="modalTarea">
             <div v-if="this.modalTarea === true" class="modal-content">
               <div class="modal-top">
-                <h3>Asignar Tarea. Trámite n° {{ this.selectedTramite }}</h3>
+                <h3>Asignar Tarea. Trámite n°: {{ this.selectedTramite }}</h3>
                 <img
-                  @click="ModalTarea()"
+                  @click="CloseTarea()"
                   class="svg"
                   src="@/assets/close.svg"
                   alt=""
@@ -237,15 +245,12 @@
 
           <!--MODAL DE COMUNICACIONES AL CIUDADANO-->
 
-          <div class="modalEstado">
+          <div class="modalTarea">
             <div v-if="this.modalComunicacion === true" class="modal-content">
               <div class="modal-top">
-                <div style="text-aling: center">
-                  <h3>Comunicado.</h3>
-                  <p>Trámite n° {{ this.selectedTramite }}</p>
-                </div>
+                <h3>Comunicado. Trámite n°:{{ this.selectedTramite }}</h3>
                 <img
-                  @click="ModalComunicacion()"
+                  @click="CloseComunicaciones()"
                   class="svg"
                   src="@/assets/close.svg"
                   alt=""
@@ -283,7 +288,7 @@
 
           <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
 
-          <div class="modalEstado">
+          <div class="modalTarea">
             <div v-if="this.modalRequerimiento === true" class="modal-content">
               <div class="modal-top">
                 <h3>Requerimiento. Trámite n° {{ this.selectedTramite }}</h3>
@@ -308,7 +313,7 @@
                 class="botonSubmit"
                 v-if="this.requerimiento"
               />
-              <p v-else>{{ this.messageComunicacion }}</p>
+              <p v-else>{{ this.message }}</p>
             </div>
           </div>
         </table>
@@ -383,14 +388,12 @@
 import axios from "axios";
 //import Config from "chart.js/dist/core/core.config";
 import CreateTasksComponentVue from "./Tareas/CreateTasksComponent.vue";
-//import PruebaView from "../../views/PruebaView.vue";
 export default {
   props: {
     color: String,
   },
   components: {
     CreateTasksComponentVue,
-    //PruebaView,
   },
   data() {
     return {
@@ -400,7 +403,7 @@ export default {
       modalRequerimiento: false,
       trespuntos: false,
       selectedHistory: null,
-      selectedTramite: null,
+      selectedTramite: null, //EN USO
       checkbox: [],
       activos: [],
       history: null,
@@ -412,7 +415,7 @@ export default {
       status: "",
       titleComunicacion: "",
       comunicacion: "",
-      messageComunicacion: null,
+      message: null,
       requerimiento: null,
     };
   },
@@ -420,6 +423,7 @@ export default {
     this.getProcedures();
   },
   methods: {
+    //TRAE LOS TRAMITES DE SU AREA
     getProcedures() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -485,10 +489,10 @@ export default {
           console.log(err);
         });
     },
-
+    //PARA VER UN TRAMITE EN ESPECIFICO
     verTramite(id) {
       this.selectedTramite = id;
-      this.status = "2";
+      //this.status = "2";
       this.modal = true;
       // Buscamos el elemento en el array history con el mismo id que selectedTramite
 
@@ -498,7 +502,7 @@ export default {
           break;
         }
       }
-      this.updateStatus();
+      //this.updateStatus();
       // Mostramos el estado del elemento encontrado
       console.log(this.selectedHistory);
 
@@ -516,8 +520,8 @@ export default {
       this.checkbox.push(id);
       console.log(this.checkbox);
     },
-
-    getFiltro(event) {
+    //FILTRAR TRAMITES
+    getFiltro($event) {
       let apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -529,17 +533,17 @@ export default {
 
       this.activos = [];
 
-      if (event.target.value == 0) {
+      if ($event.target.value === "0") {
         this.getProcedures();
       } else {
         apiClient
           .get(
             "/oficina/procedures/history-procedures/status/" +
-              event.target.value
+              $event.target.value
           )
           .then((response) => {
             this.activos = [];
-
+            this.status = "";
             console.log(response);
 
             let h = response.data.Procedures;
@@ -595,6 +599,7 @@ export default {
           });
       }
     },
+    //TOTAL DE TRAMITES
     cantTramites() {
       this.paginas = Math.ceil(this.length / 5);
 
@@ -632,25 +637,31 @@ export default {
         console.log("No hay mas páginas disponibles.");
       }
     },
-
+    //DISTINOS MODALES DE LA VISTA
     Modal() {
       this.selectedTramite = null;
       this.modal = false;
     },
     ModalTarea(id) {
       this.selectedTramite = id;
-      this.modalTarea = !this.modalTarea;
+      this.modalTarea = true;
+    },
+    CloseTarea() {
+      this.modalTarea = false;
     },
     ModalComunicacion(id) {
       this.selectedTramite = id;
 
-      this.modalComunicacion = !this.modalComunicacion;
+      this.modalComunicacion = true;
+    },
+    CloseComunicaciones() {
+      this.modalComunicacion = false;
     },
     ModalRequerimiento(id) {
       this.selectedTramite = id;
       this.modalRequerimiento = !this.modalRequerimiento;
     },
-
+    //CAMBIAR EL ESTADO DE UN TRAMITE
     updateStatus() {
       console.log("cambiar estado");
       //console.log(this.selectedTramite);
@@ -679,49 +690,63 @@ export default {
         });
       //this.ModalEstado();
     },
+
+    //BUSCAR UN TRAMIATE POR ID
     searchValue(value) {
       //console.log(value);
-      let asd = this.history.filter((e) => {
-        return e.id == value;
+      let asd = null;
+
+      //SI EL TRAMITE NO ESTA EN SU AREA LO BUSCA EN OTRA
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
       });
-      console.log("soy el" + asd[0].id);
+      apiClient.get("/oficina/procedures/history/" + value).then((response) => {
+        console.log(response);
+        asd = response.data.Procedure.procedure;
+        this.history = asd;
+        this.search = "";
+        let p = {
+          id: null,
+          cuil: "",
+          categoria: "",
+          estado: "",
+          procedure: "",
+        };
+        p.id = asd[0].id;
+        p.cuil = asd[0].user.cuil;
+        p.categoria = asd[0].category.title;
+        p.estado = asd[0].status.status;
+        p.procedure = asd[0].procedure.title;
+
+        switch (p.estado) {
+          case "PRESENTADO":
+            p.color = "var(--green)";
+            break;
+          case "REQUERIMIENTO":
+            p.color = "var(--red)";
+            break;
+          case "EN PROCESO":
+            p.color = "var(--yellow)";
+            break;
+          case "FINALIZADO":
+            p.color = "var(--lblue)";
+            break;
+
+          default:
+            break;
+        }
+
+        this.activos = [];
+        this.activos.push(p);
+      });
       //this.activos = asd;
-      this.search = "";
-      let p = {
-        id: null,
-        cuil: "",
-        categoria: "",
-        estado: "",
-        procedure: "",
-      };
-      p.id = asd[0].id;
-      p.cuil = asd[0].user.cuil;
-      p.categoria = asd[0].category.title;
-      p.estado = asd[0].status.status;
-      p.procedure = asd[0].procedure.title;
-
-      switch (p.estado) {
-        case "PRESENTADO":
-          p.color = "var(--green)";
-          break;
-        case "REQUERIMIENTO":
-          p.color = "var(--red)";
-          break;
-        case "EN PROCESO":
-          p.color = "var(--yellow)";
-          break;
-        case "FINALIZADO":
-          p.color = "var(--lblue)";
-          break;
-
-        default:
-          break;
-      }
-
-      this.activos = [];
-      this.activos.push(p);
-      console.log(p);
     },
+    //ENVIAR UN COMUNICADO DE UN TRAMITE
     submitComunicacion() {
       if (this.comunicacion) {
         console.log(this.comunicacion);
@@ -741,14 +766,14 @@ export default {
           .then((response) => {
             if (response.status === 201) {
               //SE ACTUALIZA EL ESTADO DEL TRAMITE A COMUNICACION
-              this.messageComunicacion = "Comunicacion enviada!";
+              this.message = "Comunicacion enviada!";
               this.titleComunicacion = "";
               this.comunicacion = "";
             }
           })
           .catch((e) => {
             if (e.response.status === 401) {
-              this.messageComunicacion = e.response.data.message;
+              this.message = e.response.data.message;
             }
             console.log(e);
           });
@@ -809,12 +834,12 @@ section h3 {
   align-items: center;
   padding: 1rem;
 }
-.modalEstado {
+.modalTarea {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  z-index: 15;
+  z-index: -1;
   position: absolute;
   top: 30%;
   left: 0;
@@ -986,6 +1011,7 @@ select {
   border-radius: 20px;
   border: 1px solid var(--red);
   outline: none;
+  padding: 5px;
 }
 
 select option {
@@ -1048,10 +1074,5 @@ textarea {
   border-radius: 50%;
   background-color: black;
   margin-top: 2px;
-}
-.modaltrespuntos {
-  position: absolute;
-  right: 2px;
-  top: 10rem;
 }
 </style>

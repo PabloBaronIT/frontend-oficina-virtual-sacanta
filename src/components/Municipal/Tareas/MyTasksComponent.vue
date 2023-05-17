@@ -5,15 +5,22 @@
     <div class="tabla-container" v-if="tasks.length">
       <table class="table">
         <tr class="fila-tabla">
+          <th class="fila">N° de Trámite</th>
           <th class="fila">Asunto</th>
           <th class="fila">Descripción</th>
           <th class="fila">Fecha de asignación</th>
-          <th class="fila">Fecha de actualización</th>
+          <th class="fila">Fecha de finalización</th>
 
           <th class="fila">Estado</th>
         </tr>
 
-        <tr class="fila-tabla" v-for="(p, key) in this.tasks" :key="key">
+        <tr
+          class="fila-tabla"
+          v-for="(p, key) in this.tasks"
+          :key="key"
+          @click="ModalResponse"
+        >
+          <td class="fila">{{ p.idTramite || "" }}</td>
           <td class="fila">{{ p.title || "" }}</td>
           <td class="fila">{{ p.description || "" }}</td>
           <td class="fila">{{ p.fechaCreacion || "" }}</td>
@@ -28,6 +35,22 @@
             <p :style="`background: ${p.color}`">{{ p.estado }}</p>
           </th>
         </tr>
+
+        <!--MODAL PARA RESPONDER A LA TAREA-->
+        <div class="modalEstado">
+          <div v-if="this.modalresponse === true" class="modal-content">
+            <div class="modal-top">
+              <h3>Responder tarea</h3>
+              <img
+                @click="CloseModalTarea($event)"
+                class="svg"
+                src="@/assets/close.svg"
+                alt=""
+              />
+            </div>
+            <input type="text" placeholder="enviar respuesta" />
+          </div>
+        </div>
 
         <!--MODAL PARA CAMBIAR DE ESTADO A LA TAREA-->
         <div class="modalEstado">
@@ -70,6 +93,7 @@ export default {
       message: false,
       selecTarea: null,
       modal: false,
+      modalresponse: false,
       verSelecTarea: null,
     };
   },
@@ -150,6 +174,12 @@ export default {
     ModalEstado() {
       this.modal = !this.modal;
     },
+    ModalResponse() {
+      this.modalresponse = true;
+    },
+    CloseModalTarea() {
+      this.modalresponse = false;
+    },
     updateStatus() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -177,9 +207,8 @@ export default {
 .container-my-tasks {
   border: 1px solid black;
   border-radius: 10px 10px 0px 0px;
-  margin-top: 2rem;
   text-align: left;
-  width: 90%;
+  width: 100%;
   position: relative;
 }
 .container-my-tasks h3 {

@@ -52,9 +52,8 @@
     <ModalGraficoComponent v-if="token" />
 
     <section><Tabla /></section>
+    <section><MyTasksComponentVue /></section>
 
-    <hr />
-    <MyTasksComponentVue />
     <div class="section-container">
       <RegisterComponent />
       <BarComponent class="ms-5" />

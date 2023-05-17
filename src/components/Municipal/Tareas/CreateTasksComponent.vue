@@ -50,7 +50,6 @@ export default {
   },
   data() {
     return {
-      tasks: [],
       usersMuni: null,
       descriptionTarea: "",
       userMuniAsigned: null,
@@ -61,7 +60,6 @@ export default {
 
   created() {
     this.getUsersMuni();
-    this.getMyTasks();
   },
   methods: {
     getUsersMuni() {
@@ -91,41 +89,7 @@ export default {
         })
         .catch((e) => console.log(e));
     },
-    getMyTasks() {
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .get("/tasks/received-tasks")
-        .then((response) => {
-          let l = response.data.MyReceivedTasks;
-          l.forEach((element) => {
-            let iso = element.created_at;
-            let date = new Date(iso);
-            const day = date.getDate();
-            const month = date.getMonth() + 1;
-            const year = date.getFullYear();
 
-            let fecha = `${day}/${month}/${year}`;
-            let tarea = {
-              title: element.title,
-              description: element.description,
-              fechaCreacion: fecha,
-              estado: element.completed === null ? "Incompleto" : "Completo",
-            };
-
-            this.tasks.push(tarea);
-          });
-
-          console.log(Response.data, "mis tareas");
-        })
-        .catch((e) => console.log(e));
-    },
     asignedUser(event) {
       this.userMuniAsigned = event.target.value;
       //console.log(this.userMuniAsigned);
@@ -145,6 +109,7 @@ export default {
             title: this.title,
             description: this.descriptionTarea,
             userMuniReceiver: this.userMuniAsigned,
+            //idTramite:this.id  //falta agregar el tramite al que se relaciona
           })
           .then((response) => {
             if (response.status === 201) {
@@ -157,7 +122,11 @@ export default {
           })
           .catch((e) => {
             console.log(e);
+            this.message = e.response.data.message;
           });
+        this.userMuniAsigned = null;
+        this.title = "";
+        this.descriptionTarea = "";
       } else {
         this.message =
           "Debe asignar un agente municipal y describir la tarea a realizar";
