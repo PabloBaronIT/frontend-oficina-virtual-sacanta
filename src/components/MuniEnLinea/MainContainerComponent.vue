@@ -2,8 +2,112 @@
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <div>
     <div class="top">
-      <h1 class="tituloPrincipal">Áreas</h1>
+      <p>
+        <strong>Bienvenido!</strong>
+
+        a la oficina virtual de la Municiplaidad de Sacanta.
+        <br />Presenta aqui todas tus gestiones como si estuvieras en la Muni,
+        pero sin <br />
+        demoras ni esperas y desde la comodidad de tu casa.
+      </p>
     </div>
+
+    <div class="containerTabs">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active butonNav"
+            id="home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#home-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="home-tab-pane"
+            aria-selected="true"
+          >
+            Trámites Administrativos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link butonNav"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#profile-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="profile-tab-pane"
+            aria-selected="false"
+          >
+            Servicios y reclamos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link butonNav"
+            id="contact-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#contact-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="contact-tab-pane"
+            aria-selected="false"
+          >
+            Guia de trámites
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="home-tab-pane"
+          role="tabpanel"
+          aria-labelledby="home-tab"
+          tabindex="0"
+        >
+          <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
+          <div class="card-container">
+            <div v-for="sector in categorias" :key="sector.Id">
+              <router-link
+                :to="`/sector/${sector.title}/${sector.id}`"
+                class="card scale-up-center"
+                style="text-decoration: none; color: #222"
+              >
+                <img :src="sector.description" :alt="sector.title" />
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="profile-tab-pane"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+          tabindex="0"
+        >
+          <h3>SERVICIOS Y RECLAMOS</h3>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="contact-tab-pane"
+          role="tabpanel"
+          aria-labelledby="contact-tab"
+          tabindex="0"
+        >
+          <h3>GUIA DE TRAMITES</h3>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="disabled-tab-pane"
+          role="tabpanel"
+          aria-labelledby="disabled-tab"
+          tabindex="0"
+        >
+          ...
+        </div>
+      </div>
+    </div>
+
     <main class="flex-container">
       <div class="header">
         <!-- <h1>Trámites mas frecuentes</h1> -->
@@ -12,19 +116,6 @@
       <!-- <TramitesFrecuentes /> -->
 
       <div class="header"></div>
-
-      <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
-      <div class="card-container">
-        <div v-for="sector in categorias" :key="sector.Id">
-          <router-link
-            :to="`/sector/${sector.title}/${sector.id}`"
-            class="card scale-up-center"
-            style="text-decoration: none; color: #222"
-          >
-            <img :src="sector.description" :alt="sector.title" />
-          </router-link>
-        </div>
-      </div>
     </main>
   </div>
 </template>
@@ -81,6 +172,14 @@ export default {
   text-align: left;
   padding-left: 3rem;
   padding-top: 2rem;
+  width: 70vw;
+  height: 9rem;
+  background: var(--grey);
+  margin: auto;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  border-radius: 0px 30px 0px 0px;
+  color: white;
 }
 
 .scale-up-center {
@@ -177,6 +276,15 @@ img {
 
 .card:hover {
   box-shadow: 5px 5px 20px #444;
+}
+.containerTabs {
+  width: 70vw;
+  margin: auto;
+  /*background: var(--grey-bk);*/
+}
+.butonNav {
+  width: 355px;
+  color: var(--green);
 }
 
 /*h1 {
