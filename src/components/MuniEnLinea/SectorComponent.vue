@@ -71,11 +71,44 @@
         </div>
 
         <div class="footercard">
+          <!--SI TIENE EL NIVEL REQUERIDO PUEDE HACER EL TRAMITE-->
           <router-link
+            v-if="tramite.level.level == this.nivel"
             :to="`/formulario/${this.$route.params.sectorId}/${tramite.title}/${tramite.id}`"
           >
             <a>Iniciar Trámite</a>
           </router-link>
+          <!--SI NO!TIENE EL NIVEL REQUERIDO NO ! PUEDE HACER EL TRAMITE-->
+
+          <div v-else @click="ModalNivel(tramite.id)">
+            <a>Iniciar Trámite</a>
+          </div>
+        </div>
+        <!--MODAL DE NICEL 2 DE CIDI-->
+
+        <div
+          v-if="modalNivel === true && this.id == tramite.id"
+          class="modalEstado"
+        >
+          <div class="modal-content">
+            <div class="modalTop">
+              <p @click="closeModalNivel">X</p>
+            </div>
+            <h3>Trámite no disponible.</h3>
+            <p>
+              para poder realizar este trámite usted debe tener
+              <strong>nivel 2</strong> en Cidi.
+              <br />
+
+              <a
+                href="https://cidi.cba.gov.ar/portal-publico/acceso"
+                target="blak"
+                class="linkCidi"
+              >
+                Ver más...</a
+              >
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -93,6 +126,8 @@ export default {
       tramitesApi: [],
       msj: false,
       modal: false,
+      modalNivel: false,
+      nivel: localStorage.getItem("nivel"),
     };
   },
   created() {
@@ -132,6 +167,13 @@ export default {
     verRequisitos(id) {
       this.modal = true;
       this.id = id;
+    },
+    ModalNivel(id) {
+      this.modalNivel = true;
+      this.id = id;
+    },
+    closeModalNivel() {
+      this.modalNivel = false;
     },
     close() {
       this.modal = false;
@@ -351,5 +393,48 @@ img {
   top: 5px;
   right: 10px;
   cursor: pointer;
+}
+.modalEstado {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 2rem;
+  right: -0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px; /* Need a specific value to work */
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.modal-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.modal-content a {
+  text-decoration: none;
+  color: var(--green);
+}
+.modal-content a:hover {
+  color: #2c6331;
+}
+.linkCidi {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
 }
 </style>

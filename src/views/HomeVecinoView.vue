@@ -17,8 +17,8 @@ export default {
 
 <style scoped>
 main {
-  width: 80%;
-  height: 100vh;
+  width: 100%;
+  height: auto;
   background: var(--grey-bk);
 }
 /* @media (max-width: 1000px) {

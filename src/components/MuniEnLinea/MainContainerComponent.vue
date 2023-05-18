@@ -5,15 +5,19 @@
       <p>
         <strong>Bienvenido!</strong>
 
-        a la oficina virtual de la Municiplaidad de Sacanta.
+        a la oficina virtual de la Municipalidad de Sacanta.
         <br />Presenta aqui todas tus gestiones como si estuvieras en la Muni,
         pero sin <br />
         demoras ni esperas y desde la comodidad de tu casa.
       </p>
+      <img
+        src="https://st2.depositphotos.com/4111759/47706/v/450/depositphotos_477068802-stock-illustration-bearded-young-man-guy-work.jpg"
+        alt="imagen"
+      />
     </div>
 
     <div class="containerTabs">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <ul class="nav nav-tabs centerTabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button
             class="nav-link active butonNav"
@@ -25,7 +29,7 @@
             aria-controls="home-tab-pane"
             aria-selected="true"
           >
-            Trámites Administrativos
+            <h5>Trámites Administrativos</h5>
           </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -39,7 +43,7 @@
             aria-controls="profile-tab-pane"
             aria-selected="false"
           >
-            Servicios y reclamos
+            <h5>Servicios, reclamos y consultas</h5>
           </button>
         </li>
         <li class="nav-item" role="presentation">
@@ -53,7 +57,7 @@
             aria-controls="contact-tab-pane"
             aria-selected="false"
           >
-            Guia de trámites
+            <h5>Guia de trámites</h5>
           </button>
         </li>
       </ul>
@@ -86,6 +90,11 @@
           tabindex="0"
         >
           <h3>SERVICIOS Y RECLAMOS</h3>
+          <img
+            src="@/assets/logoSacanta.svg"
+            alt=""
+            class="imagenConstruccion"
+          />
         </div>
         <div
           class="tab-pane fade"
@@ -95,6 +104,11 @@
           tabindex="0"
         >
           <h3>GUIA DE TRAMITES</h3>
+          <img
+            src="@/assets/logoSacanta.svg"
+            alt=""
+            class="imagenConstruccion"
+          />
         </div>
         <div
           class="tab-pane fade"
@@ -108,15 +122,15 @@
       </div>
     </div>
 
-    <main class="flex-container">
+    <!-- <main class="flex-container">
       <div class="header">
-        <!-- <h1>Trámites mas frecuentes</h1> -->
-        <!-- <Busqueda /> -->
-      </div>
-      <!-- <TramitesFrecuentes /> -->
+        <h1>Trámites mas frecuentes</h1> 
+        <Busqueda /> 
+       </div>
+       <TramitesFrecuentes /> 
 
       <div class="header"></div>
-    </main>
+    </main>-->
   </div>
 </template>
 
@@ -169,10 +183,11 @@ export default {
 
 <style scoped>
 .top {
+  position: relative;
   text-align: left;
   padding-left: 3rem;
   padding-top: 2rem;
-  width: 70vw;
+  width: 75vw;
   height: 9rem;
   background: var(--grey);
   margin: auto;
@@ -181,7 +196,13 @@ export default {
   border-radius: 0px 30px 0px 0px;
   color: white;
 }
-
+.top img {
+  position: absolute;
+  right: 3rem;
+  top: -2rem;
+  width: 200px;
+  height: 200px;
+}
 .scale-up-center {
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
@@ -232,7 +253,11 @@ img {
   width: 90%;
   height: 50px;
 } */
-
+.imagenConstruccion {
+  width: 150px;
+  height: 150px;
+  margin-top: 2rem;
+}
 .flex-container {
   width: 100%;
   height: auto;
@@ -250,6 +275,8 @@ img {
   justify-content: center;
   align-items: center;
   flex-flow: row wrap;
+  width: 100%;
+  height: auto;
 }
 
 .card img {
@@ -278,13 +305,16 @@ img {
   box-shadow: 5px 5px 20px #444;
 }
 .containerTabs {
-  width: 70vw;
-  margin: auto;
+  width: 100%;
   /*background: var(--grey-bk);*/
 }
 .butonNav {
-  width: 355px;
+  width: 330px;
   color: var(--green);
+}
+.centerTabs {
+  width: 90%;
+  margin: auto;
 }
 
 /*h1 {

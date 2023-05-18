@@ -118,6 +118,10 @@ export default {
 
         window.localStorage.setItem("token", response.data.UserLogged.token);
         window.localStorage.setItem(
+          "nivel",
+          response.data.UserLogged.level.level
+        );
+        window.localStorage.setItem(
           "tokenCopia",
           response.data.UserLogged.token
         );
@@ -179,6 +183,10 @@ export default {
           );
 
           window.localStorage.setItem("token", response.data.UserLogged.token);
+          window.localStorage.setItem(
+            "nivel",
+            response.data.UserLogged.level.level
+          );
           window.localStorage.setItem(
             "tokenCopia",
             response.data.UserLogged.token
