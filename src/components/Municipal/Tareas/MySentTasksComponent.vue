@@ -18,7 +18,7 @@
           class="fila-tabla"
           v-for="(p, key) in this.tasks"
           :key="key"
-          @click="ModalResponse(p.id, p.idTramite)"
+          @click="ModalResponse(p.id)"
         >
           <td class="fila">{{ p.idTramite || "" }}</td>
           <td class="fila">{{ p.title || "" }}</td>
@@ -28,22 +28,16 @@
             {{ p.fechaFinalizacion === null ? "" : p.fechaFinalizacion }}
           </td>
 
-          <th
-            class="fila"
-            @click="!p.completed ? cambiarEstadoTarea(p.id) : null"
-          >
+          <th class="fila">
             <p :style="`background: ${p.color}`">{{ p.estado }}</p>
           </th>
         </tr>
 
-        <!--MODAL PARA RESPONDER A LA TAREA-->
+        <!--MODAL PARA VER LA RESPUESTA DE  LA TAREA-->
         <div class="modalRespuesta">
           <div v-if="this.modalresponse === true" class="modal-content">
             <div class="modal-top">
-              <div>
-                <h3>Responder tarea</h3>
-                <p>Nº Tramite: {{ this.Ntramite }}</p>
-              </div>
+              <h3>Respuetas:</h3>
               <img
                 @click="CloseModalTarea($event)"
                 class="svg"
@@ -52,23 +46,7 @@
               />
             </div>
             <div class="response">
-              <label for="asunto">Respuesta</label>
-              <input
-                type="text"
-                name="asunto"
-                id=""
-                v-model="this.respuestaA"
-              />
-              <label for="file">Respuesta</label>
-              <input type="text" name="file" id="" v-model="this.respuestaB" />
-              <input
-                class="botonSubmit"
-                type="button"
-                value="Enviar"
-                @click="setnTasks"
-                v-if="this.respuestaA || this.respuestaB"
-              />
-              <p v-else>Debe enviar una respuesta</p>
+              <h5>Respuesta 1</h5>
             </div>
           </div>
         </div>
@@ -80,27 +58,22 @@
 import axios from "axios";
 
 export default {
+  name: "MySentTasksComponent",
   data() {
     return {
       tasks: [],
-      usersMuni: [],
-      userMuniAsigned: null,
       messageResponse: false,
       selecTarea: null,
-      modal: false,
       modalresponse: false,
-      verSelecTarea: null,
-      respuesta: "",
-      Ntramite: null,
       respuestaA: "",
       respuestaB: "",
     };
   },
   created() {
-    this.getMyTasks();
+    this.getMySentTasks();
   },
   methods: {
-    getMyTasks() {
+    getMySentTasks() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -110,9 +83,9 @@ export default {
         },
       });
       apiClient
-        .get("/tasks/received-tasks")
+        .get("/tasks/sent-tasks")
         .then((response) => {
-          let l = response.data.MyReceivedTasks;
+          let l = response.data.MySentTasks;
           l.forEach((element) => {
             let iso = element.created_at;
             let date = new Date(iso);
@@ -167,48 +140,12 @@ export default {
         .catch((e) => console.log(e));
     },
 
-    ModalResponse(id, idTramite) {
-      this.selecTarea = id;
-
-      this.Ntramite = idTramite;
+    ModalResponse(id) {
+      console.log(id);
       this.modalresponse = true;
     },
     CloseModalTarea() {
       this.modalresponse = false;
-      this.respuestaA = "";
-      this.respuestaB = "";
-    },
-    setnTasks() {
-      if (this.respuestaA || this.respuestaB) {
-        const apiClient = axios.create({
-          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-          baseURL: process.env.VUE_APP_BASEURL,
-          withCredentials: false,
-          headers: {
-            "auth-header": localStorage.getItem("token"),
-          },
-        });
-        apiClient
-          .put("tasks/update-task/" + this.selecTarea, {
-            answer: this.respuestaA,
-            file: this.respuestaB,
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              this.message = "Tarea Compleada";
-              this.respuestaA = "";
-              this.respuestaB = "";
-              this.tasks = [];
-              this.getMyTasks();
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-            this.message = e.response.data.message;
-          });
-      } else {
-        this.messageResponse = true;
-      }
     },
   },
 };

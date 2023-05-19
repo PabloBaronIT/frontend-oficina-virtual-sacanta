@@ -109,7 +109,7 @@ export default {
             title: this.title,
             description: this.descriptionTarea,
             userMuniReceiver: this.userMuniAsigned,
-            //idTramite:this.id  //falta agregar el tramite al que se relaciona
+            procedureId: this.id,
           })
           .then((response) => {
             if (response.status === 201) {

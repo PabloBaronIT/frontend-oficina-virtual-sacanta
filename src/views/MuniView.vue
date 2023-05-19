@@ -52,7 +52,58 @@
     <ModalGraficoComponent v-if="token" />
 
     <section><Tabla /></section>
-    <section><MyTasksComponentVue /></section>
+    <section>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#home-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="home-tab-pane"
+            aria-selected="true"
+          >
+            Tareas por hacer
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#profile-tab-pane"
+            type="button"
+            role="tab"
+            aria-controls="profile-tab-pane"
+            aria-selected="false"
+          >
+            Tareas enviadas
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="home-tab-pane"
+          role="tabpanel"
+          aria-labelledby="home-tab"
+          tabindex="0"
+        >
+          <MyTasksComponentVue />
+        </div>
+        <div
+          class="tab-pane fade"
+          id="profile-tab-pane"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+          tabindex="0"
+        >
+          <MySentTasksComponentVue />
+        </div>
+      </div>
+    </section>
 
     <div class="section-container">
       <RegisterComponent />
@@ -67,7 +118,8 @@ import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue
 import ModalGraficoComponent from "@/components/Municipal/ModalGraficoComponent.vue";
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 import BarComponent from "@/components/Municipal/BarComponent.vue";
-import MyTasksComponentVue from "../components/Municipal/Tareas/MyTasksComponent.vue";
+import MyTasksComponentVue from "@/components/Municipal/Tareas/MyTasksComponent.vue";
+import MySentTasksComponentVue from "../components/Municipal/Tareas/MySentTasksComponent.vue";
 export default {
   name: "MuniView",
   data() {
@@ -84,6 +136,7 @@ export default {
     // GraficoComponent,
     BarComponent,
     MyTasksComponentVue,
+    MySentTasksComponentVue,
   },
   methods: {
     refresh() {

@@ -644,7 +644,7 @@ export default {
     },
     ModalTarea(id) {
       this.selectedTramite = id;
-      this.modalTarea = true;
+      this.modalTarea = !this.modalTarea;
     },
     CloseTarea() {
       this.modalTarea = false;
@@ -839,7 +839,7 @@ section h3 {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  z-index: -1;
+  z-index: 15;
   position: absolute;
   top: 30%;
   left: 0;
