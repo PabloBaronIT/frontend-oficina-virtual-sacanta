@@ -40,10 +40,8 @@
         <div class="modalRespuesta">
           <div v-if="this.modalresponse === true" class="modal-content">
             <div class="modal-top">
-              <div>
-                <h3>Responder tarea</h3>
-                <p>Nº Tramite: {{ this.Ntramite }}</p>
-              </div>
+              <h3>Responder tarea</h3>
+              <p>Nº Tramite: {{ this.Ntramite }}</p>
               <img
                 @click="CloseModalTarea($event)"
                 class="svg"
@@ -51,16 +49,61 @@
                 alt=""
               />
             </div>
+            <!--RESPUESTA ESCRITA-->
+
             <div class="response">
               <label for="asunto">Respuesta</label>
-              <input
-                type="text"
+              <textarea
+                aria-multiline="true"
                 name="asunto"
                 id=""
                 v-model="this.respuestaA"
               />
-              <label for="file">Respuesta</label>
-              <input type="text" name="file" id="" v-model="this.respuestaB" />
+
+              <!--SUBIR ARCHIVOS-->
+
+              <div class="file-container">
+                <div v-if="!asd" class="file-intro">
+                  <img
+                    v-if="!this.messageResponse"
+                    src="@/assets/tramite-logo.svg"
+                    alt=""
+                    id="img-preview"
+                    class="imgFile"
+                  />
+
+                  <hr />
+                  <input
+                    accept=".jpg, .jpeg, .png, .webp"
+                    type="file"
+                    id="img-uploader"
+                    @change="selectFile($event)"
+                  />
+
+                  <!--INPUT PARA SUBIR EL ARCHIVO-->
+                  <div class="fileup">
+                    <input
+                      v-if="this.file"
+                      class="m-2 btn btn-secondary"
+                      type="button"
+                      value="Subir archivo"
+                      @click="postFile()"
+                    />
+                  </div>
+                </div>
+                <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
+
+                <div v-else class="cargado">
+                  <img
+                    src="@/assets/red-check-mark-icon.svg"
+                    alt=""
+                    id="img-preview"
+                    class="imgFile"
+                  />
+                  <p>Archivo cargado</p>
+                </div>
+              </div>
+
               <input
                 class="botonSubmit"
                 type="button"
@@ -68,7 +111,7 @@
                 @click="setnTasks"
                 v-if="this.respuestaA || this.respuestaB"
               />
-              <p v-else>Debe enviar una respuesta</p>
+              <p v-if="message" class="enviado">{{ this.message }}</p>
             </div>
           </div>
         </div>
@@ -85,21 +128,57 @@ export default {
       tasks: [],
       usersMuni: [],
       userMuniAsigned: null,
-      messageResponse: false,
+      message: false,
       selecTarea: null,
       modal: false,
       modalresponse: false,
       verSelecTarea: null,
       respuesta: "",
       Ntramite: null,
-      respuestaA: "",
-      respuestaB: "",
+      respuestaA: null,
+      respuestaB: null,
+      asd: false,
+      fileSelect: "",
+      textInput: "",
+      file: "",
     };
   },
   created() {
     this.getMyTasks();
   },
   methods: {
+    selectFile($event) {
+      const imgPreview = document.getElementById("img-preview");
+
+      this.file = $event.target.files[0];
+      const objectURL = URL.createObjectURL(this.file);
+      imgPreview.src = objectURL;
+      console.log(this.file, "soy el archivo");
+    },
+    postFile: async function () {
+      const CLOUDINARY_URL =
+        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
+      const CLOUDINARY_UPLOAD_PRESET = "lylceews";
+      const formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      await fetch(CLOUDINARY_URL, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.respuestaB = data.secure_url;
+          console.log(data.secure_url, "secure_url");
+          console.log(data);
+          //this.preNext();
+          this.fileSelect = null;
+          this.asd = true;
+        });
+
+      //console.log(res.secure_url, "soy la url de la imagen");
+    },
+
     getMyTasks() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -179,18 +258,56 @@ export default {
       this.respuestaB = "";
     },
     setnTasks() {
-      if (this.respuestaA || this.respuestaB) {
-        const apiClient = axios.create({
-          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-          baseURL: process.env.VUE_APP_BASEURL,
-          withCredentials: false,
-          headers: {
-            "auth-header": localStorage.getItem("token"),
-          },
-        });
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      if (this.respuestaA && this.respuestaB) {
         apiClient
           .put("tasks/update-task/" + this.selecTarea, {
             answer: this.respuestaA,
+            file: this.respuestaB,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              this.message = "Tarea Compleada";
+              this.respuestaA = "";
+              this.respuestaB = "";
+              this.tasks = [];
+              this.getMyTasks();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            this.message = e.response.data.message;
+          });
+      }
+      if (this.respuestaA && !this.respuestaB) {
+        apiClient
+          .put("tasks/update-task/" + this.selecTarea, {
+            answer: this.respuestaA,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              this.message = "Tarea Compleada";
+              this.respuestaA = "";
+              this.respuestaB = "";
+              this.tasks = [];
+              this.getMyTasks();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            this.message = e.response.data.message;
+          });
+      }
+      if (!this.respuestaA && this.respuestaB) {
+        apiClient
+          .put("tasks/update-task/" + this.selecTarea, {
             file: this.respuestaB,
           })
           .then((response) => {
@@ -328,6 +445,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.response textarea {
+  width: 100%;
+}
 .botonSubmit {
   width: 100px;
   height: 45px;
@@ -339,5 +459,37 @@ export default {
 }
 .svg {
   max-width: 20px;
+}
+.file-intro {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
+.imgFile {
+  height: 4rem;
+  width: 4rem;
+  margin: auto;
+}
+.cargado {
+  text-align: center;
+}
+.file-container {
+  border: 1px solid var(--grey);
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  margin-top: 2rem;
+}
+.fileup {
+  margin: auto;
+}
+.enviado {
+  color: green;
+  font-size: 25px;
+  margin-left: 2rem;
 }
 </style>

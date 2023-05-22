@@ -29,7 +29,7 @@
         aria-multiline="true"
       />
 
-      <p v-if="message">{{ this.message }}</p>
+      <p v-if="message" class="enviado">{{ this.message }}</p>
     </div>
     <input
       type="button"
@@ -192,5 +192,10 @@ input[type="submit"] {
   color: white;
   border-style: none;
   margin-bottom: 2rem;
+}
+.enviado {
+  color: green;
+  font-size: 25px;
+  margin-left: 2rem;
 }
 </style>

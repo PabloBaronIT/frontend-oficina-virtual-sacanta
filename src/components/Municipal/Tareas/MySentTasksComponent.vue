@@ -37,7 +37,9 @@
         <div class="modalRespuesta">
           <div v-if="this.modalresponse === true" class="modal-content">
             <div class="modal-top">
-              <h3>Respuetas:</h3>
+              <h3>
+                Respuesta tarea trámite N°: {{ this.selectedHistory.idTramite }}
+              </h3>
               <img
                 @click="CloseModalTarea($event)"
                 class="svg"
@@ -46,7 +48,10 @@
               />
             </div>
             <div class="response">
-              <h5>Respuesta 1</h5>
+              <div class="respuestas">
+                <p>*{{ this.selectedHistory.respuestaA }}</p>
+                <p>*{{ this.selectedHistory.respuestaB }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -67,6 +72,7 @@ export default {
       modalresponse: false,
       respuestaA: "",
       respuestaB: "",
+      selectedHistory: null,
     };
   },
   created() {
@@ -117,6 +123,8 @@ export default {
                   ? "Incompleto"
                   : "Completo",
               idTramite: element.procedureHistory.id,
+              respuestaA: element.answer,
+              respuestaB: element.file,
             };
             switch (tarea.estado) {
               case "Incompleto":
@@ -142,7 +150,14 @@ export default {
 
     ModalResponse(id) {
       console.log(id);
+      this.selecTarea = id;
       this.modalresponse = true;
+      for (let i = 0; i < this.tasks.length; i++) {
+        if (this.tasks[i].id === id) {
+          this.selectedHistory = this.tasks[i];
+          break;
+        }
+      }
     },
     CloseModalTarea() {
       this.modalresponse = false;
@@ -206,31 +221,10 @@ export default {
   align-items: center;
   padding: 1rem;
 }
-.modalEstado {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  z-index: 15;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  width: 400px; /* Need a specific value to work */
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
+
 .modalRespuesta {
   display: flex;
-  flex-flow: column wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 15;
@@ -240,7 +234,8 @@ export default {
   margin-left: auto;
   margin-right: auto;
   height: auto;
-  width: 500px; /* Need a specific value to work */
+  width: 550px; /* Need a specific value to work */
+  text-align: center;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -250,6 +245,7 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  word-break: break-all;
 }
 
 .modal-top {
@@ -276,5 +272,7 @@ export default {
 }
 .svg {
   max-width: 20px;
+}
+.respuestas {
 }
 </style>
