@@ -273,6 +273,4 @@ export default {
 .svg {
   max-width: 20px;
 }
-.respuestas {
-}
 </style>

@@ -190,56 +190,6 @@
                 />
               </div>
               <CreateTasksComponentVue :id="this.selectedTramite" />
-
-              <!-- <div class="modal-top">
-                <h2>Cambiar estado</h2>
-                <img
-                  @click="ModalEstado($event)"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <div>
-                  <p>
-                    <input
-                      @click="selectEstado($event)"
-                      type="radio"
-                      name="status"
-                      value="2"
-                    />En proceso
-                  </p>
-                </div>
-
-                <div>
-                  <p>
-                    <input
-                      @click="selectEstado($event)"
-                      type="radio"
-                      name="status"
-                      value="3"
-                    />Requerido
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p>
-                  <input
-                    @click="selectEstado($event)"
-                    type="radio"
-                    name="status"
-                    value="4"
-                  />Finalizado
-                </p>
-              </div>
-              <input
-                class="btn btn-primary mx-2"
-                type="button"
-                value="Modificar"
-                v-if="this.status"
-                @click="updateStatus()"
-              />-->
             </div>
           </div>
 
@@ -282,11 +232,28 @@
                 class="botonSubmit"
                 v-if="this.comunicacion"
               />
-              <p v-else>{{ this.messageComunicacion }}</p>
+              <p v-else class="enviado">{{ this.message }}</p>
             </div>
           </div>
 
           <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
+          <div class="modalTarea">
+            <div v-if="this.modalTarea === true" class="modal-content">
+              <div class="modal-top">
+                <h3>
+                  Asignar Requerimiento. <br />
+                  Trámite n°: {{ this.selectedTramite }}
+                </h3>
+                <img
+                  @click="CloseTarea()"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+              <CreateRequirementsComponentVue :id="this.selectedTramite" />
+            </div>
+          </div>
 
           <div class="modalTarea">
             <div v-if="this.modalRequerimiento === true" class="modal-content">
@@ -388,12 +355,14 @@
 import axios from "axios";
 //import Config from "chart.js/dist/core/core.config";
 import CreateTasksComponentVue from "./Tareas/CreateTasksComponent.vue";
+import CreateRequirementsComponentVue from "./Requerimientos/CreateRequirementsComponent.vue";
 export default {
   props: {
     color: String,
   },
   components: {
     CreateTasksComponentVue,
+    CreateRequirementsComponentVue,
   },
   data() {
     return {
@@ -492,7 +461,7 @@ export default {
     //PARA VER UN TRAMITE EN ESPECIFICO
     verTramite(id) {
       this.selectedTramite = id;
-      //this.status = "2";
+      this.status = "2";
       this.modal = true;
       // Buscamos el elemento en el array history con el mismo id que selectedTramite
 
@@ -502,7 +471,9 @@ export default {
           break;
         }
       }
-      //this.updateStatus();
+      this.updateStatus();
+      this.activos = [];
+      this.getProcedures();
       // Mostramos el estado del elemento encontrado
       console.log(this.selectedHistory);
 
@@ -682,8 +653,6 @@ export default {
           if (response.status === 200) {
             console.log("Estado actualizado");
           }
-          this.activos = [];
-          this.getProcedures();
         })
         .catch((e) => {
           console.log(e);
@@ -1074,5 +1043,10 @@ textarea {
   border-radius: 50%;
   background-color: black;
   margin-top: 2px;
+}
+.enviado {
+  color: green;
+  font-size: 25px;
+  margin-left: 2rem;
 }
 </style>

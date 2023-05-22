@@ -20,9 +20,17 @@
             {{ p.estado || "" }}
           </p>
         </td>
+
         <td>
           <p v-if="p.comunicaciones || p.requerimientos">
-            <a class="btn btn-danger" @click="openModalComunicaciones(p.id)">
+            <a
+              data-bs-toggle="collapse"
+              href="#collapseExample"
+              role="button"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+              @click="this.openModalComunicaciones(p.id)"
+            >
               <img
                 class="svg"
                 src="@/assets/comunicacion.svg"
@@ -31,13 +39,15 @@
             </a>
           </p>
         </td>
+
+        <!-- MODAL VISTA COMUNICACIONES-->
         <div
-          v-if="
-            this.modalComunicaciones === true && p.id === this.selectTramite
-          "
+          class="modalComunicacion"
+          id="collapseExample"
+          v-if="p.id === this.selectTramite && this.modalComunicaciones"
         >
-          <div class="modalComunicacion">
-            {{ p.comunicaciones[0].title || "" }} :
+          <div class="card card-body">
+            <h3>{{ p.comunicaciones[0].title || "" }} :</h3>
             {{ p.comunicaciones[0].description || "" }}
 
             <span>
@@ -48,7 +58,6 @@
           </div>
         </div>
       </tr>
-      <tr></tr>
     </table>
 
     <div class="loader">
@@ -284,6 +293,10 @@ export default {
 </script>
 
 <style scoped>
+.fila-tabala {
+  display: flex;
+  flex-direction: column;
+}
 .sinTramites {
   position: relative;
   width: 100%;
@@ -390,15 +403,22 @@ td {
   padding: 3px;
 }
 .modalComunicacion {
-  min-width: 400px;
+  width: 50%;
   height: auto;
-  padding: 2rem;
+  padding: 1rem;
   position: absolute;
   right: 8rem;
   background: var(--grey-bk);
   z-index: 10;
   display: flex;
   flex-direction: column;
+  border: 1px solid gray;
+}
+span {
+  font-size: 15px;
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
 }
 
 /* @media (max-width: 1000px) {
