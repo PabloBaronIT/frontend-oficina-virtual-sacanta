@@ -46,18 +46,127 @@
           id="collapseExample"
           v-if="p.id === this.selectTramite && this.modalComunicaciones"
         >
-          <div class="card card-body">
-            <h3>{{ p.comunicaciones[0].title || "" }} :</h3>
-            {{ p.comunicaciones[0].description || "" }}
+          <!--VISTA DE LA COMUNICACION -->
+          <div class="card card-body" v-if="p.comunicaciones">
+            <p>Comunicado:</p>
+            <div class="title">
+              <strong>{{ p.comunicaciones[0].title || "" }} : </strong>
+              {{ p.comunicaciones[0].description || "" }}
+            </div>
 
-            <span>
-              {{
-                new Date(p.comunicaciones[0].created_at).toLocaleString() || ""
-              }}
-            </span>
+            <div class="fecha">
+              <span>
+                {{
+                  new Date(p.comunicaciones[0].created_at).toLocaleString() ||
+                  ""
+                }}
+              </span>
+            </div>
+          </div>
+          <!--VISTA VISTA DEL REQUERIMIENTO -->
+          <div class="card card-body" v-if="p.requerimientos">
+            <p>Requerimiento de su trámite</p>
+            <div class="title">
+              <strong>{{ p.requerimientos[0].title || "" }} : </strong>
+              {{ p.requerimientos[0].info_req || "" }}
+            </div>
+            <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
+            <input
+              type="button"
+              value="Responder"
+              @click="OpenModalRespuesta(p.requerimientos[0].id)"
+              class="botonSubmit"
+            />
+            <div class="fecha">
+              <span>
+                {{
+                  new Date(p.requerimientos[0].created_at).toLocaleString() ||
+                  ""
+                }}
+              </span>
+            </div>
           </div>
         </div>
       </tr>
+      <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
+      <div class="modalRespuesta">
+        <div v-if="this.modalresponse === true" class="modal-content">
+          <div class="modal-top">
+            <h3>Responder requerimiento</h3>
+            <p>Nº Tramite: {{ this.selectTramite }}</p>
+            <img
+              @click="CloseModalTarea($event)"
+              class="svg"
+              src="@/assets/close.svg"
+              alt=""
+            />
+          </div>
+          <!--RESPUESTA ESCRITA-->
+
+          <div class="response">
+            <label for="asunto">Respuesta</label>
+            <textarea
+              aria-multiline="true"
+              name="asunto"
+              id=""
+              v-model="this.respuestaA"
+            />
+
+            <!--SUBIR ARCHIVOS-->
+
+            <div class="file-container2">
+              <div v-if="!asd" class="file-intro">
+                <img
+                  v-if="!this.messageResponse"
+                  src="@/assets/tramite-logo.svg"
+                  alt=""
+                  id="img-preview"
+                  class="imgFile"
+                />
+
+                <hr />
+                <input
+                  accept=".jpg, .jpeg, .png, .webp"
+                  type="file"
+                  id="img-uploader"
+                  @change="selectFile($event)"
+                />
+
+                <!--INPUT PARA SUBIR EL ARCHIVO-->
+                <div class="fileup">
+                  <input
+                    v-if="this.file"
+                    class="m-2 btn btn-secondary"
+                    type="button"
+                    value="Subir archivo"
+                    @click="postFile()"
+                  />
+                </div>
+              </div>
+              <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
+
+              <div v-else class="cargado">
+                <img
+                  src="@/assets/red-check-mark-icon.svg"
+                  alt=""
+                  id="img-preview"
+                  class="imgFile"
+                />
+                <p>Archivo cargado</p>
+              </div>
+            </div>
+
+            <input
+              class="botonSubmit"
+              type="button"
+              value="Enviar"
+              @click="sentRespuesta"
+              v-if="this.respuestaA || this.respuestaB"
+            />
+            <p v-if="message" class="enviado">{{ this.message }}</p>
+          </div>
+        </div>
+      </div>
     </table>
 
     <div class="loader">
@@ -143,7 +252,13 @@ export default {
       l: 0,
       paginas: null,
       modalComunicaciones: false,
+      modalresponse: false,
       selectTramite: null,
+      selectRequerimiento: null,
+      respuestaA: null,
+      respuestaB: [],
+      asd: false,
+      file: "",
     };
   },
   created() {
@@ -193,7 +308,7 @@ export default {
             ? h[i].communication
             : null;
           p.requerimientos = Array.isArray(h[i].requirementHistory)
-            ? h[i].communication
+            ? h[i].requirementHistory
             : null;
 
           switch (p.estado) {
@@ -203,7 +318,7 @@ export default {
             case "EN PROCESO":
               p.color = "var(--yellow)";
               break;
-            case "REQUERIMIENTO":
+            case "PAUSADO POR REQUERIMIENTO":
               p.color = "var(--red)";
               break;
             case "FINALIZADO":
@@ -234,6 +349,16 @@ export default {
       this.selectTramite = id;
       this.modalComunicaciones = !this.modalComunicaciones;
     },
+    OpenModalRespuesta(id) {
+      this.selectRequerimiento = id;
+      this.modalresponse = !this.modalresponse;
+      console.log(this.selectRequerimiento);
+    },
+    CloseModalTarea() {
+      this.modalresponse = false;
+      this.respuestaA = "";
+      this.respuestaB = "";
+    },
     cantTramites() {
       this.paginas = Math.ceil(this.length / 5);
 
@@ -262,8 +387,107 @@ export default {
         }
       }
     },
-    select() {
-      alert("Terminar metodo");
+    selectFile($event) {
+      const imgPreview = document.getElementById("img-preview");
+
+      this.file = $event.target.files[0];
+      const objectURL = URL.createObjectURL(this.file);
+      imgPreview.src = objectURL;
+      console.log(this.file, "soy el archivo");
+    },
+    postFile: async function () {
+      const CLOUDINARY_URL =
+        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
+      const CLOUDINARY_UPLOAD_PRESET = "lylceews";
+      const formData = new FormData();
+      formData.append("file", this.file);
+      formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      await fetch(CLOUDINARY_URL, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.respuestaB.push({ file: data.secure_url });
+          console.log(data.secure_url, "secure_url");
+          console.log(data);
+          //this.preNext();
+          this.fileSelect = null;
+          this.asd = true;
+        });
+
+      //console.log(res.secure_url, "soy la url de la imagen");
+    },
+    sentRespuesta() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      if (this.respuestaA && this.respuestaB.length) {
+        apiClient
+          .put("/requirements/answer-requirement/" + this.selectRequerimiento, {
+            answer: this.respuestaA,
+            documentRequirement: this.respuestaB,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              this.message = "Respuesta enviada";
+              this.respuestaA = "";
+              this.respuestaB = "";
+              //this.tasks = [];
+              //this.getMyTasks();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            this.message = e.response.data.message;
+          });
+      }
+      if (this.respuestaA && !this.respuestaB) {
+        apiClient
+          .put("/requirements/answer-requirement/" + this.selectRequerimiento, {
+            answer: this.respuestaA,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              this.message = "Respuesta enviada";
+              this.respuestaA = "";
+              this.respuestaB = "";
+              this.tasks = [];
+              this.getMyTasks();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            this.message = e.response.data.message;
+          });
+      }
+      if (!this.respuestaA && this.respuestaB.length) {
+        apiClient
+          .put("/requirements/answer-requirement/" + this.selectRequerimiento, {
+            documentRequirement: this.respuestaB,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              this.message = "Tarea Compleada";
+              this.respuestaA = "";
+              this.respuestaB = "";
+              this.tasks = [];
+              this.getMyTasks();
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            this.message = e.response.data.message;
+          });
+      } else {
+        this.messageResponse = true;
+      }
+      console.log(this.respuestaA, this.respuestaB);
     },
     nextPag() {
       console.log("hola");
@@ -293,6 +517,11 @@ export default {
 </script>
 
 <style scoped>
+.file-intro {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}
 .fila-tabala {
   display: flex;
   flex-direction: column;
@@ -371,6 +600,18 @@ input:hover {
   flex-flow: row wrap;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
+}
+.file-container2 {
+  border: 1px solid var(--grey);
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  margin-top: 2rem;
 }
 
 table {
@@ -403,7 +644,7 @@ td {
   padding: 3px;
 }
 .modalComunicacion {
-  width: 50%;
+  width: 80%;
   height: auto;
   padding: 1rem;
   position: absolute;
@@ -414,13 +655,84 @@ td {
   flex-direction: column;
   border: 1px solid gray;
 }
+.modalRespuesta {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 0;
+  height: auto;
+  width: 600px; /* Need a specific value to work */
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  right: 15rem;
+}
+.modal-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.modal-top {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  justify-content: space-around;
+  align-items: flex-start;
+}
 span {
   font-size: 15px;
   position: absolute;
   right: 4px;
   bottom: 2px;
 }
-
+.fileup {
+  margin: auto;
+}
+.imgFile {
+  height: 4rem;
+  width: 4rem;
+  margin: auto;
+}
+.fecha {
+  margin-top: 1rem;
+}
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.botonSubmit {
+  margin: auto;
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  border-style: none;
+  margin-top: 1rem;
+}
+.response {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.response textarea {
+  width: 100%;
+}
 /* @media (max-width: 1000px) {
   table {
     width: 90%;

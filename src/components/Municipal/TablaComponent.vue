@@ -25,6 +25,7 @@
           <option value="0">Todos mis trámites</option>
           <option value="1">Presentados</option>
           <option value="2">En proceso</option>
+          <option value="3">Requeridos</option>
           <option value="4">Finalizados</option>
         </select>
       </div>
@@ -169,7 +170,7 @@
                     class="btn btn-primary mx-2"
                     type="button"
                     value=" Requerimiento"
-                    @click="ModalTarea(item.id)"
+                    @click="ModalRequerimiento(item.id)"
                   />
                 </section>
               </div>
@@ -238,49 +239,20 @@
 
           <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
           <div class="modalTarea">
-            <div v-if="this.modalTarea === true" class="modal-content">
+            <div v-if="this.modalRequerimiento === true" class="modal-content">
               <div class="modal-top">
                 <h3>
                   Asignar Requerimiento. <br />
                   Trámite n°: {{ this.selectedTramite }}
                 </h3>
                 <img
-                  @click="CloseTarea()"
+                  @click="CloseRequerimiento"
                   class="svg"
                   src="@/assets/close.svg"
                   alt=""
                 />
               </div>
               <CreateRequirementsComponentVue :id="this.selectedTramite" />
-            </div>
-          </div>
-
-          <div class="modalTarea">
-            <div v-if="this.modalRequerimiento === true" class="modal-content">
-              <div class="modal-top">
-                <h3>Requerimiento. Trámite n° {{ this.selectedTramite }}</h3>
-                <img
-                  @click="this.modalRequerimiento = false"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-
-              <textarea
-                name="comunicado"
-                id=""
-                cols="30"
-                rows="5"
-                v-model="this.requerimiento"
-              ></textarea>
-              <input
-                type="button"
-                value="Enviar"
-                class="botonSubmit"
-                v-if="this.requerimiento"
-              />
-              <p v-else>{{ this.message }}</p>
             </div>
           </div>
         </table>
@@ -435,7 +407,7 @@ export default {
               case "PRESENTADO":
                 p.color = "var(--green)";
                 break;
-              case "REQUERIMIENTO":
+              case "PAUSADO POR REQUERIMIENTO":
                 p.color = "var(--red)";
                 break;
               case "EN PROCESO":
@@ -461,8 +433,6 @@ export default {
     //PARA VER UN TRAMITE EN ESPECIFICO
     verTramite(id) {
       this.selectedTramite = id;
-      this.status = "2";
-      this.modal = true;
       // Buscamos el elemento en el array history con el mismo id que selectedTramite
 
       for (let i = 0; i < this.history.length; i++) {
@@ -471,13 +441,17 @@ export default {
           break;
         }
       }
-      this.updateStatus();
-      this.activos = [];
-      this.getProcedures();
-      // Mostramos el estado del elemento encontrado
-      console.log(this.selectedHistory);
+      if (this.selectedHistory.status.status === "PRESENTADO") {
+        this.status = "2";
+        this.updateStatus();
+        this.activos = [];
+        this.getProcedures();
+      }
 
-      console.log(id);
+      this.modal = true;
+      //console.log(this.selectedHistory);
+
+      //console.log(id);
     },
     verTarea(id) {
       this.selectedTramite = id;
@@ -542,7 +516,7 @@ export default {
                 case "PRESENTADO":
                   p.color = "var(--green)";
                   break;
-                case "REQUERIMIENTO":
+                case "PAUSADO POR REQUERIMIENTO":
                   p.color = "var(--red)";
                   break;
                 case "EN PROCESO":
@@ -622,7 +596,6 @@ export default {
     },
     ModalComunicacion(id) {
       this.selectedTramite = id;
-
       this.modalComunicacion = true;
     },
     CloseComunicaciones() {
@@ -630,6 +603,9 @@ export default {
     },
     ModalRequerimiento(id) {
       this.selectedTramite = id;
+      this.modalRequerimiento = !this.modalRequerimiento;
+    },
+    CloseRequerimiento() {
       this.modalRequerimiento = !this.modalRequerimiento;
     },
     //CAMBIAR EL ESTADO DE UN TRAMITE
@@ -696,7 +672,7 @@ export default {
           case "PRESENTADO":
             p.color = "var(--green)";
             break;
-          case "REQUERIMIENTO":
+          case "PAUSADO POR REQUERIMIENTO":
             p.color = "var(--red)";
             break;
           case "EN PROCESO":
