@@ -56,6 +56,14 @@
             <td :class="'estado-fila'" @click="verTramite(p.id)">
               <p :style="`background: ${p.color}`">{{ p.estado }}</p>
             </td>
+            <td
+              v-if="p.requerimientos"
+              @click="ModalResponse(p.id)"
+              class="requerimiento"
+            >
+              <strong>Con req.</strong>
+            </td>
+
             <!-- BOTON PARA MAS ACCIONES-->
             <td>
               <div class="dropdown">
@@ -255,6 +263,44 @@
               <CreateRequirementsComponentVue :id="this.selectedTramite" />
             </div>
           </div>
+
+          <!--MODAL PARA VER LA RESPUESTA DE  LA TAREA-->
+          <div class="modalRespuesta">
+            <div v-if="this.modalresponse === true" class="modal-content">
+              <div class="modal-top">
+                <h3>Respuestas requerimiento:</h3>
+                <img
+                  @click="CloseModalResponse"
+                  class="svg"
+                  src="@/assets/close.svg"
+                  alt=""
+                />
+              </div>
+              <p>trámite N°: {{ this.selectedTramite }}</p>
+              <div
+                class="response"
+                v-for="resp in this.selectedHistory.requerimientos"
+                :key="resp.id"
+              >
+                <div class="respuestas" v-if="!resp.active">
+                  <strong>Asunto: {{ resp.info_req }}</strong>
+                  <p>* {{ resp.answer }}</p>
+                  <a
+                    v-for="(file, index) in resp.documentRequirement"
+                    :key="index"
+                    :href="file.file"
+                    target="blak"
+                  >
+                    * {{ file.file }}
+                  </a>
+                </div>
+                <div v-if="resp.active">
+                  <strong>Asunto: {{ resp.info_req }}</strong>
+                  <p>SIN RESPONDER</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </table>
         <div class="sinTramites" v-if="!this.history">
           <h2>No hay trámites registrados</h2>
@@ -358,6 +404,7 @@ export default {
       comunicacion: "",
       message: null,
       requerimiento: null,
+      modalresponse: false,
     };
   },
   created() {
@@ -395,6 +442,7 @@ export default {
               categoria: "",
               estado: "",
               procedure: "",
+              requerimientos: null,
             };
             //Carga del procedure
             p.id = h[i].id;
@@ -402,6 +450,9 @@ export default {
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
             p.procedure = h[i].procedure.title;
+            p.requerimientos = Array.isArray(h[i].requirementHistory)
+              ? h[i].requirementHistory
+              : null;
 
             switch (p.estado) {
               case "PRESENTADO":
@@ -724,6 +775,21 @@ export default {
           });
       }
     },
+    ModalResponse(id) {
+      this.selectedTramite = id;
+      for (let i = 0; i < this.activos.length; i++) {
+        if (this.activos[i].id === id) {
+          this.selectedHistory = this.activos[i];
+          break;
+        }
+      }
+      //console.log(id);
+      this.modalresponse = true;
+      console.log(this.selectedHistory);
+    },
+    CloseModalResponse() {
+      this.modalresponse = false;
+    },
   },
 };
 </script>
@@ -761,6 +827,13 @@ section h3 {
   justify-content: space-around;
   align-items: flex-start;
 }
+.response {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
 .modal-top {
   display: flex;
@@ -778,6 +851,31 @@ section h3 {
   justify-content: center;
   align-items: center;
   padding: 1rem;
+}
+.modalRespuesta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 10rem;
+  right: 30rem;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: 550px; /* Need a specific value to work */
+  text-align: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  word-break: break-all;
 }
 .modalTarea {
   display: flex;
@@ -1024,5 +1122,16 @@ textarea {
   color: green;
   font-size: 25px;
   margin-left: 2rem;
+}
+.respuestas {
+  border-radius: 10px;
+  border: 1px solid #666;
+  width: 100%;
+  margin-top: 1rem;
+  text-align: left;
+  padding: 5px;
+}
+.respuestas a {
+  text-decoration: none;
 }
 </style>

@@ -19,6 +19,7 @@
       value="Enviar"
       @click="submitRequer"
       class="botonSubmit"
+      v-if="!message"
     />
   </div>
 </template>
@@ -62,14 +63,14 @@ export default {
             }
             console.log(response.data.message);
             this.title = "";
-            this.descriptionTarea = "";
+            this.descriptionRequer = "";
           })
           .catch((e) => {
             console.log(e);
             this.message = e.response.data.message;
           });
         this.title = "";
-        this.descriptionTarea = "";
+        this.descriptionRequer = "";
       } else {
         this.message = "Debe asignar un requerimiento antes de enviar ";
       }

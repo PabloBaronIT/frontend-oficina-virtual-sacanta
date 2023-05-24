@@ -22,7 +22,7 @@
         </td>
 
         <td>
-          <p v-if="p.comunicaciones || p.requerimientos">
+          <p v-if="p.comunicado || p.requerido">
             <a
               data-bs-toggle="collapse"
               href="#collapseExample"
@@ -47,7 +47,7 @@
           v-if="p.id === this.selectTramite && this.modalComunicaciones"
         >
           <!--VISTA DE LA COMUNICACION -->
-          <div class="card card-body" v-if="p.comunicaciones">
+          <div class="card card-body" v-if="p.comunicado">
             <p>Comunicado:</p>
             <div class="title">
               <strong>{{ p.comunicaciones[0].title || "" }} : </strong>
@@ -64,7 +64,7 @@
             </div>
           </div>
           <!--VISTA VISTA DEL REQUERIMIENTO -->
-          <div class="card card-body" v-if="p.requerimientos">
+          <div class="card card-body" v-if="p.requerido">
             <p>Requerimiento de su trámite</p>
             <div class="title">
               <strong>{{ p.requerimientos[0].title || "" }} : </strong>
@@ -88,14 +88,15 @@
           </div>
         </div>
       </tr>
+
       <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
       <div class="modalRespuesta">
         <div v-if="this.modalresponse === true" class="modal-content">
           <div class="modal-top">
-            <h3>Responder requerimiento</h3>
+            <h3>Enviar respuesta</h3>
             <p>Nº Tramite: {{ this.selectTramite }}</p>
             <img
-              @click="CloseModalTarea($event)"
+              @click="CloseModalRespuesta($event)"
               class="svg"
               src="@/assets/close.svg"
               alt=""
@@ -103,7 +104,7 @@
           </div>
           <!--RESPUESTA ESCRITA-->
 
-          <div class="response">
+          <div class="response" v-if="!message">
             <label for="asunto">Respuesta</label>
             <textarea
               aria-multiline="true"
@@ -163,8 +164,8 @@
               @click="sentRespuesta"
               v-if="this.respuestaA || this.respuestaB"
             />
-            <p v-if="message" class="enviado">{{ this.message }}</p>
           </div>
+          <p v-if="message" class="enviado">{{ this.message }}</p>
         </div>
       </div>
     </table>
@@ -263,98 +264,107 @@ export default {
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
-    const apiClient = axios.create({
-      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      baseURL: process.env.VUE_APP_BASEURL,
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get("/oficina/procedures/history/my-procedures")
-      .then((response) => {
-        let h = response.data.MyProcedures;
-
-        console.log(h.length + "mis tramites");
-        this.l = h.length;
-
-        for (let i = 0; i < this.l; i++) {
-          //Procedure
-          let p = {
-            id: null,
-            fecha: null,
-            categoria: "",
-            estado: "",
-            color: "",
-            titulo: "",
-            comunicaciones: null,
-          };
-
-          let iso = h[i].updated_at;
-          let date = new Date(iso);
-          const day = date.getDate();
-          const month = date.getMonth() + 1;
-          const year = date.getFullYear();
-
-          //Carga del procedure
-          p.id = h[i].id;
-          p.fecha = `${day}/${month}/${year}`;
-          p.categoria = h[i].category.title;
-          p.estado = h[i].status.status;
-          p.titulo = h[i].procedure.title;
-          p.comunicaciones = Array.isArray(h[i].communication)
-            ? h[i].communication
-            : null;
-          p.requerimientos = Array.isArray(h[i].requirementHistory)
-            ? h[i].requirementHistory
-            : null;
-
-          switch (p.estado) {
-            case "PRESENTADO":
-              p.color = "var(--green)";
-              break;
-            case "EN PROCESO":
-              p.color = "var(--yellow)";
-              break;
-            case "PAUSADO POR REQUERIMIENTO":
-              p.color = "var(--red)";
-              break;
-            case "FINALIZADO":
-              p.color = "var(--lblue)";
-              break;
-
-            default:
-              break;
-          }
-
-          this.activos.push(p);
-
-          //console.log(p);
-        }
-
-        this.length = response.data.MyProcedures.length;
-
-        this.cantTramites();
-        this.loading = false;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.msj = err.response.data.message;
-      });
+    this.getMyPorcedure();
   },
   methods: {
+    getMyPorcedure() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      apiClient
+        .get("/oficina/procedures/history/my-procedures")
+        .then((response) => {
+          let h = response.data.MyProcedures;
+
+          console.log(h.length + "mis tramites");
+          this.l = h.length;
+
+          for (let i = 0; i < this.l; i++) {
+            //Procedure
+            let p = {
+              id: null,
+              fecha: null,
+              categoria: "",
+              estado: "",
+              color: "",
+              titulo: "",
+              comunicaciones: null,
+              requerimientos: null,
+              comunicado: false,
+              requerido: false,
+            };
+
+            let iso = h[i].updated_at;
+            let date = new Date(iso);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            //Carga del procedure
+            p.id = h[i].id;
+            p.fecha = `${day}/${month}/${year}`;
+            p.categoria = h[i].category.title;
+            p.estado = h[i].status.status;
+            p.titulo = h[i].procedure.title;
+            p.comunicaciones = Array.isArray(h[i].communication)
+              ? h[i].communication
+              : null;
+            p.comunicado = Array.isArray(h[i].communication) ? true : false;
+            p.requerimientos = Array.isArray(h[i].requirementHistory)
+              ? h[i].requirementHistory
+              : null;
+
+            switch (p.estado) {
+              case "PRESENTADO":
+                p.color = "var(--green)";
+                break;
+              case "EN PROCESO":
+                p.color = "var(--yellow)";
+                break;
+              case "PAUSADO POR REQUERIMIENTO":
+                p.color = "var(--red)";
+                p.requerido = true;
+                break;
+              case "FINALIZADO":
+                p.color = "var(--lblue)";
+                break;
+
+              default:
+                break;
+            }
+
+            this.activos.push(p);
+
+            //console.log(p);
+          }
+
+          this.length = response.data.MyProcedures.length;
+
+          this.cantTramites();
+          this.loading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.msj = err.response.data.message;
+        });
+    },
     openModalComunicaciones(id) {
       this.selectTramite = id;
       this.modalComunicaciones = !this.modalComunicaciones;
+      this.comunicado = false;
     },
     OpenModalRespuesta(id) {
       this.selectRequerimiento = id;
       this.modalresponse = !this.modalresponse;
       console.log(this.selectRequerimiento);
     },
-    CloseModalTarea() {
+    CloseModalRespuesta() {
       this.modalresponse = false;
       this.respuestaA = "";
       this.respuestaB = "";
@@ -427,19 +437,22 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      if (this.respuestaA && this.respuestaB.length) {
+      if (this.respuestaA && Array.isArray(this.respuestaB)) {
         apiClient
-          .put("/requirements/answer-requirement/" + this.selectRequerimiento, {
-            answer: this.respuestaA,
-            documentRequirement: this.respuestaB,
-          })
+          .post(
+            "/requirements/answer-requirement/" + this.selectRequerimiento,
+            {
+              answer: this.respuestaA,
+              documentRequirement: this.respuestaB,
+            }
+          )
           .then((response) => {
             if (response.status === 200) {
               this.message = "Respuesta enviada";
+              this.getMyPorcedure();
+              this.modalComunicaciones = false;
               this.respuestaA = "";
               this.respuestaB = "";
-              //this.tasks = [];
-              //this.getMyTasks();
             }
           })
           .catch((e) => {
@@ -449,16 +462,20 @@ export default {
       }
       if (this.respuestaA && !this.respuestaB) {
         apiClient
-          .put("/requirements/answer-requirement/" + this.selectRequerimiento, {
-            answer: this.respuestaA,
-          })
+          .post(
+            "/requirements/answer-requirement/" + this.selectRequerimiento,
+            {
+              answer: this.respuestaA,
+            }
+          )
           .then((response) => {
             if (response.status === 200) {
               this.message = "Respuesta enviada";
+              this.getMyPorcedure();
+              this.modalComunicaciones = false;
+
               this.respuestaA = "";
               this.respuestaB = "";
-              this.tasks = [];
-              this.getMyTasks();
             }
           })
           .catch((e) => {
@@ -466,18 +483,22 @@ export default {
             this.message = e.response.data.message;
           });
       }
-      if (!this.respuestaA && this.respuestaB.length) {
+      if (!this.respuestaA && Array.isArray(this.respuestaB)) {
         apiClient
-          .put("/requirements/answer-requirement/" + this.selectRequerimiento, {
-            documentRequirement: this.respuestaB,
-          })
+          .post(
+            "/requirements/answer-requirement/" + this.selectRequerimiento,
+            {
+              documentRequirement: this.respuestaB,
+            }
+          )
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Tarea Compleada";
+              this.message = "Respuesta enviada";
+              this.getMyPorcedure();
+              this.modalComunicaciones = false;
+
               this.respuestaA = "";
               this.respuestaB = "";
-              this.tasks = [];
-              this.getMyTasks();
             }
           })
           .catch((e) => {
@@ -677,7 +698,7 @@ td {
   right: 15rem;
 }
 .modal-content {
-  height: 100%;
+  min-height: 300px;
   width: 100%;
   display: flex;
   flex-flow: column wrap;
@@ -732,6 +753,11 @@ span {
 }
 .response textarea {
   width: 100%;
+}
+.enviado {
+  color: green;
+  font-size: 25px;
+  margin-left: 2rem;
 }
 /* @media (max-width: 1000px) {
   table {
