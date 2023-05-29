@@ -29,7 +29,58 @@
           <option value="4">Finalizados</option>
         </select>
       </div>
+
+      <!--CARD DE PRUEBA-->
       <div class="tabla-container">
+        <section>
+          <div
+            class="card text-bg-light mb-3"
+            style="min-width: 20rem"
+            v-for="(p, key) in this.activos"
+            :key="key"
+          >
+            <div class="card-header">
+              {{ p.procedure }} <br />
+              tramite N° {{ p.id }}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ p.categoria }}</h5>
+              <p class="card-text">CUIL: {{ p.cuil.cuil }}</p>
+              <!--<a href="#" class="btn btn-primary">Ver más...</a>-->
+              <div class="dropdown">
+                <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Ver mas...
+                </button>
+                <ul class="dropdown-menu">
+                  <!--BOTON PARA REALIZAR TAREA RELACIONADO AL TRAMITE-->
+                  <li>
+                    <p class="dropdown-item" @click="ModalTarea(p.id)">Tarea</p>
+                  </li>
+                  <!--BOTON PARA REALIZAR COMUNICACION RELACIONADO AL TRAMITE-->
+
+                  <li>
+                    <p class="dropdown-item" @click="ModalComunicacion(p.id)">
+                      Comunicacion
+                    </p>
+                  </li>
+                  <!--BOTON PARA REALIZAR REQUERIMIENTO RELACIONADO AL TRAMITE-->
+
+                  <li>
+                    <a class="dropdown-item" @click="ModalRequerimiento(p.id)"
+                      >Requerimiento</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <table>
           <tr>
             <th>
@@ -45,7 +96,12 @@
 
           <!--EN ESTA TABALA SE PUEDE VER TODOS LOS TRAMITES, A LA VEZ REALIZAR TAREAS, COMUNICACIONES O REQUERIMIENTOS A CUALQUIER DE ELLOS-->
 
-          <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
+          <tr
+            class="fila-tabla"
+            v-for="(p, key) in this.activos"
+            :key="key"
+            :v-if="this.activos.length"
+          >
             <td>
               <input type="checkbox" @click="check(p.id)" :value="p.id" />
             </td>
@@ -180,6 +236,14 @@
                     value=" Requerimiento"
                     @click="ModalRequerimiento(item.id)"
                   />
+                  <div class="finalizar">
+                    <input
+                      class="btn btn-success mx-2"
+                      type="button"
+                      value=" Finalizar tramite"
+                      @click="FinalizarTramite()"
+                    />
+                  </div>
                 </section>
               </div>
             </div>
@@ -264,7 +328,7 @@
             </div>
           </div>
 
-          <!--MODAL PARA VER LA RESPUESTA DE  LA TAREA-->
+          <!--MODAL PARA VER LA RESPUESTA DEL REQUERIMIENTO-->
           <div class="modalRespuesta">
             <div v-if="this.modalresponse === true" class="modal-content">
               <div class="modal-top">
@@ -293,6 +357,11 @@
                   >
                     * {{ file.file }}
                   </a>
+                  <br />
+                  <br />
+                  <p>
+                    fecha: {{ new Date(resp.finalized_at).toLocaleString() }}
+                  </p>
                 </div>
                 <div v-if="resp.active">
                   <strong>Asunto: {{ resp.info_req }}</strong>
@@ -790,6 +859,12 @@ export default {
     CloseModalResponse() {
       this.modalresponse = false;
     },
+    FinalizarTramite() {
+      this.status = "4";
+      this.updateStatus();
+      this.activos = [];
+      this.getProcedures();
+    },
   },
 };
 </script>
@@ -1133,5 +1208,10 @@ textarea {
 }
 .respuestas a {
   text-decoration: none;
+}
+.finalizar {
+  width: 30%;
+  margin: auto;
+  margin-top: 1rem;
 }
 </style>

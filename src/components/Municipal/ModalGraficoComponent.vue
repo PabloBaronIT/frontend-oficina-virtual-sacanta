@@ -56,16 +56,21 @@ export default {
   methods: {
     sampleAsync(r, f, i, c) {
       this.chartData = {
-        labels: ["Presentado", "Comunicación", "En proceso", "Finalizado"],
+        labels: [
+          "Presentado",
+          "En proceso",
+          "Pausado por requerimiento",
+          "Finalizado",
+        ],
         datasets: [
           {
             label: "Tramites",
-            data: [r, f, i, c],
+            data: [r, f, c, i],
             backgroundColor: [
               "rgb(104, 185, 132",
               "rgb(240, 169, 47)",
-              "rgb(225, 77, 42)",
               "rgb(139, 167, 190)",
+              "rgb(225, 77, 42)",
             ],
             hoverOffset: 4,
           },
@@ -87,7 +92,7 @@ export default {
           response.data.MuniProfile.muniStatistics
             .muniUnderReviewProceduresCount;
         //console.log(r, f, i);
-        this.sampleAsync(r, f, i, c);
+        this.sampleAsync(r, f, c, i);
         this.modal = true;
       })
       .catch((err) => {

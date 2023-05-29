@@ -63,6 +63,7 @@
               </span>
             </div>
           </div>
+
           <!--VISTA VISTA DEL REQUERIMIENTO -->
           <div class="card card-body" v-if="p.requerido">
             <p>Requerimiento de su trámite</p>
