@@ -1,7 +1,7 @@
 <template>
   <div class="containerGeneral">
     <div class="containerTramites">
-      <div class="filtro-container">
+      <div class="filtro-top">
         <input type="button" value="Actualizar estado" />
         <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
         <form class="d-flex">
@@ -29,355 +29,311 @@
           <option value="4">Finalizados</option>
         </select>
       </div>
-
-      <!--CARD DE PRUEBA-->
-      <div class="tabla-container">
-        <section>
-          <div
-            class="card text-bg-light mb-3"
-            style="min-width: 20rem"
-            v-for="(p, key) in this.activos"
-            :key="key"
-          >
-            <div class="card-header">
-              {{ p.procedure }} <br />
-              tramite N° {{ p.id }}
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">{{ p.categoria }}</h5>
-              <p class="card-text">CUIL: {{ p.cuil.cuil }}</p>
-              <!--<a href="#" class="btn btn-primary">Ver más...</a>-->
-              <div class="dropdown">
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Ver mas...
-                </button>
-                <ul class="dropdown-menu">
-                  <!--BOTON PARA REALIZAR TAREA RELACIONADO AL TRAMITE-->
-                  <li>
-                    <p class="dropdown-item" @click="ModalTarea(p.id)">Tarea</p>
-                  </li>
-                  <!--BOTON PARA REALIZAR COMUNICACION RELACIONADO AL TRAMITE-->
-
-                  <li>
-                    <p class="dropdown-item" @click="ModalComunicacion(p.id)">
-                      Comunicacion
-                    </p>
-                  </li>
-                  <!--BOTON PARA REALIZAR REQUERIMIENTO RELACIONADO AL TRAMITE-->
-
-                  <li>
-                    <a class="dropdown-item" @click="ModalRequerimiento(p.id)"
-                      >Requerimiento</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </div>
+      <div class="container-medio">
+        <div class="tabla-container">
+          <div v-for="item in this.activos" :key="item.id">
+            <CardComponentVue
+              :obj="item"
+              :ModalTarea="ModalTarea"
+              :verTramiteDeadline="verTramiteDeadline"
+              :ModalComunicacion="ModalComunicacion"
+              :ModalRequerimiento="ModalRequerimiento"
+            />
           </div>
-        </section>
-
-        <table>
-          <tr>
-            <th>
-              <input @click="select" type="checkbox" name="" id="" />
-            </th>
-            <th>Titulo</th>
-            <th>ID</th>
-            <th>Cuil vecino</th>
-            <th>Asunto</th>
-            <th>Estado</th>
-            <th></th>
-          </tr>
-
-          <!--EN ESTA TABALA SE PUEDE VER TODOS LOS TRAMITES, A LA VEZ REALIZAR TAREAS, COMUNICACIONES O REQUERIMIENTOS A CUALQUIER DE ELLOS-->
-
-          <tr
-            class="fila-tabla"
-            v-for="(p, key) in this.activos"
-            :key="key"
-            :v-if="this.activos.length"
-          >
-            <td>
-              <input type="checkbox" @click="check(p.id)" :value="p.id" />
-            </td>
-            <td @click="verTramite(p.id)">{{ p.procedure }}</td>
-            <td @click="verTramite(p.id)">{{ p.id }}</td>
-            <td @click="verTramite(p.id)">{{ p.cuil.cuil }}</td>
-            <td @click="verTramite(p.id)">{{ p.categoria }}</td>
-            <td :class="'estado-fila'" @click="verTramite(p.id)">
-              <p :style="`background: ${p.color}`">{{ p.estado }}</p>
-            </td>
-            <td
-              v-if="p.requerimientos"
-              @click="ModalResponse(p.id)"
-              class="requerimiento"
-            >
-              <strong>Con req.</strong>
-            </td>
-
-            <!-- BOTON PARA MAS ACCIONES-->
-            <td>
-              <div class="dropdown">
-                <button
-                  class="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                ></button>
-                <ul class="dropdown-menu">
-                  <!--BOTON PARA REALIZAR TAREA RELACIONADO AL TRAMITE-->
-                  <li>
-                    <p class="dropdown-item" @click="ModalTarea(p.id)">Tarea</p>
-                  </li>
-                  <!--BOTON PARA REALIZAR COMUNICACION RELACIONADO AL TRAMITE-->
-
-                  <li>
-                    <p class="dropdown-item" @click="ModalComunicacion(p.id)">
-                      Comunicacion
-                    </p>
-                  </li>
-                  <!--BOTON PARA REALIZAR REQUERIMIENTO RELACIONADO AL TRAMITE-->
-
-                  <li>
-                    <a class="dropdown-item" @click="ModalRequerimiento(p.id)"
-                      >Requerimiento</a
-                    >
-                  </li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-
-          <div class="modaltrespuntos" v-if="this.trespuntos === true">
-            <div class="modal-top">
-              <img
-                @click="modalTrespuntos()"
-                class="svg"
-                src="@/assets/close.svg"
-                alt=""
-              />
-            </div>
-            <p>soy las taeas</p>
-          </div>
-
-          <!-- - - - - - - INICIO MODAL VISTA DE TRAMITE- - - - - -   -->
-          <div class="grafico-container" v-if="this.modal === true">
-            <div class="modal-content">
-              <div class="modal-top">
-                <h3>Historial del trámite Id: {{ selectedTramite }}</h3>
-                <img
-                  @click="Modal()"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-              <div
-                class="data-container"
-                v-for="item in history"
-                :key="item.id"
-              >
-                <section v-if="item.id === selectedTramite">
-                  <div class="data-container">
-                    <h3>Datos del vecino:</h3>
-                    <div class="user-data-container">
-                      <div class="user-data">
-                        <p><b>Nombre:</b> {{ item.user.firstname }}</p>
-
-                        <p><b>Apellido:</b> {{ item.user.lastname }}</p>
-
-                        <p><b>Email:</b> {{ item.user.email }}</p>
-                      </div>
-                      <div class="user-data">
-                        <p><b>CUIL:</b> {{ item.user.cuil }}</p>
-
-                        <p><b>Dirección:</b> {{ item.user.adress }}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <h3>Info tramite:</h3>
-                  <div
-                    class="question"
-                    v-for="(q, key) in item.questions"
-                    :key="key"
-                  >
-                    <div>
-                      <h5>
-                        {{ q.question.title }}
-                      </h5>
-                      <p v-if="q.question_option_history.length">
-                        {{ q.question_option_history[0].answer }}
-                      </p>
-                      <p v-else>No hay respuesta registrada</p>
-                    </div>
-                  </div>
-                  <input
-                    class="btn btn-primary mx-2"
-                    type="button"
-                    value=" Tarea"
-                    @click="ModalTarea(item.id)"
-                  />
-
-                  <input
-                    class="btn btn-primary mx-2"
-                    type="button"
-                    value=" Comunicacion"
-                    @click="ModalComunicacion(item.id)"
-                  />
-                  <input
-                    class="btn btn-primary mx-2"
-                    type="button"
-                    value=" Requerimiento"
-                    @click="ModalRequerimiento(item.id)"
-                  />
-                  <div class="finalizar">
-                    <input
-                      class="btn btn-success mx-2"
-                      type="button"
-                      value=" Finalizar tramite"
-                      @click="FinalizarTramite()"
-                    />
-                  </div>
-                </section>
-              </div>
-            </div>
-          </div>
-
-          <!--MODAL PARA CREAR TAREA-->
-
-          <div class="modalTarea">
-            <div v-if="this.modalTarea === true" class="modal-content">
-              <div class="modal-top">
-                <h3>Asignar Tarea. Trámite n°: {{ this.selectedTramite }}</h3>
-                <img
-                  @click="CloseTarea()"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-              <CreateTasksComponentVue :id="this.selectedTramite" />
-            </div>
-          </div>
-
-          <!--MODAL DE COMUNICACIONES AL CIUDADANO-->
-
-          <div class="modalTarea">
-            <div v-if="this.modalComunicacion === true" class="modal-content">
-              <div class="modal-top">
-                <h3>Comunicado. Trámite n°:{{ this.selectedTramite }}</h3>
-                <img
-                  @click="CloseComunicaciones()"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-              <div class="titleComunicacion">
-                <label for="titleComunicacion">
-                  Asunto
-                  <input
-                    type="text"
-                    name="titleComunicacion"
-                    id=""
-                    v-model="this.titleComunicacion"
-                  />
-                </label>
-              </div>
-
-              <textarea
-                name="comunicado"
-                id=""
-                cols="30"
-                rows="5"
-                v-model="this.comunicacion"
-              ></textarea>
-              <input
-                type="button"
-                value="Enviar"
-                @click="submitComunicacion"
-                class="botonSubmit"
-                v-if="this.comunicacion"
-              />
-              <p v-else class="enviado">{{ this.message }}</p>
-            </div>
-          </div>
-
-          <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
-          <div class="modalTarea">
-            <div v-if="this.modalRequerimiento === true" class="modal-content">
-              <div class="modal-top">
-                <h3>
-                  Asignar Requerimiento. <br />
-                  Trámite n°: {{ this.selectedTramite }}
-                </h3>
-                <img
-                  @click="CloseRequerimiento"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-              <CreateRequirementsComponentVue :id="this.selectedTramite" />
-            </div>
-          </div>
-
-          <!--MODAL PARA VER LA RESPUESTA DEL REQUERIMIENTO-->
-          <div class="modalRespuesta">
-            <div v-if="this.modalresponse === true" class="modal-content">
-              <div class="modal-top">
-                <h3>Respuestas requerimiento:</h3>
-                <img
-                  @click="CloseModalResponse"
-                  class="svg"
-                  src="@/assets/close.svg"
-                  alt=""
-                />
-              </div>
-              <p>trámite N°: {{ this.selectedTramite }}</p>
-              <div
-                class="response"
-                v-for="resp in this.selectedHistory.requerimientos"
-                :key="resp.id"
-              >
-                <div class="respuestas" v-if="!resp.active">
-                  <strong>Asunto: {{ resp.info_req }}</strong>
-                  <p>* {{ resp.answer }}</p>
-                  <a
-                    v-for="(file, index) in resp.documentRequirement"
-                    :key="index"
-                    :href="file.file"
-                    target="blak"
-                  >
-                    * {{ file.file }}
-                  </a>
-                  <br />
-                  <br />
-                  <p>
-                    fecha: {{ new Date(resp.finalized_at).toLocaleString() }}
-                  </p>
-                </div>
-                <div v-if="resp.active">
-                  <strong>Asunto: {{ resp.info_req }}</strong>
-                  <p>SIN RESPONDER</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </table>
-        <div class="sinTramites" v-if="!this.history">
-          <h2>No hay trámites registrados</h2>
         </div>
 
-        <div class="filtro-filas">
-          <div class="nav">
-            <!-- <img
+        <div class="tabla-container">
+          <table>
+            <tr>
+              <th>
+                <input @click="select" type="checkbox" name="" id="" />
+              </th>
+              <th>Titulo</th>
+              <th>ID</th>
+              <th>Cuil vecino</th>
+              <th>Asunto</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+
+            <!--EN ESTA TABALA SE PUEDE VER TODOS LOS TRAMITES, A LA VEZ REALIZAR TAREAS, COMUNICACIONES O REQUERIMIENTOS A CUALQUIER DE ELLOS-->
+
+            <tr
+              class="fila-tabla"
+              v-for="(p, key) in this.activos"
+              :key="key"
+              :v-if="this.activos.length"
+            >
+              <td>
+                <input type="checkbox" @click="check(p.id)" :value="p.id" />
+              </td>
+              <td @click="verTramite(p.id)">{{ p.procedure }}</td>
+              <td @click="verTramite(p.id)">{{ p.id }}</td>
+              <td @click="verTramite(p.id)">{{ p.cuil.cuil }}</td>
+              <td @click="verTramite(p.id)">{{ p.categoria }}</td>
+              <td :class="'estado-fila'" @click="verTramite(p.id)">
+                <p :style="`background: ${p.color}`">{{ p.estado }}</p>
+              </td>
+              <td
+                v-if="p.requerimientos"
+                @click="ModalResponse(p.id)"
+                class="requerimiento"
+              >
+                <strong>Con req.</strong>
+              </td>
+
+              <!-- BOTON PARA MAS ACCIONES-->
+              <td>
+                <div class="dropdown">
+                  <button
+                    class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  ></button>
+                  <ul class="dropdown-menu">
+                    <!--BOTON PARA REALIZAR TAREA RELACIONADO AL TRAMITE-->
+                    <li>
+                      <p class="dropdown-item" @click="ModalTarea(p.id)">
+                        Tarea
+                      </p>
+                    </li>
+                    <!--BOTON PARA REALIZAR COMUNICACION RELACIONADO AL TRAMITE-->
+
+                    <li>
+                      <p class="dropdown-item" @click="ModalComunicacion(p.id)">
+                        Comunicacion
+                      </p>
+                    </li>
+                    <!--BOTON PARA REALIZAR REQUERIMIENTO RELACIONADO AL TRAMITE-->
+
+                    <li>
+                      <a class="dropdown-item" @click="ModalRequerimiento(p.id)"
+                        >Requerimiento</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+
+            <!-- - - - - - - INICIO MODAL VISTA DE TRAMITE- - - - - -   -->
+            <div class="grafico-container" v-if="this.modal === true">
+              <div class="modal-content">
+                <div class="modal-top">
+                  <h3>Historial del trámite Id: {{ selectedTramite }}</h3>
+                  <img
+                    @click="Modal()"
+                    class="svg"
+                    src="@/assets/close.svg"
+                    alt=""
+                  />
+                </div>
+                <div
+                  class="data-container"
+                  v-for="item in history"
+                  :key="item.id"
+                >
+                  <section v-if="item.id === selectedTramite">
+                    <div class="data-container">
+                      <h3>Datos del vecino:</h3>
+                      <div class="user-data-container">
+                        <div class="user-data">
+                          <p><b>Nombre:</b> {{ item.user.firstname }}</p>
+
+                          <p><b>Apellido:</b> {{ item.user.lastname }}</p>
+
+                          <p><b>Email:</b> {{ item.user.email }}</p>
+                        </div>
+                        <div class="user-data">
+                          <p><b>CUIL:</b> {{ item.user.cuil }}</p>
+
+                          <p><b>Dirección:</b> {{ item.user.adress }}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h3>Info tramite:</h3>
+                    <div
+                      class="question"
+                      v-for="(q, key) in item.questions"
+                      :key="key"
+                    >
+                      <div>
+                        <h5>
+                          {{ q.question.title }}
+                        </h5>
+                        <p v-if="q.question_option_history.length">
+                          {{ q.question_option_history[0].answer }}
+                        </p>
+                        <p v-else>No hay respuesta registrada</p>
+                      </div>
+                    </div>
+                    <input
+                      class="btn btn-primary mx-2"
+                      type="button"
+                      value=" Tarea"
+                      @click="ModalTarea(item.id)"
+                    />
+
+                    <input
+                      class="btn btn-primary mx-2"
+                      type="button"
+                      value=" Comunicacion"
+                      @click="ModalComunicacion(item.id)"
+                    />
+                    <input
+                      class="btn btn-primary mx-2"
+                      type="button"
+                      value=" Requerimiento"
+                      @click="ModalRequerimiento(item.id)"
+                    />
+                    <div class="finalizar">
+                      <input
+                        class="btn btn-success mx-2"
+                        type="button"
+                        value=" Finalizar tramite"
+                        @click="FinalizarTramite()"
+                      />
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+
+            <!--MODAL PARA CREAR TAREA-->
+
+            <div class="modalTarea">
+              <div v-if="this.modalTarea === true" class="modal-content">
+                <div class="modal-top">
+                  <h3>Asignar Tarea. Trámite n°: {{ this.selectedTramite }}</h3>
+                  <img
+                    @click="CloseTarea()"
+                    class="svg"
+                    src="@/assets/close.svg"
+                    alt=""
+                  />
+                </div>
+                <CreateTasksComponentVue :id="this.selectedTramite" />
+              </div>
+            </div>
+
+            <!--MODAL DE COMUNICACIONES AL CIUDADANO-->
+
+            <div class="modalTarea">
+              <div v-if="this.modalComunicacion === true" class="modal-content">
+                <div class="modal-top">
+                  <h3>Comunicado. Trámite n°:{{ this.selectedTramite }}</h3>
+                  <img
+                    @click="CloseComunicaciones()"
+                    class="svg"
+                    src="@/assets/close.svg"
+                    alt=""
+                  />
+                </div>
+                <div class="titleComunicacion">
+                  <label for="titleComunicacion">
+                    Asunto
+                    <input
+                      type="text"
+                      name="titleComunicacion"
+                      id=""
+                      v-model="this.titleComunicacion"
+                    />
+                  </label>
+                </div>
+
+                <textarea
+                  name="comunicado"
+                  id=""
+                  cols="30"
+                  rows="5"
+                  v-model="this.comunicacion"
+                ></textarea>
+                <input
+                  type="button"
+                  value="Enviar"
+                  @click="submitComunicacion"
+                  class="botonSubmit"
+                  v-if="this.comunicacion"
+                />
+                <p v-else class="enviado">{{ this.message }}</p>
+              </div>
+            </div>
+
+            <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
+            <div class="modalTarea">
+              <div
+                v-if="this.modalRequerimiento === true"
+                class="modal-content"
+              >
+                <div class="modal-top">
+                  <h3>
+                    Asignar Requerimiento. <br />
+                    Trámite n°: {{ this.selectedTramite }}
+                  </h3>
+                  <img
+                    @click="CloseRequerimiento"
+                    class="svg"
+                    src="@/assets/close.svg"
+                    alt=""
+                  />
+                </div>
+                <CreateRequirementsComponentVue :id="this.selectedTramite" />
+              </div>
+            </div>
+
+            <!--MODAL PARA VER LA RESPUESTA DEL REQUERIMIENTO-->
+            <div class="modalRespuesta">
+              <div v-if="this.modalresponse === true" class="modal-content">
+                <div class="modal-top">
+                  <h3>Respuestas requerimiento:</h3>
+                  <img
+                    @click="CloseModalResponse"
+                    class="svg"
+                    src="@/assets/close.svg"
+                    alt=""
+                  />
+                </div>
+                <p>trámite N°: {{ this.selectedTramite }}</p>
+                <div
+                  class="response"
+                  v-for="resp in this.selectedHistory.requerimientos"
+                  :key="resp.id"
+                >
+                  <div class="respuestas" v-if="!resp.active">
+                    <strong>Asunto: {{ resp.info_req }}</strong>
+                    <p>* {{ resp.answer }}</p>
+                    <a
+                      v-for="(file, index) in resp.documentRequirement"
+                      :key="index"
+                      :href="file.file"
+                      target="blak"
+                    >
+                      * {{ file.file }}
+                    </a>
+                    <br />
+                    <br />
+                    <p>
+                      fecha: {{ new Date(resp.finalized_at).toLocaleString() }}
+                    </p>
+                  </div>
+                  <div v-if="resp.active">
+                    <strong>Asunto: {{ resp.info_req }}</strong>
+                    <p>SIN RESPONDER</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </table>
+
+          <div class="sinTramites" v-if="!this.history">
+            <h2>No hay trámites registrados</h2>
+          </div>
+
+          <div class="filtro-filas">
+            <div class="nav">
+              <!-- <img
             class="svg"
             @click="backTramites"
             src="@/assets/previous.svg"
@@ -385,11 +341,11 @@
             v-if="this.paginaActual > 1"
           />-->
 
-            <div class="pagNum">
-              {{ this.paginaActual }}
-            </div>
+              <div class="pagNum">
+                {{ this.paginaActual }}
+              </div>
 
-            <!-- <div v-for="(i, k) in this.paginas" :key="k">
+              <!-- <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
             ><b>{{ k + 1 }}</b></span
@@ -397,16 +353,16 @@
           <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
         </div>-->
 
-            <!-- <img
+              <!-- <img
             @click="nextPag"
             class="svg"
             src="@/assets/next.svg"
             alt=""
             v-if="this.paginaActual < this.paginas"
           />-->
-          </div>
+            </div>
 
-          <!-- <div class="filtro-filas">
+            <!-- <div class="filtro-filas">
         <div v-for="(i, k) in this.paginas" :key="k">
           <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
           <span v-if="this.paginaActual === k" class="pagNum"
@@ -424,13 +380,25 @@
         <img class="svg" src="@/assets/next.svg" alt="" />
       </div> -->
 
-          <div class="cant" v-if="this.history">
-            <p>Cantidad de tramites:</p>
-            <p class="length">
-              {{ this.history.length || 0 }}
-            </p>
+            <div class="cant" v-if="this.history">
+              <p>Cantidad de tramites:</p>
+              <p class="length">
+                {{ this.history.length || 0 }}
+              </p>
 
-            <!-- <input type="number" class="cant-input" />-->
+              <!-- <input type="number" class="cant-input" />-->
+            </div>
+          </div>
+        </div>
+        <div class="tabla-container">
+          <div v-for="item in this.deadline" :key="item.id">
+            <CardComponentVue
+              :obj="item"
+              :ModalTarea="ModalTarea"
+              :verTramiteDeadline="verTramiteDeadline"
+              :ModalComunicacion="ModalComunicacion"
+              :ModalRequerimiento="ModalRequerimiento"
+            />
           </div>
         </div>
       </div>
@@ -441,8 +409,10 @@
 <script>
 import axios from "axios";
 //import Config from "chart.js/dist/core/core.config";
-import CreateTasksComponentVue from "./Tareas/CreateTasksComponent.vue";
-import CreateRequirementsComponentVue from "./Requerimientos/CreateRequirementsComponent.vue";
+import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
+import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
+
+import CardComponentVue from "../CardComponent.vue";
 export default {
   props: {
     color: String,
@@ -450,6 +420,7 @@ export default {
   components: {
     CreateTasksComponentVue,
     CreateRequirementsComponentVue,
+    CardComponentVue,
   },
   data() {
     return {
@@ -474,10 +445,13 @@ export default {
       message: null,
       requerimiento: null,
       modalresponse: false,
+      deadline: [],
+      allDeadline: [],
     };
   },
   created() {
     this.getProcedures();
+    this.getProceduresDeadline();
   },
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
@@ -500,7 +474,6 @@ export default {
 
           this.history = h;
 
-          console.log("Hola");
           //console.log(response);
 
           for (let i = 0; i < h.length; i++) {
@@ -550,6 +523,69 @@ export default {
           console.log(err);
         });
     },
+    //BUSCA LOS TRAMITES FUERA DE PLAZO
+    getProceduresDeadline() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/procedures/history/deadline/2")
+        .then((response) => {
+          console.log(
+            response.data.ProceduresFiltered,
+            "soy los tramites fuera de plazo"
+          );
+          this.allDeadline = response.data.ProceduresFiltered;
+          this.history = this.history.concat(response.data.ProceduresFiltered);
+          let h = response.data.ProceduresFiltered;
+
+          for (let i = 0; i < h.length; i++) {
+            //Procedure
+            let p = {
+              id: null,
+              cuil: "",
+              categoria: "",
+              estado: "",
+              procedure: "",
+              requerimientos: null,
+            };
+            //Carga del procedure
+            p.id = h[i].id;
+            p.cuil = h[i].user;
+            p.categoria = h[i].category.title;
+            p.estado = h[i].status.status;
+            p.procedure = h[i].procedure.title;
+            p.requerimientos = Array.isArray(h[i].requirementHistory)
+              ? h[i].requirementHistory
+              : null;
+
+            switch (p.estado) {
+              case "PRESENTADO":
+                p.color = "var(--green)";
+                break;
+              case "PAUSADO POR REQUERIMIENTO":
+                p.color = "var(--red)";
+                break;
+              case "EN PROCESO":
+                p.color = "var(--yellow)";
+                break;
+              case "FINALIZADO":
+                p.color = "var(--lblue)";
+                break;
+
+              default:
+                break;
+            }
+
+            this.deadline.push(p);
+          }
+        });
+    },
     //PARA VER UN TRAMITE EN ESPECIFICO
     verTramite(id) {
       this.selectedTramite = id;
@@ -572,6 +608,22 @@ export default {
       //console.log(this.selectedHistory);
 
       //console.log(id);
+    },
+    verTramiteDeadline(id) {
+      this.selectedTramite = id;
+      for (let i = 0; i < this.allDeadline.length; i++) {
+        if (this.allDeadline[i].id === id) {
+          this.selectedHistory = this.allDeadline[i];
+          break;
+        }
+      }
+      if (this.selectedHistory.status.status === "PRESENTADO") {
+        this.status = "2";
+        this.updateStatus();
+        this.activos = [];
+        this.getProcedures();
+      }
+      this.modal = true;
     },
     verTarea(id) {
       this.selectedTramite = id;
@@ -873,10 +925,15 @@ export default {
 .containerGeneral {
   display: flex;
   flex-direction: row;
-  width: 100vw;
+  width: 95vw;
 }
 .containerTramites {
-  width: 98%;
+  width: 100%;
+}
+.container-medio {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
 }
 .containerTareas {
   width: 45%;
@@ -1060,7 +1117,7 @@ input[type="checkbox"]:checked {
 }
 
 .tabla-container {
-  width: 95%;
+  width: 50%;
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -1100,9 +1157,15 @@ td {
 }
 
 .filtro-container {
-  width: 95%;
+  width: 50%;
   color: var(--text-color);
   padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+.filtro-top {
+  width: 100%;
+  color: var(--text-color);
   display: flex;
   justify-content: space-around;
 }
@@ -1213,5 +1276,7 @@ textarea {
   width: 30%;
   margin: auto;
   margin-top: 1rem;
+}
+.tabla-deadline {
 }
 </style>

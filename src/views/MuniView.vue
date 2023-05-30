@@ -52,6 +52,8 @@
     <ModalGraficoComponent v-if="token" />
 
     <section><Tabla /></section>
+
+    <!--SECCION DE TAREAS-->
     <section>
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -113,11 +115,11 @@
 </template>
 
 <script>
-import Tabla from "@/components/Municipal/TablaComponent.vue";
+import Tabla from "@/components/Municipal/Tramites/TablaComponent.vue";
 import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue";
-import ModalGraficoComponent from "@/components/Municipal/ModalGraficoComponent.vue";
+import ModalGraficoComponent from "@/components/Municipal/Tramites/ModalGraficoComponent.vue";
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
-import BarComponent from "@/components/Municipal/BarComponent.vue";
+import BarComponent from "@/components/Municipal/Tramites/BarComponent.vue";
 import MyTasksComponentVue from "@/components/Municipal/Tareas/MyTasksComponent.vue";
 import MySentTasksComponentVue from "../components/Municipal/Tareas/MySentTasksComponent.vue";
 export default {
