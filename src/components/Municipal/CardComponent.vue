@@ -1,6 +1,6 @@
 <template>
-  <div class="card text-bg-light mb-3" style="min-width: 20rem" @click="ver">
-    <div class="card-header top" @click="verTramiteDeadline(obj.id)">
+  <div class="card text-bg-light mb-3 container" style="min-width: 20rem">
+    <div class="card-header top" @click="verTramite(obj.id)">
       <span>
         tramite N° <strong>{{ obj.id }}</strong>
       </span>
@@ -24,9 +24,7 @@
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >
-            Mas...
-          </button>
+          ></button>
           <ul class="dropdown-menu">
             <!--BOTON PARA REALIZAR TAREA RELACIONADO AL TRAMITE-->
             <li>
@@ -61,7 +59,7 @@ export default {
     obj: Object,
     ver: Function,
     ModalTarea: Function,
-    verTramiteDeadline: Function,
+    verTramite: Function,
     ModalComunicacion: Function,
     ModalRequerimiento: Function,
   },
@@ -69,6 +67,9 @@ export default {
 </script>
 
 <style scoped>
+.conainer {
+  margin-top: 1rem;
+}
 .top {
   text-align: left;
   height: 70px;
