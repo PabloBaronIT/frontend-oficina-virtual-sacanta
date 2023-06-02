@@ -1,53 +1,14 @@
 <template>
   <article>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand">OFICINA VIRTUAL</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page">Tamites</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">Vecinos</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Opciones
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item">Action</a></li>
-                <li><a class="dropdown-item">Another action</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <a @click="logOf()" class="dropdown-item">Cerrar sesión</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <h3 class="dropdown-item">Hola! {{ name }} {{ lastName }}</h3>
-      <a @click="logOf()" class="dropdown-item" href="#">Cerrar sesión</a>
-    </nav>
+    <div class="navMuni">
+      <h3>Hola! {{ name }} {{ lastName }}</h3>
+      <button type="button" class="btn btn-light" @click="logOf()">
+        Cerrar sesión
+      </button>
+      <router-link to="/muni/creacion-usuario">
+        <button type="button" class="btn btn-light">Crear Usuarios</button>
+      </router-link>
+    </div>
 
     <ModalGraficoComponent v-if="token" />
 
@@ -161,8 +122,23 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: var(--text);
+  background: var(--white);
+  border-radius: 10px;
+}
 h3 {
   color: red;
+}
+.navMuni {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 1rem;
 }
 .section-container {
   width: 90%;
@@ -176,10 +152,6 @@ section {
   width: 95%;
   margin-top: 3%;
   background: var(--white);
-}
-
-nav {
-  width: 100%;
 }
 
 .pointer {

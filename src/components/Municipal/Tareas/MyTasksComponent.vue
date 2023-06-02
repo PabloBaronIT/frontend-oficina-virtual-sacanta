@@ -274,7 +274,7 @@ export default {
           })
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Tarea Compleada";
+              this.message = "Tarea Completada";
               this.respuestaA = "";
               this.respuestaB = "";
               this.tasks = [];
@@ -293,7 +293,7 @@ export default {
           })
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Tarea Compleada";
+              this.message = "Tarea Completada";
               this.respuestaA = "";
               this.respuestaB = "";
               this.tasks = [];
@@ -312,7 +312,7 @@ export default {
           })
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Tarea Compleada";
+              this.message = "Tarea Completada";
               this.respuestaA = "";
               this.respuestaB = "";
               this.tasks = [];

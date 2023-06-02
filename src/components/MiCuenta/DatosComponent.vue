@@ -1,23 +1,27 @@
 <template>
-  <div class="datos-container">
-    <p>
-      Nombre completo:
-      <b> {{ this.name }} {{ this.lastname }} </b>
-    </p>
-    <p>
-      CUIL: <b>{{ this.cuil }}</b>
-    </p>
-    <p>Contraseña: ********* <img src="@/assets/edit.svg" alt="edit" /></p>
+  <div class="container">
+    <h1>Mi Cuenta</h1>
 
-    <p>
-      Email: <b>{{ this.email }}</b>
-    </p>
-    <p>
-      Dirección: <b>{{ this.adress }}</b>
-    </p>
-    <p>
-      Cuenta creada el <b>{{ fecha }}</b>
-    </p>
+    <div class="datos-container">
+      <p>
+        Nombre completo:
+        <b> {{ this.name }} {{ this.lastname }} </b>
+      </p>
+      <p>
+        CUIL: <b>{{ this.cuil }}</b>
+      </p>
+      <p>Contraseña: ********* <img src="@/assets/edit.svg" alt="edit" /></p>
+
+      <p>
+        Email: <b>{{ this.email }}</b>
+      </p>
+      <p>
+        Dirección: <b>{{ this.adress }}</b>
+      </p>
+      <p>
+        Cuenta creada el <b>{{ fecha }}</b>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -77,6 +81,14 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .datos-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

@@ -26,6 +26,9 @@ export default {
       email: registro.email,
       cuil: registro.cuil,
       adress: registro.adress,
+      isPerson: registro.isPerson,
+      city: registro.city,
+      postCode: registro.postCode,
     });
   },
   postLoginUser(login) {

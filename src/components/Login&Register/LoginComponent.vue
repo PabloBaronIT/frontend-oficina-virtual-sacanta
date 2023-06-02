@@ -41,17 +41,12 @@
           @click="log"
         />
         <button class="btn log-btn">
-          <!--<a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"-->
-          <!--<a href="https://cidi.cba.gov.ar/portal-publico/?App=551"-->
           <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
             >Ingresar con Cidi</a
           >
         </button>
       </FormKit>
 
-      <!-- <div v-if="this.validar">
-        <h2>Ingresaste correctamente</h2>
-      </div> -->
       <div class="loading-container text-grey">
         <div v-if="this.loading" class="spinner-border loading" role="status">
           <span class="sr-only"></span>
@@ -89,7 +84,7 @@ export default {
 
     if (this.$route.query?.cidi) {
       console.log(this.$route.query?.cidi, "cidi");
-
+      //SE TOMA LA QUERY
       let cidi = this.$route.query?.cidi;
 
       const apiClient = axios.create({
@@ -97,6 +92,7 @@ export default {
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
       });
+      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
         console.log(response.data);
         this.user = response.data.UserLogged;

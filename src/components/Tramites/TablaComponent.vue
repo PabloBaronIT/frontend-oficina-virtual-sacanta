@@ -66,7 +66,7 @@
 
           <!--VISTA VISTA DEL REQUERIMIENTO -->
           <div class="card card-body" v-if="p.requerido">
-            <p>Requerimiento de su trámite</p>
+            <h3>Requerimiento de su trámite:</h3>
             <div class="title">
               <strong>{{ p.requerimientos[0].title || "" }} : </strong>
               {{ p.requerimientos[0].info_req || "" }}
@@ -94,7 +94,7 @@
       <div class="modalRespuesta">
         <div v-if="this.modalresponse === true" class="modal-content">
           <div class="modal-top">
-            <h3>Enviar respuesta</h3>
+            <h3 v-if="!this.message">Enviar respuesta</h3>
             <p>Nº Tramite: {{ this.selectTramite }}</p>
             <img
               @click="CloseModalRespuesta($event)"
@@ -449,7 +449,7 @@ export default {
           )
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Respuesta enviada";
+              this.message = "Respuesta enviada!";
               this.getMyPorcedure();
               this.modalComunicaciones = false;
               this.respuestaA = "";
@@ -471,7 +471,7 @@ export default {
           )
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Respuesta enviada";
+              this.message = "Respuesta enviada!";
               this.getMyPorcedure();
               this.modalComunicaciones = false;
 
@@ -494,7 +494,7 @@ export default {
           )
           .then((response) => {
             if (response.status === 200) {
-              this.message = "Respuesta enviada";
+              this.message = "Respuesta enviada!";
               this.getMyPorcedure();
               this.modalComunicaciones = false;
 
@@ -759,6 +759,9 @@ span {
   color: green;
   font-size: 25px;
   margin-left: 2rem;
+}
+h3 {
+  text-align: left;
 }
 /* @media (max-width: 1000px) {
   table {

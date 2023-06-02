@@ -1,18 +1,15 @@
 <template>
   <div class="cuenta-container">
-    <Header />
     <Datos />
   </div>
 </template>
 
 <script>
-import Header from "@/components/MiCuenta/HeaderComponent.vue";
 import Datos from "@/components/MiCuenta/DatosComponent.vue";
 
 export default {
   name: "CuentaView",
   components: {
-    Header,
     Datos,
   },
 };

@@ -108,6 +108,34 @@
                     <p v-else>No hay respuesta registrada</p>
                   </div>
                 </div>
+                <!--EL TRAMITE QUE TENGA REQUERIMIENTOS SE PODRA VER LOS MISMOS-->
+                <div
+                  v-if="Array.isArray(item.requirementHistory)"
+                  class="requerimiento"
+                >
+                  <p>Requerimiento:</p>
+                  {{ item.requirementHistory[0].info_req }}
+                  <div
+                    v-if="
+                      item.requirementHistory[0].answer ||
+                      item.requirementHistory[0].documentRequirement.file
+                    "
+                  >
+                    <p>Respuesta</p>
+                    {{ item.requirementHistory[0].answer || "" }}
+                    {{
+                      item.requirementHistory[0].documentRequirement.file || ""
+                    }}
+                  </div>
+
+                  <span class="spanFecha"
+                    >{{
+                      new Date(
+                        item.requirementHistory[0].created_at
+                      ).toLocaleString()
+                    }}
+                  </span>
+                </div>
                 <input
                   class="btn btn-primary mx-2"
                   type="button"
@@ -215,7 +243,11 @@
                 alt=""
               />
             </div>
-            <CreateRequirementsComponentVue :id="this.selectedTramite" />
+            <CreateRequirementsComponentVue
+              :id="this.selectedTramite"
+              :getProceduresRequeridos="this.getProceduresRequeridos"
+              :getProcedures="this.getProcedures"
+            />
           </div>
         </div>
 
@@ -259,52 +291,7 @@
             </div>
           </div>
         </div>
-
-        <div class="sinTramites" v-if="!this.history">
-          <h2>No hay trámites registrados</h2>
-        </div>
-
-        <!-- <img
-            class="svg"
-            @click="backTramites"
-            src="@/assets/previous.svg"
-            alt=""
-            v-if="this.paginaActual > 1"
-          />-->
-
-        <!-- <div v-for="(i, k) in this.paginas" :key="k">
-          <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
-          <span v-if="this.paginaActual === k" class="pagNum"
-            ><b>{{ k + 1 }}</b></span
-          >
-          <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
-        </div>-->
-
-        <!-- <img
-            @click="nextPag"
-            class="svg"
-            src="@/assets/next.svg"
-            alt=""
-            v-if="this.paginaActual < this.paginas"
-          />-->
-
-        <!-- <div class="filtro-filas">
-        <div v-for="(i, k) in this.paginas" :key="k">
-          <span v-if="this.paginaActual < k" class="pagNum">{{ k + 1 }}</span>
-          <span v-if="this.paginaActual === k" class="pagNum"
-            ><b>{{ k + 1 }}</b></span
-          >
-          <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
-        </div>
-       
-
-
-
-      <div class="nav">
-        <img class="svg" src="@/assets/previous.svg" alt="" />
-        <b>1</b> 2 3
-        <img class="svg" src="@/assets/next.svg" alt="" />
-      </div> -->
+        <!--VISTA DE TABLA CON TRAMITES FUERA DE PLAZOS-->
         <div class="tabla-container">
           <h3>Trámites fuera de plazo</h3>
           <div v-for="item in this.deadline" :key="item.id">
@@ -316,18 +303,9 @@
               :ModalRequerimiento="ModalRequerimiento"
             />
           </div>
-          <div class="nav">
-            <!-- <div class="pagNum">
-              {{ this.paginaActual }}
-            </div>-->
-            <!--<div class="cant" v-if="this.activos">
-              <p>Cantidad de tramites:</p>
-              <p class="length">
-                {{ this.activos.length || 0 }}
-              </p>
-            </div>-->
-          </div>
+          <div class="nav"></div>
         </div>
+        <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
 
         <div class="tabla-container">
           <h3>Trámites con requerimientos</h3>
@@ -341,9 +319,6 @@
             />
           </div>
           <div class="nav">
-            <!-- <div class="pagNum">
-              {{ this.paginaActual }}
-            </div>-->
             <!--<div class="cant" v-if="this.activos">
               <p>Cantidad de tramites:</p>
               <p class="length">
@@ -359,7 +334,6 @@
 
 <script>
 import axios from "axios";
-//import Config from "chart.js/dist/core/core.config";
 import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
 import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
 
@@ -409,6 +383,8 @@ export default {
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
     getProcedures() {
+      this.activos = [];
+
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -1318,5 +1294,20 @@ textarea {
   top: 1rem;
   background-color: #666;
   height: 100px;
+}
+.requerimiento {
+  border: 1px solid red;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+.requerimiento p {
+  text-decoration: underline;
+}
+.spanFecha {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 12px;
 }
 </style>

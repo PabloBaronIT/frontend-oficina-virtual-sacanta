@@ -47,11 +47,22 @@
                 alt=""
               />
             </div>
-            <div class="response">
-              <div class="respuestas">
+            <div
+              class="response"
+              v-if="
+                this.selectedHistory.respuestaA ||
+                this.selectedHistory.respuestaB
+              "
+            >
+              <div>
                 <p>*{{ this.selectedHistory.respuestaA }}</p>
-                <p>*{{ this.selectedHistory.respuestaB }}</p>
+                <a :href="this.selectedHistory.respuestaB" target="blak">
+                  * {{ this.selectedHistory.respuestaB }}
+                </a>
               </div>
+            </div>
+            <div v-else>
+              <p>Esta tarea aún no ha sido respondida.</p>
             </div>
           </div>
         </div>
@@ -260,6 +271,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.response a {
+  text-decoration: none;
 }
 .botonSubmit {
   width: 100px;

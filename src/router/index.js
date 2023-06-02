@@ -81,6 +81,12 @@ const routes = [
     component: () => import("@/views/Representados/RepresentadosView.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/muni/creacion-usuario",
+    name: "CreateUserView",
+    component: () => import("@/views/CreateUser/CreateUserView.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

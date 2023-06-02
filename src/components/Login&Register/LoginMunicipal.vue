@@ -33,7 +33,6 @@
 
 <script>
 import dbService from "@/services/dbService";
-//import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -64,18 +63,12 @@ export default {
             this.dispatchLogin();
 
             this.validacion = true;
-            //this.mockLogin();
             localStorage.clear();
             localStorage.setItem("name", response.data.MuniLogged.firstname);
             localStorage.setItem("lastname", response.data.MuniLogged.lastname);
             localStorage.setItem("cuil", response.data.MuniLogged.cuil);
-            //localStorage.setItem("adress", response.data.MuniLogged.adress);
             localStorage.setItem("email", response.data.MuniLogged.email);
             localStorage.setItem("id", response.data.MuniLogged.id);
-            // localStorage.setItem(
-            //"fecha-creacion",
-            //response.data.MuniLogged.created_at
-            // );
             localStorage.setItem("role", response.data.MuniLogged.role);
             localStorage.setItem("token", response.data.MuniLogged.token);
             this.$router.push("muni");
