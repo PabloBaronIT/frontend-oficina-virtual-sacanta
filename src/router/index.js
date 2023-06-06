@@ -83,9 +83,15 @@ const routes = [
   },
   {
     path: "/muni/creacion-usuario",
-    name: "CreateUserView",
-    component: () => import("@/views/CreateUser/CreateUserView.vue"),
+    name: "createUserMuni",
+    component: () => import("@/views/CreateUser/CreateUserMuniView.vue"),
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/crear-cuenta",
+    name: "createUser",
+    component: () => import("@/views/CreateUserOfi/CuentaUsuarioView.vue"),
+    meta: { requiresAuth: false },
   },
 ];
 

@@ -1,16 +1,16 @@
 <template>
-  <div>
+  <div class="container">
     <FormKit
       type="form"
       id="registration-example"
       :actions="false"
       incomplete-message="Aun no has completado todos los campos."
     >
-      <div class="container">
+      <div class="interno">
         <div class="row">
           <div class="col">
             <FormKit
-              v-model="this.name"
+              v-model="this.firstname"
               type="text"
               name="name"
               label="Nombre"
@@ -104,7 +104,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
+          <div class="col-6">
             <select
               @change="isPerson($event)"
               name=""
@@ -117,7 +117,7 @@
               <option value="0">Persona Juridica</option>
             </select>
           </div>
-          <div class="col">
+          <div class="col-6">
             <FormKit
               v-model="this.email"
               type="email"
@@ -163,15 +163,18 @@
           </div>
         </div>
       </div>
-
-      <div class="double">
-        <!-- matches: 'Incluir un simbolo',|matches:/[^a-zA-Z]/ -->
+      <div
+        class="alert alert-success w-50 creado"
+        role="alert"
+        v-if="this.registrado"
+      >
+        {{ this.message }}
       </div>
 
       <input
         class="btn btn-primary"
         type="button"
-        value="Ingresar"
+        value="Registrar"
         @click="registrar"
       />
     </FormKit>
@@ -185,7 +188,7 @@ export default {
   name: "RegisterComponent",
   data() {
     return {
-      name: "",
+      firstname: "",
       lastname: "",
       email: "",
       password: "",
@@ -195,6 +198,8 @@ export default {
       iSperson: null,
       city: "",
       postCode: "",
+      registrado: false,
+      message: "",
     };
   },
   methods: {
@@ -212,20 +217,25 @@ export default {
     },
     registrar() {
       let registro = {
-        name: this.name,
+        firstname: this.firstname,
         lastname: this.lastname,
         password: this.password,
         email: this.email,
         cuil: this.cuil,
-        adress: this.adress,
-        isPerson: this.isPerson,
         city: this.city,
         postCode: this.postCode,
+        adress: this.adress,
+        isPerson: this.isPerson,
       };
+      console.log(registro);
       dbService
         .postCreateUser(registro)
-        .then(function (response) {
+        .then((response) => {
           console.log(response.data);
+          if (response.status === 201) {
+            this.registrado = true;
+            this.message = response.data.message;
+          }
         })
         .catch(function (error) {
           console.log(error.message);
@@ -236,21 +246,23 @@ export default {
 </script>
 
 <style scoped>
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 60vw;
-  position: relative;
-  background: #fff;
-  box-shadow: 0px 0px 10px #333;
-  margin: auto;
-  padding: 2rem;
+.container {
+  width: 90%;
+  background: white;
+  padding: 2rem 0px;
+  border-radius: 20px;
 }
-
-select option:hover {
-  background: var(--green);
-  outline: none;
-  border: none;
+.interno {
+  margin: auto;
+  width: 80%;
+}
+select {
+  width: 91%;
+  margin-top: 1.5rem;
+}
+.creado {
+  margin: auto;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 </style>

@@ -69,7 +69,6 @@
     </section>
 
     <div class="section-container">
-      <RegisterComponent />
       <BarComponent class="ms-5" />
     </div>
   </article>
@@ -77,7 +76,6 @@
 
 <script>
 import Tabla from "@/components/Municipal/Tramites/TablaComponent.vue";
-import RegisterComponent from "@/components/Login&Register/RegisterComponent.vue";
 import ModalGraficoComponent from "@/components/Municipal/Tramites/ModalGraficoComponent.vue";
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 import BarComponent from "@/components/Municipal/Tramites/BarComponent.vue";
@@ -94,7 +92,6 @@ export default {
   },
   components: {
     ModalGraficoComponent,
-    RegisterComponent,
     Tabla,
     // GraficoComponent,
     BarComponent,

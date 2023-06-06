@@ -1,13 +1,14 @@
 <template>
   <section>
+    <h1>Creación de Usuario</h1>
     <RegisterComponentVue />
   </section>
 </template>
 
 <script>
-import RegisterComponentVue from "../../components/Login&Register/RegisterComponent.vue";
+import RegisterComponentVue from "@/components/Login&Register/RegisterComponent.vue";
 export default {
-  name: "CreateUserView",
+  name: "CreateUserMuniView",
   components: {
     RegisterComponentVue,
   },
@@ -15,11 +16,9 @@ export default {
 </script>
 <style scoped>
 section {
-  border-radius: 10px;
   width: 100vw;
   height: 100vh;
-  align-items: center;
-  justify-content: center;
+
   padding-top: 2rem;
 }
 </style>

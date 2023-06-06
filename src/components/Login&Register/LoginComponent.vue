@@ -34,17 +34,17 @@
           placeholder="clave"
           @keyup.enter="log"
         />
-        <input
-          class="btn log-btn"
-          type="button"
-          value="Ingresar"
-          @click="log"
-        />
-        <button class="btn log-btn">
-          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
-            >Ingresar con Cidi</a
-          >
-        </button>
+        <div class="botones">
+          <button type="button" class="btn btn-outline-secondary" @click="log">
+            Ingresar
+          </button>
+          <button type="button" class="btn btn-outline-secondary">
+            <router-link to="/crear-cuenta"> Crear cuenta </router-link>
+          </button>
+          <button class="btn btn-outline-secondary boton">
+            <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
+          </button>
+        </div>
       </FormKit>
 
       <div class="loading-container text-grey">
@@ -77,56 +77,37 @@ export default {
       msj: "",
       loading: false,
       user: {},
+      cidi: null,
     };
   },
   created() {
     //LOGUIN A TRAVES DE CIDI!
-
-    if (this.$route.query?.cidi) {
-      console.log(this.$route.query?.cidi, "cidi");
+    let variableCidi = this.$route.query ? this.$route.query.cidi : null; //SE TOMA LA QUERY STRING DE CIDI
+    let cookieCidi = document.cookie?.split(";"); //SI EXISTE UNA COOKIE SE LEE
+    let element = null;
+    let asd = null;
+    if (cookieCidi) {
+      for (let i = 0; i < cookieCidi.length; i++) {
+        if (cookieCidi[i].includes("cidiHas")) {
+          element = cookieCidi[i];
+        }
+      }
+      asd = element?.split("=");
+    }
+    //SI VIENE POR URL LA HAS COOKIE CON ESE DATO SE LLAMA LA API DE CIDI PARA OBTENER SUS DATOS
+    if (variableCidi) {
+      console.log(variableCidi, "hascokkieCidi");
       //SE TOMA LA QUERY
-      let cidi = this.$route.query?.cidi;
+      //let cidi = this.$route.query?.cidi;
+      document.cookie = `cidiHash= ${variableCidi};max-age=60`; //se define una cookie
+      console.log(document.cookie, "cookie");
 
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-      });
-      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
-      apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
-        console.log(response.data);
-        this.user = response.data.UserLogged;
-        this.dispatchLogin();
-        window.localStorage.clear();
-        window.localStorage.setItem("name", response.data.UserLogged.firstname);
-        window.localStorage.setItem(
-          "lastname",
-          response.data.UserLogged.lastname
-        );
-        window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
-        window.localStorage.setItem("adress", response.data.UserLogged.adress);
-        window.localStorage.setItem("email", response.data.UserLogged.email);
-        window.localStorage.setItem("id", response.data.UserLogged.id);
-        window.localStorage.setItem(
-          "fecha-creacion",
-          response.data.UserLogged.created_at
-        );
-
-        window.localStorage.setItem("token", response.data.UserLogged.token);
-        window.localStorage.setItem(
-          "nivel",
-          response.data.UserLogged.level.level
-        );
-        window.localStorage.setItem(
-          "tokenCopia",
-          response.data.UserLogged.token
-        );
-
-        window.localStorage.setItem("role", response.data.UserLogged.role);
-        this.validacion = true;
-
-        this.$router.push("representaciones");
-      });
+      this.logCidi(variableCidi);
+    }
+    //SI YA INGRESO ANTERIORMENTE SE BUSCA LA COOKIE CON EL VALOR CIDIHAS PARA VOLVER A LLAMAR LA API DE CIDI PARA OBTENRE SU REPRESENTADO
+    else if (asd?.length) {
+      console.log(asd);
+      this.logCidi(asd[1]);
     }
 
     localStorage.clear();
@@ -203,12 +184,74 @@ export default {
           this.loading = false;
         });
     },
-    logCidi() {},
+    /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
+    logCidi(cidi) {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+      });
+      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
+      apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
+        console.log(response.data);
+
+        let redireccionamiento = response.data.redirectURL
+          ? response.data.redirectURL
+          : null;
+        let userCidi = response.data ? response.data : null;
+        if (redireccionamiento) {
+          window.location.href = response.data.redirectURL;
+        } else {
+          console.log(userCidi, "respuesta de cidi ");
+        }
+        // this.dispatchLogin();
+        //window.localStorage.clear();
+        //window.localStorage.setItem("name", response.data.UserLogged.firstname);
+        // window.localStorage.setItem(
+        //"lastname",
+        //response.data.UserLogged.lastname
+        // );
+        // window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
+        // window.localStorage.setItem("adress", response.data.UserLogged.adress);
+        // window.localStorage.setItem("email", response.data.UserLogged.email);
+        //window.localStorage.setItem("id", response.data.UserLogged.id);
+        // window.localStorage.setItem(
+        //  "fecha-creacion",
+        //  response.data.UserLogged.created_at
+        // );
+
+        // window.localStorage.setItem("token", response.data.UserLogged.token);
+        // window.localStorage.setItem(
+        //   "nivel",
+        //   response.data.UserLogged.level.level
+        //   );
+        // window.localStorage.setItem(
+        //  "tokenCopia",
+        //   response.data.UserLogged.token
+        //  );
+
+        //  window.localStorage.setItem("role", response.data.UserLogged.role);
+        //this.validacion = true;
+
+        // this.$router.push("representaciones");
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
+.botones {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 10rem;
+  width: 100%;
+  margin-top: 5rem;
+}
+.boton {
+  width: 100%;
+}
 h1 {
   color: var(--red);
   font-weight: bold;
@@ -251,8 +294,8 @@ form {
   align-items: center;
   justify-content: baseline;
   flex-flow: column wrap;
-  padding: 5% 10px;
   position: relative;
+  padding: 2rem;
   z-index: 1;
   background: #ffffff9a;
   border-radius: 1rem;

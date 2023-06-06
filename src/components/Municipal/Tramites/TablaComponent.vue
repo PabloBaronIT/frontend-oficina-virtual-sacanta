@@ -2,7 +2,6 @@
   <div class="containerGeneral">
     <div class="containerTramites">
       <div class="filtro-top">
-        <input type="button" value="Actualizar estado" />
         <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
         <form class="d-flex">
           <input
