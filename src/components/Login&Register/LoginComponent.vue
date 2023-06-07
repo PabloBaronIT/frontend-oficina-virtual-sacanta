@@ -86,9 +86,10 @@ export default {
     let cookieCidi = document.cookie?.split(";"); //SI EXISTE UNA COOKIE SE LEE
     let element = null;
     let asd = null;
+    //buscar cookie y tomar su valor
     if (cookieCidi) {
       for (let i = 0; i < cookieCidi.length; i++) {
-        if (cookieCidi[i].includes("cidiHas")) {
+        if (cookieCidi[i].includes("cidiHash")) {
           element = cookieCidi[i];
         }
       }
@@ -96,18 +97,20 @@ export default {
     }
     //SI VIENE POR URL LA HAS COOKIE CON ESE DATO SE LLAMA LA API DE CIDI PARA OBTENER SUS DATOS
     if (variableCidi) {
-      console.log(variableCidi, "hascokkieCidi");
+      console.log(variableCidi, "hasCokkieCidi");
       //SE TOMA LA QUERY
       //let cidi = this.$route.query?.cidi;
-      document.cookie = `cidiHash= ${variableCidi};max-age=60`; //se define una cookie
-      console.log(document.cookie, "cookie");
+      document.cookie = `cidiHash= ${variableCidi};max-age=120`; //se define una cookie
 
       this.logCidi(variableCidi);
+      variableCidi = null;
     }
     //SI YA INGRESO ANTERIORMENTE SE BUSCA LA COOKIE CON EL VALOR CIDIHAS PARA VOLVER A LLAMAR LA API DE CIDI PARA OBTENRE SU REPRESENTADO
-    else if (asd?.length) {
-      console.log(asd);
+    else if (!variableCidi && asd) {
+      console.log(asd, "cookie");
       this.logCidi(asd[1]);
+    } else {
+      console.log("no hay query string ni cookie");
     }
 
     localStorage.clear();
@@ -193,7 +196,7 @@ export default {
       });
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
-        console.log(response.data);
+        console.log(response.data, "respuesta api cidi");
 
         let redireccionamiento = response.data.redirectURL
           ? response.data.redirectURL
@@ -202,7 +205,7 @@ export default {
         if (redireccionamiento) {
           window.location.href = response.data.redirectURL;
         } else {
-          console.log(userCidi, "respuesta de cidi ");
+          console.log(userCidi, "respuesta de cidi  ");
         }
         // this.dispatchLogin();
         //window.localStorage.clear();

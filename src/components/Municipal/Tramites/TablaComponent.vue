@@ -2,7 +2,16 @@
   <div class="containerGeneral">
     <div class="containerTramites">
       <div class="filtro-top">
-        <img class="filtro-img" src="@/assets/filtro.svg" alt="" />
+        <div class="flex">
+          <label for="">Filtros</label>
+          <img
+            class="filtro-img"
+            src="@/assets/filtro.svg"
+            alt=""
+            @click="setModalFiltros"
+          />
+        </div>
+
         <form class="d-flex">
           <input
             class="buscar"
@@ -28,8 +37,8 @@
           <option value="4">Finalizados</option>
         </select>
       </div>
-      <!--SE MUESTRAN TODOS LOS TRAMITES EN PLAZO -->
       <div class="container-medio">
+        <!--SE MUESTRAN TODOS LOS TRAMITES EN PLAZO -->
         <div class="tabla-container">
           <h3>Trámites activos</h3>
           <div v-for="item in this.activos" :key="item.id">
@@ -304,8 +313,8 @@
           </div>
           <div class="nav"></div>
         </div>
-        <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
 
+        <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
         <div class="tabla-container">
           <h3>Trámites con requerimientos</h3>
           <div v-for="item in this.requeridos" :key="item.id">
@@ -324,6 +333,146 @@
                 {{ this.activos.length || 0 }}
               </p>
             </div>-->
+          </div>
+        </div>
+        <!--MODAL PARA VER LOS FILTROS-->
+        <div v-if="modalFiltros" class="modalFiltros">
+          <div class="modal-top">
+            <h3>Filtros</h3>
+            <img
+              @click="setModalFiltros()"
+              class="svg"
+              src="@/assets/close.svg"
+              alt=""
+            />
+          </div>
+
+          <div>
+            <div class="botonesFiltros">
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExampleA"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Trámites
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExampleB"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Usuarios
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExampleC"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Buscador
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExampleD"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Fechas
+              </button>
+            </div>
+            <!--TARJETAS QUE SE ABREN POR CADA BOTRON DE FILTROS-->
+            <div class="collapse" id="collapseExampleA">
+              <div class="card card-body">
+                <div class="divSelects">
+                  Filtro por estado
+                  <select @change="getFiltro($event)" name="" id="">
+                    <option>Filtros</option>
+                    <option value="0">Todos mis trámites</option>
+                    <option value="1">Presentados</option>
+                    <option value="2">En proceso</option>
+                    <option value="4">Finalizados</option>
+                  </select>
+                </div>
+                <div class="divSelects">
+                  Filtro por tipo de trámite
+                  <select @change="getFiltro($event)" name="" id="">
+                    <option>Filtros</option>
+                    <option value="0">Todos mis trámites</option>
+                    <option value="1">Presentados</option>
+                    <option value="2">En proceso</option>
+                    <option value="4">Finalizados</option>
+                  </select>
+                </div>
+                <div class="divSelects">
+                  Filtro por agente municipal
+                  <select @change="getFiltro($event)" name="" id="">
+                    <option>Filtros</option>
+                    <option value="0">Todos mis trámites</option>
+                    <option value="1">Presentados</option>
+                    <option value="2">En proceso</option>
+                    <option value="4">Finalizados</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--BUSCADOR POR CUIL DEL VECINO-->
+            <div class="collapse" id="collapseExampleB">
+              <div class="card card-body">
+                <div class="flex">
+                  <input
+                    class="buscar"
+                    type="search"
+                    placeholder="Ingrese Cuil del vecino"
+                    aria-label="Buscar"
+                    v-model="search"
+                  />
+                  <button
+                    class="btn btn-outline-success"
+                    type="submit"
+                    @click="searchValueById(search)"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!--BUSCADOR POR ID DEL TRAMITE-->
+
+            <div class="collapse" id="collapseExampleC">
+              <div class="card card-body">
+                <div class="flex">
+                  <input
+                    class="buscar"
+                    type="search"
+                    placeholder="Ingrese ID del tramite"
+                    aria-label="Buscar"
+                    v-model="search"
+                  />
+                  <button
+                    class="btn btn-outline-success"
+                    type="submit"
+                    @click="searchValue(search)"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="collapse" id="collapseExampleD">
+              <div class="card card-body">
+                <h1>aca iria un calendario para Fechas</h1>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -372,6 +521,7 @@ export default {
       deadline: [],
       allDeadline: [],
       requeridos: [],
+      modalFiltros: false,
     };
   },
   created() {
@@ -381,6 +531,9 @@ export default {
   },
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
+    setModalFiltros() {
+      this.modalFiltros = !this.modalFiltros;
+    },
     getProcedures() {
       this.activos = [];
 
@@ -926,6 +1079,7 @@ export default {
   display: flex;
   flex-direction: row;
   width: 94vw;
+  position: relative;
 }
 .containerTramites {
   width: 100%;
@@ -1163,7 +1317,8 @@ td {
 }
 
 .filtro-img {
-  max-width: 20px;
+  max-width: 30px;
+  margin-left: 1rem;
 }
 
 .filtro-container {
@@ -1308,5 +1463,52 @@ textarea {
   top: 1rem;
   right: 1rem;
   font-size: 12px;
+}
+.modalFiltros {
+  position: absolute;
+  top: 1em;
+  left: 10rem;
+  z-index: 15;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 50vw; /* Need a specific value to work */
+  height: auto;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  word-break: break-all;
+}
+.botonesFiltros {
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-around;
+  margin: auto;
+}
+.cardFiltros {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border: 1px solid grey;
+}
+.divSelects {
+  width: 70%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+.buscar {
+  margin-right: 1rem;
 }
 </style>
