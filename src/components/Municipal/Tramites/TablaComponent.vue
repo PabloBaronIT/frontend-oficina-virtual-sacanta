@@ -23,7 +23,7 @@
           <button
             class="btn btn-outline-success"
             type="submit"
-            @click="searchValue(search)"
+            @click="searchValue(this.search)"
           >
             Buscar
           </button>
@@ -336,144 +336,15 @@
           </div>
         </div>
         <!--MODAL PARA VER LOS FILTROS-->
-        <div v-if="modalFiltros" class="modalFiltros">
-          <div class="modal-top">
-            <h3>Filtros</h3>
-            <img
-              @click="setModalFiltros()"
-              class="svg"
-              src="@/assets/close.svg"
-              alt=""
-            />
-          </div>
-
-          <div>
-            <div class="botonesFiltros">
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExampleA"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Trámites
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExampleB"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Usuarios
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExampleC"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Buscador
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseExampleD"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-              >
-                Fechas
-              </button>
-            </div>
-            <!--TARJETAS QUE SE ABREN POR CADA BOTRON DE FILTROS-->
-            <div class="collapse" id="collapseExampleA">
-              <div class="card card-body">
-                <div class="divSelects">
-                  Filtro por estado
-                  <select @change="getFiltro($event)" name="" id="">
-                    <option>Filtros</option>
-                    <option value="0">Todos mis trámites</option>
-                    <option value="1">Presentados</option>
-                    <option value="2">En proceso</option>
-                    <option value="4">Finalizados</option>
-                  </select>
-                </div>
-                <div class="divSelects">
-                  Filtro por tipo de trámite
-                  <select @change="getFiltro($event)" name="" id="">
-                    <option>Filtros</option>
-                    <option value="0">Todos mis trámites</option>
-                    <option value="1">Presentados</option>
-                    <option value="2">En proceso</option>
-                    <option value="4">Finalizados</option>
-                  </select>
-                </div>
-                <div class="divSelects">
-                  Filtro por agente municipal
-                  <select @change="getFiltro($event)" name="" id="">
-                    <option>Filtros</option>
-                    <option value="0">Todos mis trámites</option>
-                    <option value="1">Presentados</option>
-                    <option value="2">En proceso</option>
-                    <option value="4">Finalizados</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <!--BUSCADOR POR CUIL DEL VECINO-->
-            <div class="collapse" id="collapseExampleB">
-              <div class="card card-body">
-                <div class="flex">
-                  <input
-                    class="buscar"
-                    type="search"
-                    placeholder="Ingrese Cuil del vecino"
-                    aria-label="Buscar"
-                    v-model="search"
-                  />
-                  <button
-                    class="btn btn-outline-success"
-                    type="submit"
-                    @click="searchValueById(search)"
-                  >
-                    Buscar
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!--BUSCADOR POR ID DEL TRAMITE-->
-
-            <div class="collapse" id="collapseExampleC">
-              <div class="card card-body">
-                <div class="flex">
-                  <input
-                    class="buscar"
-                    type="search"
-                    placeholder="Ingrese ID del tramite"
-                    aria-label="Buscar"
-                    v-model="search"
-                  />
-                  <button
-                    class="btn btn-outline-success"
-                    type="submit"
-                    @click="searchValue(search)"
-                  >
-                    Buscar
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="collapse" id="collapseExampleD">
-              <div class="card card-body">
-                <h1>aca iria un calendario para Fechas</h1>
-              </div>
-            </div>
-          </div>
+        <div v-if="this.modalFiltros">
+          <FiltrosComponentVue
+            :setModalFiltros="this.setModalFiltros"
+            :getFiltro="this.getFiltro"
+            :getFiltroByTitle="this.getFiltroByTitle"
+            :getFiltroByUserMuni="this.getFiltroByUserMuni"
+            :searchValue="this.searchValue"
+            :search="this.search"
+          />
         </div>
       </div>
     </div>
@@ -484,8 +355,8 @@
 import axios from "axios";
 import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
 import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
-
 import CardComponentVue from "../CardComponent.vue";
+import FiltrosComponentVue from "../Filtros/FiltrosComponent.vue";
 export default {
   props: {
     color: String,
@@ -494,6 +365,7 @@ export default {
     CreateTasksComponentVue,
     CreateRequirementsComponentVue,
     CardComponentVue,
+    FiltrosComponentVue,
   },
   data() {
     return {
@@ -511,7 +383,6 @@ export default {
       paginaActual: 1,
       cont: 0,
       //l: 0,
-      search: "",
       status: "",
       titleComunicacion: "",
       comunicacion: "",
@@ -522,6 +393,7 @@ export default {
       allDeadline: [],
       requeridos: [],
       modalFiltros: false,
+      search: "",
     };
   },
   created() {
@@ -790,7 +662,7 @@ export default {
       this.checkbox.push(id);
       console.log(this.checkbox);
     },
-    //FILTRAR TRAMITES
+    //FILTRAR TRAMITES POR STATUS
     getFiltro($event) {
       let apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -1100,6 +972,7 @@ export default {
 }
 section h3 {
   text-decoration: underline;
+  margin-bottom: 2rem;
 }
 
 .user-data-container {
@@ -1124,12 +997,12 @@ section h3 {
   width: 100%;
 }
 
-.modal-top {
-  display: flex;
+.filtro-top {
   width: 100%;
-  text-align: left;
+  color: var(--text-color);
+  display: flex;
   justify-content: space-around;
-  align-items: flex-start;
+  background: var(grey);
 }
 
 .modal-content {
@@ -1236,10 +1109,6 @@ section h3 {
   bottom: 10px;
 }
 
-.svg {
-  max-width: 20px;
-}
-
 input[type="checkbox"] {
   appearance: none;
   border: 1px solid #666;
@@ -1328,13 +1197,6 @@ td {
   display: flex;
   justify-content: space-around;
 }
-.filtro-top {
-  width: 100%;
-  color: var(--text-color);
-  display: flex;
-  justify-content: space-around;
-  background: var(grey);
-}
 
 .filtro-container input {
   margin: 0 20px;
@@ -1374,6 +1236,16 @@ select option:hover {
 .length {
   border: 1px solid gray;
   padding: 0px 5px;
+}
+.svg {
+  max-width: 20px;
+}
+.modal-top {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  justify-content: space-around;
+  align-items: flex-start;
 }
 .sinTramites {
   position: relative;
@@ -1464,34 +1336,7 @@ textarea {
   right: 1rem;
   font-size: 12px;
 }
-.modalFiltros {
-  position: absolute;
-  top: 1em;
-  left: 10rem;
-  z-index: 15;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  width: 50vw; /* Need a specific value to work */
-  height: auto;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  word-break: break-all;
-}
-.botonesFiltros {
-  width: 60%;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: space-around;
-  margin: auto;
-}
+
 .cardFiltros {
   display: flex;
   flex-direction: column;
@@ -1499,16 +1344,5 @@ textarea {
   margin-top: 2rem;
   padding-top: 2rem;
   border: 1px solid grey;
-}
-.divSelects {
-  width: 70%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  padding-left: 2rem;
-}
-.buscar {
-  margin-right: 1rem;
 }
 </style>

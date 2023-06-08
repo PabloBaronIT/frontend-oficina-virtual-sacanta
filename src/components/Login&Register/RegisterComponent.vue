@@ -162,6 +162,12 @@
             />
           </div>
         </div>
+        <input
+          class="btn btn-primary btn-lg botonSubmit"
+          type="button"
+          value="Registrar"
+          @click="registrar"
+        />
       </div>
       <div
         class="alert alert-success w-50 creado"
@@ -170,13 +176,6 @@
       >
         {{ this.message }}
       </div>
-
-      <input
-        class="btn btn-primary"
-        type="button"
-        value="Registrar"
-        @click="registrar"
-      />
     </FormKit>
   </div>
 </template>
@@ -255,6 +254,8 @@ export default {
 .interno {
   margin: auto;
   width: 80%;
+  position: relative;
+  padding-bottom: 5rem;
 }
 select {
   width: 91%;
@@ -264,5 +265,10 @@ select {
   margin: auto;
   margin-bottom: 2rem;
   margin-top: 2rem;
+}
+.botonSubmit {
+  position: absolute;
+  right: 3rem;
+  bottom: 2rem;
 }
 </style>
