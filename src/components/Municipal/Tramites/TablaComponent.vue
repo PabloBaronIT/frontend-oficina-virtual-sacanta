@@ -344,6 +344,7 @@
             :getFiltroByUserMuni="this.getFiltroByUserMuni"
             :searchValue="this.searchValue"
             :search="this.search"
+            :getFiltroByCuilUser="getFiltroByCuilUser"
           />
         </div>
       </div>
@@ -375,14 +376,13 @@ export default {
       modalRequerimiento: false,
       trespuntos: false,
       selectedHistory: null,
-      selectedTramite: null, //EN USO
+      selectedTramite: null,
       checkbox: [],
       activos: [],
       history: null,
       paginas: null,
       paginaActual: 1,
       cont: 0,
-      //l: 0,
       status: "",
       titleComunicacion: "",
       comunicacion: "",
@@ -708,7 +708,9 @@ export default {
               p.categoria = h[i].category.title;
               p.estado = h[i].status.status;
               p.procedure = h[i].procedure.title;
-
+              p.requerimientos = Array.isArray(h[i].requirementHistory)
+                ? h[i].requirementHistory
+                : null;
               switch (p.estado) {
                 case "PRESENTADO":
                   p.color = "var(--green)";
@@ -741,6 +743,78 @@ export default {
           });
       }
     },
+    // BUSCADOR POR CUIL DEL USUARIO
+    getFiltroByCuilUser(cuil) {
+      console.log(cuil);
+      let apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      if (cuil.length == 11) {
+        this.activos = [];
+        console.log(`el cuil ${cuil} tiene 11 digitos`);
+        apiClient
+          .get("/oficina/procedures/history/user/" + cuil)
+          .then((response) => {
+            console.log(response.data);
+            let h = response.data.Procedures;
+            for (let i = 0; i < h.length; i++) {
+              //Procedure
+              let p = {
+                id: null,
+                cuil: "",
+                categoria: "",
+                estado: "",
+                procedure: "",
+                requerimientos: null,
+              };
+              //Carga del procedure
+              p.id = h[i].id;
+              p.cuil = h[i].user;
+              p.categoria = h[i].category.title;
+              p.estado = h[i].status.status;
+              p.procedure = h[i].procedure.title;
+              p.requerimientos = Array.isArray(h[i].requirementHistory)
+                ? h[i].requirementHistory
+                : null;
+
+              switch (p.estado) {
+                case "PRESENTADO":
+                  p.color = "var(--green)";
+                  break;
+                case "PAUSADO POR REQUERIMIENTO":
+                  p.color = "var(--red)";
+                  break;
+                case "EN PROCESO":
+                  p.color = "var(--yellow)";
+                  break;
+                case "FINALIZADO":
+                  p.color = "var(--lblue)";
+                  break;
+
+                default:
+                  break;
+              }
+
+              this.activos.push(p);
+              this.setModalFiltros();
+            }
+
+            //this.length = response.data.HistoryOfProcedures.length;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log(`el cuil ${cuil}NO!! tiene 11 digitos`);
+      }
+      //
+    },
     //TOTAL DE TRAMITES
     cantTramites() {
       this.paginas = Math.ceil(this.length / 5);
@@ -755,6 +829,65 @@ export default {
           this.cont++;
         }
       }
+    },
+    //BUSCAR UN TRAMIATE POR ID
+    searchValue(value) {
+      //console.log(value);
+      let asd = null;
+
+      //SI EL TRAMITE NO ESTA EN SU AREA LO BUSCA EN OTRA
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/procedures/history/" + value).then((response) => {
+        console.log(response);
+        asd = response.data.Procedure.procedure;
+        this.history = asd;
+        this.search = "";
+        let p = {
+          id: null,
+          cuil: "",
+          categoria: "",
+          estado: "",
+          procedure: "",
+        };
+        p.id = asd[0].id;
+        p.cuil = asd[0].user.cuil;
+        p.categoria = asd[0].category.title;
+        p.estado = asd[0].status.status;
+        p.procedure = asd[0].procedure.title;
+        p.requerimientos = asd[0].requirementHistory
+          ? asd[0].requirementHistory
+          : null;
+
+        switch (p.estado) {
+          case "PRESENTADO":
+            p.color = "var(--green)";
+            break;
+          case "PAUSADO POR REQUERIMIENTO":
+            p.color = "var(--red)";
+            break;
+          case "EN PROCESO":
+            p.color = "var(--yellow)";
+            break;
+          case "FINALIZADO":
+            p.color = "var(--lblue)";
+            break;
+
+          default:
+            break;
+        }
+
+        this.activos = [];
+        this.activos.push(p);
+        this.setModalFiltros();
+      });
+      //this.activos = asd;
     },
     backTramites() {
       if (parseFloat(this.paginaActual) > 1) {
@@ -833,61 +966,6 @@ export default {
       //this.ModalEstado();
     },
 
-    //BUSCAR UN TRAMIATE POR ID
-    searchValue(value) {
-      //console.log(value);
-      let asd = null;
-
-      //SI EL TRAMITE NO ESTA EN SU AREA LO BUSCA EN OTRA
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient.get("/oficina/procedures/history/" + value).then((response) => {
-        console.log(response);
-        asd = response.data.Procedure.procedure;
-        this.history = asd;
-        this.search = "";
-        let p = {
-          id: null,
-          cuil: "",
-          categoria: "",
-          estado: "",
-          procedure: "",
-        };
-        p.id = asd[0].id;
-        p.cuil = asd[0].user.cuil;
-        p.categoria = asd[0].category.title;
-        p.estado = asd[0].status.status;
-        p.procedure = asd[0].procedure.title;
-
-        switch (p.estado) {
-          case "PRESENTADO":
-            p.color = "var(--green)";
-            break;
-          case "PAUSADO POR REQUERIMIENTO":
-            p.color = "var(--red)";
-            break;
-          case "EN PROCESO":
-            p.color = "var(--yellow)";
-            break;
-          case "FINALIZADO":
-            p.color = "var(--lblue)";
-            break;
-
-          default:
-            break;
-        }
-
-        this.activos = [];
-        this.activos.push(p);
-      });
-      //this.activos = asd;
-    },
     //ENVIAR UN COMUNICADO DE UN TRAMITE
     submitComunicacion() {
       if (this.comunicacion) {

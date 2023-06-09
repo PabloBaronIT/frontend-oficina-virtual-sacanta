@@ -1,7 +1,7 @@
 <template>
   <div class="modalFiltros">
     <div class="modal-top">
-      <h3>Filtros</h3>
+      <h3>Filtros:</h3>
       <img
         @click="this.setModalFiltros()"
         class="svg"
@@ -13,7 +13,7 @@
     <div>
       <div class="botonesFiltros">
         <button
-          class="btn btn-primary"
+          class="btn btn-success"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseExampleA"
@@ -23,7 +23,7 @@
           Trámites
         </button>
         <button
-          class="btn btn-primary"
+          class="btn btn-success"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseExampleB"
@@ -33,7 +33,7 @@
           Usuarios
         </button>
         <button
-          class="btn btn-primary"
+          class="btn btn-success"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseExampleC"
@@ -43,7 +43,7 @@
           Buscador
         </button>
         <button
-          class="btn btn-primary"
+          class="btn btn-success"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseExampleD"
@@ -102,7 +102,7 @@
             <button
               class="btn btn-outline-success"
               type="submit"
-              @click="this.searchValueById(searchCuil)"
+              @click="this.getFiltroByCuilUser(searchCuil)"
             >
               Buscar
             </button>
@@ -133,13 +133,14 @@
       </div>
       <div class="collapse" id="collapseExampleD">
         <div class="card card-body fecha">
-          <h5>Desde :</h5>
+          <h5>Desde : {{ fechaA }}</h5>
           <VueDatePicker
             v-model="date"
             model-type="dd.MM.yyyy"
             placeholder="Seleccione fecha"
             position="center"
-            @update:model-value="this.handleDate"
+            @update:model-value="handleDate"
+            auto-apply
           ></VueDatePicker>
           <h5>Hasta:</h5>
           <VueDatePicker
@@ -147,8 +148,18 @@
             model-type="dd.MM.yyyy"
             placeholder="Seleccione fecha"
             position="center"
-            @update:model-value="this.handleDateB"
+            @update:model-value="handleDateB"
+            auto-apply
           ></VueDatePicker>
+        </div>
+        <div class="boton-fecha">
+          <button
+            class="btn btn-outline-success"
+            type="submit"
+            @click="buscarFechas"
+          >
+            Buscar
+          </button>
         </div>
       </div>
     </div>
@@ -164,6 +175,7 @@ export default {
     getFiltroByTitle: Function,
     getFiltroByUserMuni: Function,
     searchValue: Function,
+    getFiltroByCuilUser: Function,
   },
   components: { VueDatePicker },
   data() {
@@ -175,13 +187,14 @@ export default {
     };
   },
   methods: {
-    handleDate: (modelData) => {
-      console.log(this.date);
-      // do something else with the data
+    handleDate() {
+      console.log(this.date, "A");
     },
-    handleDateB: (modelData) => {
-      console.log(this.dateB);
-      // do something else with the data
+    handleDateB() {
+      console.log(this.dateB, "B");
+    },
+    buscarFechas() {
+      console.log(`las fechas seleccionadas son ${this.date} y ${this.dateB}`);
     },
   },
 };
@@ -227,7 +240,7 @@ export default {
   padding-bottom: 1rem;
 }
 .divSelects {
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -243,7 +256,7 @@ select {
   text-align: center;
   background: none;
   border-radius: 20px;
-  border: 1px solid var(--red);
+  border: 1px solid var(--green);
   outline: none;
   padding: 5px;
 }
@@ -261,5 +274,12 @@ select option:hover {
 .fecha {
   width: 60%;
   margin: auto;
+}
+.boton-fecha {
+  margin-top: 2rem;
+}
+h3 {
+  margin-bottom: 2rem;
+  text-decoration: underline;
 }
 </style>
