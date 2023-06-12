@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import jwt_decode from "jwt-decode";
 const apiClient = axios.create({
   //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
   baseURL: process.env.VUE_APP_BASEURL,
@@ -18,21 +18,30 @@ const apiClientAuth = axios.create({
 });
 
 export default {
+  //CREAR UN USUARIO
   postCreateUser(registro) {
     return apiClient.post("/auth/signUp", registro);
   },
+  //LOGUIN DE USUARIO COMUN
   postLoginUser(login) {
-    return apiClient.post("/auth/signin", {
-      cuil: login.cuil,
-      password: login.password,
-    });
+    return apiClient.post("/auth/signin", login);
   },
+  //OOBTENER DATOS DEL PERFIL DEL USUARIO
+  getMyProfileUser() {
+    return apiClient.get("/oficina/user/profile");
+  },
+  //OBTENER DATOS DEL MUNICIPAL
+  getProfileMunicipal() {
+    return apiClient.get("/municipales/muni-profile");
+  },
+  //LOGIN MUNICIPAL
   postLoginMunicipal(login) {
     return apiClient.post("/auth/signinMunicipales", {
       cuil: login.cuil,
       password: login.password,
     });
   },
+  //OBTENER TODAS LAS CATEGORIAS O SECTORES
   getAllCategories() {
     return apiClientAuth.get("/oficina/categories/categories");
   },
@@ -50,9 +59,7 @@ export default {
   getHistorialTramites() {
     return apiClient.get("/oficina/procedures/history");
   },
-  getMunicipal() {
-    return apiClient.get("/municipales/muni-profile");
-  },
+
   getUser(id) {
     return apiClient.get("/oficina/users/" + id);
   },
@@ -63,5 +70,10 @@ export default {
       statusId: p.statusId,
       questions: p.questions,
     });
+  },
+  //FUINCION PARA DEVOLVER EL PAYLOAD DEL TOKEN
+  getToken(token) {
+    let asd = jwt_decode(token);
+    return asd;
   },
 };

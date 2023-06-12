@@ -80,7 +80,7 @@ export default {
   },
   created() {
     dbservice
-      .getMunicipal()
+      .getProfileMunicipal()
       .then((response) => {
         let r =
           response.data.MuniProfile.muniStatistics.muniSolicitedProceduresCount;

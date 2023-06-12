@@ -80,41 +80,7 @@ export default {
       cidi: null,
     };
   },
-  created() {
-    //LOGUIN A TRAVES DE CIDI!
-    let variableCidi = this.$route.query ? this.$route.query.cidi : null; //SE TOMA LA QUERY STRING DE CIDI
-    let cookieCidi = document.cookie?.split(";"); //SI EXISTE UNA COOKIE SE LEE
-    let element = null;
-    let asd = null;
-    //buscar cookie y tomar su valor
-    if (cookieCidi) {
-      for (let i = 0; i < cookieCidi.length; i++) {
-        if (cookieCidi[i].includes("cidiHash")) {
-          element = cookieCidi[i];
-        }
-      }
-      asd = element?.split("=");
-    }
-    //SI VIENE POR URL LA HAS COOKIE CON ESE DATO SE LLAMA LA API DE CIDI PARA OBTENER SUS DATOS
-    if (variableCidi) {
-      console.log(variableCidi, "hasCokkieCidi");
-      //SE TOMA LA QUERY
-      //let cidi = this.$route.query?.cidi;
-      document.cookie = `cidiHash= ${variableCidi};max-age=120`; //se define una cookie
 
-      this.logCidi(variableCidi);
-      variableCidi = null;
-    }
-    //SI YA INGRESO ANTERIORMENTE SE BUSCA LA COOKIE CON EL VALOR CIDIHAS PARA VOLVER A LLAMAR LA API DE CIDI PARA OBTENRE SU REPRESENTADO
-    else if (!variableCidi && asd) {
-      console.log(asd, "cookie");
-      this.logCidi(asd[1]);
-    } else {
-      console.log("no hay query string ni cookie");
-    }
-
-    localStorage.clear();
-  },
   beforeRouteLeave(to, from, next) {
     localStorage.clear();
     next();
@@ -124,6 +90,7 @@ export default {
     next();
   },
   methods: {
+    //SE GUARDA EN EL STORE EÑL USUARIO
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
@@ -133,49 +100,17 @@ export default {
 
       dbService
         .postLoginUser({ password: this.password, cuil: this.cuil })
-        .then((response) => {
-          console.log(response.data);
-          this.user = response.data.UserLogged;
+        .then(async (response) => {
+          console.log(response.data.Token.token);
+          let token = response.data.Token.token;
+          //TOMO LOS DATOS DEL TOKEN
+          localStorage.setItem("token", token);
 
-          //se guarda los datos en el store
-          this.dispatchLogin();
-          //se guardan los datos en localstorage
-
-          window.localStorage.clear();
-          window.localStorage.setItem(
-            "name",
-            response.data.UserLogged.firstname
-          );
-          window.localStorage.setItem(
-            "lastname",
-            response.data.UserLogged.lastname
-          );
-          window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
-          window.localStorage.setItem(
-            "adress",
-            response.data.UserLogged.adress
-          );
-          window.localStorage.setItem("email", response.data.UserLogged.email);
-          window.localStorage.setItem("id", response.data.UserLogged.id);
-          window.localStorage.setItem(
-            "fecha-creacion",
-            response.data.UserLogged.created_at
-          );
-
-          window.localStorage.setItem("token", response.data.UserLogged.token);
-          window.localStorage.setItem(
-            "nivel",
-            response.data.UserLogged.level.level
-          );
-          window.localStorage.setItem(
-            "tokenCopia",
-            response.data.UserLogged.token
-          );
-
-          window.localStorage.setItem("role", response.data.UserLogged.role);
-          this.validacion = true;
-
-          this.$router.push("representaciones");
+          let payload = await dbService.getToken(token);
+          console.log(payload);
+          if (token) {
+            this.getMyProfile();
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -207,36 +142,52 @@ export default {
         } else {
           console.log(userCidi, "respuesta de cidi  ");
         }
-        // this.dispatchLogin();
-        //window.localStorage.clear();
-        //window.localStorage.setItem("name", response.data.UserLogged.firstname);
-        // window.localStorage.setItem(
-        //"lastname",
-        //response.data.UserLogged.lastname
-        // );
-        // window.localStorage.setItem("cuil", response.data.UserLogged.cuil);
-        // window.localStorage.setItem("adress", response.data.UserLogged.adress);
-        // window.localStorage.setItem("email", response.data.UserLogged.email);
-        //window.localStorage.setItem("id", response.data.UserLogged.id);
-        // window.localStorage.setItem(
-        //  "fecha-creacion",
-        //  response.data.UserLogged.created_at
-        // );
-
-        // window.localStorage.setItem("token", response.data.UserLogged.token);
-        // window.localStorage.setItem(
-        //   "nivel",
-        //   response.data.UserLogged.level.level
-        //   );
-        // window.localStorage.setItem(
-        //  "tokenCopia",
-        //   response.data.UserLogged.token
-        //  );
-
-        //  window.localStorage.setItem("role", response.data.UserLogged.role);
-        //this.validacion = true;
 
         // this.$router.push("representaciones");
+      });
+    },
+    //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
+    getMyProfile() {
+      dbService.getMyProfileUser().then((response) => {
+        console.log(response.data);
+        this.user = response.data.UserProfile.user;
+        this.dispatchLogin();
+
+        window.localStorage.setItem(
+          "name",
+          response.data.UserProfile.user.firstname
+        );
+        window.localStorage.setItem(
+          "lastname",
+          response.data.UserProfile.user.lastname
+        );
+        window.localStorage.setItem(
+          "cuil",
+          response.data.UserProfile.user.cuil
+        );
+        window.localStorage.setItem(
+          "adress",
+          response.data.UserProfile.user.adress
+        );
+        window.localStorage.setItem(
+          "email",
+          response.data.UserProfile.user.email
+        );
+        window.localStorage.setItem("id", response.data.UserProfile.user.id);
+        window.localStorage.setItem(
+          "fecha-creacion",
+          response.data.UserProfile.user.created_at
+        );
+        window.localStorage.setItem("nivel", 1);
+
+        // window.localStorage.setItem(
+        // "role",
+        // response.data.UserProfile.user.role
+        //);
+        window.localStorage.setItem("role", "USER_ROLE");
+        this.$router.push("representaciones");
+
+        this.validacion = true;
       });
     },
   },
@@ -322,3 +273,44 @@ form img {
   }
 }
 </style>
+<!--
+
+
+ created() {
+    //LOGUIN A TRAVES DE CIDI!
+     let variableCidi = this.$route.query ? this.$route.query.cidi : null; //SE TOMA LA QUERY STRING DE CIDI
+    let cookieCidi = document.cookie?.split(";"); //SI EXISTE UNA COOKIE SE LEE
+    let element = null;
+    let asd = null;
+    //buscar cookie y tomar su valor
+    if (cookieCidi) {
+      for (let i = 0; i < cookieCidi.length; i++) {
+        if (cookieCidi[i].includes("cidiHash")) {
+          element = cookieCidi[i];
+        }
+      }
+      asd = element?.split("=");
+    }
+    //SI VIENE POR URL LA HAS COOKIE CON ESE DATO SE LLAMA LA API DE CIDI PARA OBTENER SUS DATOS
+    if (variableCidi) {
+      console.log(variableCidi, "hasCokkieCidi");
+      //SE TOMA LA QUERY
+      //let cidi = this.$route.query?.cidi;
+      document.cookie = `cidiHash= ${variableCidi};max-age=120`; //se define una cookie
+
+      this.logCidi(variableCidi);
+      variableCidi = null;
+    }
+    //SI YA INGRESO ANTERIORMENTE SE BUSCA LA COOKIE CON EL VALOR CIDIHAS PARA VOLVER A LLAMAR LA API DE CIDI PARA OBTENRE SU REPRESENTADO
+    else if (!variableCidi && asd) {
+      console.log(asd, "cookie");
+      this.logCidi(asd[1]);
+    } else {
+      console.log("no hay query string ni cookie");
+    }
+
+    localStorage.clear();
+  },
+
+
+-->

@@ -49,6 +49,8 @@ export default {
     },
 
     login() {
+      localStorage.removeItem("token");
+
       let log = {
         cuil: this.cuil,
         password: this.password,
@@ -56,28 +58,74 @@ export default {
 
       dbService
         .postLoginMunicipal(log)
-        .then((response) => {
+        .then(async (response) => {
           if (response.status == 200) {
-            localStorage.removeItem("token");
-            this.user = response.data.MuniLogged;
-            this.dispatchLogin();
+            console.log(response.data.Token.token);
+            let token = response.data.Token.token;
+            //TOMO LOS DATOS DEL TOKEN
+            localStorage.setItem("token", token);
+            let payload = await dbService.getToken(token);
+            console.log(payload);
+            if (token) {
+              this.getMyProfile();
+            }
+            //this.user = response.data.MuniLogged;
+            //this.dispatchLogin();
 
-            this.validacion = true;
-            localStorage.clear();
-            localStorage.setItem("name", response.data.MuniLogged.firstname);
-            localStorage.setItem("lastname", response.data.MuniLogged.lastname);
-            localStorage.setItem("cuil", response.data.MuniLogged.cuil);
-            localStorage.setItem("email", response.data.MuniLogged.email);
-            localStorage.setItem("id", response.data.MuniLogged.id);
-            localStorage.setItem("role", response.data.MuniLogged.role);
-            localStorage.setItem("token", response.data.MuniLogged.token);
-            this.$router.push("muni");
+            // this.validacion = true;
+            //localStorage.clear();
+            //localStorage.setItem("name", response.data.MuniLogged.firstname);
+            //localStorage.setItem("lastname", response.data.MuniLogged.lastname);
+            // localStorage.setItem("cuil", response.data.MuniLogged.cuil);
+            // localStorage.setItem("email", response.data.MuniLogged.email);
+            // localStorage.setItem("id", response.data.MuniLogged.id);
+            //localStorage.setItem("role", response.data.MuniLogged.role);
+            //localStorage.setItem("token", response.data.MuniLogged.token);
+            // this.$router.push("muni");
           }
         })
         .catch((error) => {
           console.log(error);
           this.msj = "Usuario incorrecto";
         });
+    },
+    getMyProfile() {
+      dbService.getProfileMunicipal().then((response) => {
+        console.log(response.data);
+        this.user = response.data.MuniProfile.muni;
+        this.dispatchLogin();
+
+        window.localStorage.setItem(
+          "name",
+          response.data.MuniProfile.muni.firstname
+        );
+        window.localStorage.setItem(
+          "lastname",
+          response.data.MuniProfile.muni.lastname
+        );
+        window.localStorage.setItem(
+          "cuil",
+          response.data.MuniProfile.muni.cuil
+        );
+
+        window.localStorage.setItem(
+          "email",
+          response.data.MuniProfile.muni.email
+        );
+        window.localStorage.setItem("id", response.data.MuniProfile.muni.id);
+        window.localStorage.setItem(
+          "fecha-creacion",
+          response.data.MuniProfile.muni.created_at
+        );
+
+        // window.localStorage.setItem(
+        ///"role",
+        // response.data.UserProfile.user.role
+        //);
+        window.localStorage.setItem("role", "MUNI_ROLE");
+        this.validacion = true;
+        this.$router.push("muni");
+      });
     },
   },
 };

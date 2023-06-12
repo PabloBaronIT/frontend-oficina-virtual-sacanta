@@ -175,12 +175,13 @@ export default {
   data() {
     return {
       ruta: this.$router.currentRoute.value.fullPath,
-      usuario: localStorage.getItem("name"),
-      apellido: localStorage.getItem("lastname"),
-      dni: localStorage.getItem("cuil"),
+      //usuario: localStorage.getItem("firstname"),
+      //apellido: localStorage.getItem("lastname"),
+      //dni: localStorage.getItem("cuil"),
       permission: true,
-      user_id: localStorage.getItem("id"),
-      role: localStorage.getItem("role"),
+      //user_id: localStorage.getItem("id"),
+      //role: localStorage.getItem("role"),
+      user: "",
     };
   },
   created() {

@@ -150,6 +150,7 @@ export default {
     },
   },
   created() {
+    //SE BUSCAN LOS REPRESENTADOS QUE TENGA EN LA BD
     const apiClient = axios.create({
       //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
       baseURL: process.env.VUE_APP_BASEURL,
