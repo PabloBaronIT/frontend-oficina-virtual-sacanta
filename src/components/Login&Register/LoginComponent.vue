@@ -73,10 +73,10 @@ export default {
     return {
       cuil: null,
       password: "",
-      validacion: null,
+      validacion: false,
       msj: "",
       loading: false,
-      user: {},
+      user: null,
       cidi: null,
     };
   },
@@ -89,10 +89,22 @@ export default {
     localStorage.clear();
     next();
   },
+  created() {
+    //tomo del la ruta la query string para tomar datos del usuario
+    let cidi = this.$route.query.cidi || null;
+    console.log(cidi, "soy query de cidi");
+
+    if (cidi) {
+      this.logCidi(cidi);
+    }
+  },
   methods: {
-    //SE GUARDA EN EL STORE EÑL USUARIO
+    //SE GUARDA EN EL STORE EL USUARIO
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
+    },
+    ruta() {
+      this.loading = false;
     },
 
     log() {
@@ -101,16 +113,20 @@ export default {
       dbService
         .postLoginUser({ password: this.password, cuil: this.cuil })
         .then(async (response) => {
-          console.log(response.data.Token.token);
-          let token = response.data.Token.token;
-          //TOMO LOS DATOS DEL TOKEN
-          localStorage.setItem("token", token);
+          //la api envia solo un token
+          console.log(response.data.Token.token, "token de la api");
+          let tokenApi = response.data.Token.token;
+          await localStorage.setItem("token", tokenApi);
+          this.getMyProfile();
 
-          let payload = await dbService.getToken(token);
-          console.log(payload);
-          if (token) {
-            this.getMyProfile();
-          }
+          //se setea en el localstorage
+
+          //TOMO LOS DATOS DEL TOKEN
+          // let payload = dbService.getToken(response.data.Token.token);
+          // console.log(payload);
+          // this.getMyProfile();
+          //this.$router.push("representaciones");
+          //
         })
         .catch((error) => {
           console.log(error);
@@ -130,26 +146,35 @@ export default {
         withCredentials: false,
       });
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
-      apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
+      apiClient.post("/auth/cidi/login/" + cidi).then(async (response) => {
         console.log(response.data, "respuesta api cidi");
+        let token = response.data.Token.token;
+        console.log(token);
+        //   ? response.data.Token.token
+        //   : null;
+        // let redireccionamiento = response.data.redirectURL
+        //   ? response.data.redirectURL
+        //   : null;
+        // if (token) {
+        //   await localStorage.setItem("token", token);
+        //   await this.getMyProfile();
+        //   this.$router.push("representaciones");
+        // }
 
-        let redireccionamiento = response.data.redirectURL
-          ? response.data.redirectURL
-          : null;
-        let userCidi = response.data ? response.data : null;
-        if (redireccionamiento) {
-          window.location.href = response.data.redirectURL;
-        } else {
-          console.log(userCidi, "respuesta de cidi  ");
-        }
-
-        // this.$router.push("representaciones");
+        // //si tiene representados
+        // if (redireccionamiento) {
+        //   window.location.href = response.data.redirectURL;
+        // }
+        //  else  {
+        //   await this.getMyProfile();
+        //   this.$router.push("representaciones");
+        // }
       });
     },
     //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
     getMyProfile() {
       dbService.getMyProfileUser().then((response) => {
-        console.log(response.data);
+        //console.log(response.data, "datos de usuariodb");
         this.user = response.data.UserProfile.user;
         this.dispatchLogin();
 
@@ -178,16 +203,17 @@ export default {
           "fecha-creacion",
           response.data.UserProfile.user.created_at
         );
-        window.localStorage.setItem("nivel", 1);
+        window.localStorage.setItem(
+          "nivel",
+          response.data.UserProfile.user.level.level
+        );
+        window.localStorage.setItem(
+          "role",
+          response.data.UserProfile.user.role
+        );
+        this.ruta();
 
-        // window.localStorage.setItem(
-        // "role",
-        // response.data.UserProfile.user.role
-        //);
-        window.localStorage.setItem("role", "USER_ROLE");
-        this.$router.push("representaciones");
-
-        this.validacion = true;
+        //this.$router.push("representaciones");
       });
     },
   },
