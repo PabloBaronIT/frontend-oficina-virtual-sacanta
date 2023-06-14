@@ -137,6 +137,7 @@ export default {
       localStorage.clear();
       location.reload();
       this.$router.push("login");
+      document.cookie = "cidi=; max-age=0; path=/login";
       window.dispatchEvent(
         new CustomEvent("token-localstorage-changed", {
           detail: {

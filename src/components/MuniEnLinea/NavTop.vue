@@ -185,7 +185,7 @@ export default {
     };
   },
   created() {
-    this.role = localStorage.getItem("role");
+    this.role = this.$store.state.user?.role;
   },
   watch: {},
 

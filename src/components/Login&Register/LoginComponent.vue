@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" v-if="!this.loading">
     <form>
       <img
         class="w-50"
@@ -59,9 +59,8 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
 import axios from "axios";
-
+//import dbService from "@/services/dbService";
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
@@ -77,7 +76,7 @@ export default {
       msj: "",
       loading: false,
       user: null,
-      cidi: null,
+      asd: false,
     };
   },
 
@@ -94,8 +93,22 @@ export default {
     let cidi = this.$route.query.cidi || null;
     console.log(cidi, "soy query de cidi");
 
+    let Cookiess = document.cookie.split(";"); //tomo todas la cookkies
+    let asd = Cookiess?.map((element) => {
+      //las recorro para buscar la de cidi
+      if (element.includes("cidi")) return element;
+    });
+    let cidiCookkie = asd[0]?.split("=") || null; //separo la que es de cidi para obtener el valor
+
     if (cidi) {
+      this.loading = true;
+      document.cookie = `cidi=${cidi};max-age=120`;
+      //se llama la api de cidi para saber si tienen representados o no
       this.logCidi(cidi);
+    }
+    if (cidiCookkie) {
+      this.loading = true;
+      this.logCidi(cidiCookkie[1]);
     }
   },
   methods: {
@@ -103,30 +116,24 @@ export default {
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
-    ruta() {
-      this.loading = false;
-    },
-
+    //LOGIN COMUN
     log() {
       this.loading = true;
-
-      dbService
-        .postLoginUser({ password: this.password, cuil: this.cuil })
-        .then(async (response) => {
-          //la api envia solo un token
-          console.log(response.data.Token.token, "token de la api");
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/auth/signin", { cuil: this.cuil, password: this.password })
+        .then((response) => {
+          console.log(response.data);
           let tokenApi = response.data.Token.token;
-          await localStorage.setItem("token", tokenApi);
+          localStorage.setItem("token", tokenApi);
           this.getMyProfile();
-
-          //se setea en el localstorage
-
-          //TOMO LOS DATOS DEL TOKEN
-          // let payload = dbService.getToken(response.data.Token.token);
-          // console.log(payload);
-          // this.getMyProfile();
-          //this.$router.push("representaciones");
-          //
         })
         .catch((error) => {
           console.log(error);
@@ -137,6 +144,11 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+
+      if (this.asd) {
+        this.loading = false;
+        this.$router.push("representaciones");
+      }
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
@@ -146,35 +158,57 @@ export default {
         withCredentials: false,
       });
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
-      apiClient.post("/auth/cidi/login/" + cidi).then(async (response) => {
-        console.log(response.data, "respuesta api cidi");
-        let token = response.data.Token.token;
-        console.log(token);
-        //   ? response.data.Token.token
-        //   : null;
-        // let redireccionamiento = response.data.redirectURL
-        //   ? response.data.redirectURL
-        //   : null;
-        // if (token) {
-        //   await localStorage.setItem("token", token);
-        //   await this.getMyProfile();
-        //   this.$router.push("representaciones");
-        // }
+      apiClient
+        .post("/auth/cidi/login/" + cidi)
+        .then((response) => {
+          console.log(response.data, "respuesta api cidi");
+          let token = response.data["Token"] || null; //token por calve fizcal o sin representados
+          let redireccionamiento = response.data["redirectURL"] || null; //redireccionamiento con representados
+          let tokenRepresetations =
+            response.data["TokenRepresentations"] || null; //token con representados
 
-        // //si tiene representados
-        // if (redireccionamiento) {
-        //   window.location.href = response.data.redirectURL;
-        // }
-        //  else  {
-        //   await this.getMyProfile();
-        //   this.$router.push("representaciones");
-        // }
-      });
+          if (token) {
+            localStorage.setItem("token", token.token);
+            this.getMyProfile();
+            this.loading = false;
+            this.$router.replace("/representaciones");
+          }
+
+          //si tiene representados
+          if (redireccionamiento) {
+            window.location.href = response.data.redirectURL;
+          }
+          if (tokenRepresetations) {
+            localStorage.setItem("token", tokenRepresetations.token);
+            this.getMyProfile();
+            // let representacion = dbService.getToken(tokenRepresetations.token);
+            // let idRepresentante = representacion.representative;
+            this.loading = false;
+            this.$router.replace("/representaciones");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.msj = "Usuario incorrecto";
+          this.loading = false;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
+
     //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
     getMyProfile() {
-      dbService.getMyProfileUser().then((response) => {
-        //console.log(response.data, "datos de usuariodb");
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/user/profile").then((response) => {
+        console.log(response.data, "datos de usuariodb");
         this.user = response.data.UserProfile.user;
         this.dispatchLogin();
 
@@ -211,9 +245,7 @@ export default {
           "role",
           response.data.UserProfile.user.role
         );
-        this.ruta();
-
-        //this.$router.push("representaciones");
+        this.asd = true;
       });
     },
   },
