@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" v-if="!this.loading">
     <form>
       <img
         class="w-50"
@@ -59,9 +59,8 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
 import axios from "axios";
-
+//import dbService from "@/services/dbService";
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
@@ -73,11 +72,11 @@ export default {
     return {
       cuil: null,
       password: "",
-      validacion: null,
+      validacion: false,
       msj: "",
       loading: false,
-      user: {},
-      cidi: null,
+      user: null,
+      asd: false,
     };
   },
 
@@ -89,28 +88,52 @@ export default {
     localStorage.clear();
     next();
   },
+  created() {
+    //tomo del la ruta la query string para tomar datos del usuario
+    let cidi = this.$route.query.cidi || null;
+    console.log(cidi, "soy query de cidi");
+
+    let Cookiess = document.cookie.split(";"); //tomo todas la cookkies
+    let asd = Cookiess?.map((element) => {
+      //las recorro para buscar la de cidi
+      if (element.includes("cidi")) return element;
+    });
+    let cidiCookkie = asd[0]?.split("=") || null; //separo la que es de cidi para obtener el valor
+
+    if (cidi) {
+      this.loading = true;
+      document.cookie = `cidi=${cidi};max-age=120`;
+      //se llama la api de cidi para saber si tienen representados o no
+      this.logCidi(cidi);
+    }
+    if (cidiCookkie) {
+      this.loading = true;
+      this.logCidi(cidiCookkie[1]);
+    }
+  },
   methods: {
     //SE GUARDA EN EL STORE EL USUARIO
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
-
+    //LOGIN COMUN
     log() {
       this.loading = true;
-
-      dbService
-        .postLoginUser({ password: this.password, cuil: this.cuil })
-        .then(async (response) => {
-          console.log(response.data.Token.token);
-          let token = response.data.Token.token;
-          //TOMO LOS DATOS DEL TOKEN
-          localStorage.setItem("token", token);
-
-          let payload = await dbService.getToken(token);
-          console.log(payload);
-          if (token) {
-            this.getMyProfile();
-          }
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/auth/signin", { cuil: this.cuil, password: this.password })
+        .then((response) => {
+          console.log(response.data);
+          let tokenApi = response.data.Token.token;
+          localStorage.setItem("token", tokenApi);
+          this.getMyProfile();
         })
         .catch((error) => {
           console.log(error);
@@ -121,6 +144,11 @@ export default {
         .finally(() => {
           this.loading = false;
         });
+
+      if (this.asd) {
+        this.loading = false;
+        this.$router.push("representaciones");
+      }
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
@@ -130,26 +158,57 @@ export default {
         withCredentials: false,
       });
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
-      apiClient.post("/auth/cidi/login/" + cidi).then((response) => {
-        console.log(response.data, "respuesta api cidi");
+      apiClient
+        .post("/auth/cidi/login/" + cidi)
+        .then((response) => {
+          console.log(response.data, "respuesta api cidi");
+          let token = response.data["Token"] || null; //token por calve fizcal o sin representados
+          let redireccionamiento = response.data["redirectURL"] || null; //redireccionamiento con representados
+          let tokenRepresetations =
+            response.data["TokenRepresentations"] || null; //token con representados
 
-        let redireccionamiento = response.data.redirectURL
-          ? response.data.redirectURL
-          : null;
-        let userCidi = response.data ? response.data : null;
-        if (redireccionamiento) {
-          window.location.href = response.data.redirectURL;
-        } else {
-          console.log(userCidi, "respuesta de cidi  ");
-        }
+          if (token) {
+            localStorage.setItem("token", token.token);
+            this.getMyProfile();
+            this.loading = false;
+            this.$router.replace("/representaciones");
+          }
 
-        // this.$router.push("representaciones");
-      });
+          //si tiene representados
+          if (redireccionamiento) {
+            window.location.href = response.data.redirectURL;
+          }
+          if (tokenRepresetations) {
+            localStorage.setItem("token", tokenRepresetations.token);
+            this.getMyProfile();
+            // let representacion = dbService.getToken(tokenRepresetations.token);
+            // let idRepresentante = representacion.representative;
+            this.loading = false;
+            this.$router.replace("/representaciones");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.msj = "Usuario incorrecto";
+          this.loading = false;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
+
     //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
     getMyProfile() {
-      dbService.getMyProfileUser().then((response) => {
-        console.log(response.data);
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/user/profile").then((response) => {
+        console.log(response.data, "datos de usuariodb");
         this.user = response.data.UserProfile.user;
         this.dispatchLogin();
 
@@ -178,16 +237,15 @@ export default {
           "fecha-creacion",
           response.data.UserProfile.user.created_at
         );
-        window.localStorage.setItem("nivel", 1);
-
-        // window.localStorage.setItem(
-        // "role",
-        // response.data.UserProfile.user.role
-        //);
-        window.localStorage.setItem("role", "USER_ROLE");
-        this.$router.push("representaciones");
-
-        this.validacion = true;
+        window.localStorage.setItem(
+          "nivel",
+          response.data.UserProfile.user.level.level
+        );
+        window.localStorage.setItem(
+          "role",
+          response.data.UserProfile.user.role
+        );
+        this.asd = true;
       });
     },
   },

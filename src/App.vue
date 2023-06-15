@@ -26,9 +26,10 @@ export default {
     };
   },
   created() {
-    window.addEventListener("token-localstorage-changed", (event) => {
-      this.role = event.detail.storage;
-    });
+    // window.addEventListener("token-localstorage-changed", (event) => {
+    //   this.role = event.detail.storage;
+    // });
+    this.role = this.$store.state.user?.role || "";
   },
   watch: {
     $route() {

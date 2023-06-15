@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import dbService from "@/services/dbService";
+//import dbService from "@/services/dbService";
+import axios from "axios";
 
 export default {
   data() {
@@ -51,37 +52,31 @@ export default {
     login() {
       localStorage.removeItem("token");
 
-      let log = {
-        cuil: this.cuil,
-        password: this.password,
-      };
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/auth/signinMunicipales", {
+          cuil: this.cuil,
+          password: this.password,
+        })
 
-      dbService
-        .postLoginMunicipal(log)
         .then(async (response) => {
           if (response.status == 200) {
             console.log(response.data.Token.token);
             let token = response.data.Token.token;
-            //TOMO LOS DATOS DEL TOKEN
             localStorage.setItem("token", token);
-            let payload = await dbService.getToken(token);
-            console.log(payload);
-            if (token) {
-              this.getMyProfile();
-            }
-            //this.user = response.data.MuniLogged;
-            //this.dispatchLogin();
+            this.getMyProfile();
+            this.$router.push("muni");
 
-            // this.validacion = true;
-            //localStorage.clear();
-            //localStorage.setItem("name", response.data.MuniLogged.firstname);
-            //localStorage.setItem("lastname", response.data.MuniLogged.lastname);
-            // localStorage.setItem("cuil", response.data.MuniLogged.cuil);
-            // localStorage.setItem("email", response.data.MuniLogged.email);
-            // localStorage.setItem("id", response.data.MuniLogged.id);
-            //localStorage.setItem("role", response.data.MuniLogged.role);
-            //localStorage.setItem("token", response.data.MuniLogged.token);
-            // this.$router.push("muni");
+            //TOMO LOS DATOS DEL TOKEN
+            //let payload = await dbService.getToken(token);
+            //console.log(payload);
           }
         })
         .catch((error) => {
@@ -90,7 +85,15 @@ export default {
         });
     },
     getMyProfile() {
-      dbService.getProfileMunicipal().then((response) => {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/municipales/muni-profile").then((response) => {
         console.log(response.data);
         this.user = response.data.MuniProfile.muni;
         this.dispatchLogin();
@@ -122,9 +125,11 @@ export default {
         ///"role",
         // response.data.UserProfile.user.role
         //);
-        window.localStorage.setItem("role", "MUNI_ROLE");
+        window.localStorage.setItem(
+          "role",
+          response.data.MuniProfile.muni.role
+        );
         this.validacion = true;
-        this.$router.push("muni");
       });
     },
   },
