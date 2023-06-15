@@ -60,7 +60,7 @@
 
 <script>
 import axios from "axios";
-//import dbService from "@/services/dbService";
+import dbService from "@/services/dbService";
 //ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
@@ -76,7 +76,7 @@ export default {
       msj: "",
       loading: false,
       user: null,
-      asd: false,
+      representante: null,
     };
   },
 
@@ -116,6 +116,10 @@ export default {
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
+    //se guarda los datos del representante
+    dispatchRepresentante() {
+      this.$store.dispatch("mockRepresentanteAction", this.representante);
+    },
     //LOGIN COMUN
     log() {
       this.loading = true;
@@ -145,10 +149,7 @@ export default {
           this.loading = false;
         });
 
-      if (this.asd) {
-        this.loading = false;
-        this.$router.push("representaciones");
-      }
+      this.$router.replace("representaciones");
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
@@ -170,8 +171,7 @@ export default {
           if (token) {
             localStorage.setItem("token", token.token);
             this.getMyProfile();
-            this.loading = false;
-            this.$router.replace("/representaciones");
+            this.$router.push("/munienlinea");
           }
 
           //si tiene representados
@@ -180,11 +180,16 @@ export default {
           }
           if (tokenRepresetations) {
             localStorage.setItem("token", tokenRepresetations.token);
+            //se buscan los datos del usuario
             this.getMyProfile();
-            // let representacion = dbService.getToken(tokenRepresetations.token);
-            // let idRepresentante = representacion.representative;
-            this.loading = false;
-            this.$router.replace("/representaciones");
+            let payload = dbService.getToken(tokenRepresetations.token);
+            let idRepresentante = payload.representative;
+            //se busca los datos del representante
+            this.getRepresentante(idRepresentante);
+
+            if (this.user) {
+              this.$router.replace("/munienlinea");
+            }
           }
         })
         .catch((error) => {
@@ -245,7 +250,23 @@ export default {
           "role",
           response.data.UserProfile.user.role
         );
-        this.asd = true;
+      });
+    },
+    getRepresentante(id) {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/users/" + id).then((response) => {
+        console.log(response.data, "datos representante");
+
+        this.representante = response.data.user;
+
+        this.dispatchRepresentante();
       });
     },
   },

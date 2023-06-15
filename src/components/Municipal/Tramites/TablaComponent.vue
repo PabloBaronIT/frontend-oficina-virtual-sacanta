@@ -422,6 +422,7 @@ export default {
         .get("/oficina/procedures/history")
         .then((response) => {
           let h = response.data.HistoryOfProcedures;
+
           console.log(h + "hitorial");
           //let l = h.length;
 
@@ -429,7 +430,7 @@ export default {
 
           //console.log(response);
 
-          for (let i = 0; i < h.length; i++) {
+          for (let i = 0; i < h[0].length; i++) {
             //Procedure
             let p = {
               id: null,
@@ -469,7 +470,46 @@ export default {
 
             this.activos.push(p);
           }
+          for (let i = 0; i < h[1].length; i++) {
+            //Procedure
+            let p = {
+              id: null,
+              cuil: "",
+              categoria: "",
+              estado: "",
+              procedure: "",
+              requerimientos: null,
+            };
+            //Carga del procedure
+            p.id = h[i].id;
+            p.cuil = h[i].user;
+            p.categoria = h[i].category.title;
+            p.estado = h[i].status.status;
+            p.procedure = h[i].procedure.title;
+            p.requerimientos = Array.isArray(h[i].requirementHistory)
+              ? h[i].requirementHistory
+              : null;
 
+            switch (p.estado) {
+              case "PRESENTADO":
+                p.color = "var(--green)";
+                break;
+              case "PAUSADO POR REQUERIMIENTO":
+                p.color = "var(--red)";
+                break;
+              case "EN PROCESO":
+                p.color = "var(--yellow)";
+                break;
+              case "FINALIZADO":
+                p.color = "var(--lblue)";
+                break;
+
+              default:
+                break;
+            }
+
+            this.deadline.push(p);
+          }
           //this.length = response.data.HistoryOfProcedures.length;
         })
         .catch((err) => {

@@ -8,6 +8,7 @@ export default createStore({
     user: {},
     representative: false,
     RepresentativeUser: null,
+    Representante: null,
   },
   getters: {
     getProfile(state) {
@@ -37,10 +38,16 @@ export default createStore({
     clearRepresentativeUser(state) {
       state.RepresentativeUser = null;
     },
+    representante(state, asd) {
+      state.Representante = asd;
+    },
   },
   actions: {
     mockLoginAction(context, asd) {
       context.commit("loggedIn", asd);
+    },
+    mockRepresentanteAction(context, asd) {
+      context.commit("representante", asd);
     },
     saveP(context) {
       context.commit("saveProcedure");

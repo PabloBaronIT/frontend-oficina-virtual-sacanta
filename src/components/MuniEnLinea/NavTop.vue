@@ -45,7 +45,7 @@
             <span>CUIL: {{ $store.state.user.cuil }}</span>
           </p>
         </div>
-        <div>
+        <!-- <div>
           <p
             v-if="this.$store.state.RepresentativeUser"
             @click="changeRepresentative"
@@ -55,6 +55,15 @@
             <strong class="nameRepresntative">
               {{ $store.state.RepresentativeUser.firstname }}
               {{ $store.state.RepresentativeUser.lastname }}
+            </strong>
+          </p>
+        </div> -->
+        <div>
+          <p v-if="this.$store.state.Representante">
+            Representado por:
+            <strong class="nameRepresntative">
+              {{ $store.state.Representante.firstname }}
+              {{ $store.state.Representante.lastname }}
             </strong>
           </p>
         </div>
