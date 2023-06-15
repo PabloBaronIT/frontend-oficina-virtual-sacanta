@@ -90,7 +90,7 @@ export default {
     next();
   },
   methods: {
-    //SE GUARDA EN EL STORE EÑL USUARIO
+    //SE GUARDA EN EL STORE EL USUARIO
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
