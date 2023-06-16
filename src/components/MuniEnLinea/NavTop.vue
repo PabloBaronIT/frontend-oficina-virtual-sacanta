@@ -45,25 +45,13 @@
             <span>CUIL: {{ $store.state.user.cuil }}</span>
           </p>
         </div>
-        <!-- <div>
-          <p
-            v-if="this.$store.state.RepresentativeUser"
-            @click="changeRepresentative"
-          >
-            Representado por:
 
-            <strong class="nameRepresntative">
-              {{ $store.state.RepresentativeUser.firstname }}
-              {{ $store.state.RepresentativeUser.lastname }}
-            </strong>
-          </p>
-        </div> -->
         <div>
-          <p v-if="this.$store.state.Representante">
+          <p v-if="this.$store.state.representante">
             Representado por:
             <strong class="nameRepresntative">
-              {{ $store.state.Representante.firstname }}
-              {{ $store.state.Representante.lastname }}
+              {{ $store.state.representante.firstname }}
+              {{ $store.state.representante.lastname }}
             </strong>
           </p>
         </div>
@@ -177,7 +165,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+//import axios from "axios";
 
 export default {
   name: "NavTopVue",
@@ -217,46 +205,46 @@ export default {
     dispatchClearRepresentativeUser() {
       this.$store.dispatch("clearRepresentativeUserAction");
     },
-    changeRepresentative() {
-      console.log("cambiew");
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("tokenCopia"),
-        },
-      });
-      apiClient
-        .post("/representations/choose-representation", {
-          representativeId: this.$store.state.RepresentativeUser.id,
-        })
-        .then((response) => {
-          console.log(response.data.message);
-          window.localStorage.removeItem("token");
-          window.localStorage.setItem("token", response.data.token);
-          this.getProfile();
-          setTimeout(() => this.$router.push("munienlinea"), 2000);
-          this.dispatchClearRepresentativeUser();
-          //this.dispatchRepresentative();
-          //this.dispachSaveRepresentativeUser();
-        });
-    },
-    getProfile() {
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient.get("/oficina/user/profile").then((response) => {
-        this.user = response.data.UserProfile.user;
-        console.log(this.user);
-        this.dispatchProfile();
-      });
-    },
+    // changeRepresentative() {
+    //   console.log("cambiew");
+    //   const apiClient = axios.create({
+    //     //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+    //     baseURL: process.env.VUE_APP_BASEURL,
+    //     withCredentials: false,
+    //     headers: {
+    //       "auth-header": localStorage.getItem("tokenCopia"),
+    //     },
+    //   });
+    //   apiClient
+    //     .post("/representations/choose-representation", {
+    //       representativeId: this.$store.state.RepresentativeUser.id,
+    //     })
+    //     .then((response) => {
+    //       console.log(response.data.message);
+    //       window.localStorage.removeItem("token");
+    //       window.localStorage.setItem("token", response.data.token);
+    //       this.getProfile();
+    //       setTimeout(() => this.$router.push("munienlinea"), 2000);
+    //       this.dispatchClearRepresentativeUser();
+    //       //this.dispatchRepresentative();
+    //       //this.dispachSaveRepresentativeUser();
+    //     });
+    // },
+    // getProfile() {
+    //   const apiClient = axios.create({
+    //     //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+    //     baseURL: process.env.VUE_APP_BASEURL,
+    //     withCredentials: false,
+    //     headers: {
+    //       "auth-header": localStorage.getItem("token"),
+    //     },
+    //   });
+    //   apiClient.get("/oficina/user/profile").then((response) => {
+    //     this.user = response.data.UserProfile.user;
+    //     console.log(this.user);
+    //     this.dispatchProfile();
+    //   });
+    // },
   },
 };
 </script>

@@ -102,8 +102,10 @@ export default {
 
     if (cidi) {
       this.loading = true;
+
       document.cookie = `cidi=${cidi};max-age=120`;
       //se llama la api de cidi para saber si tienen representados o no
+
       this.logCidi(cidi);
     }
     if (cidiCookkie) {
@@ -149,7 +151,7 @@ export default {
           this.loading = false;
         });
 
-      this.$router.replace("representaciones");
+      this.$router.push("munienlinea");
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
@@ -170,6 +172,14 @@ export default {
 
           if (token) {
             localStorage.setItem("token", token.token);
+            let payload = dbService.getToken(cidi);
+            let idRepresentante = payload.representative
+              ? payload.representative
+              : null;
+            console.log(idRepresentante);
+            if (idRepresentante) {
+              this.getRepresentante(idRepresentante);
+            }
             this.getMyProfile();
             this.$router.push("/munienlinea");
           }
@@ -181,15 +191,12 @@ export default {
           if (tokenRepresetations) {
             localStorage.setItem("token", tokenRepresetations.token);
             //se buscan los datos del usuario
-            this.getMyProfile();
             let payload = dbService.getToken(tokenRepresetations.token);
             let idRepresentante = payload.representative;
+            this.getMyProfile();
             //se busca los datos del representante
             this.getRepresentante(idRepresentante);
-
-            if (this.user) {
-              this.$router.replace("/munienlinea");
-            }
+            this.$router.push("/munienlinea");
           }
         })
         .catch((error) => {
@@ -264,7 +271,15 @@ export default {
       apiClient.get("/oficina/users/" + id).then((response) => {
         console.log(response.data, "datos representante");
 
-        this.representante = response.data.user;
+        this.representante = response.data.User;
+        localStorage.setItem(
+          "representanteFirstname",
+          response.data.User.firstname
+        );
+        localStorage.setItem(
+          "representanteLastname",
+          response.data.User.lastname
+        );
 
         this.dispatchRepresentante();
       });
