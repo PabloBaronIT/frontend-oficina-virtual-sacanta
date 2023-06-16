@@ -397,9 +397,11 @@ export default {
     };
   },
   created() {
+    //se obtienen todos los tramites
     this.getProcedures();
-    this.getProceduresDeadline();
-    this.getProceduresRequeridos();
+
+    // this.getProceduresDeadline();
+    // this.getProceduresRequeridos();
   },
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
@@ -421,34 +423,39 @@ export default {
       apiClient
         .get("/oficina/procedures/history")
         .then((response) => {
-          let h = response.data.HistoryOfProcedures;
+          let h = response.data.HistoryOfProcedures; //todos los tramites
+          let plazo = response.data.HistoryOfProcedures.OnTime;
+          let fueraPlazo = response.data.HistoryOfProcedures.OutTime;
+          let pausados = response.data.HistoryOfProcedures.PausedTime;
 
-          console.log(h + "hitorial");
+          console.log(plazo);
           //let l = h.length;
 
           this.history = h;
 
           //console.log(response);
 
-          for (let i = 0; i < h[0].length; i++) {
+          for (let i = 0; i < plazo.length; i++) {
             //Procedure
             let p = {
               id: null,
-              cuil: "",
-              categoria: "",
+              firstname: "",
+              lastname: "",
+              fecha: "",
+              title: "",
               estado: "",
-              procedure: "",
-              requerimientos: null,
+              plazo: "",
+              task: null,
             };
             //Carga del procedure
-            p.id = h[i].id;
-            p.cuil = h[i].user;
-            p.categoria = h[i].category.title;
-            p.estado = h[i].status.status;
-            p.procedure = h[i].procedure.title;
-            p.requerimientos = Array.isArray(h[i].requirementHistory)
-              ? h[i].requirementHistory
-              : null;
+            p.id = plazo[i].id;
+            p.firstname = plazo[i].user.firstname;
+            p.lastname = plazo[i].user.lastname;
+            p.fecha = new Date(plazo[i].created_at).toLocaleString();
+            p.title = plazo[i].procedure.title;
+            p.estado = plazo[i].status.status;
+            p.plazo = plazo[i].deadlineDays;
+            p.task = plazo[i].task.length ? plazo[i].task.length : null;
 
             switch (p.estado) {
               case "PRESENTADO":
@@ -470,7 +477,7 @@ export default {
 
             this.activos.push(p);
           }
-          for (let i = 0; i < h[1].length; i++) {
+          for (let i = 0; i < fueraPlazo.length; i++) {
             //Procedure
             let p = {
               id: null,
@@ -509,6 +516,46 @@ export default {
             }
 
             this.deadline.push(p);
+          }
+          for (let i = 0; i < pausados.length; i++) {
+            //Procedure
+            let p = {
+              id: null,
+              cuil: "",
+              categoria: "",
+              estado: "",
+              procedure: "",
+              requerimientos: null,
+            };
+            //Carga del procedure
+            p.id = h[i].id;
+            p.cuil = h[i].user;
+            p.categoria = h[i].category.title;
+            p.estado = h[i].status.status;
+            p.procedure = h[i].procedure.title;
+            p.requerimientos = Array.isArray(h[i].requirementHistory)
+              ? h[i].requirementHistory
+              : null;
+
+            switch (p.estado) {
+              case "PRESENTADO":
+                p.color = "var(--green)";
+                break;
+              case "PAUSADO POR REQUERIMIENTO":
+                p.color = "var(--red)";
+                break;
+              case "EN PROCESO":
+                p.color = "var(--yellow)";
+                break;
+              case "FINALIZADO":
+                p.color = "var(--lblue)";
+                break;
+
+              default:
+                break;
+            }
+
+            this.requeridos.push(p);
           }
           //this.length = response.data.HistoryOfProcedures.length;
         })
@@ -1271,7 +1318,7 @@ input[type="checkbox"]:checked {
   position: relative;
   height: 70vh;
   overflow-y: scroll;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   background: rgb(235, 235, 235);
   border-radius: 20px 0px 0px 10px;
 }
