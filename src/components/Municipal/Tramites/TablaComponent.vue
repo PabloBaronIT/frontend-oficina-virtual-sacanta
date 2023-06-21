@@ -37,10 +37,15 @@
           <option value="4">Finalizados</option>
         </select>
       </div>
-      <div class="container-medio">
+      <div v-if="this.filtros" class="containerTramites">
+        <p v-for="item in this.history" :key="item.id">
+          {{ item.procedure.title }}
+        </p>
+      </div>
+      <div class="container-medio" v-else>
         <!--SE MUESTRAN TODOS LOS TRAMITES EN PLAZO -->
         <div class="tabla-container">
-          <h3>Trámites activos</h3>
+          <h3>Activos</h3>
           <div v-for="item in this.activos" :key="item.id">
             <CardComponentVue
               :obj="item"
@@ -48,6 +53,7 @@
               :verTramite="verTramite"
               :ModalComunicacion="ModalComunicacion"
               :ModalRequerimiento="ModalRequerimiento"
+              color="success"
             />
           </div>
           <div class="nav">
@@ -77,7 +83,11 @@
                 alt=""
               />
             </div>
-            <div class="data-container" v-for="item in history" :key="item.id">
+            <div
+              class="data-container"
+              v-for="item in selectedHistory.procedure"
+              :key="item.id"
+            >
               <section v-if="item.id === selectedTramite">
                 <div class="data-container">
                   <h3>Datos del vecino:</h3>
@@ -118,28 +128,44 @@
                 </div>
                 <!--EL TRAMITE QUE TENGA REQUERIMIENTOS SE PODRA VER LOS MISMOS-->
                 <div
-                  v-if="Array.isArray(item.requirementHistory)"
+                  v-if="Array.isArray(this.selectedHistory.requirement)"
                   class="requerimiento"
                 >
                   <p>Requerimiento:</p>
-                  {{ item.requirementHistory[0].info_req }}
+                  {{
+                    this.selectedHistory.requirement[
+                      this.selectedHistory.requirement.length - 1
+                    ].info_req
+                  }}
                   <div
                     v-if="
-                      item.requirementHistory[0].answer ||
-                      item.requirementHistory[0].documentRequirement.file
+                      this.selectedHistory.requirement[
+                        this.selectedHistory.requirement.length - 1
+                      ].answer ||
+                      this.selectedHistory.requirement[
+                        this.selectedHistory.requirement.length - 1
+                      ].documentRequirement.file
                     "
                   >
                     <p>Respuesta</p>
-                    {{ item.requirementHistory[0].answer || "" }}
                     {{
-                      item.requirementHistory[0].documentRequirement.file || ""
+                      this.selectedHistory.requirement[
+                        this.selectedHistory.requirement.length - 1
+                      ].answer || ""
+                    }}
+                    {{
+                      this.selectedHistory.requirement[
+                        this.selectedHistory.requirement.length - 1
+                      ].documentRequirement.file || ""
                     }}
                   </div>
 
                   <span class="spanFecha"
                     >{{
                       new Date(
-                        item.requirementHistory[0].created_at
+                        this.selectedHistory.requirement[
+                          this.selectedHistory.requirement.length - 1
+                        ].created_at
                       ).toLocaleString()
                     }}
                   </span>
@@ -253,7 +279,6 @@
             </div>
             <CreateRequirementsComponentVue
               :id="this.selectedTramite"
-              :getProceduresRequeridos="this.getProceduresRequeridos"
               :getProcedures="this.getProcedures"
             />
           </div>
@@ -301,14 +326,15 @@
         </div>
         <!--VISTA DE TABLA CON TRAMITES FUERA DE PLAZOS-->
         <div class="tabla-container">
-          <h3>Trámites fuera de plazo</h3>
+          <h3>Fuera de plazo</h3>
           <div v-for="item in this.deadline" :key="item.id">
             <CardComponentVue
               :obj="item"
               :ModalTarea="ModalTarea"
-              :verTramite="verTramiteDeadline"
+              :verTramite="verTramite"
               :ModalComunicacion="ModalComunicacion"
               :ModalRequerimiento="ModalRequerimiento"
+              color="danger"
             />
           </div>
           <div class="nav"></div>
@@ -316,14 +342,15 @@
 
         <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
         <div class="tabla-container">
-          <h3>Trámites con requerimientos</h3>
+          <h3>Requeridos</h3>
           <div v-for="item in this.requeridos" :key="item.id">
             <CardComponentVue
               :obj="item"
               :ModalTarea="ModalTarea"
-              :verTramite="verTramiteRequerido"
+              :verTramite="verTramite"
               :ModalComunicacion="ModalComunicacion"
               :ModalRequerimiento="ModalRequerimiento"
+              color="warning"
             />
           </div>
           <div class="nav">
@@ -379,7 +406,7 @@ export default {
       selectedTramite: null,
       checkbox: [],
       activos: [],
-      history: null,
+      history: [],
       paginas: null,
       paginaActual: 1,
       cont: 0,
@@ -394,6 +421,7 @@ export default {
       requeridos: [],
       modalFiltros: false,
       search: "",
+      filtros: false,
     };
   },
   created() {
@@ -406,8 +434,10 @@ export default {
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
     setModalFiltros() {
-      this.modalFiltros = !this.modalFiltros;
+      //this.modalFiltros = !this.modalFiltros;
+      this.filtros = !this.filtros;
     },
+    //FUNCION PARA BUSCAR TODFOS LOS TRAMITES
     getProcedures() {
       this.activos = [];
 
@@ -423,17 +453,22 @@ export default {
       apiClient
         .get("/oficina/procedures/history")
         .then((response) => {
-          let h = response.data.HistoryOfProcedures; //todos los tramites
+          //let h = response.data.HistoryOfProcedures; //todos los tramites
           let plazo = response.data.HistoryOfProcedures.OnTime;
           let fueraPlazo = response.data.HistoryOfProcedures.OutTime;
-          let pausados = response.data.HistoryOfProcedures.PausedTime;
+          let requeridos = response.data.HistoryOfProcedures.PausedTime;
 
           console.log(plazo);
+          console.log(fueraPlazo);
+          console.log(requeridos);
+
           //let l = h.length;
 
-          this.history = h;
-
-          //console.log(response);
+          this.history = this.history
+            .concat(plazo)
+            .concat(fueraPlazo)
+            .concat(requeridos);
+          console.log(this.history);
 
           for (let i = 0; i < plazo.length; i++) {
             //Procedure
@@ -447,11 +482,11 @@ export default {
               plazo: "",
               task: null,
             };
-            //Carga del procedure
+            //EN PLAZO
             p.id = plazo[i].id;
             p.firstname = plazo[i].user.firstname;
             p.lastname = plazo[i].user.lastname;
-            p.fecha = new Date(plazo[i].created_at).toLocaleString();
+            p.fecha = new Date(plazo[i].created_at).toLocaleDateString();
             p.title = plazo[i].procedure.title;
             p.estado = plazo[i].status.status;
             p.plazo = plazo[i].deadlineDays;
@@ -477,24 +512,30 @@ export default {
 
             this.activos.push(p);
           }
+
+          //FUERA DE PLAZO
           for (let i = 0; i < fueraPlazo.length; i++) {
             //Procedure
             let p = {
               id: null,
-              cuil: "",
-              categoria: "",
+              firstname: "",
+              lastname: "",
+              fecha: "",
+              title: "",
               estado: "",
-              procedure: "",
-              requerimientos: null,
+              plazo: "",
+              task: null,
             };
             //Carga del procedure
-            p.id = h[i].id;
-            p.cuil = h[i].user;
-            p.categoria = h[i].category.title;
-            p.estado = h[i].status.status;
-            p.procedure = h[i].procedure.title;
-            p.requerimientos = Array.isArray(h[i].requirementHistory)
-              ? h[i].requirementHistory
+            p.id = fueraPlazo[i].id;
+            p.firstname = fueraPlazo[i].user.firstname;
+            p.lastname = fueraPlazo[i].user.lastname;
+            p.fecha = new Date(fueraPlazo[i].created_at).toLocaleDateString();
+            p.title = fueraPlazo[i].procedure.title;
+            p.estado = fueraPlazo[i].status.status;
+            p.plazo = fueraPlazo[i].deadlineDays;
+            p.task = fueraPlazo[i].task.length
+              ? fueraPlazo[i].task.length
               : null;
 
             switch (p.estado) {
@@ -517,24 +558,29 @@ export default {
 
             this.deadline.push(p);
           }
-          for (let i = 0; i < pausados.length; i++) {
+          //requeridos POR REQUERIMIENTO
+          for (let i = 0; i < requeridos.length; i++) {
             //Procedure
             let p = {
               id: null,
-              cuil: "",
-              categoria: "",
+              firstname: "",
+              lastname: "",
+              fecha: "",
+              title: "",
               estado: "",
-              procedure: "",
-              requerimientos: null,
+              plazo: "",
+              task: null,
             };
             //Carga del procedure
-            p.id = h[i].id;
-            p.cuil = h[i].user;
-            p.categoria = h[i].category.title;
-            p.estado = h[i].status.status;
-            p.procedure = h[i].procedure.title;
-            p.requerimientos = Array.isArray(h[i].requirementHistory)
-              ? h[i].requirementHistory
+            p.id = requeridos[i].id;
+            p.firstname = requeridos[i].user.firstname;
+            p.lastname = requeridos[i].user.lastname;
+            p.fecha = new Date(requeridos[i].created_at).toLocaleDateString();
+            p.title = requeridos[i].procedure.title;
+            p.estado = requeridos[i].status.status;
+            p.plazo = requeridos[i].deadlineDays;
+            p.task = requeridos[i].task.length
+              ? requeridos[i].task.length
               : null;
 
             switch (p.estado) {
@@ -563,142 +609,25 @@ export default {
           console.log(err);
         });
     },
-    //BUSCA LOS TRAMITES FUERA DE PLAZO
-    getProceduresDeadline() {
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .get("/oficina/procedures/history/deadline/2")
-        .then((response) => {
-          console.log(
-            response.data.ProceduresFiltered,
-            "soy los tramites fuera de plazo"
-          );
-          this.allDeadline = response.data.ProceduresFiltered;
-          this.history = this.history.concat(response.data.ProceduresFiltered);
-          let h = response.data.ProceduresFiltered;
 
-          for (let i = 0; i < h.length; i++) {
-            //Procedure
-            let p = {
-              id: null,
-              cuil: "",
-              categoria: "",
-              estado: "",
-              procedure: "",
-              requerimientos: null,
-            };
-            //Carga del procedure
-            p.id = h[i].id;
-            p.cuil = h[i].user;
-            p.categoria = h[i].category.title;
-            p.estado = h[i].status.status;
-            p.procedure = h[i].procedure.title;
-            p.requerimientos = Array.isArray(h[i].requirementHistory)
-              ? h[i].requirementHistory
-              : null;
-
-            switch (p.estado) {
-              case "PRESENTADO":
-                p.color = "var(--green)";
-                break;
-              case "PAUSADO POR REQUERIMIENTO":
-                p.color = "var(--red)";
-                break;
-              case "EN PROCESO":
-                p.color = "var(--yellow)";
-                break;
-              case "FINALIZADO":
-                p.color = "var(--lblue)";
-                break;
-
-              default:
-                break;
-            }
-
-            this.deadline.push(p);
-          }
-        });
-    },
-    getProceduresRequeridos() {
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .get("/oficina/procedures/history/deadline/3")
-        .then((response) => {
-          console.log(
-            response.data.ProceduresFiltered,
-            "soy los tramites requeridos"
-          );
-          this.history = this.history.concat(response.data.ProceduresFiltered);
-          let h = response.data.ProceduresFiltered;
-
-          for (let i = 0; i < h.length; i++) {
-            //Procedure
-            let p = {
-              id: null,
-              cuil: "",
-              categoria: "",
-              estado: "",
-              procedure: "",
-              requerimientos: null,
-            };
-            //Carga del procedure
-            p.id = h[i].id;
-            p.cuil = h[i].user;
-            p.categoria = h[i].category.title;
-            p.estado = h[i].status.status;
-            p.procedure = h[i].procedure.title;
-            p.requerimientos = Array.isArray(h[i].requirementHistory)
-              ? h[i].requirementHistory
-              : null;
-
-            switch (p.estado) {
-              case "PRESENTADO":
-                p.color = "var(--green)";
-                break;
-              case "PAUSADO POR REQUERIMIENTO":
-                p.color = "var(--red)";
-                break;
-              case "EN PROCESO":
-                p.color = "var(--yellow)";
-                break;
-              case "FINALIZADO":
-                p.color = "var(--lblue)";
-                break;
-
-              default:
-                break;
-            }
-
-            this.requeridos.push(p);
-          }
-        });
-    },
     //PARA VER UN TRAMITE EN ESPECIFICO
     verTramite(id) {
       this.selectedTramite = id;
-      // Buscamos el elemento en el array history con el mismo id que selectedTramite
 
-      for (let i = 0; i < this.history.length; i++) {
-        if (this.history[i].id === id) {
-          this.selectedHistory = this.history[i];
-          break;
-        }
-      }
-      if (this.selectedHistory.status.status === "PRESENTADO") {
+      let apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/procedures/history/" + id).then((response) => {
+        console.log(response.data);
+        this.selectedHistory = response.data.Procedure;
+      });
+
+      if (this.selectedHistory.procedure[0].status.status === "PRESENTADO") {
         this.status = "2";
         this.updateStatus();
         this.activos = [];
@@ -706,37 +635,8 @@ export default {
       }
 
       this.modal = true;
-      //console.log(this.selectedHistory);
+    },
 
-      //console.log(id);
-    },
-    verTramiteDeadline(id) {
-      this.selectedTramite = id;
-      for (let i = 0; i < this.allDeadline.length; i++) {
-        if (this.allDeadline[i].id === id) {
-          this.selectedHistory = this.allDeadline[i];
-          break;
-        }
-      }
-      if (this.selectedHistory.status.status === "PRESENTADO") {
-        this.status = "2";
-        this.updateStatus();
-        this.activos = [];
-        this.getProcedures();
-      }
-      this.modal = true;
-    },
-    verTramiteRequerido(id) {
-      this.selectedTramite = id;
-      for (let i = 0; i < this.requeridos.length; i++) {
-        if (this.requeridos[i].id === id) {
-          this.selectedHistory = this.requeridos[i];
-          break;
-        }
-      }
-
-      this.modal = true;
-    },
     verTarea(id) {
       this.selectedTramite = id;
       this.modalTareas = true;
@@ -1310,17 +1210,17 @@ input[type="checkbox"]:checked {
 }
 
 .tabla-container {
-  width: 30%;
+  width: 33%;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   padding-top: 1rem;
   position: relative;
   height: 70vh;
   overflow-y: scroll;
   /* padding: 0.5rem; */
   background: rgb(235, 235, 235);
-  border-radius: 20px 0px 0px 10px;
+  border-radius: 10px;
 }
 
 table {

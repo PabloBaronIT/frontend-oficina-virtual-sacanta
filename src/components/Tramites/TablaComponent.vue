@@ -68,21 +68,29 @@
           <div class="card card-body" v-if="p.requerido">
             <h3>Requerimiento de su trámite:</h3>
             <div class="title">
-              <strong>{{ p.requerimientos[0].title || "" }} : </strong>
-              {{ p.requerimientos[0].info_req || "" }}
+              <strong
+                >{{ p.requerimientos[p.requerimientos.length - 1].title || "" }}
+                :
+              </strong>
+              {{ p.requerimientos[p.requerimientos.length - 1].info_req || "" }}
             </div>
             <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
             <input
               type="button"
               value="Responder"
-              @click="OpenModalRespuesta(p.requerimientos[0].id)"
+              @click="
+                OpenModalRespuesta(
+                  p.requerimientos[p.requerimientos.length - 1].id
+                )
+              "
               class="botonSubmit"
             />
             <div class="fecha">
               <span>
                 {{
-                  new Date(p.requerimientos[0].created_at).toLocaleString() ||
-                  ""
+                  new Date(
+                    p.requerimientos[p.requerimientos.length - 1].created_at
+                  ).toLocaleString() || ""
                 }}
               </span>
             </div>

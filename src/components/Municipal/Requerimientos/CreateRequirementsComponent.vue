@@ -30,7 +30,6 @@ export default {
   name: "CreateRequirementsComponent",
   props: {
     id: String,
-    getProceduresRequeridos: Function,
     getProcedures: Function,
   },
 
@@ -66,7 +65,6 @@ export default {
             console.log(response.data.message);
             this.title = "";
             this.descriptionRequer = "";
-            this.getProceduresRequeridos();
             this.getProcedures();
           })
           .catch((e) => {
