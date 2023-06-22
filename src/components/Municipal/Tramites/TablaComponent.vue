@@ -11,7 +11,7 @@
             @click="setModalFiltros"
           />
         </div>
-
+        <!-- BUSCADOR -->
         <form class="d-flex">
           <input
             class="buscar"
@@ -28,57 +28,22 @@
             Buscar
           </button>
         </form>
-        <select @change="getFiltro($event)" name="" id="">
+        <!-- <select @change="getFiltro($event)" name="" id="">
           <option>Filtros</option>
           <option value="0">Todos mis trámites</option>
           <option value="1">Presentados</option>
           <option value="2">En proceso</option>
           <option value="3">Requeridos</option>
           <option value="4">Finalizados</option>
-        </select>
+        </select> -->
       </div>
-      <!-- filtros -->
+      <!-- FILTROS -->
       <div v-if="this.filtros" class="containerTramites">
-        <table>
-          <tr>
-            <th>Titulo</th>
-            <th>Id tramite</th>
-            <th>Fecha</th>
-            <th>Nombre</th>
-            <th>cuil</th>
-            <th>Estado</th>
-            <th>Plazo</th>
-            <th>agente</th>
-          </tr>
-          <tr v-for="item in this.history" :key="item.id">
-            <td>
-              {{ item.procedure.title }}
-            </td>
-            <td>
-              {{ item.id }}
-            </td>
-            <td>
-              {{ new Date(item.created_at).toLocaleDateString() }}
-            </td>
-            <td>{{ item.user.firstname }} {{ item.user.lastname }}</td>
-            <td>
-              {{ item.user.cuil }}
-            </td>
-            <td>
-              {{ item.status.status }}
-            </td>
-            <td>
-              {{ item.deadlineDays }}
-            </td>
-            <td>{{ item.userMuni.firstname }}{{ item.userMuni.lastname }}</td>
-          </tr>
-        </table>
-        <!-- <p v-for="item in this.history" :key="item.id">
-          {{ item.procedure.title }}
-        </p> -->
+        <TablaFiltrosComponent :history="this.history" />
       </div>
+      <!-- CONTENEDOR DE TODOS LOS TRAMITES -->
       <div class="container-medio" v-else>
-        <!--SE MUESTRAN TODOS LOS TRAMITES EN PLAZO -->
+        <!-- TRAMITES EN PLAZO -->
         <div class="tabla-container">
           <h3>Activos</h3>
           <div v-for="item in this.activos" :key="item.id">
@@ -420,6 +385,7 @@ import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
 import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
 import CardComponentVue from "../CardComponent.vue";
 import FiltrosComponentVue from "../Filtros/FiltrosComponent.vue";
+import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
 export default {
   props: {
     color: String,
@@ -429,6 +395,7 @@ export default {
     CreateRequirementsComponentVue,
     CardComponentVue,
     FiltrosComponentVue,
+    TablaFiltrosComponent,
   },
   data() {
     return {
@@ -498,12 +465,7 @@ export default {
           console.log(requeridos);
 
           //let l = h.length;
-
-          this.history = this.history
-            .concat(plazo)
-            .concat(fueraPlazo)
-            .concat(requeridos);
-          console.log(this.history);
+          //SE CONCATENAN TODOS LOS TRAMITES PARA PODER MOSTRAR EN GRILLA
 
           for (let i = 0; i < plazo.length; i++) {
             //Procedure
@@ -516,6 +478,9 @@ export default {
               estado: "",
               plazo: "",
               task: null,
+              agenteFirstname: "",
+              agenteLastname: "",
+              cuil: "",
             };
             //EN PLAZO
             p.id = plazo[i].id;
@@ -526,7 +491,9 @@ export default {
             p.estado = plazo[i].status.status;
             p.plazo = plazo[i].deadlineDays;
             p.task = plazo[i].task.length ? plazo[i].task.length : null;
-
+            p.agenteFirstname = plazo[i].userMuni.firstname;
+            p.agenteLastname = plazo[i].userMuni.lastname;
+            p.cuil = plazo[i].user.cuil;
             switch (p.estado) {
               case "PRESENTADO":
                 p.color = "var(--green)";
@@ -560,6 +527,8 @@ export default {
               estado: "",
               plazo: "",
               task: null,
+              agenteFirstname: "",
+              agenteLastname: "",
             };
             //Carga del procedure
             p.id = fueraPlazo[i].id;
@@ -572,7 +541,8 @@ export default {
             p.task = fueraPlazo[i].task.length
               ? fueraPlazo[i].task.length
               : null;
-
+            p.agenteFirstname = plazo[i].userMuni.firstname;
+            p.agenteLastname = plazo[i].userMuni.lastname;
             switch (p.estado) {
               case "PRESENTADO":
                 p.color = "var(--green)";
@@ -605,6 +575,8 @@ export default {
               estado: "",
               plazo: "",
               task: null,
+              agenteFirstname: "",
+              agenteLastname: "",
             };
             //Carga del procedure
             p.id = requeridos[i].id;
@@ -617,7 +589,8 @@ export default {
             p.task = requeridos[i].task.length
               ? requeridos[i].task.length
               : null;
-
+            p.agenteFirstname = plazo[i].userMuni.firstname;
+            p.agenteLastname = plazo[i].userMuni.lastname;
             switch (p.estado) {
               case "PRESENTADO":
                 p.color = "var(--green)";
@@ -639,6 +612,11 @@ export default {
             this.requeridos.push(p);
           }
           //this.length = response.data.HistoryOfProcedures.length;
+          this.history = this.history
+            .concat(this.activos)
+            .concat(this.deadline)
+            .concat(this.requeridos);
+          console.log(this.history);
         })
         .catch((err) => {
           console.log(err);
@@ -867,25 +845,37 @@ export default {
         },
       });
       apiClient.get("/oficina/procedures/history/" + value).then((response) => {
-        console.log(response);
-        asd = response.data.Procedure.procedure;
-        this.history = asd;
+        console.log(response, "soy el tramite ");
+        asd = response.data.Procedure;
+        //this.history = asd;
         this.search = "";
         let p = {
           id: null,
-          cuil: "",
-          categoria: "",
+          firstname: "",
+          lastname: "",
+          fecha: "",
+          title: "",
           estado: "",
-          procedure: "",
+          plazo: "",
+          task: null,
+          agenteFirstname: "",
+          agenteLastname: "",
+          cuil: "",
         };
-        p.id = asd[0].id;
-        p.cuil = asd[0].user.cuil;
-        p.categoria = asd[0].category.title;
-        p.estado = asd[0].status.status;
-        p.procedure = asd[0].procedure.title;
-        p.requerimientos = asd[0].requirementHistory
-          ? asd[0].requirementHistory
-          : null;
+        //Carga del procedure
+        p.id = asd.procedure[0].id;
+        p.firstname = asd.procedure[0].user.firstname;
+        p.lastname = asd.procedure[0].user.lastname;
+        p.fecha = new Date(asd.procedure[0].created_at).toLocaleDateString();
+        p.title = asd.procedure[0].procedure.title;
+        p.estado = asd.procedure[0].status.status;
+        p.plazo = asd.procedure[0].deadlineDays || "";
+        //p.agenteFirstname = asd.procedure[0].userMuni.firstname || "";
+        //p.agenteLastname = asd.procedure[0].userMuni.lastname || "";
+        p.cuil = asd.procedure[0].user.cuil;
+        // p.task = asd.procedure[0].task.length
+        //   ? asd.procedure[0].task.length
+        //   : null;
 
         switch (p.estado) {
           case "PRESENTADO":
@@ -907,7 +897,9 @@ export default {
 
         this.activos = [];
         this.activos.push(p);
-        this.setModalFiltros();
+        this.history = [];
+        this.history.push(p);
+        //this.setModalFiltros();
       });
       //this.activos = asd;
     },

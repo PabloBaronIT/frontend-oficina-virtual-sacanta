@@ -94,7 +94,7 @@
           </div>
         </div>
 
-        <span>Agente</span>
+        <span>{{ obj.agenteFirstname }} {{ obj.agenteLastname }}</span>
         <div class="plazo">
           <p>
             {{ obj.plazo }}

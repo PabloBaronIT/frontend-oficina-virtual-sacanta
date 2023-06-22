@@ -1,138 +1,43 @@
 <template>
   <div class="modalFiltros">
-    <div class="modal-top">
-      <h3>Filtros:</h3>
-      <img
-        @click="this.setModalFiltros()"
-        class="svg"
-        src="@/assets/close.svg"
-        alt=""
-      />
+    <div class="botonesFiltros">
+      <button
+        class="btn btn-success"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseExampleA"
+        aria-expanded="false"
+        aria-controls="collapseExample"
+      >
+        Filtros
+      </button>
     </div>
-
-    <div>
-      <div class="botonesFiltros">
-        <button
-          class="btn btn-success"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExampleA"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Trámites
-        </button>
-        <button
-          class="btn btn-success"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExampleB"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Usuarios
-        </button>
-        <button
-          class="btn btn-success"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExampleC"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Buscador
-        </button>
-        <button
-          class="btn btn-success"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExampleD"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-          Fechas
-        </button>
-      </div>
-      <!--TARJETAS QUE SE ABREN POR CADA BOTRON DE FILTROS-->
-      <div class="collapse" id="collapseExampleA">
-        <div class="card card-body">
-          <div class="divSelects">
-            Filtro por estado
-            <select @change="this.getFiltro($event)" name="" id="">
-              <option>Filtros</option>
-              <option value="0">Todos mis trámites</option>
-              <option value="1">Presentados</option>
-              <option value="2">En proceso</option>
-              <option value="4">Finalizados</option>
-            </select>
-          </div>
-          <div class="divSelects">
-            Filtro por tipo de trámite
-            <select @change="this.getFiltroByTitle($event)" name="" id="">
-              <option>Filtros</option>
-              <option value="0">Todos mis trámites</option>
-              <option value="1">Presentados</option>
-              <option value="2">En proceso</option>
-              <option value="4">Finalizados</option>
-            </select>
-          </div>
-          <div class="divSelects">
-            Filtro por agente municipal
-            <select @change="this.getFiltroByUserMuni($event)" name="" id="">
-              <option>Filtros</option>
-              <option value="0">Todos mis trámites</option>
-              <option value="1">Presentados</option>
-              <option value="2">En proceso</option>
-              <option value="4">Finalizados</option>
-            </select>
-          </div>
+    <!--TARJETAS QUE SE ABREN POR CADA BOTRON DE FILTROS-->
+    <div class="collapse" id="collapseExampleA">
+      <div class="card card-body asd">
+        <div class="select">
+          <label for="">Filtrar por estado</label>
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Selecciona una opción</option>
+            <option value="1">Presentado</option>
+            <option value="2">En proceso</option>
+            <option value="3">Pausados por requerimientos</option>
+          </select>
+          <label for="">Filtrar por Plazos</label>
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Selecciona una opción</option>
+            <option value="1">En plazo</option>
+            <option value="2">Fuera de plazo</option>
+            <option value="3">Pausado por requerimiento</option>
+          </select>
+          <label for="">Filtrar por Agente </label>
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Selecciona una opción</option>
+            <option value="1">Mis trámites</option>
+            <option value="2">Todos los trámites</option>
+          </select>
         </div>
-      </div>
-      <!--BUSCADOR POR CUIL DEL VECINO-->
-      <div class="collapse" id="collapseExampleB">
-        <div class="card card-body">
-          <div class="flex">
-            <input
-              class="buscar"
-              type="search"
-              placeholder="Ingrese Cuil del vecino"
-              aria-label="Buscar"
-              v-model="searchCuil"
-            />
-            <button
-              class="btn btn-outline-success"
-              type="submit"
-              @click="this.getFiltroByCuilUser(searchCuil)"
-            >
-              Buscar
-            </button>
-          </div>
-        </div>
-      </div>
-      <!--BUSCADOR POR ID DEL TRAMITE-->
-
-      <div class="collapse" id="collapseExampleC">
-        <div class="card card-body">
-          <div class="flex">
-            <input
-              class="buscar"
-              type="search"
-              placeholder="Ingrese ID del tramite"
-              aria-label="Buscar"
-              v-model="search"
-            />
-            <button
-              class="btn btn-outline-success"
-              type="submit"
-              @click="this.searchValue(search)"
-            >
-              Buscar
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="collapse" id="collapseExampleD">
-        <div class="card card-body fecha">
+        <div>
           <h5>Desde : {{ fechaA }}</h5>
           <VueDatePicker
             v-model="date"
@@ -158,9 +63,62 @@
             type="submit"
             @click="buscarFechas"
           >
+            Aplicar
+          </button>
+        </div>
+      </div>
+    </div>
+    <!--BUSCADOR POR CUIL DEL VECINO-->
+    <div class="collapse" id="collapseExampleB">
+      <div class="card card-body">
+        <div class="flex">
+          <input
+            class="buscar"
+            type="search"
+            placeholder="Ingrese Cuil del vecino"
+            aria-label="Buscar"
+            v-model="searchCuil"
+          />
+          <button
+            class="btn btn-outline-success"
+            type="submit"
+            @click="this.getFiltroByCuilUser(searchCuil)"
+          >
             Buscar
           </button>
         </div>
+      </div>
+    </div>
+
+    <div class="collapse" id="collapseExampleD">
+      <div class="card card-body fecha">
+        <h5>Desde : {{ fechaA }}</h5>
+        <VueDatePicker
+          v-model="date"
+          model-type="dd.MM.yyyy"
+          placeholder="Seleccione fecha"
+          position="center"
+          @update:model-value="handleDate"
+          auto-apply
+        ></VueDatePicker>
+        <h5>Hasta:</h5>
+        <VueDatePicker
+          v-model="dateB"
+          model-type="dd.MM.yyyy"
+          placeholder="Seleccione fecha"
+          position="center"
+          @update:model-value="handleDateB"
+          auto-apply
+        ></VueDatePicker>
+      </div>
+      <div class="boton-fecha">
+        <button
+          class="btn btn-outline-success"
+          type="submit"
+          @click="buscarFechas"
+        >
+          Buscar
+        </button>
       </div>
     </div>
   </div>
@@ -201,76 +159,44 @@ export default {
 </script>
 <style scoped>
 .modalFiltros {
-  position: absolute;
-  top: 1em;
-  left: 10rem;
-  z-index: 15;
+  width: 80%;
+  position: relative;
+
   padding-top: 1rem;
   padding-bottom: 1rem;
-  width: 50vw; /* Need a specific value to work */
   height: auto;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  word-break: break-all;
+  margin: auto;
+  text-align: left;
+}
+.botonesFiltros {
+  margin-bottom: 2rem;
+}
+.asd {
+  position: absolute;
+  z-index: 15;
+  display: flex;
+  flex-direction: row;
+  height: 250px;
+  width: 100%;
+  justify-content: space-around;
 }
 .svg {
   max-width: 20px;
 }
-.modal-top {
-  display: flex;
-  width: 100%;
-  text-align: left;
-  justify-content: space-around;
-  align-items: flex-start;
-}
-.botonesFiltros {
-  width: 80%;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: space-around;
-  margin: auto;
-  padding-bottom: 1rem;
-}
-.divSelects {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  padding-left: 2rem;
-}
+
 .buscar {
   margin-right: 1rem;
 }
-select {
-  margin: 0 10px;
-  color: var(--text-color);
-  text-align: center;
-  background: none;
-  border-radius: 20px;
-  border: 1px solid var(--green);
-  outline: none;
-  padding: 5px;
-}
 
-select option {
-  background: none;
-  border: 1px solid var(--red);
-  outline: none;
-}
-select option:hover {
-  background: var(--green);
-  outline: none;
-  border: none;
-}
 .fecha {
   width: 60%;
   margin: auto;
@@ -281,5 +207,10 @@ select option:hover {
 h3 {
   margin-bottom: 2rem;
   text-decoration: underline;
+}
+.select {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>
