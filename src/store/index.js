@@ -6,8 +6,9 @@ export default createStore({
     token: localStorage.getItem("token"),
     procedure: [],
     user: {},
-    representative: false,
-    RepresentativeUser: null,
+    //representative: false,
+    //RepresentativeUser: null,
+    representante: null,
   },
   getters: {
     getProfile(state) {
@@ -25,38 +26,44 @@ export default createStore({
     cleanStore(state) {
       state.procedure = [];
     },
-    getProfile(state, asd) {
-      state.user = asd;
-    },
-    setRepresentative(state) {
-      state.representative = !state.representative;
-    },
-    saveRepresentativeUser(state, asd) {
-      state.RepresentativeUser = asd;
-    },
-    clearRepresentativeUser(state) {
-      state.RepresentativeUser = null;
+    // getProfile(state, asd) {
+    //   state.user = asd;
+    // },
+    // setRepresentative(state) {
+    //   state.representative = !state.representative;
+    // },
+    // saveRepresentativeUser(state, asd) {
+    //   state.RepresentativeUser = asd;
+    // },
+    // clearRepresentativeUser(state) {
+    //   state.RepresentativeUser = null;
+    // },
+    representante(state, asd) {
+      state.representante = asd;
     },
   },
   actions: {
     mockLoginAction(context, asd) {
       context.commit("loggedIn", asd);
     },
+    mockRepresentanteAction(context, asd) {
+      context.commit("representante", asd);
+    },
     saveP(context) {
       context.commit("saveProcedure");
     },
-    getProfileAction(context, asd) {
-      context.commit("getProfile", asd);
-    },
-    setRepresentativeAction(context) {
-      context.commit("setRepresentative");
-    },
-    saveRepresentativeUserAcition(context, asd) {
-      context.commit("saveRepresentativeUser", asd);
-    },
-    clearRepresentativeUserAction(context) {
-      context.commit("clearRepresentativeUser");
-    },
+    // getProfileAction(context, asd) {
+    //   context.commit("getProfile", asd);
+    // },
+    // setRepresentativeAction(context) {
+    //   context.commit("setRepresentative");
+    // },
+    // saveRepresentativeUserAcition(context, asd) {
+    //   context.commit("saveRepresentativeUser", asd);
+    // },
+    // clearRepresentativeUserAction(context) {
+    //   context.commit("clearRepresentativeUser");
+    // },
     cleanAction(context) {
       context.commit("cleanStore");
     },

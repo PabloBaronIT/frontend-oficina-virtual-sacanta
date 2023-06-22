@@ -78,13 +78,13 @@
                     <p>Declaro que los datos asignados son verdaderos.</p>
                   </div>
                   <div
-                    v-if="this.$store.state.RepresentativeUser"
+                    v-if="this.$store.state.representante"
                     class="textRepresentative"
                   >
                     Este trámite fue presentado por
                     <strong>
-                      {{ this.$store.state.RepresentativeUser.firstname }}
-                      {{ this.$store.state.RepresentativeUser.lastname }} en
+                      {{ this.$store.state.representante.firstname }}
+                      {{ this.$store.state.representante.lastname }} en
                     </strong>
 
                     representacion de

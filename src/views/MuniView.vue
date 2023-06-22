@@ -12,7 +12,9 @@
 
     <ModalGraficoComponent v-if="token" />
 
-    <section><Tabla /></section>
+    <section>
+      <Tabla />
+    </section>
 
     <!--SECCION DE TAREAS-->
     <section>
