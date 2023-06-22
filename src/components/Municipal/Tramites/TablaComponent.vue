@@ -37,10 +37,45 @@
           <option value="4">Finalizados</option>
         </select>
       </div>
+      <!-- filtros -->
       <div v-if="this.filtros" class="containerTramites">
-        <p v-for="item in this.history" :key="item.id">
+        <table>
+          <tr>
+            <th>Titulo</th>
+            <th>Id tramite</th>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>cuil</th>
+            <th>Estado</th>
+            <th>Plazo</th>
+            <th>agente</th>
+          </tr>
+          <tr v-for="item in this.history" :key="item.id">
+            <td>
+              {{ item.procedure.title }}
+            </td>
+            <td>
+              {{ item.id }}
+            </td>
+            <td>
+              {{ new Date(item.created_at).toLocaleDateString() }}
+            </td>
+            <td>{{ item.user.firstname }} {{ item.user.lastname }}</td>
+            <td>
+              {{ item.user.cuil }}
+            </td>
+            <td>
+              {{ item.status.status }}
+            </td>
+            <td>
+              {{ item.deadlineDays }}
+            </td>
+            <td>{{ item.userMuni.firstname }}{{ item.userMuni.lastname }}</td>
+          </tr>
+        </table>
+        <!-- <p v-for="item in this.history" :key="item.id">
           {{ item.procedure.title }}
-        </p>
+        </p> -->
       </div>
       <div class="container-medio" v-else>
         <!--SE MUESTRAN TODOS LOS TRAMITES EN PLAZO -->
