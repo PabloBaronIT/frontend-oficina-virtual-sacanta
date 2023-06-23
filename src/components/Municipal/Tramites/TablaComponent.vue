@@ -28,18 +28,13 @@
             Buscar
           </button>
         </form>
-        <!-- <select @change="getFiltro($event)" name="" id="">
-          <option>Filtros</option>
-          <option value="0">Todos mis trámites</option>
-          <option value="1">Presentados</option>
-          <option value="2">En proceso</option>
-          <option value="3">Requeridos</option>
-          <option value="4">Finalizados</option>
-        </select> -->
       </div>
       <!-- FILTROS -->
       <div v-if="this.filtros" class="containerTramites">
-        <TablaFiltrosComponent :history="this.history" />
+        <TablaFiltrosComponent
+          :functionFiltros="this.getFiltro"
+          :history="this.history"
+        />
       </div>
       <!-- CONTENEDOR DE TODOS LOS TRAMITES -->
       <div class="container-medio" v-else>
@@ -362,18 +357,6 @@
             </div>-->
           </div>
         </div>
-        <!--MODAL PARA VER LOS FILTROS-->
-        <div v-if="this.modalFiltros">
-          <FiltrosComponentVue
-            :setModalFiltros="this.setModalFiltros"
-            :getFiltro="this.getFiltro"
-            :getFiltroByTitle="this.getFiltroByTitle"
-            :getFiltroByUserMuni="this.getFiltroByUserMuni"
-            :searchValue="this.searchValue"
-            :search="this.search"
-            :getFiltroByCuilUser="getFiltroByCuilUser"
-          />
-        </div>
       </div>
     </div>
   </div>
@@ -384,7 +367,6 @@ import axios from "axios";
 import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
 import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
 import CardComponentVue from "../CardComponent.vue";
-import FiltrosComponentVue from "../Filtros/FiltrosComponent.vue";
 import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
 export default {
   props: {
@@ -394,7 +376,6 @@ export default {
     CreateTasksComponentVue,
     CreateRequirementsComponentVue,
     CardComponentVue,
-    FiltrosComponentVue,
     TablaFiltrosComponent,
   },
   data() {
@@ -421,7 +402,6 @@ export default {
       deadline: [],
       allDeadline: [],
       requeridos: [],
-      modalFiltros: false,
       search: "",
       filtros: false,
     };
@@ -429,9 +409,6 @@ export default {
   created() {
     //se obtienen todos los tramites
     this.getProcedures();
-
-    // this.getProceduresDeadline();
-    // this.getProceduresRequeridos();
   },
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
@@ -612,6 +589,7 @@ export default {
             this.requeridos.push(p);
           }
           //this.length = response.data.HistoryOfProcedures.length;
+          // SE CARGAT TODOS LOS TRAMITES EN HISTORY PARA MOSTRARLO EN LA VISTA DE LOS FILTROS
           this.history = this.history
             .concat(this.activos)
             .concat(this.deadline)
@@ -663,7 +641,7 @@ export default {
       console.log(this.checkbox);
     },
     //FILTRAR TRAMITES POR STATUS
-    getFiltro($event) {
+    getFiltro(obj) {
       let apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -672,45 +650,37 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-
-      this.activos = [];
-
-      if ($event.target.value === "0") {
-        this.getProcedures();
-      } else {
-        apiClient
-          .get(
-            "/oficina/procedures/history-procedures/status/" +
-              $event.target.value
-          )
-          .then((response) => {
-            this.activos = [];
-            this.status = "";
-            console.log(response);
-
-            let h = response.data.Procedures;
-            this.history = h;
-            let l = h.length;
-
-            for (let i = 0; i < l; i++) {
-              //Procedure
+      apiClient
+        .post("/oficina/procedures/history/filter", obj)
+        .then((response) => {
+          let asd = response.data.ProceduresFiltered;
+          console.log(asd, "soy blos filtrados");
+          if (asd) {
+            for (let i = 0; i < asd.length; i++) {
               let p = {
                 id: null,
-                cuil: "",
-                categoria: "",
+                firstname: "",
+                lastname: "",
+                fecha: "",
+                title: "",
                 estado: "",
-                procedure: "",
+                plazo: "",
+                task: null,
+                agenteFirstname: "",
+                agenteLastname: "",
+                cuil: "",
               };
-              //Carga del procedure
-
-              p.id = h[i].id;
-              p.cuil = h[i].user.cuil;
-              p.categoria = h[i].category.title;
-              p.estado = h[i].status.status;
-              p.procedure = h[i].procedure.title;
-              p.requerimientos = Array.isArray(h[i].requirementHistory)
-                ? h[i].requirementHistory
-                : null;
+              p.id = asd[i].id;
+              p.firstname = asd[i].user.firstname;
+              p.lastname = asd[i].user.lastname;
+              p.fecha = new Date(asd[i].created_at).toLocaleDateString();
+              p.title = asd[i].procedure.title;
+              p.estado = asd[i].status.status;
+              p.plazo = asd[i].deadlineDays || "";
+              //p.task = asd[i].task.length ? asd[i].task.length : null;
+              p.agenteFirstname = asd[i].userMuni.firstname;
+              p.agenteLastname = asd[i].userMuni.lastname;
+              p.cuil = asd[i].user.cuil;
               switch (p.estado) {
                 case "PRESENTADO":
                   p.color = "var(--green)";
@@ -728,20 +698,15 @@ export default {
                 default:
                   break;
               }
-
-              this.activos.push(p);
-
-              console.log(p);
+              this.history = [];
+              this.history.push(p);
             }
-            console.log(response.data.history);
-
-            console.log(h[0].status);
-          })
-          .catch((e) => {
-            console.log(e);
-            this.history = false;
-          });
-      }
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          this.messageFiltros = err.response.data.message;
+        });
     },
     // BUSCADOR POR CUIL DEL USUARIO
     getFiltroByCuilUser(cuil) {
