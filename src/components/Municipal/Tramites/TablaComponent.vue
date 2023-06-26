@@ -11,6 +11,9 @@
             @click="setModalFiltros"
           />
         </div>
+        <div @click="recargar">
+          <p>Recargar</p>
+        </div>
         <!-- BUSCADOR -->
         <form class="d-flex">
           <input
@@ -34,6 +37,7 @@
         <TablaFiltrosComponent
           :functionFiltros="this.getFiltro"
           :history="this.history"
+          :message="this.message"
         />
       </div>
       <!-- CONTENEDOR DE TODOS LOS TRAMITES -->
@@ -63,8 +67,6 @@
             </div>-->
           </div>
         </div>
-
-        <!--EN ESTA TABALA SE PUEDE VER TODOS LOS TRAMITES, A LA VEZ REALIZAR TAREAS, COMUNICACIONES O REQUERIMIENTOS A CUALQUIER DE ELLOS-->
 
         <!-- - - - - - - INICIO MODAL VISTA DE TRAMITE- - - - - -   -->
         <div class="grafico-container" v-if="this.modal === true">
@@ -396,7 +398,7 @@ export default {
       status: "",
       titleComunicacion: "",
       comunicacion: "",
-      message: null,
+      message: false,
       requerimiento: null,
       modalresponse: false,
       deadline: [],
@@ -440,8 +442,10 @@ export default {
           console.log(plazo);
           console.log(fueraPlazo);
           console.log(requeridos);
+          this.activos = [];
+          this.deadline = [];
+          this.requeridos = [];
 
-          //let l = h.length;
           //SE CONCATENAN TODOS LOS TRAMITES PARA PODER MOSTRAR EN GRILLA
 
           for (let i = 0; i < plazo.length; i++) {
@@ -506,6 +510,7 @@ export default {
               task: null,
               agenteFirstname: "",
               agenteLastname: "",
+              cuil: "",
             };
             //Carga del procedure
             p.id = fueraPlazo[i].id;
@@ -520,6 +525,7 @@ export default {
               : null;
             p.agenteFirstname = plazo[i].userMuni.firstname;
             p.agenteLastname = plazo[i].userMuni.lastname;
+            p.cuil = plazo[i].user.cuil;
             switch (p.estado) {
               case "PRESENTADO":
                 p.color = "var(--green)";
@@ -554,6 +560,7 @@ export default {
               task: null,
               agenteFirstname: "",
               agenteLastname: "",
+              cuil: "",
             };
             //Carga del procedure
             p.id = requeridos[i].id;
@@ -566,8 +573,9 @@ export default {
             p.task = requeridos[i].task.length
               ? requeridos[i].task.length
               : null;
-            p.agenteFirstname = plazo[i].userMuni.firstname;
-            p.agenteLastname = plazo[i].userMuni.lastname;
+            p.agenteFirstname = requeridos[i].userMuni.firstname;
+            p.agenteLastname = requeridos[i].userMuni.lastname;
+            p.cuil = plazo[i].user.cuil;
             switch (p.estado) {
               case "PRESENTADO":
                 p.color = "var(--green)";
@@ -590,10 +598,12 @@ export default {
           }
           //this.length = response.data.HistoryOfProcedures.length;
           // SE CARGAT TODOS LOS TRAMITES EN HISTORY PARA MOSTRARLO EN LA VISTA DE LOS FILTROS
+          this.history = [];
           this.history = this.history
             .concat(this.activos)
             .concat(this.deadline)
             .concat(this.requeridos);
+          this.message = false;
           console.log(this.history);
         })
         .catch((err) => {
@@ -653,8 +663,14 @@ export default {
       apiClient
         .post("/oficina/procedures/history/filter", obj)
         .then((response) => {
-          let asd = response.data.ProceduresFiltered;
-          console.log(asd, "soy blos filtrados");
+          let asd = response.data.ProceduresFiltered || null;
+          this.message = false;
+
+          this.activos = [];
+          this.deadline = [];
+          this.requeridos = [];
+
+          console.log(asd, "soy los filtrados");
           if (asd) {
             for (let i = 0; i < asd.length; i++) {
               let p = {
@@ -675,8 +691,8 @@ export default {
               p.lastname = asd[i].user.lastname;
               p.fecha = new Date(asd[i].created_at).toLocaleDateString();
               p.title = asd[i].procedure.title;
-              p.estado = asd[i].status.status;
-              p.plazo = asd[i].deadlineDays || "";
+              p.estado = asd[i].status.status || "";
+              p.plazo = asd[i].deadline.deadline || "";
               //p.task = asd[i].task.length ? asd[i].task.length : null;
               p.agenteFirstname = asd[i].userMuni.firstname;
               p.agenteLastname = asd[i].userMuni.lastname;
@@ -698,14 +714,28 @@ export default {
                 default:
                   break;
               }
+              switch (asd[i].deadline.deadline) {
+                case "EN PLAZO":
+                  this.activos.push(p);
+                  break;
+                case "FUERA DE PLAZO":
+                  this.deadline.push(p);
+                  break;
+                case "PLAZO PAUSADO POR REQUERIMIENTO":
+                  this.requeridos.push(p);
+                  break;
+
+                default:
+                  break;
+              }
               this.history = [];
               this.history.push(p);
             }
           }
         })
         .catch((err) => {
-          console.log(err.response.data.message);
-          this.messageFiltros = err.response.data.message;
+          this.message = true;
+          console.log(err.response.data);
         });
     },
     // BUSCADOR POR CUIL DEL USUARIO
@@ -890,6 +920,9 @@ export default {
       } else {
         console.log("No hay mas páginas disponibles.");
       }
+    },
+    recargar() {
+      this.getProcedures();
     },
     //DISTINOS MODALES DE LA VISTA
     Modal() {

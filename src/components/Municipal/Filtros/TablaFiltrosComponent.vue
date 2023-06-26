@@ -4,19 +4,12 @@
       <!-- <FiltrosComponent :functionFiltros="this.functionFiltros" /> -->
       <div class="modalFiltros">
         <div class="botonesFiltros">
-          <button
-            class="btn btn-light"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseExampleA"
-            aria-expanded="false"
-            aria-controls="collapseExample"
-          >
+          <button class="btn btn-light" type="button" @click="setModalFiltros">
             Filtros
           </button>
         </div>
         <!--TARJETAS QUE SE ABREN POR CADA BOTRON DE FILTROS-->
-        <div class="collapse" id="collapseExampleA">
+        <div v-if="this.modalFiltros">
           <div class="card card-body asd">
             <div class="select">
               <label for="">Filtrar por estado</label>
@@ -68,7 +61,7 @@
                   auto-apply
                 ></VueDatePicker>
               </div>
-              <div>
+              <!-- <div>
                 <h5>Hasta: {{ toDate }}</h5>
                 <VueDatePicker
                   v-model="this.toDate"
@@ -78,8 +71,9 @@
                   @update:model-value="handleDateB"
                   auto-apply
                 ></VueDatePicker>
-              </div>
+              </div> -->
             </div>
+            <!-- SE APLICAN LOS FILTROS -->
             <div class="boton-fecha">
               <button class="btn btn-light" type="submit" @click="getFiltros">
                 Aplicar
@@ -87,8 +81,9 @@
             </div>
           </div>
         </div>
+
         <!--BUSCADOR POR CUIL DEL VECINO-->
-        <div class="collapse" id="collapseExampleB">
+        <!-- <div class="collapse" id="collapseExampleB">
           <div class="card card-body">
             <div class="flex">
               <input
@@ -107,10 +102,10 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped" v-if="this.message === false">
       <tr>
         <th>Titulo</th>
         <th>Id tramite</th>
@@ -144,6 +139,9 @@
         <td>{{ item.agenteFirstname }}{{ item.agenteLastname }}</td>
       </tr>
     </table>
+    <div v-else>
+      <h1>No se encontraron tramites con los filtros especificados</h1>
+    </div>
   </div>
 </template>
 <script>
@@ -154,6 +152,7 @@ export default {
   props: {
     functionFiltros: Function,
     history: Array,
+    message: Boolean,
   },
 
   components: {
@@ -169,6 +168,7 @@ export default {
       status: null,
       deadline: null,
       userMuni: true,
+      modalFiltros: false,
     };
   },
   methods: {
@@ -179,7 +179,7 @@ export default {
       console.log(this.toDate, "B");
     },
     getFiltros() {
-      let asd = new Date();
+      //let asd = new Date();
       let values = { conditions: {} };
       if (this.status) {
         values.conditions.status = this.status;
@@ -195,11 +195,23 @@ export default {
       }
       if (this.toDate) {
         values.conditions.toDate = new Date(this.toDate).toISOString();
-      } else {
-        values.conditions.toDate = new Date(asd).toISOString();
+      } else if (!this.toDate) {
+        let asd = new Date().toISOString();
+        values.conditions.toDate = asd;
       }
+
       console.log(values);
+      //SE PASAN TODOS LOS VALORES A LA FUNCION PARA APLICAR LOS FILTROS Y MOSTRAR
       this.functionFiltros(values);
+      this.setModalFiltros();
+      this.status = "";
+      this.deadline = "";
+      this.userMuni = true;
+      this.fromDate = "";
+      this.toDate = "";
+    },
+    setModalFiltros() {
+      this.modalFiltros = !this.modalFiltros;
     },
   },
 };
