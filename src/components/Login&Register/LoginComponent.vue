@@ -1,6 +1,6 @@
 <template>
-  <div class="login-container" v-if="!this.loading">
-    <form>
+  <div class="login-container">
+    <form v-if="!this.loading">
       <img
         class="w-50"
         src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
@@ -47,14 +47,11 @@
         </div>
       </FormKit>
 
-      <div class="loading-container text-grey">
-        <div v-if="this.loading" class="spinner-border loading" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-
       <p class="error">{{ this.msj }}</p>
     </form>
+    <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div>
   </div>
 </template>
 
@@ -146,12 +143,9 @@ export default {
           this.validacion = false;
           this.msj = "Usuario incorrecto";
           this.loading = false;
-        })
-        .finally(() => {
-          this.loading = false;
         });
 
-      this.$router.push("munienlinea");
+      // this.$router.push("munienlinea");
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
@@ -257,6 +251,8 @@ export default {
           "role",
           response.data.UserProfile.user.role
         );
+        this.loading = false;
+        this.$router.push("munienlinea");
       });
     },
     getRepresentante(id) {

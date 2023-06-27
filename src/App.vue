@@ -11,6 +11,7 @@
           this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
         "
       />
+
       <router-view />
     </div>
   </div>
