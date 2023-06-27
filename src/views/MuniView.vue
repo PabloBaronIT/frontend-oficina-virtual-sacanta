@@ -11,7 +11,7 @@
     </div>
 
     <ModalGraficoComponent v-if="token" />
-
+    <!-- SECCION DE VISTAS DE TRAMITES -->
     <section>
       <Tabla />
     </section>

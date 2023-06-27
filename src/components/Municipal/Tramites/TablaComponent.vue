@@ -2,18 +2,29 @@
   <div class="containerGeneral">
     <div class="containerTramites">
       <div class="filtro-top">
-        <div class="flex">
-          <label for="">Filtros</label>
+        <div>
+          <button
+            class="btn btn-secondary"
+            type="button"
+            @click="setModalFiltros"
+          >
+            Busquedas y filtros
+          </button>
           <img
             class="filtro-img"
             src="@/assets/filtro.svg"
             alt=""
-            @click="setModalFiltros"
+            type="button"
           />
         </div>
-        <div @click="recargar">
+
+        <button @click="recargar" class="btn btn-secondary" type="button">
           <p>Recargar</p>
-        </div>
+        </button>
+        <button @click="SetVistaLista" class="btn btn-secondary" type="button">
+          Vista de lista
+        </button>
+
         <!-- BUSCADOR -->
         <form class="d-flex">
           <input
@@ -33,9 +44,15 @@
         </form>
       </div>
       <!-- FILTROS -->
-      <div v-if="this.filtros" class="containerTramites">
-        <TablaFiltrosComponent
+      <div v-if="this.modalFiltros">
+        <FiltrosComponent
           :functionFiltros="this.getFiltro"
+          :setModalFiltros="this.setModalFiltros"
+        />
+      </div>
+      <!-- VISTA EN TABLA DE TRAMITES -->
+      <div v-if="this.vista" class="containerTramites">
+        <TablaFiltrosComponent
           :history="this.history"
           :message="this.message"
         />
@@ -370,6 +387,7 @@ import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
 import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
 import CardComponentVue from "../CardComponent.vue";
 import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
+import FiltrosComponent from "../Filtros/FiltrosComponent.vue";
 export default {
   props: {
     color: String,
@@ -379,6 +397,7 @@ export default {
     CreateRequirementsComponentVue,
     CardComponentVue,
     TablaFiltrosComponent,
+    FiltrosComponent,
   },
   data() {
     return {
@@ -405,7 +424,8 @@ export default {
       allDeadline: [],
       requeridos: [],
       search: "",
-      filtros: false,
+      vista: false,
+      modalFiltros: false,
     };
   },
   created() {
@@ -414,9 +434,9 @@ export default {
   },
   methods: {
     //TRAE LOS TRAMITES DE SU AREA
-    setModalFiltros() {
+    SetVistaLista() {
       //this.modalFiltros = !this.modalFiltros;
-      this.filtros = !this.filtros;
+      this.vista = !this.vista;
     },
     //FUNCION PARA BUSCAR TODFOS LOS TRAMITES
     getProcedures() {
@@ -672,6 +692,8 @@ export default {
 
           console.log(asd, "soy los filtrados");
           if (asd) {
+            this.history = [];
+
             for (let i = 0; i < asd.length; i++) {
               let p = {
                 id: null,
@@ -693,7 +715,7 @@ export default {
               p.title = asd[i].procedure.title;
               p.estado = asd[i].status.status || "";
               p.plazo = asd[i].deadline.deadline || "";
-              //p.task = asd[i].task.length ? asd[i].task.length : null;
+              p.task = asd[i].task.length ? asd[i].task.length : null;
               p.agenteFirstname = asd[i].userMuni.firstname;
               p.agenteLastname = asd[i].userMuni.lastname;
               p.cuil = asd[i].user.cuil;
@@ -728,7 +750,6 @@ export default {
                 default:
                   break;
               }
-              this.history = [];
               this.history.push(p);
             }
           }
@@ -829,7 +850,10 @@ export default {
     searchValue(value) {
       //console.log(value);
       let asd = null;
-
+      this.history = [];
+      this.activos = [];
+      this.deadline = [];
+      this.requeridos = [];
       //SI EL TRAMITE NO ESTA EN SU AREA LO BUSCA EN OTRA
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -858,19 +882,17 @@ export default {
           cuil: "",
         };
         //Carga del procedure
-        p.id = asd.procedure[0].id;
-        p.firstname = asd.procedure[0].user.firstname;
-        p.lastname = asd.procedure[0].user.lastname;
-        p.fecha = new Date(asd.procedure[0].created_at).toLocaleDateString();
-        p.title = asd.procedure[0].procedure.title;
-        p.estado = asd.procedure[0].status.status;
-        p.plazo = asd.procedure[0].deadlineDays || "";
-        //p.agenteFirstname = asd.procedure[0].userMuni.firstname || "";
-        //p.agenteLastname = asd.procedure[0].userMuni.lastname || "";
-        p.cuil = asd.procedure[0].user.cuil;
-        // p.task = asd.procedure[0].task.length
-        //   ? asd.procedure[0].task.length
-        //   : null;
+        p.id = asd.procedure.id || "";
+        p.firstname = asd.procedure.user.firstname || "";
+        p.lastname = asd.procedure.user.lastname || "";
+        p.fecha = new Date(asd.procedure.created_at).toLocaleDateString() || "";
+        p.title = asd.procedure.procedure.title || "";
+        p.estado = asd.procedure.status.status || "";
+        p.plazo = asd.procedure.deadlineDays || "";
+        p.agenteFirstname = asd.procedure.userMuni.firstname || "";
+        p.agenteLastname = asd.procedure.userMuni.lastname || "";
+        p.cuil = asd.procedure.user.cuil;
+        p.task = asd.procedure.task.length ? asd.procedure.task.length : null;
 
         switch (p.estado) {
           case "PRESENTADO":
@@ -889,10 +911,23 @@ export default {
           default:
             break;
         }
+        switch (asd.procedure.deadline.deadline) {
+          case "EN PLAZO":
+            this.activos.push(p);
+            break;
+          case "FUERA DE PLAZO":
+            this.deadline.push(p);
+            break;
+          case "PLAZO PAUSADO POR REQUERIMIENTO":
+            this.requeridos.push(p);
+            break;
 
-        this.activos = [];
-        this.activos.push(p);
-        this.history = [];
+          default:
+            break;
+        }
+
+        //this.activos = [];
+        // this.activos.push(p);
         this.history.push(p);
         //this.setModalFiltros();
       });
@@ -1032,6 +1067,9 @@ export default {
       this.activos = [];
       this.getProcedures();
     },
+    setModalFiltros() {
+      this.modalFiltros = !this.modalFiltros;
+    },
   },
 };
 </script>
@@ -1093,6 +1131,7 @@ section h3 {
   display: flex;
   justify-content: space-around;
   background: var(grey);
+  height: 3rem;
 }
 
 .modal-content {
