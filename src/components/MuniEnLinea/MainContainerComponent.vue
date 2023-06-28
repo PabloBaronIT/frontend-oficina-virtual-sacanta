@@ -46,20 +46,6 @@
             <h5>Servicios, reclamos y consultas</h5>
           </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link butonNav"
-            id="contact-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#contact-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="contact-tab-pane"
-            aria-selected="false"
-          >
-            <h5>Guia de trámites</h5>
-          </button>
-        </li>
       </ul>
       <div class="tab-content" id="myTabContent">
         <div
@@ -95,29 +81,6 @@
             alt=""
             class="imagenConstruccion"
           />
-        </div>
-        <div
-          class="tab-pane fade"
-          id="contact-tab-pane"
-          role="tabpanel"
-          aria-labelledby="contact-tab"
-          tabindex="0"
-        >
-          <h3>GUIA DE TRAMITES</h3>
-          <img
-            src="@/assets/logoSacanta.svg"
-            alt=""
-            class="imagenConstruccion"
-          />
-        </div>
-        <div
-          class="tab-pane fade"
-          id="disabled-tab-pane"
-          role="tabpanel"
-          aria-labelledby="disabled-tab"
-          tabindex="0"
-        >
-          ...
         </div>
       </div>
     </div>

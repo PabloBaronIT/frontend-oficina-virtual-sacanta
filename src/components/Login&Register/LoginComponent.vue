@@ -166,16 +166,16 @@ export default {
 
           if (token) {
             localStorage.setItem("token", token.token);
-            let payload = dbService.getToken(cidi);
-            let idRepresentante = payload.representative
-              ? payload.representative
-              : null;
-            console.log(idRepresentante);
-            if (idRepresentante) {
-              this.getRepresentante(idRepresentante);
-            }
+            // let payload = dbService.getToken(cidi);
+            // let idRepresentante = payload.representative
+            //   ? payload.representative
+            //   : null;
+            // console.log(idRepresentante);
+            // if (idRepresentante) {
+            //   this.getRepresentante(idRepresentante);
+            // }
             this.getMyProfile();
-            this.$router.push("/munienlinea");
+            this.$router.push("munienlinea");
           }
 
           //si tiene representados
@@ -190,7 +190,7 @@ export default {
             this.getMyProfile();
             //se busca los datos del representante
             this.getRepresentante(idRepresentante);
-            this.$router.push("/munienlinea");
+            this.$router.push("munienlinea");
           }
         })
         .catch((error) => {
@@ -262,6 +262,9 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
+          // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient.get("/oficina/users/" + id).then((response) => {
