@@ -4,15 +4,15 @@
       <div class="card-body text-success detalles">
         <div class="card-title top">
           <span style="font-size: 13px">
-            {{ obj.firstname }} {{ obj.lastname }}
+            {{ obj.user.firstname }} {{ obj.user.lastname }}
           </span>
           <span style="font-size: 13px"> Tramite: {{ obj.id }} </span>
           <span :style="`background: ${obj.color}`">
-            {{ obj.estado || "" }}
+            {{ obj.status.status || "" }}
           </span>
         </div>
 
-        <span>{{ obj.fecha }}</span>
+        <span>{{ new Date(obj.created_at).toLocaleString() }}</span>
         <div class="top">
           <h5 @click="verTramite(obj.id)">
             {{ obj.title }}
@@ -44,7 +44,7 @@
           </div>
         </div>
 
-        <span>{{ obj.agenteFirstname }} {{ obj.agenteLastname }}</span>
+        <span>{{ obj.userMuni.firstname }} {{ obj.userMuni.lastname }}</span>
         <div class="plazo">
           <p>
             {{ obj.plazo }}

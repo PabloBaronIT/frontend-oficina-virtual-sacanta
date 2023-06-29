@@ -59,29 +59,69 @@
       </div>
       <!-- CONTENEDOR DE TODOS LOS TRAMITES -->
       <div class="container-medio" v-else>
-        <!-- TRAMITES EN PLAZO -->
-        <div class="tabla-container">
-          <h3>Activos</h3>
-          <div v-for="item in this.activos" :key="item.id">
-            <CardComponentVue
-              :obj="item"
-              :ModalTarea="ModalTarea"
-              :verTramite="verTramite"
-              :ModalComunicacion="ModalComunicacion"
-              :ModalRequerimiento="ModalRequerimiento"
-              color="success"
-            />
-          </div>
-          <div class="nav">
-            <!-- <div class="pagNum">
+        <div class="container-medio">
+          <!-- TRAMITES EN PLAZO -->
+          <div class="tabla-container">
+            <h3>Activos</h3>
+            <div v-for="item in this.activos" :key="item.id">
+              <CardComponentVue
+                :obj="item"
+                :ModalTarea="ModalTarea"
+                :verTramite="verTramite"
+                :ModalComunicacion="ModalComunicacion"
+                :ModalRequerimiento="ModalRequerimiento"
+                color="success"
+              />
+            </div>
+            <div class="nav">
+              <!-- <div class="pagNum">
               {{ this.paginaActual }}
             </div>-->
-            <!--<div class="cant" v-if="this.activos">
+              <!--<div class="cant" v-if="this.activos">
               <p>Cantidad de tramites:</p>
               <p class="length">
                 {{ this.activos.length || 0 }}
               </p>
             </div>-->
+            </div>
+          </div>
+          <!--VISTA DE TABLA CON TRAMITES FUERA DE PLAZOS-->
+          <div class="tabla-container">
+            <h3>Fuera de plazo</h3>
+            <div v-for="item in this.deadline" :key="item.id">
+              <p>hola</p>
+              <CardComponentVue
+                :obj="item"
+                :ModalTarea="ModalTarea"
+                :verTramite="verTramite"
+                :ModalComunicacion="ModalComunicacion"
+                :ModalRequerimiento="ModalRequerimiento"
+                color="danger"
+              />
+            </div>
+            <div class="nav"></div>
+          </div>
+          <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
+          <div class="tabla-container">
+            <h3>Requeridos</h3>
+            <div v-for="item in this.requeridos" :key="item.id">
+              <CardComponentVue
+                :obj="item"
+                :ModalTarea="ModalTarea"
+                :verTramite="verTramite"
+                :ModalComunicacion="ModalComunicacion"
+                :ModalRequerimiento="ModalRequerimiento"
+                color="warning"
+              />
+            </div>
+            <div class="nav">
+              <!--<div class="cant" v-if="this.activos">
+              <p>Cantidad de tramites:</p>
+              <p class="length">
+                {{ this.activos.length || 0 }}
+              </p>
+            </div>-->
+            </div>
           </div>
         </div>
 
@@ -97,26 +137,30 @@
                 alt=""
               />
             </div>
-            <div
-              class="data-container"
-              v-for="item in selectedHistory.procedure"
-              :key="item.id"
-            >
-              <section v-if="item.id === selectedTramite">
+            <div class="data-container">
+              <section v-if="selectedHistory.id === selectedTramite">
                 <div class="data-container">
                   <h3>Datos del vecino:</h3>
                   <div class="user-data-container">
                     <div class="user-data">
-                      <p><b>Nombre:</b> {{ item.user.firstname }}</p>
+                      <p>
+                        <b>Nombre:</b>
+                        {{ selectedHistory.procedure.user.firstname }}
+                      </p>
 
-                      <p><b>Apellido:</b> {{ item.user.lastname }}</p>
+                      <p>
+                        <b>Apellido:</b>
+                        {{ selectedHistory.procedure.user.lastname }}
+                      </p>
 
-                      <p><b>Email:</b> {{ item.user.email }}</p>
+                      <p>
+                        <b>Email:</b> {{ selectedHistory.procedure.user.email }}
+                      </p>
                     </div>
                     <div class="user-data">
-                      <p><b>CUIL:</b> {{ item.user.cuil }}</p>
+                      <p><b>CUIL:</b> {{ selectedHistory.user.cuil }}</p>
 
-                      <p><b>Dirección:</b> {{ item.user.adress }}</p>
+                      <p><b>Dirección:</b> {{ selectedHistory.user.adress }}</p>
                     </div>
                   </div>
                 </div>
@@ -124,7 +168,7 @@
                 <h3>Info tramite:</h3>
                 <div
                   class="question"
-                  v-for="(q, key) in item.questions"
+                  v-for="(q, key) in selectedHistory.questions"
                   :key="key"
                 >
                   <div>
@@ -233,12 +277,12 @@
           </div>
         </div>
 
-        <!--MODAL DE COMUNICACIONES AL CIUDADANO-->
+        <!--MODAL DE NOTIFICACIONES AL CIUDADANO-->
 
         <div class="modalTarea">
           <div v-if="this.modalComunicacion === true" class="modal-content">
             <div class="modal-top">
-              <h3>Comunicado. Trámite n°:{{ this.selectedTramite }}</h3>
+              <h3>Notificación para trámite n°:{{ this.selectedTramite }}</h3>
               <img
                 @click="CloseComunicaciones()"
                 class="svg"
@@ -272,7 +316,7 @@
               class="botonSubmit"
               v-if="this.comunicacion"
             />
-            <p v-else class="enviado">{{ this.message }}</p>
+            <!-- <p v-else class="enviado">Su comuniación fue enviada!</p> -->
           </div>
         </div>
 
@@ -338,42 +382,17 @@
             </div>
           </div>
         </div>
-        <!--VISTA DE TABLA CON TRAMITES FUERA DE PLAZOS-->
-        <div class="tabla-container">
-          <h3>Fuera de plazo</h3>
-          <div v-for="item in this.deadline" :key="item.id">
-            <CardComponentVue
-              :obj="item"
-              :ModalTarea="ModalTarea"
-              :verTramite="verTramite"
-              :ModalComunicacion="ModalComunicacion"
-              :ModalRequerimiento="ModalRequerimiento"
-              color="danger"
-            />
-          </div>
-          <div class="nav"></div>
-        </div>
-
-        <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
-        <div class="tabla-container">
-          <h3>Requeridos</h3>
-          <div v-for="item in this.requeridos" :key="item.id">
-            <CardComponentVue
-              :obj="item"
-              :ModalTarea="ModalTarea"
-              :verTramite="verTramite"
-              :ModalComunicacion="ModalComunicacion"
-              :ModalRequerimiento="ModalRequerimiento"
-              color="warning"
-            />
-          </div>
-          <div class="nav">
-            <!--<div class="cant" v-if="this.activos">
-              <p>Cantidad de tramites:</p>
-              <p class="length">
-                {{ this.activos.length || 0 }}
-              </p>
-            </div>-->
+        <div class="modalRespuesta">
+          <div v-if="this.messageBuscar === true" class="modal-content">
+            <div class="modal-top">
+              <p>No se encontro el trámite {{ this.search }}</p>
+              <img
+                @click="() => (this.messageBuscar = false)"
+                class="svg"
+                src="@/assets/close.svg"
+                alt=""
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -417,15 +436,15 @@ export default {
       status: "",
       titleComunicacion: "",
       comunicacion: "",
-      message: false,
+      message: "",
       requerimiento: null,
       modalresponse: false,
       deadline: [],
-      allDeadline: [],
       requeridos: [],
       search: "",
       vista: false,
       modalFiltros: false,
+      messageBuscar: false,
     };
   },
   created() {
@@ -492,8 +511,8 @@ export default {
             p.estado = plazo[i].status.status;
             p.plazo = plazo[i].deadlineDays;
             p.task = plazo[i].task.length ? plazo[i].task.length : null;
-            p.agenteFirstname = plazo[i].userMuni.firstname;
-            p.agenteLastname = plazo[i].userMuni.lastname;
+            // p.agenteFirstname = plazo[i].userMuni.firstname;
+            // p.agenteLastname = plazo[i].userMuni.lastname;
             p.cuil = plazo[i].user.cuil;
             switch (p.estado) {
               case "PRESENTADO":
@@ -518,53 +537,55 @@ export default {
 
           //FUERA DE PLAZO
           for (let i = 0; i < fueraPlazo.length; i++) {
-            //Procedure
-            let p = {
-              id: null,
-              firstname: "",
-              lastname: "",
-              fecha: "",
-              title: "",
-              estado: "",
-              plazo: "",
-              task: null,
-              agenteFirstname: "",
-              agenteLastname: "",
-              cuil: "",
-            };
+            console.log(fueraPlazo[i]);
+
+            // //Procedure
+            // let p = {
+            //   id: null,
+            //   firstname: "",
+            //   lastname: "",
+            //   fecha: "",
+            //   title: "",
+            //   estado: "",
+            //   plazo: "",
+            //   task: null,
+            //   agenteFirstname: "",
+            //   agenteLastname: "",
+            //   cuil: "",
+            // };
             //Carga del procedure
-            p.id = fueraPlazo[i].id;
-            p.firstname = fueraPlazo[i].user.firstname;
-            p.lastname = fueraPlazo[i].user.lastname;
-            p.fecha = new Date(fueraPlazo[i].created_at).toLocaleDateString();
-            p.title = fueraPlazo[i].procedure.title;
-            p.estado = fueraPlazo[i].status.status;
-            p.plazo = fueraPlazo[i].deadlineDays;
-            p.task = fueraPlazo[i].task.length
-              ? fueraPlazo[i].task.length
-              : null;
-            p.agenteFirstname = plazo[i].userMuni.firstname;
-            p.agenteLastname = plazo[i].userMuni.lastname;
-            p.cuil = plazo[i].user.cuil;
-            switch (p.estado) {
-              case "PRESENTADO":
-                p.color = "var(--green)";
-                break;
-              case "PAUSADO POR REQUERIMIENTO":
-                p.color = "var(--red)";
-                break;
-              case "EN PROCESO":
-                p.color = "var(--yellow)";
-                break;
-              case "FINALIZADO":
-                p.color = "var(--lblue)";
-                break;
+            // p.id = fueraPlazo[i].id;
+            // p.firstname = fueraPlazo[i].user.firstname;
+            // p.lastname = fueraPlazo[i].user.lastname;
+            // p.fecha = new Date(fueraPlazo[i].created_at).toLocaleDateString();
+            // p.title = fueraPlazo[i].procedure.title;
+            // p.estado = fueraPlazo[i].status.status;
+            // p.plazo = fueraPlazo[i].deadlineDays;
+            // p.task = fueraPlazo[i].task.length
+            //   ? fueraPlazo[i].task.length
+            //   : null;
+            // p.agenteFirstname = plazo[i].userMuni.firstname;
+            // p.agenteLastname = plazo[i].userMuni.lastname;
+            // p.cuil = plazo[i].user.cuil;
+            // switch (p.estado) {
+            //   case "PRESENTADO":
+            //     p.color = "var(--green)";
+            //     break;
+            //   case "PAUSADO POR REQUERIMIENTO":
+            //     p.color = "var(--red)";
+            //     break;
+            //   case "EN PROCESO":
+            //     p.color = "var(--yellow)";
+            //     break;
+            //   case "FINALIZADO":
+            //     p.color = "var(--lblue)";
+            //     break;
 
-              default:
-                break;
-            }
+            //   default:
+            //     break;
+            // }
 
-            this.deadline.push(p);
+            this.deadline.push(fueraPlazo[i]);
           }
           //requeridos POR REQUERIMIENTO
           for (let i = 0; i < requeridos.length; i++) {
@@ -593,8 +614,8 @@ export default {
             p.task = requeridos[i].task.length
               ? requeridos[i].task.length
               : null;
-            p.agenteFirstname = requeridos[i].userMuni.firstname;
-            p.agenteLastname = requeridos[i].userMuni.lastname;
+            // p.agenteFirstname = requeridos[i].userMuni.firstname;
+            // p.agenteLastname = requeridos[i].userMuni.lastname;
             p.cuil = plazo[i].user.cuil;
             switch (p.estado) {
               case "PRESENTADO":
@@ -648,12 +669,12 @@ export default {
         this.selectedHistory = response.data.Procedure;
       });
 
-      if (this.selectedHistory.procedure[0].status.status === "PRESENTADO") {
-        this.status = "2";
-        this.updateStatus();
-        this.activos = [];
-        this.getProcedures();
-      }
+      // if (this.selectedHistory.procedure.status.status === "PRESENTADO") {
+      //   this.status = "2";
+      //   this.updateStatus();
+      //   this.activos = [];
+      //   this.getProcedures();
+      // }
 
       this.modal = true;
     },
@@ -863,74 +884,81 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      apiClient.get("/oficina/procedures/history/" + value).then((response) => {
-        console.log(response, "soy el tramite ");
-        asd = response.data.Procedure;
-        //this.history = asd;
-        this.search = "";
-        let p = {
-          id: null,
-          firstname: "",
-          lastname: "",
-          fecha: "",
-          title: "",
-          estado: "",
-          plazo: "",
-          task: null,
-          agenteFirstname: "",
-          agenteLastname: "",
-          cuil: "",
-        };
-        //Carga del procedure
-        p.id = asd.procedure.id || "";
-        p.firstname = asd.procedure.user.firstname || "";
-        p.lastname = asd.procedure.user.lastname || "";
-        p.fecha = new Date(asd.procedure.created_at).toLocaleDateString() || "";
-        p.title = asd.procedure.procedure.title || "";
-        p.estado = asd.procedure.status.status || "";
-        p.plazo = asd.procedure.deadlineDays || "";
-        p.agenteFirstname = asd.procedure.userMuni.firstname || "";
-        p.agenteLastname = asd.procedure.userMuni.lastname || "";
-        p.cuil = asd.procedure.user.cuil;
-        p.task = asd.procedure.task.length ? asd.procedure.task.length : null;
+      apiClient
+        .get("/oficina/procedures/history/" + value)
+        .then((response) => {
+          console.log(response, "soy el tramite ");
+          asd = response.data.Procedure;
+          //this.history = asd;
+          this.search = "";
+          let p = {
+            id: null,
+            firstname: "",
+            lastname: "",
+            fecha: "",
+            title: "",
+            estado: "",
+            plazo: "",
+            task: null,
+            agenteFirstname: "",
+            agenteLastname: "",
+            cuil: "",
+          };
+          //Carga del procedure
+          p.id = asd.procedure.id || "";
+          p.firstname = asd.procedure.user.firstname || "";
+          p.lastname = asd.procedure.user.lastname || "";
+          p.fecha =
+            new Date(asd.procedure.created_at).toLocaleDateString() || "";
+          p.title = asd.procedure.procedure.title || "";
+          p.estado = asd.procedure.status.status || "";
+          p.plazo = asd.procedure.deadlineDays || "";
+          p.agenteFirstname = asd.procedure.userMuni.firstname || "";
+          p.agenteLastname = asd.procedure.userMuni.lastname || "";
+          p.cuil = asd.procedure.user.cuil;
+          p.task = asd.procedure.task.length ? asd.procedure.task.length : null;
 
-        switch (p.estado) {
-          case "PRESENTADO":
-            p.color = "var(--green)";
-            break;
-          case "PAUSADO POR REQUERIMIENTO":
-            p.color = "var(--red)";
-            break;
-          case "EN PROCESO":
-            p.color = "var(--yellow)";
-            break;
-          case "FINALIZADO":
-            p.color = "var(--lblue)";
-            break;
+          switch (p.estado) {
+            case "PRESENTADO":
+              p.color = "var(--green)";
+              break;
+            case "PAUSADO POR REQUERIMIENTO":
+              p.color = "var(--red)";
+              break;
+            case "EN PROCESO":
+              p.color = "var(--yellow)";
+              break;
+            case "FINALIZADO":
+              p.color = "var(--lblue)";
+              break;
 
-          default:
-            break;
-        }
-        switch (asd.procedure.deadline.deadline) {
-          case "EN PLAZO":
-            this.activos.push(p);
-            break;
-          case "FUERA DE PLAZO":
-            this.deadline.push(p);
-            break;
-          case "PLAZO PAUSADO POR REQUERIMIENTO":
-            this.requeridos.push(p);
-            break;
+            default:
+              break;
+          }
+          switch (asd.procedure.deadline.deadline) {
+            case "EN PLAZO":
+              this.activos.push(p);
+              break;
+            case "FUERA DE PLAZO":
+              this.deadline.push(p);
+              break;
+            case "PLAZO PAUSADO POR REQUERIMIENTO":
+              this.requeridos.push(p);
+              break;
 
-          default:
-            break;
-        }
+            default:
+              break;
+          }
 
-        //this.activos = [];
-        // this.activos.push(p);
-        this.history.push(p);
-        //this.setModalFiltros();
-      });
+          //this.activos = [];
+          // this.activos.push(p);
+          this.history.push(p);
+          //this.setModalFiltros();
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          this.messageBuscar = true;
+        });
       //this.activos = asd;
     },
     backTramites() {
@@ -1091,6 +1119,7 @@ export default {
   flex-direction: row;
   margin-top: 2rem;
   justify-content: space-around;
+  width: 100%;
 }
 .containerTareas {
   width: 45%;
@@ -1163,9 +1192,6 @@ section h3 {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
   word-break: break-all;
 }
 .modalTarea {
@@ -1175,7 +1201,7 @@ section h3 {
   align-items: center;
   z-index: 15;
   position: absolute;
-  top: 30%;
+  top: 10%;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -1186,10 +1212,8 @@ section h3 {
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  /* border: 1px solid rgba(255, 255, 255, 0.18); */
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
   height: auto;
 }
 .data-container {

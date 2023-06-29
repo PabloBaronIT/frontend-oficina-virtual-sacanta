@@ -118,7 +118,6 @@ export default {
     const apiClient = axios.create({
       //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
       baseURL: process.env.VUE_APP_BASEURL,
-
       withCredentials: false,
       headers: {
         "auth-header": window.localStorage.getItem("token"),
@@ -129,7 +128,7 @@ export default {
       .get("/oficina/categories/categories")
       .then((response) => {
         console.log(response.data);
-        this.categorias = response.data.Categories;
+        this.categorias = response.data.Categories.Procedures;
       })
       .catch((err) => {
         console.log(err);
