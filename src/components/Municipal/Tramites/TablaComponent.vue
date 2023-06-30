@@ -73,23 +73,11 @@
                 color="success"
               />
             </div>
-            <div class="nav">
-              <!-- <div class="pagNum">
-              {{ this.paginaActual }}
-            </div>-->
-              <!--<div class="cant" v-if="this.activos">
-              <p>Cantidad de tramites:</p>
-              <p class="length">
-                {{ this.activos.length || 0 }}
-              </p>
-            </div>-->
-            </div>
           </div>
           <!--VISTA DE TABLA CON TRAMITES FUERA DE PLAZOS-->
           <div class="tabla-container">
             <h3>Fuera de plazo</h3>
             <div v-for="item in this.deadline" :key="item.id">
-              <p>hola</p>
               <CardComponentVue
                 :obj="item"
                 :ModalTarea="ModalTarea"
@@ -99,7 +87,6 @@
                 color="danger"
               />
             </div>
-            <div class="nav"></div>
           </div>
           <!--VISTA DE TABLA CON TRAMITES REQUERIDOS-->
           <div class="tabla-container">
@@ -113,14 +100,6 @@
                 :ModalRequerimiento="ModalRequerimiento"
                 color="warning"
               />
-            </div>
-            <div class="nav">
-              <!--<div class="cant" v-if="this.activos">
-              <p>Cantidad de tramites:</p>
-              <p class="length">
-                {{ this.activos.length || 0 }}
-              </p>
-            </div>-->
             </div>
           </div>
         </div>
@@ -138,7 +117,7 @@
               />
             </div>
             <div class="data-container">
-              <section v-if="selectedHistory.id === selectedTramite">
+              <section v-if="selectedHistory.procedure.id === selectedTramite">
                 <div class="data-container">
                   <h3>Datos del vecino:</h3>
                   <div class="user-data-container">
@@ -158,9 +137,14 @@
                       </p>
                     </div>
                     <div class="user-data">
-                      <p><b>CUIL:</b> {{ selectedHistory.user.cuil }}</p>
+                      <p>
+                        <b>CUIL:</b> {{ selectedHistory.procedure.user.cuil }}
+                      </p>
 
-                      <p><b>Dirección:</b> {{ selectedHistory.user.adress }}</p>
+                      <p>
+                        <b>Dirección:</b>
+                        {{ selectedHistory.procedure.user.adress }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -168,7 +152,7 @@
                 <h3>Info tramite:</h3>
                 <div
                   class="question"
-                  v-for="(q, key) in selectedHistory.questions"
+                  v-for="(q, key) in selectedHistory.procedure.questions"
                   :key="key"
                 >
                   <div>
@@ -232,26 +216,26 @@
                   class="btn btn-primary mx-2"
                   type="button"
                   value=" Tarea"
-                  @click="ModalTarea(item.id)"
+                  @click="ModalTarea(selectedHistory.procedure.id)"
                 />
 
                 <input
                   class="btn btn-primary mx-2"
                   type="button"
-                  value=" Comunicacion"
-                  @click="ModalComunicacion(item.id)"
+                  value=" Notificación"
+                  @click="ModalComunicacion(selectedHistory.procedure.id)"
                 />
                 <input
                   class="btn btn-primary mx-2"
                   type="button"
                   value=" Requerimiento"
-                  @click="ModalRequerimiento(item.id)"
+                  @click="ModalRequerimiento(selectedHistory.procedure.id)"
                 />
                 <div class="finalizar">
                   <input
                     class="btn btn-success mx-2"
                     type="button"
-                    value=" Finalizar tramite"
+                    value=" Finalizar trámite"
                     @click="FinalizarTramite()"
                   />
                 </div>
@@ -265,7 +249,7 @@
         <div class="modalTarea">
           <div v-if="this.modalTarea === true" class="modal-content">
             <div class="modal-top">
-              <h3>Asignar Tarea. Trámite n°: {{ this.selectedTramite }}</h3>
+              <h5>Asignar Tarea. Trámite n°: {{ this.selectedTramite }}</h5>
               <img
                 @click="CloseTarea()"
                 class="svg"
@@ -278,11 +262,13 @@
         </div>
 
         <!--MODAL DE NOTIFICACIONES AL CIUDADANO-->
-
         <div class="modalTarea">
           <div v-if="this.modalComunicacion === true" class="modal-content">
             <div class="modal-top">
-              <h3>Notificación para trámite n°:{{ this.selectedTramite }}</h3>
+              <h5>
+                Enviar Notificación. <br />
+                Trámite n°: {{ this.selectedTramite }}
+              </h5>
               <img
                 @click="CloseComunicaciones()"
                 class="svg"
@@ -290,44 +276,21 @@
                 alt=""
               />
             </div>
-            <div class="titleComunicacion">
-              <label for="titleComunicacion">
-                Asunto
-                <input
-                  type="text"
-                  name="titleComunicacion"
-                  id=""
-                  v-model="this.titleComunicacion"
-                />
-              </label>
-            </div>
 
-            <textarea
-              name="comunicado"
-              id=""
-              cols="30"
-              rows="5"
-              v-model="this.comunicacion"
-            ></textarea>
-            <input
-              type="button"
-              value="Enviar"
-              @click="submitComunicacion"
-              class="botonSubmit"
-              v-if="this.comunicacion"
+            <ModalCreateRYCComponentVue
+              :submitFunction="this.submitComunicacion"
+              :datosEnviados="this.datosEnviados"
             />
-            <!-- <p v-else class="enviado">Su comuniación fue enviada!</p> -->
           </div>
         </div>
-
         <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
         <div class="modalTarea">
           <div v-if="this.modalRequerimiento === true" class="modal-content">
             <div class="modal-top">
-              <h3>
+              <h5>
                 Asignar Requerimiento. <br />
                 Trámite n°: {{ this.selectedTramite }}
-              </h3>
+              </h5>
               <img
                 @click="CloseRequerimiento"
                 class="svg"
@@ -335,9 +298,9 @@
                 alt=""
               />
             </div>
-            <CreateRequirementsComponentVue
-              :id="this.selectedTramite"
-              :getProcedures="this.getProcedures"
+            <ModalCreateRYCComponentVue
+              :submitFunction="this.submitRequerimiento"
+              :datosEnviados="this.datosEnviados"
             />
           </div>
         </div>
@@ -403,7 +366,7 @@
 <script>
 import axios from "axios";
 import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
-import CreateRequirementsComponentVue from "../Requerimientos/CreateRequirementsComponent.vue";
+import ModalCreateRYCComponentVue from "../Requerimientos/ModalCreateRYCComponentVue.vue";
 import CardComponentVue from "../CardComponent.vue";
 import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
 import FiltrosComponent from "../Filtros/FiltrosComponent.vue";
@@ -413,7 +376,7 @@ export default {
   },
   components: {
     CreateTasksComponentVue,
-    CreateRequirementsComponentVue,
+    ModalCreateRYCComponentVue,
     CardComponentVue,
     TablaFiltrosComponent,
     FiltrosComponent,
@@ -434,8 +397,6 @@ export default {
       paginaActual: 1,
       cont: 0,
       status: "",
-      titleComunicacion: "",
-      comunicacion: "",
       message: "",
       requerimiento: null,
       modalresponse: false,
@@ -445,6 +406,7 @@ export default {
       vista: false,
       modalFiltros: false,
       messageBuscar: false,
+      datosEnviados: "",
     };
   },
   created() {
@@ -473,7 +435,6 @@ export default {
       apiClient
         .get("/oficina/procedures/history")
         .then((response) => {
-          //let h = response.data.HistoryOfProcedures; //todos los tramites
           let plazo = response.data.HistoryOfProcedures.OnTime;
           let fueraPlazo = response.data.HistoryOfProcedures.OutTime;
           let requeridos = response.data.HistoryOfProcedures.PausedTime;
@@ -485,161 +446,24 @@ export default {
           this.deadline = [];
           this.requeridos = [];
 
-          //SE CONCATENAN TODOS LOS TRAMITES PARA PODER MOSTRAR EN GRILLA
-
+          // EN PLAZO
           for (let i = 0; i < plazo.length; i++) {
-            //Procedure
-            let p = {
-              id: null,
-              firstname: "",
-              lastname: "",
-              fecha: "",
-              title: "",
-              estado: "",
-              plazo: "",
-              task: null,
-              agenteFirstname: "",
-              agenteLastname: "",
-              cuil: "",
-            };
-            //EN PLAZO
-            p.id = plazo[i].id;
-            p.firstname = plazo[i].user.firstname;
-            p.lastname = plazo[i].user.lastname;
-            p.fecha = new Date(plazo[i].created_at).toLocaleDateString();
-            p.title = plazo[i].procedure.title;
-            p.estado = plazo[i].status.status;
-            p.plazo = plazo[i].deadlineDays;
-            p.task = plazo[i].task.length ? plazo[i].task.length : null;
-            // p.agenteFirstname = plazo[i].userMuni.firstname;
-            // p.agenteLastname = plazo[i].userMuni.lastname;
-            p.cuil = plazo[i].user.cuil;
-            switch (p.estado) {
-              case "PRESENTADO":
-                p.color = "var(--green)";
-                break;
-              case "PAUSADO POR REQUERIMIENTO":
-                p.color = "var(--red)";
-                break;
-              case "EN PROCESO":
-                p.color = "var(--yellow)";
-                break;
-              case "FINALIZADO":
-                p.color = "var(--lblue)";
-                break;
-
-              default:
-                break;
-            }
-
-            this.activos.push(p);
+            this.activos.push(plazo[i]);
           }
 
           //FUERA DE PLAZO
           for (let i = 0; i < fueraPlazo.length; i++) {
             console.log(fueraPlazo[i]);
-
-            // //Procedure
-            // let p = {
-            //   id: null,
-            //   firstname: "",
-            //   lastname: "",
-            //   fecha: "",
-            //   title: "",
-            //   estado: "",
-            //   plazo: "",
-            //   task: null,
-            //   agenteFirstname: "",
-            //   agenteLastname: "",
-            //   cuil: "",
-            // };
-            //Carga del procedure
-            // p.id = fueraPlazo[i].id;
-            // p.firstname = fueraPlazo[i].user.firstname;
-            // p.lastname = fueraPlazo[i].user.lastname;
-            // p.fecha = new Date(fueraPlazo[i].created_at).toLocaleDateString();
-            // p.title = fueraPlazo[i].procedure.title;
-            // p.estado = fueraPlazo[i].status.status;
-            // p.plazo = fueraPlazo[i].deadlineDays;
-            // p.task = fueraPlazo[i].task.length
-            //   ? fueraPlazo[i].task.length
-            //   : null;
-            // p.agenteFirstname = plazo[i].userMuni.firstname;
-            // p.agenteLastname = plazo[i].userMuni.lastname;
-            // p.cuil = plazo[i].user.cuil;
-            // switch (p.estado) {
-            //   case "PRESENTADO":
-            //     p.color = "var(--green)";
-            //     break;
-            //   case "PAUSADO POR REQUERIMIENTO":
-            //     p.color = "var(--red)";
-            //     break;
-            //   case "EN PROCESO":
-            //     p.color = "var(--yellow)";
-            //     break;
-            //   case "FINALIZADO":
-            //     p.color = "var(--lblue)";
-            //     break;
-
-            //   default:
-            //     break;
-            // }
-
             this.deadline.push(fueraPlazo[i]);
           }
-          //requeridos POR REQUERIMIENTO
+          //PAUSADOS POR REQUERIMIENTO
           for (let i = 0; i < requeridos.length; i++) {
-            //Procedure
-            let p = {
-              id: null,
-              firstname: "",
-              lastname: "",
-              fecha: "",
-              title: "",
-              estado: "",
-              plazo: "",
-              task: null,
-              agenteFirstname: "",
-              agenteLastname: "",
-              cuil: "",
-            };
-            //Carga del procedure
-            p.id = requeridos[i].id;
-            p.firstname = requeridos[i].user.firstname;
-            p.lastname = requeridos[i].user.lastname;
-            p.fecha = new Date(requeridos[i].created_at).toLocaleDateString();
-            p.title = requeridos[i].procedure.title;
-            p.estado = requeridos[i].status.status;
-            p.plazo = requeridos[i].deadlineDays;
-            p.task = requeridos[i].task.length
-              ? requeridos[i].task.length
-              : null;
-            // p.agenteFirstname = requeridos[i].userMuni.firstname;
-            // p.agenteLastname = requeridos[i].userMuni.lastname;
-            p.cuil = plazo[i].user.cuil;
-            switch (p.estado) {
-              case "PRESENTADO":
-                p.color = "var(--green)";
-                break;
-              case "PAUSADO POR REQUERIMIENTO":
-                p.color = "var(--red)";
-                break;
-              case "EN PROCESO":
-                p.color = "var(--yellow)";
-                break;
-              case "FINALIZADO":
-                p.color = "var(--lblue)";
-                break;
-
-              default:
-                break;
-            }
-
-            this.requeridos.push(p);
+            this.requeridos.push(requeridos[i]);
           }
-          //this.length = response.data.HistoryOfProcedures.length;
           // SE CARGAT TODOS LOS TRAMITES EN HISTORY PARA MOSTRARLO EN LA VISTA DE LOS FILTROS
           this.history = [];
+          //SE CONCATENAN TODOS LOS TRAMITES PARA PODER MOSTRAR EN GRILLA
+
           this.history = this.history
             .concat(this.activos)
             .concat(this.deadline)
@@ -667,14 +491,13 @@ export default {
       apiClient.get("/oficina/procedures/history/" + id).then((response) => {
         console.log(response.data);
         this.selectedHistory = response.data.Procedure;
+        if (response.data.Procedure.procedure.status.status === "PRESENTADO") {
+          this.status = "2";
+          this.updateStatus();
+          this.activos = [];
+          this.getProcedures();
+        }
       });
-
-      // if (this.selectedHistory.procedure.status.status === "PRESENTADO") {
-      //   this.status = "2";
-      //   this.updateStatus();
-      //   this.activos = [];
-      //   this.getProcedures();
-      // }
 
       this.modal = true;
     },
@@ -714,64 +537,22 @@ export default {
           console.log(asd, "soy los filtrados");
           if (asd) {
             this.history = [];
-
             for (let i = 0; i < asd.length; i++) {
-              let p = {
-                id: null,
-                firstname: "",
-                lastname: "",
-                fecha: "",
-                title: "",
-                estado: "",
-                plazo: "",
-                task: null,
-                agenteFirstname: "",
-                agenteLastname: "",
-                cuil: "",
-              };
-              p.id = asd[i].id;
-              p.firstname = asd[i].user.firstname;
-              p.lastname = asd[i].user.lastname;
-              p.fecha = new Date(asd[i].created_at).toLocaleDateString();
-              p.title = asd[i].procedure.title;
-              p.estado = asd[i].status.status || "";
-              p.plazo = asd[i].deadline.deadline || "";
-              p.task = asd[i].task.length ? asd[i].task.length : null;
-              p.agenteFirstname = asd[i].userMuni.firstname;
-              p.agenteLastname = asd[i].userMuni.lastname;
-              p.cuil = asd[i].user.cuil;
-              switch (p.estado) {
-                case "PRESENTADO":
-                  p.color = "var(--green)";
-                  break;
-                case "PAUSADO POR REQUERIMIENTO":
-                  p.color = "var(--red)";
-                  break;
-                case "EN PROCESO":
-                  p.color = "var(--yellow)";
-                  break;
-                case "FINALIZADO":
-                  p.color = "var(--lblue)";
-                  break;
-
-                default:
-                  break;
-              }
               switch (asd[i].deadline.deadline) {
                 case "EN PLAZO":
-                  this.activos.push(p);
+                  this.activos.push(asd[i]);
                   break;
                 case "FUERA DE PLAZO":
-                  this.deadline.push(p);
+                  this.deadline.push(asd[i]);
                   break;
                 case "PLAZO PAUSADO POR REQUERIMIENTO":
-                  this.requeridos.push(p);
+                  this.requeridos.push(asd[i]);
                   break;
 
                 default:
                   break;
               }
-              this.history.push(p);
+              this.history.push(asd[i]);
             }
           }
         })
@@ -869,13 +650,11 @@ export default {
     },
     //BUSCAR UN TRAMIATE POR ID
     searchValue(value) {
-      //console.log(value);
       let asd = null;
       this.history = [];
       this.activos = [];
       this.deadline = [];
       this.requeridos = [];
-      //SI EL TRAMITE NO ESTA EN SU AREA LO BUSCA EN OTRA
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -888,78 +667,32 @@ export default {
         .get("/oficina/procedures/history/" + value)
         .then((response) => {
           console.log(response, "soy el tramite ");
-          asd = response.data.Procedure;
-          //this.history = asd;
+
+          asd = response.data.Procedure.procedure;
+          console.log(asd);
           this.search = "";
-          let p = {
-            id: null,
-            firstname: "",
-            lastname: "",
-            fecha: "",
-            title: "",
-            estado: "",
-            plazo: "",
-            task: null,
-            agenteFirstname: "",
-            agenteLastname: "",
-            cuil: "",
-          };
-          //Carga del procedure
-          p.id = asd.procedure.id || "";
-          p.firstname = asd.procedure.user.firstname || "";
-          p.lastname = asd.procedure.user.lastname || "";
-          p.fecha =
-            new Date(asd.procedure.created_at).toLocaleDateString() || "";
-          p.title = asd.procedure.procedure.title || "";
-          p.estado = asd.procedure.status.status || "";
-          p.plazo = asd.procedure.deadlineDays || "";
-          p.agenteFirstname = asd.procedure.userMuni.firstname || "";
-          p.agenteLastname = asd.procedure.userMuni.lastname || "";
-          p.cuil = asd.procedure.user.cuil;
-          p.task = asd.procedure.task.length ? asd.procedure.task.length : null;
 
-          switch (p.estado) {
-            case "PRESENTADO":
-              p.color = "var(--green)";
-              break;
-            case "PAUSADO POR REQUERIMIENTO":
-              p.color = "var(--red)";
-              break;
-            case "EN PROCESO":
-              p.color = "var(--yellow)";
-              break;
-            case "FINALIZADO":
-              p.color = "var(--lblue)";
-              break;
-
-            default:
-              break;
-          }
-          switch (asd.procedure.deadline.deadline) {
+          switch (asd.deadline.deadline) {
             case "EN PLAZO":
-              this.activos.push(p);
+              this.activos.push(asd);
               break;
             case "FUERA DE PLAZO":
-              this.deadline.push(p);
+              this.deadline.push(asd);
               break;
             case "PLAZO PAUSADO POR REQUERIMIENTO":
-              this.requeridos.push(p);
+              this.requeridos.push(asd);
               break;
 
             default:
               break;
           }
 
-          //this.activos = [];
-          // this.activos.push(p);
-          this.history.push(p);
-          //this.setModalFiltros();
+          this.history.push(asd);
         })
         .catch((err) => {
           console.log(err.response.data.message);
           this.messageBuscar = true;
         });
-      //this.activos = asd;
     },
     backTramites() {
       if (parseFloat(this.paginaActual) > 1) {
@@ -1042,37 +775,61 @@ export default {
     },
 
     //ENVIAR UN COMUNICADO DE UN TRAMITE
-    submitComunicacion() {
-      if (this.comunicacion) {
-        console.log(this.comunicacion);
-        const apiClient = axios.create({
-          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-          baseURL: process.env.VUE_APP_BASEURL,
-          withCredentials: false,
-          headers: {
-            "auth-header": localStorage.getItem("token"),
-          },
+    submitComunicacion(obj) {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/communications/create-communication/" + this.selectedTramite, {
+          title: obj.title,
+          description: obj.description,
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            //SE ACTUALIZA EL ESTADO DEL TRAMITE A COMUNICACION
+            console.log(response.data);
+            this.datosEnviados = "Comunicación enviada!";
+          }
+        })
+        .catch((e) => {
+          if (e.response.status === 401) {
+            this.datosEnviados = e.response.data.message;
+          }
+          console.log(e);
         });
-        apiClient
-          .post(
-            "/communications/create-communication/" + this.selectedTramite,
-            { title: this.titleComunicacion, description: this.comunicacion }
-          )
-          .then((response) => {
-            if (response.status === 201) {
-              //SE ACTUALIZA EL ESTADO DEL TRAMITE A COMUNICACION
-              this.message = "Comunicacion enviada!";
-              this.titleComunicacion = "";
-              this.comunicacion = "";
-            }
-          })
-          .catch((e) => {
-            if (e.response.status === 401) {
-              this.message = e.response.data.message;
-            }
-            console.log(e);
-          });
-      }
+    },
+    submitRequerimiento(obj) {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/requirements/send-requirement/" + this.selectedTramite, {
+          title: obj.title,
+          info_req: obj.description,
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            console.log(response.data.message);
+            this.datosEnviados = response.data.message;
+            //this.message = "Requerimiento enviado";
+          }
+
+          this.getProcedures();
+        })
+        .catch((e) => {
+          console.log(e);
+          //this.message = e.response.data.message;
+        });
     },
     ModalResponse(id) {
       this.selectedTramite = id;
@@ -1232,7 +989,7 @@ section h3 {
   align-items: center;
   z-index: 15;
   position: absolute;
-  top: 30%;
+  top: 10%;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -1254,12 +1011,6 @@ section h3 {
 .cant {
   display: flex;
   margin: 0;
-}
-
-.nav {
-  align-self: flex-start;
-  position: absolute;
-  bottom: 10px;
 }
 
 input[type="checkbox"] {

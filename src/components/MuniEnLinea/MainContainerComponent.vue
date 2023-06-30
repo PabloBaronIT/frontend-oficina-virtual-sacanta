@@ -75,12 +75,18 @@
           aria-labelledby="profile-tab"
           tabindex="0"
         >
-          <h3>SERVICIOS Y RECLAMOS</h3>
-          <img
-            src="@/assets/logoSacanta.svg"
-            alt=""
-            class="imagenConstruccion"
-          />
+          <div class="card-container">
+            <div v-for="sector in servicios" :key="sector.Id">
+              <router-link
+                :to="`/sector/${sector.title}/${sector.id}`"
+                class="card scale-up-center"
+                style="text-decoration: none; color: #222"
+              >
+                <p>{{ sector.title }}</p>
+                <img :src="sector.description" :alt="sector.title" />
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -109,6 +115,7 @@ export default {
   data() {
     return {
       categorias: null,
+      servicios: null,
     };
   },
   created() {
@@ -129,6 +136,7 @@ export default {
       .then((response) => {
         console.log(response.data);
         this.categorias = response.data.Categories.Procedures;
+        this.servicios = response.data.Categories.Services;
       })
       .catch((err) => {
         console.log(err);
@@ -205,7 +213,7 @@ export default {
 }
 
 img {
-  width: 10px;
+  width: 8px;
 }
 
 /* .header {
@@ -244,7 +252,7 @@ img {
 .card img {
   border-radius: 50%;
   object-fit: cover;
-  width: 100%;
+  width: 80%;
 }
 
 .card {

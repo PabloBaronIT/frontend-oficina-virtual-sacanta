@@ -7,15 +7,15 @@
             {{ obj.user.firstname }} {{ obj.user.lastname }}
           </span>
           <span style="font-size: 13px"> Tramite: {{ obj.id }} </span>
-          <span :style="`background: ${obj.color}`">
+          <span :style="`background: ${this.setColor(obj.status.status)}`">
             {{ obj.status.status || "" }}
           </span>
         </div>
 
-        <span>{{ new Date(obj.created_at).toLocaleString() }}</span>
+        <span>{{ new Date(obj.created_at).toLocaleDateString() }}</span>
         <div class="top">
           <h5 @click="verTramite(obj.id)">
-            {{ obj.title }}
+            {{ obj.procedure.title }}
           </h5>
           <div class="dropdown">
             <button
@@ -31,7 +31,7 @@
 
               <li>
                 <p class="dropdown-item" @click="ModalComunicacion(obj.id)">
-                  Comunicacion
+                  Notificación
                 </p>
               </li>
 
@@ -47,10 +47,10 @@
         <span>{{ obj.userMuni.firstname }} {{ obj.userMuni.lastname }}</span>
         <div class="plazo">
           <p>
-            {{ obj.plazo }}
+            {{ obj.deadlineDays }}
           </p>
           <p>
-            {{ obj.task === null ? "sin tareas" : `${obj.task} tareas` }}
+            {{ obj.task === null ? "sin tareas" : `${obj.task.length} tareas` }}
           </p>
         </div>
       </div>
@@ -67,6 +67,33 @@ export default {
     ModalComunicacion: Function,
     ModalRequerimiento: Function,
     color: String,
+  },
+  data() {
+    return {
+      colorStatus: "",
+    };
+  },
+  methods: {
+    setColor(estado) {
+      switch (estado) {
+        case "PRESENTADO":
+          this.colorStatus = "var(--green)";
+          break;
+        case "PAUSADO POR REQUERIMIENTO":
+          this.colorStatus = "var(--red)";
+          break;
+        case "EN PROCESO":
+          this.colorStatus = "var(--yellow)";
+          break;
+        case "FINALIZADO":
+          this.colorStatus = "var(--lblue)";
+          break;
+
+        default:
+          break;
+      }
+      return this.colorStatus;
+    },
   },
 };
 </script>

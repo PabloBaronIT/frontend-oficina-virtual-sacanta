@@ -3,16 +3,19 @@
     <div class="container-tasks">
       <div class="asunto">
         <label for="asunto">Asunto</label>
-        <input type="text" name="asunto" id="" v-model="this.title" />
+        <input type="text" name="asunto" id="" v-model="this.datos.title" />
       </div>
 
       <textarea
         type="text"
-        v-model="this.descriptionRequer"
+        v-model="this.datos.description"
         aria-multiline="true"
       />
 
       <p v-if="message" class="enviado">{{ this.message }}</p>
+      <p v-if="this.datosEnviados" class="enviado">
+        {{ this.datosEnviados }}
+      </p>
     </div>
     <input
       type="button"
@@ -24,19 +27,16 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-
 export default {
-  name: "CreateRequirementsComponent",
+  name: "ModalCreateRYCComponent",
   props: {
-    id: String,
-    getProcedures: Function,
+    submitFunction: Function,
+    datosEnviados: String,
   },
 
   data() {
     return {
-      descriptionRequer: "",
-      title: "",
+      datos: { description: "", title: "" },
       message: null,
     };
   },
@@ -44,37 +44,12 @@ export default {
   created() {},
   methods: {
     submitRequer() {
-      if (this.descriptionRequer) {
-        const apiClient = axios.create({
-          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-          baseURL: process.env.VUE_APP_BASEURL,
-          withCredentials: false,
-          headers: {
-            "auth-header": localStorage.getItem("token"),
-          },
-        });
-        apiClient
-          .post("/requirements/send-requirement/" + this.id, {
-            title: this.title,
-            info_req: this.descriptionRequer,
-          })
-          .then((response) => {
-            if (response.status === 201) {
-              this.message = "Requerimiento enviado";
-            }
-            console.log(response.data.message);
-            this.title = "";
-            this.descriptionRequer = "";
-            this.getProcedures();
-          })
-          .catch((e) => {
-            console.log(e);
-            this.message = e.response.data.message;
-          });
-        this.title = "";
-        this.descriptionRequer = "";
+      if (this.datos.description) {
+        this.submitFunction(this.datos);
+        this.datos.title = "";
+        this.datos.description = "";
       } else {
-        this.message = "Debe asignar un requerimiento antes de enviar ";
+        this.message = "Debe escribir en el cuadro de texto antes de enviar ";
       }
     },
   },
