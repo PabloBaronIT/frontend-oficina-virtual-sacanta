@@ -625,12 +625,13 @@ input:hover {
 }
 
 .tabla-container {
-  width: 100%;
+  width: 80%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: flex-start;
   position: relative;
+  margin-left: 2rem;
 }
 .file-container2 {
   border: 1px solid var(--grey);

@@ -30,7 +30,10 @@
               </li>
 
               <li>
-                <p class="dropdown-item" @click="ModalComunicacion(obj.id)">
+                <p
+                  class="dropdown-item"
+                  @click="ModalComunicacion(obj.id, obj.user.cuil)"
+                >
                   Notificación
                 </p>
               </li>

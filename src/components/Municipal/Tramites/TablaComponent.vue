@@ -223,7 +223,12 @@
                   class="btn btn-primary mx-2"
                   type="button"
                   value=" Notificación"
-                  @click="ModalComunicacion(selectedHistory.procedure.id)"
+                  @click="
+                    ModalComunicacion(
+                      selectedHistory.procedure.id,
+                      selectedHistory.procedure.user.cuil
+                    )
+                  "
                 />
                 <input
                   class="btn btn-primary mx-2"
@@ -387,15 +392,12 @@ export default {
       modalTarea: false,
       modalComunicacion: false,
       modalRequerimiento: false,
-      trespuntos: false,
       selectedHistory: null,
       selectedTramite: null,
-      checkbox: [],
       activos: [],
       history: [],
       paginas: null,
       paginaActual: 1,
-      cont: 0,
       status: "",
       message: "",
       requerimiento: null,
@@ -407,6 +409,7 @@ export default {
       modalFiltros: false,
       messageBuscar: false,
       datosEnviados: "",
+      cuilUserNotificacion: "",
     };
   },
   created() {
@@ -732,8 +735,9 @@ export default {
     CloseTarea() {
       this.modalTarea = false;
     },
-    ModalComunicacion(id) {
+    ModalComunicacion(id, cuil) {
       this.selectedTramite = id;
+      this.cuilUserNotificacion = cuil;
       this.modalComunicacion = true;
     },
     CloseComunicaciones() {
@@ -785,15 +789,16 @@ export default {
         },
       });
       apiClient
-        .post("/communications/create-communication/" + this.selectedTramite, {
-          title: obj.title,
-          description: obj.description,
+        .post("/auth/send-communication", {
+          user_cuil: this.cuilUserNotificacion,
+          asunto_email: obj.title,
+          mensaje_email: obj.description,
         })
         .then((response) => {
-          if (response.status === 201) {
+          console.log(response.data);
+          if (response.status === 200) {
             //SE ACTUALIZA EL ESTADO DEL TRAMITE A COMUNICACION
-            console.log(response.data);
-            this.datosEnviados = "Comunicación enviada!";
+            this.datosEnviados = response.data.message;
           }
         })
         .catch((e) => {

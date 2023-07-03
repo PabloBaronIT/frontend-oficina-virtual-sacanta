@@ -104,10 +104,6 @@
 </template>
 
 <script>
-//import SideBar from "@/components/MuniEnLinea/SideBar.vue";
-// import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
-// import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
-
 import axios from "axios";
 
 export default {
@@ -143,11 +139,7 @@ export default {
         this.$router.push("login");
       });
   },
-  components: {
-    // TramitesFrecuentes,
-    //SideBar,
-    // Busqueda,
-  },
+  components: {},
 };
 </script>
 
