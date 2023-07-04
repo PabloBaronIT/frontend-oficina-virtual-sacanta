@@ -42,7 +42,7 @@
           <p>
             {{ $store.state.user.firstname }} {{ $store.state.user.lastname }}
             <br />
-            <span>CUIL: {{ $store.state.user.cuil }}</span>
+            <span>CUIL: {{ $store.state.user.cuil }} </span>
           </p>
         </div>
 

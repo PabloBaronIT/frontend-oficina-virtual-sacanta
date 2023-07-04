@@ -73,6 +73,7 @@ export default {
       loading: false,
       user: null,
       representante: null,
+      cidiCookie: null,
     };
   },
 
@@ -94,25 +95,30 @@ export default {
       //las recorro para buscar la de cidi
       if (element.includes("cidi")) return element;
     });
-    let cidiCookkie = asd[0]?.split("=") || null; //separo la que es de cidi para obtener el valor
+    let cidiCook = asd[0]?.split("=") || null; //separo la que es de cidi para obtener el valor
 
     if (cidi) {
       this.loading = true;
+      this.cidiCookie = cidi;
 
       document.cookie = `cidi=${cidi};max-age=120`;
       //se llama la api de cidi para saber si tienen representados o no
-
       this.logCidi(cidi);
     }
-    if (cidiCookkie) {
+    if (cidiCook) {
+      this.cidiCookie = cidiCook[1];
+
       this.loading = true;
-      this.logCidi(cidiCookkie[1]);
+      this.logCidi(cidiCook[1]);
     }
   },
   methods: {
     //SE GUARDA EN EL STORE EL USUARIO
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
+    },
+    dispatchCidi() {
+      this.$store.dispatch("mockCidiAction", this.cidiCookie);
     },
     //se guarda los datos del representante
     dispatchRepresentante() {
@@ -148,6 +154,8 @@ export default {
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
+      this.dispatchCidi();
+      //console.log(this.cidiCookie, "cidicookie");
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -208,6 +216,7 @@ export default {
       apiClient.get("/oficina/user/profile").then((response) => {
         console.log(response.data, "datos de usuariodb");
         this.user = response.data.UserProfile.user;
+        this.user.cidiCookie = this.cidiCookie;
         this.dispatchLogin();
 
         window.localStorage.setItem(
