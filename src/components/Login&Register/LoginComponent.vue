@@ -58,7 +58,6 @@
 <script>
 import axios from "axios";
 import dbService from "@/services/dbService";
-//ToDo
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
@@ -166,14 +165,7 @@ export default {
 
           if (token) {
             localStorage.setItem("token", token.token);
-            // let payload = dbService.getToken(cidi);
-            // let idRepresentante = payload.representative
-            //   ? payload.representative
-            //   : null;
-            // console.log(idRepresentante);
-            // if (idRepresentante) {
-            //   this.getRepresentante(idRepresentante);
-            // }
+
             this.getMyProfile();
             this.$router.push("munienlinea");
           }

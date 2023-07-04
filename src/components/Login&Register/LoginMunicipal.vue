@@ -120,11 +120,6 @@ export default {
           "fecha-creacion",
           response.data.MuniProfile.muni.created_at
         );
-
-        // window.localStorage.setItem(
-        ///"role",
-        // response.data.UserProfile.user.role
-        //);
         window.localStorage.setItem(
           "role",
           response.data.MuniProfile.muni.role

@@ -113,7 +113,7 @@
                 />
               </div>
             </div>
-            <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
+            <!--CUANDO SE TERMINO DE CARGAR EL ARCHIVO-->
 
             <div v-else class="cargado">
               <img
@@ -213,36 +213,10 @@ export default {
     };
   },
   created() {
-    // Get a los templates de procedures para enviarlos por pro a formulario componente
-    // const apiClient = axios.create({
-    //   baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-    //   //baseURL: process.env.VUE_APP_BASEURL,
-    //   withCredentials: false,
-    //   headers: {
-    //     "auth-header": localStorage.getItem("token"),
-    //   },
-    // });
-
-    // apiClient
-    //   .get("/oficina/procedures/template/" + this.$route.params.formularioId)
-    //   .then((response) => {
-    //     console.log("Id desde componente: " + response.data.Template.id);
-    //     this.idProcedure = response.data.Template.id;
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-    this.catId = this.$route.params.categoriaId;
-    procedure.categoryId = parseInt(this.$route.params.categoriaId);
     procedure.title = this.title;
-    // procedure.procedureId = this.idProcedure;
-    //procedure.representativeId = 1;
     procedure.userId = localStorage.getItem("id");
-    console.log(procedure.procedureId, "soy el procedur.procedureid");
   },
   methods: {
-    // ...mapActions(["saveP"]),
     dispatchClean() {
       this.$store.dispatch("cleanAction");
     },
@@ -256,6 +230,7 @@ export default {
       }
       this.asd = false;
     },
+    //elegir una archivo para enviar
     selectFile($event) {
       const imgPreview = document.getElementById("img-preview");
 
@@ -264,6 +239,7 @@ export default {
       imgPreview.src = objectURL;
       console.log(this.file, "soy el archivo");
     },
+    //GUARDAR EL ARCHIVO EN CLAUDINARY Y TOMAR SOLO LA URL
     postFile: async function () {
       const CLOUDINARY_URL =
         "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
@@ -285,8 +261,6 @@ export default {
           this.fileSelect = null;
           this.asd = true;
         });
-
-      //console.log(res.secure_url, "soy la url de la imagen");
     },
 
     next() {
@@ -327,18 +301,14 @@ export default {
     //ENVIO DE LAS RESPUESTAS -FINAL DEL FORMULARIO-
 
     submitt() {
-      //console.log(this.questionProp + "holaaa");
       if (this.selected == 0 && this.textInput == "") {
         this.validation = false;
       } else {
         this.validation = true;
       }
-      // this.loading = true;
-      //console.log(procedure.procedureId + "procedureId");
 
       if (this.validation) {
         this.preNext();
-
         this.loading = true;
         this.modal = true;
         const apiClient = axios.create({
@@ -352,15 +322,11 @@ export default {
 
         apiClient
           .post("/oficina/procedures/submit-procedure", {
-            //representativeId: procedure.representativeId,
-            categoryId: procedure.categoryId,
-            statusId: procedure.statusId,
             questions: procedure.questions,
             procedureId: parseInt(this.$route.params.formularioId),
           })
           .then((response) => {
             if (response.status == 201) {
-              // this.$store.commit("cleanStore");
               this.dispatchClean();
               this.$store.commit("saveProcedure", JSON.stringify(procedure));
               this.submitted = true;

@@ -78,14 +78,14 @@
         </router-link>
 
         <!--este link solo se puede acceder en el propio perfil , no como representante-->
-        <router-link
+        <!-- <router-link
           v-show="permission"
           :to="`/representaciones`"
           v-if="!$store.state.RepresentativeUser"
           class="bn3"
         >
           Mis representaciones
-        </router-link>
+        </router-link> -->
         <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
           Mis Notificaciones
         </router-link>

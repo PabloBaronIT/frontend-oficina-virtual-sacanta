@@ -12,11 +12,8 @@
         v-if="usersMuni"
       >
         <option v-for="muni in usersMuni" :key="muni.id" :value="muni.id">
-          {{ muni.firstname }} {{ muni.category.title }}
+          {{ muni.firstname }} {{ muni.area.area_name }}
         </option>
-        <!--<option value="1">Presentado</option>
-        <option value="2">En proceso</option>
-        <option value="4">Finalizados</option>-->
       </select>
       <div class="asunto">
         <label for="asunto">Asunto</label>

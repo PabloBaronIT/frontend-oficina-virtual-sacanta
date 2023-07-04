@@ -13,25 +13,25 @@
       </tr>
       <tr v-for="item in this.history" :key="item.id">
         <td>
-          {{ item.title }}
+          {{ item.procedure.title }}
         </td>
         <td>
           {{ item.id }}
         </td>
         <td>
-          {{ item.fecha }}
+          {{ new Date(item.created_at).toLocaleDateString() }}
         </td>
-        <td>{{ item.firstname }} {{ item.lastname }}</td>
+        <td>{{ item.user.firstname }} {{ item.user.lastname }}</td>
         <td>
-          {{ item.cuil }}
-        </td>
-        <td>
-          {{ item.estado }}
+          {{ item.user.cuil }}
         </td>
         <td>
-          {{ item.plazo }}
+          {{ item.status.status }}
         </td>
-        <td>{{ item.agenteFirstname }}{{ item.agenteLastname }}</td>
+        <td>
+          {{ item.deadlineDays }}
+        </td>
+        <td>{{ item.userMuni.firstname }}{{ item.userMuni.lastname }}</td>
       </tr>
     </table>
     <div v-else>

@@ -1,13 +1,10 @@
 <template>
-  <div class="main-container">
-    <!--<div class="menu">
-      <SideBar />
-    </div>-->
+  <main>
     <div class="top">
-      <h1 class="tituloPrincipal">Mis trámites</h1>
+      <h1>Mis trámites</h1>
     </div>
     <Tabla color="var(--green)" />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -25,6 +22,8 @@ export default {
 <style scoped>
 .top {
   text-align: left;
+  margin-left: 3rem;
+  margin-top: 2rem;
 }
 .menu {
   width: 100%;
@@ -38,17 +37,14 @@ h4 {
   color: var(--blue);
 }
 
-.main-container {
-  height: 100vh;
-  width: 80vw;
+main {
+  height: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 3rem;
+
   flex-flow: column wrap;
-  background: rgb(235, 235, 235);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  justify-content: flex-start;
+  background: var(--grey-bk);
 }
 
 @media (max-width: 800px) {

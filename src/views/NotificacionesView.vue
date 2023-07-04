@@ -1,14 +1,13 @@
 <template>
   <div class="sector-container">
     <div class="top">
-      <h1 class="tituloPrincipal">Mis notificaciones</h1>
+      <h1>Mis notificaciones</h1>
     </div>
     <CardNotificacionComponentVue
       :dato="notificacion"
       v-for="notificacion in notificaciones"
       :key="notificacion.id"
     />
-    <!-- <Tabla />-->
   </div>
 </template>
 
@@ -37,20 +36,32 @@ export default {
       ],
     };
   },
+  methods: {
+    getCommunication() {
+      // const apiClient = axios.create({
+      //   //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      //   baseURL: process.env.VUE_APP_BASEURL,
+      //   withCredentials: false,
+      //   headers: {
+      //     "auth-header": localStorage.getItem("token"),
+      //   },
+      // });
+      // apiClient.post("/auth/cidi-communications/");
+    },
+  },
 };
 </script>
 
 <style scoped>
 .top {
   text-align: left;
+  margin-left: 3rem;
+  margin-top: 2rem;
 }
 .sector-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   background: var(--grey-bk);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  padding: 3rem;
 }
 </style>

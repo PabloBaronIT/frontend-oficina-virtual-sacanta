@@ -75,12 +75,18 @@
           aria-labelledby="profile-tab"
           tabindex="0"
         >
-          <h3>SERVICIOS Y RECLAMOS</h3>
-          <img
-            src="@/assets/logoSacanta.svg"
-            alt=""
-            class="imagenConstruccion"
-          />
+          <div class="card-container">
+            <div v-for="sector in servicios" :key="sector.Id">
+              <router-link
+                :to="`/sector/${sector.title}/${sector.id}`"
+                class="card scale-up-center"
+                style="text-decoration: none; color: #222"
+              >
+                <p>{{ sector.title }}</p>
+                <img :src="sector.description" :alt="sector.title" />
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -98,10 +104,6 @@
 </template>
 
 <script>
-//import SideBar from "@/components/MuniEnLinea/SideBar.vue";
-// import TramitesFrecuentes from "@/components/MuniEnLinea/TramitesFrecuentesComponent.vue";
-// import Busqueda from "../Busqueda/Filtrado/BusquedaComponent.vue";
-
 import axios from "axios";
 
 export default {
@@ -109,6 +111,7 @@ export default {
   data() {
     return {
       categorias: null,
+      servicios: null,
     };
   },
   created() {
@@ -118,7 +121,6 @@ export default {
     const apiClient = axios.create({
       //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
       baseURL: process.env.VUE_APP_BASEURL,
-
       withCredentials: false,
       headers: {
         "auth-header": window.localStorage.getItem("token"),
@@ -129,18 +131,15 @@ export default {
       .get("/oficina/categories/categories")
       .then((response) => {
         console.log(response.data);
-        this.categorias = response.data.Categories;
+        this.categorias = response.data.Categories.Procedures;
+        this.servicios = response.data.Categories.Services;
       })
       .catch((err) => {
         console.log(err);
         this.$router.push("login");
       });
   },
-  components: {
-    // TramitesFrecuentes,
-    //SideBar,
-    // Busqueda,
-  },
+  components: {},
 };
 </script>
 
@@ -206,7 +205,7 @@ export default {
 }
 
 img {
-  width: 10px;
+  width: 8px;
 }
 
 /* .header {
@@ -245,7 +244,7 @@ img {
 .card img {
   border-radius: 50%;
   object-fit: cover;
-  width: 100%;
+  width: 80%;
 }
 
 .card {
