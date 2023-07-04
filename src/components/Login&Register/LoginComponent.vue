@@ -217,7 +217,10 @@ export default {
         console.log(response.data, "datos de usuariodb");
         this.user = response.data.UserProfile.user;
         this.dispatchLogin();
-
+        window.localStorage.setItem(
+          "role",
+          response.data.UserProfile.user.role
+        );
         window.localStorage.setItem(
           "name",
           response.data.UserProfile.user.firstname
@@ -247,10 +250,7 @@ export default {
           "nivel",
           response.data.UserProfile.user.level.level
         );
-        window.localStorage.setItem(
-          "role",
-          response.data.UserProfile.user.role
-        );
+
         this.loading = false;
         this.$router.push("munienlinea");
       });
