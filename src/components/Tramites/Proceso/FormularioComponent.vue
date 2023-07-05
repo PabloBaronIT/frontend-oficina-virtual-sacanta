@@ -5,18 +5,23 @@
     </div>
     <div class="question" v-if="!this.loading">
       <div class="topquestion">
-        <h1 class="fontB">{{ questionProp[0].question[this.paso].title }}</h1>
-        <h3>Completar las preguntas para cada tramite</h3>
+        <!-- <h1 class="fontB">{{ questionProp[0].question.title }}</h1> -->
+        <h3>Completar las preguntas</h3>
       </div>
       <form action="" class="option-container">
-        <div
-          class="questions"
-          v-for="(opcion, key) in questionProp[0].question[this.paso]
-            .question_options"
-          :key="key"
-        >
+        <div class="questions">
+          <p>
+            {{ this.preguntas[0].question.title }}
+          </p>
+          <div v-if="this.preguntas[0].questionOption.length >= 1">
+            <input
+              v-for="item in this.preguntas[0].questionOption"
+              :key="item.id"
+            />
+            {{ item.title }}
+          </div>
           <!--SELECCION  MULTIPLE-->
-          <div class="tipoRadio">
+          <!-- <div class="tipoRadio">
             <input
               :id="key"
               :name="key"
@@ -32,8 +37,8 @@
               "
               :value="key + 1"
               v-model="this.selected"
-            />
-            <div>
+            /> -->
+          <!-- <div>
               <label :for="key" class="option-text">{{
                 questionProp[0].question[this.paso].question_options[key].title
               }}</label>
@@ -46,11 +51,11 @@
                   }}
                 </p></label
               >
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
 
           <!--INGRESO DE TEXTO-->
-          <div
+          <!-- <div
             class="tipoTexto"
             v-if="
               questionProp[0].question[this.paso].question_options[key].type ==
@@ -58,8 +63,8 @@
               questionProp[0].question[this.paso].question_options[key].type ==
                 'text'
             "
-          >
-            <input
+          > -->
+          <!-- <input
               class="form-control text-number-input"
               v-if="
                 questionProp[0].question[this.paso].question_options[key]
@@ -71,19 +76,19 @@
                 questionProp[0].question[this.paso].question_options[key].type
               "
               v-model="this.textInput"
-            />
-          </div>
+            /> -->
+          <!-- </div> -->
 
           <!--SUBIR ARCHIVOS-->
 
-          <div
+          <!-- <div
             v-if="
               questionProp[0].question[this.paso].question_options[key].type ==
               'file'
             "
             class="file-container"
-          >
-            <div v-if="!asd" class="file-intro">
+          > -->
+          <!-- <div v-if="!asd" class="file-intro">
               <img
                 src="@/assets/tramite-logo.svg"
                 alt=""
@@ -100,10 +105,10 @@
                 v-model="this.fileSelect"
                 id="img-uploader"
                 @change="selectFile($event)"
-              />
+              /> -->
 
-              <!--INPUT PARA SUBIR EL ARCHIVO-->
-              <div class="fileup">
+          <!--INPUT PARA SUBIR EL ARCHIVO-->
+          <!-- <div class="fileup">
                 <input
                   v-if="this.fileSelect"
                   class="m-2 btn btn-secondary"
@@ -111,11 +116,11 @@
                   value="Subir archivo"
                   @click="postFile()"
                 />
-              </div>
-            </div>
-            <!--CUANDO SE TERMINO DE CARGAR EL ARCHIVO-->
+              </div> -->
+          <!-- </div> -->
+          <!--CUANDO SE TERMINO DE CARGAR EL ARCHIVO-->
 
-            <div v-else class="cargado">
+          <!-- <div v-else class="cargado">
               <img
                 src="@/assets/red-check-mark-icon.svg"
                 alt=""
@@ -123,8 +128,8 @@
                 class="imgFile"
               />
               <p>Archivo cargado</p>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
         </div>
         <p class="error" v-show="validation == false">
           Debe seleccionar una opcion para continuar
@@ -192,9 +197,7 @@ export default {
   name: "FormularioComponent",
 
   props: {
-    length: Number,
     questionProp: Object,
-    title: String,
   },
   data() {
     return {
@@ -210,11 +213,14 @@ export default {
       fileSelect: null,
       asd: false,
       // idProcedure: null,
+      preguntas: null,
     };
   },
   created() {
-    procedure.title = this.title;
-    procedure.userId = localStorage.getItem("id");
+    // procedure.title = this.title;
+    // procedure.userId = localStorage.getItem("id");
+    this.setLoading();
+    //console.log(this.questionProp);
   },
   methods: {
     dispatchClean() {
@@ -367,6 +373,13 @@ export default {
       doc.setFontSize(16);
       doc.text(20, 30, "This is some normal sized text underneath.");
       doc.save("a4.pdf");
+    },
+    setLoading() {
+      this.loading = true;
+      this.preguntas = this.questionProp;
+      if (this.preguntas.length) {
+        this.loading = false;
+      }
     },
   },
 };

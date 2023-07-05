@@ -3,14 +3,10 @@
     <div class="container-tasks">
       <div class="asunto">
         <label for="asunto">Asunto</label>
-        <input type="text" name="asunto" id="" v-model="this.datos.title" />
+        <input type="text" name="asunto" id="" v-model="this.title" />
       </div>
 
-      <textarea
-        type="text"
-        v-model="this.datos.description"
-        aria-multiline="true"
-      />
+      <textarea type="text" v-model="this.description" aria-multiline="true" />
 
       <p v-if="message" class="enviado">{{ this.message }}</p>
       <p v-if="this.datosEnviados" class="enviado">
@@ -36,7 +32,8 @@ export default {
 
   data() {
     return {
-      datos: { description: "", title: "" },
+      description: "",
+      title: "",
       message: null,
     };
   },
@@ -44,10 +41,11 @@ export default {
   created() {},
   methods: {
     submitRequer() {
-      if (this.datos.description) {
-        this.submitFunction(this.datos);
-        this.datos.title = "";
-        this.datos.description = "";
+      if (this.description) {
+        console.log(this.description, this.title);
+        this.submitFunction(this.title, this.description);
+        this.title = "";
+        this.description = "";
       } else {
         this.message = "Debe escribir en el cuadro de texto antes de enviar ";
       }
@@ -113,7 +111,6 @@ input[type="submit"] {
 }
 .enviado {
   color: green;
-  font-size: 25px;
-  margin-left: 2rem;
+  font-size: 15px;
 }
 </style>

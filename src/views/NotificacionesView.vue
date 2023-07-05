@@ -1,15 +1,68 @@
 <template>
   <div class="sector-container">
     <div class="top">
-      <h1>Mis notificaciones</h1>
+      <h1>Mis Comunicaciones</h1>
     </div>
+    <!-- LISTADO DE COMUNICACIONES -->
 
     <CardNotificacionComponentVue
       :dato="communication"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      :v-if="communications.length && this.loading === false"
       v-for="(communication, index) in communications"
       :key="index"
-      :v-if="communications.length && this.loading === false"
+      @click="setComunicacion(index)"
     />
+    <!-- MODAL -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      v-if="this.selectCommunication"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fs-5" id="exampleModalLabel">
+              Comunicado: {{ this.selectCommunication.Asunto || "" }}
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              {{ this.selectCommunication.Texto || "" }}
+            </p>
+
+            <div style="display: flex; justify-content: space-around">
+              <p>
+                Firmado por:
+                <strong>{{ this.selectCommunication.Firma }}</strong>
+              </p>
+              <p>
+                {{ this.selectCommunication.Fecha }}
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="loading">
       <div v-if="this.loading" class="spinner-border loading" role="status">
         <span class="sr-only"></span>
@@ -20,11 +73,9 @@
 
 <script>
 import CardNotificacionComponentVue from "../components/Notificaciones/CardNotificacionComponent.vue";
-//import Tabla from "@/components/Notificaciones/TablaComponent.vue";
 import axios from "axios";
 export default {
   components: {
-    //Tabla,
     CardNotificacionComponentVue,
   },
 
@@ -67,10 +118,10 @@ export default {
           }
         });
     },
-    // log(index) {
-    //   this.selectCommunication = this.communications[index];
-    //   //console.log(this.selectCommunication);
-    // },
+    setComunicacion(index) {
+      this.selectCommunication = this.communications[index];
+      console.log(this.selectCommunication, "soy la comunicacionw");
+    },
   },
 };
 </script>
@@ -94,5 +145,8 @@ export default {
 }
 .loading {
   margin-top: 5rem;
+}
+h5 {
+  color: var(--green);
 }
 </style>

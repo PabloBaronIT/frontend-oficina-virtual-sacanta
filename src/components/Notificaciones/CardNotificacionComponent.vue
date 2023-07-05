@@ -1,6 +1,6 @@
 <template>
   <main class="flex-container">
-    <div class="top" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <div class="top">
       <p>Haz recibido un mensaje</p>
       <p>
         {{ dato.Fecha }}
@@ -15,48 +15,6 @@
 
       <div class="leido" v-if="dato.LeidoPortal === `S`"><p>Leido</p></div>
     </div>
-
-    <!-- Button trigger modal -->
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Comunicado</h1>
-
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              {{ this.communication.Texto }}
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-
-            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </template>
 <script>
@@ -66,9 +24,7 @@ export default {
     dato: Object,
   },
   data() {
-    return {
-      communication: this.dato,
-    };
+    return {};
   },
 };
 </script>

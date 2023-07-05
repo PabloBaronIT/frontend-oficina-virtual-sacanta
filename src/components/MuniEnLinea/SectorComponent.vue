@@ -4,7 +4,6 @@
      correspondientes al sector seleccionado -->
     <header>
       <h1 class="tituloPrincipal">
-        <!--<img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />-->
         {{ this.$route.params.sectorTitle }}
       </h1>
     </header>
@@ -13,36 +12,6 @@
       <h2>No hay trámites para esta categoría por el momento</h2>
     </div>
     <div class="tramites">
-      <!-- <div
-        class="card slide-top"
-        v-for="tramite in tramitesApi"
-        :key="tramite.id"
-      >
-        <div class="descripcion">
-          <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
-          <p class="title">{{ tramite.title }}</p>
-        </div>
-        <div class="requisitos">
-          <a href="">Ver requisitos</a>
-          <img
-            src="@/assets/arancel.svg"
-            alt="arancel"
-            @mouseover="Hover"
-            @mouseleave="Hover"
-          />
-        </div>
-
-        <router-link
-          class="btn-iniciar"
-          :to="`/formulario/${this.$route.params.sectorId}/${tramite.title}/${tramite.id}`"
-        >
-          Iniciar tramite
-        </router-link>
-        <p :id="key" class="hover" v-if="this.hover && id == this.id">
-          {{ tramite.description }}
-        </p>
-      </div> -->
-
       <div
         v-for="tramite in tramitesApi"
         :key="tramite.id"
