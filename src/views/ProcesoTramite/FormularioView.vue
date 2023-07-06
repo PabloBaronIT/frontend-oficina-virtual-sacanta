@@ -6,7 +6,7 @@
       </h2>
     </div>
 
-    <FormularioComponent :questionProp="preguntas" />
+    <FormularioComponent :questionProp="this.preguntas" />
 
     <!-- Armar componente de formulario con props -->
   </div>

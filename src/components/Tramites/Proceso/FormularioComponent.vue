@@ -6,89 +6,59 @@
     <div class="question" v-if="!this.loading">
       <div class="topquestion">
         <!-- <h1 class="fontB">{{ questionProp[0].question.title }}</h1> -->
-        <h3>Completar las preguntas</h3>
+        <h3>
+          {{ this.preguntas[this.paso].question.title }}
+        </h3>
+        <p>Completar las preguntas</p>
       </div>
       <form action="" class="option-container">
-        <div class="questions">
-          <p>
-            {{ this.preguntas[0].question.title }}
-          </p>
-          <div v-if="this.preguntas[0].questionOption.length >= 1">
+        <!--detalle de opciones  -->
+        <div
+          :v-if="
+            this.preguntas[this.paso].questionOption.length >= 1 &&
+            this.paso > this.preguntas.length
+          "
+          v-for="(item, index) in this.preguntas[this.paso].questionOption"
+          :key="item.id"
+          class="questions"
+        >
+          <!-- INPUT TIPO RADIO -->
+          <div class="tipoRadio" v-if="item.type == 'radio'">
             <input
-              v-for="item in this.preguntas[0].questionOption"
-              :key="item.id"
-            />
-            {{ item.title }}
-          </div>
-          <!--SELECCION  MULTIPLE-->
-          <!-- <div class="tipoRadio">
-            <input
-              :id="key"
-              :name="key"
-              class="radio"
-              v-if="
-                questionProp[0].question[this.paso].question_options[key]
-                  .type == 'radio' ||
-                questionProp[0].question[this.paso].question_options[key]
-                  .type == 'checkbox'
-              "
-              :type="
-                questionProp[0].question[this.paso].question_options[key].type
-              "
-              :value="key + 1"
+              :name="item.title"
+              :type="item.type"
               v-model="this.selected"
-            /> -->
-          <!-- <div>
-              <label :for="key" class="option-text">{{
-                questionProp[0].question[this.paso].question_options[key].title
-              }}</label>
-              <br />
-              <label :for="key" class=""
-                ><p>
-                  {{
-                    questionProp[0].question[this.paso].question_options[key]
-                      .description
-                  }}
-                </p></label
+              :value="index"
+            />
+            <div>
+              <label :for="item.title" class="option-text">
+                {{ item.title }}</label
               >
-            </div> -->
-          <!-- </div> -->
+              <br />
+              <label :for="item.id" class=""
+                ><p>
+                  {{ item.description }}
+                </p>
+              </label>
+            </div>
+          </div>
 
-          <!--INGRESO DE TEXTO-->
-          <!-- <div
+          <!-- INPUT TIPO TEXTO -->
+          <div
+            v-if="item.type == 'number' || item.type == 'text'"
             class="tipoTexto"
-            v-if="
-              questionProp[0].question[this.paso].question_options[key].type ==
-                'number' ||
-              questionProp[0].question[this.paso].question_options[key].type ==
-                'text'
-            "
-          > -->
-          <!-- <input
+          >
+            <input
               class="form-control text-number-input"
-              v-if="
-                questionProp[0].question[this.paso].question_options[key]
-                  .type == 'number' ||
-                questionProp[0].question[this.paso].question_options[key]
-                  .type == 'text'
-              "
-              :type="
-                questionProp[0].question[this.paso].question_options[key].type
-              "
+              :type="item.type"
               v-model="this.textInput"
-            /> -->
-          <!-- </div> -->
+            />
+          </div>
 
-          <!--SUBIR ARCHIVOS-->
+          <!-- INPUT TIPO FILE -->
 
-          <!-- <div
-            v-if="
-              questionProp[0].question[this.paso].question_options[key].type ==
-              'file'
-            "
-            class="file-container"
-          > -->
-          <!-- <div v-if="!asd" class="file-intro">
+          <div v-if="item.type == 'file'" class="file-container">
+            <div v-if="!asd" class="file-intro">
               <img
                 src="@/assets/tramite-logo.svg"
                 alt=""
@@ -99,16 +69,14 @@
               <hr />
               <input
                 accept=".jpg, .jpeg, .png, .webp"
-                :type="
-                  questionProp[0].question[this.paso].question_options[key].type
-                "
+                :type="item.type"
                 v-model="this.fileSelect"
                 id="img-uploader"
                 @change="selectFile($event)"
-              /> -->
+              />
 
-          <!--INPUT PARA SUBIR EL ARCHIVO-->
-          <!-- <div class="fileup">
+              <!--INPUT PARA SUBIR EL ARCHIVO-->
+              <div class="fileup">
                 <input
                   v-if="this.fileSelect"
                   class="m-2 btn btn-secondary"
@@ -116,11 +84,9 @@
                   value="Subir archivo"
                   @click="postFile()"
                 />
-              </div> -->
-          <!-- </div> -->
-          <!--CUANDO SE TERMINO DE CARGAR EL ARCHIVO-->
-
-          <!-- <div v-else class="cargado">
+              </div>
+            </div>
+            <div v-else class="cargado">
               <img
                 src="@/assets/red-check-mark-icon.svg"
                 alt=""
@@ -128,9 +94,10 @@
                 class="imgFile"
               />
               <p>Archivo cargado</p>
-            </div> -->
-          <!-- </div> -->
+            </div>
+          </div>
         </div>
+
         <p class="error" v-show="validation == false">
           Debe seleccionar una opcion para continuar
         </p>
@@ -138,7 +105,7 @@
       <div class="btn-div">
         <input
           class="boton"
-          v-if="this.paso + 1 < this.length"
+          v-if="this.paso + 1 < this.preguntas.length"
           type="button"
           value="Siguiente"
           @click="preNext()"
@@ -157,16 +124,16 @@
 
       <!-- Si esta en el ultimo paso se habilita el submitt -->
       <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
-      <div v-if="this.paso + 1 == this.length" class="btn-submit">
+      <div v-if="this.paso + 1 == this.preguntas.length" class="btn-submit">
         <input
-          v-if="this.paso + 1 == this.length"
+          v-if="this.paso + 1 == this.preguntas.length"
           class="botonSubmit"
           type="button"
           value="Submitt"
           @click="submitt"
         />
         <input
-          v-if="this.paso + 1 == this.length"
+          v-if="this.paso + 1 == this.preguntas.length"
           class="botonSubmit"
           type="button"
           value="Verpdf"
@@ -180,17 +147,17 @@
 <script>
 import axios from "axios";
 import { jsPDF } from "jspdf";
-// import { mapActions } from "vuex";
 
 var procedure = {
-  title: "",
-  userId: "",
-  categoryId: null,
-  statusId: 1,
+  // title: "",
+  // userId: "",
+  // categoryId: null,
+  // statusId: 1,
   procedureId: null,
-  selected: null,
+  // selected: null,
+  // questions: [],
+  // date: new Date(),
   questions: [],
-  date: new Date(),
 };
 
 export default {
@@ -206,7 +173,7 @@ export default {
       validation: null,
       loading: false,
       textInput: "",
-      selected: 0,
+      selected: "",
       submitted: false,
       catId: null,
       file: null,
@@ -227,11 +194,11 @@ export default {
       this.$store.dispatch("cleanAction");
     },
     preNext() {
-      if (this.selected == 0 && this.textInput == "") {
+      if (this.selected == "" && this.textInput == "") {
         this.validation = false;
-      } else if (this.selected == 0 && this.textInput != "") {
+      } else if (this.selected == "" && this.textInput != "") {
         this.next();
-      } else if (this.selected != 0 && this.textInput == "") {
+      } else if (this.selected != "" && this.textInput == "") {
         this.next();
       }
       this.asd = false;
@@ -260,44 +227,40 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.textInput = data.secure_url;
-          console.log(data.secure_url, "secure_url");
-          console.log(data);
+          this.asd = true;
+          //console.log(data.secure_url, "secure_url");
+          //console.log(data);
           console.log(this.textInput, "archivo cargado en textInput");
           //this.preNext();
-          this.fileSelect = null;
-          this.asd = true;
         });
+      this.fileSelect = null;
     },
 
+    //SE GUARDA LA RESPUESTA EN UN ARRAY PARA LUEGO ENVIAR
     next() {
-      let choice = this.selected - 1;
+      let choice = this.selected;
       let optionTitle = "";
 
       if (this.textInput != "") {
         optionTitle = this.textInput;
         choice = 0;
       } else {
-        optionTitle =
-          this.questionProp[0].question[this.paso].question_options[choice]
-            .title;
+        optionTitle = this.preguntas[this.paso].questionOption[choice].title;
       }
 
       let q = {
-        question: this.questionProp[0].question[this.paso].id,
+        question: this.preguntas[this.paso].question.id,
         options: [
           {
-            questionTitle: this.questionProp[0].question[this.paso].title,
-            questionOption:
-              this.questionProp[0].question[this.paso].question_options[choice]
-                .id,
+            questionOption: this.preguntas[this.paso].questionOption[choice].id,
             answer: optionTitle,
           },
         ],
       };
 
       procedure.questions.push(q);
-      console.log(procedure.questions);
-      this.selected = 0;
+      console.log(procedure.questions, "RESPUESTAS");
+      this.selected = "";
       choice = 0;
       this.textInput = "";
       this.validation = true;
@@ -354,6 +317,7 @@ export default {
           });
 
         this.loading = false;
+        console.log(this.procedure.questions);
       }
     },
     back() {
@@ -389,6 +353,13 @@ export default {
 .container {
   text-align: left;
 }
+.questions {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  background-color: white;
+  padding-left: 1rem;
+}
 .boton {
   width: 100px;
   height: 45px;
@@ -398,31 +369,34 @@ export default {
   margin-left: 1rem;
   border-style: none;
 }
-.botonSubmit {
-  width: 100px;
-  height: 45px;
-  background-color: var(--green);
-  border-radius: 20px 20px 0px 0px;
-  color: white;
-  margin-left: 1rem;
-  border-style: none;
-}
-.btn-div {
+.options-container {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  justify-content: right;
-  padding-right: 2rem;
-}
-.btn-submit {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
+  flex-flow: column wrap;
   justify-content: center;
+  align-items: flex-start;
+  flex-wrap: 100%;
+  margin-bottom: 2rem;
 }
-
+.tipoRadio {
+  display: flex;
+  flex-direction: row;
+}
+.tipoRadio input[type="radio"] {
+  height: 20px;
+  width: 20px;
+  margin-top: 22px;
+  margin-right: 15px;
+}
+.tipoTexto {
+  height: 4rem;
+  padding: 1rem;
+}
+.tipoTexto input[type="number"] {
+  width: 40%;
+}
+.tipoTexto input[type="text "] {
+  width: 40%;
+}
 .file-container {
   border: 1px solid var(--grey);
   padding: 20px;
@@ -443,16 +417,56 @@ export default {
 .file-intro input[type="file"] {
   margin: auto;
 }
+.imgFile {
+  height: 4rem;
+  width: 4rem;
+  margin: auto;
+}
 .fileup {
   margin: auto;
+}
+.botonSubmit {
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  margin-left: 1rem;
+  border-style: none;
 }
 .cargado {
   text-align: center;
 }
-
+.btn-submit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
 .error {
   color: var(--red);
 }
+.btn-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  justify-content: right;
+  padding-right: 2rem;
+}
+
+/* 
+
+
+
+
+
+
+
+
+
+
 
 .option-text {
   font-size: 1.1em;
@@ -462,14 +476,7 @@ export default {
   width: 50%;
 }
 
-.options-container {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: 100%;
-  margin-bottom: 2rem;
-}
+
 
 .option {
   text-align: left;
@@ -492,35 +499,7 @@ p {
   height: 7rem;
   width: 100%;
 }
-.tipoRadio {
-  display: flex;
-  flex-direction: row;
-}
-.tipoRadio input[type="radio"] {
-  height: 20px;
-  width: 20px;
-  margin-top: 22px;
-  margin-right: 15px;
-}
-.tipoTexto {
-  height: 7rem;
-}
-.tipoTexto input[type="number"] {
-  width: 40%;
-}
-.tipoTexto input[type="text "] {
-  width: 40%;
-}
-.questions {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-  background-color: white;
-  padding-left: 2rem;
-}
-.imgFile {
-  height: 4rem;
-  width: 4rem;
-  margin: auto;
-}
+
+
+ */
 </style>
