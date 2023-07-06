@@ -1,52 +1,126 @@
 <template>
   <div class="sector-container">
     <div class="top">
-      <h1>Mis notificaciones</h1>
+      <h1>Mis Comunicaciones</h1>
     </div>
+    <!-- LISTADO DE COMUNICACIONES -->
+
     <CardNotificacionComponentVue
-      :dato="notificacion"
-      v-for="notificacion in notificaciones"
-      :key="notificacion.id"
+      :dato="communication"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      :v-if="communications.length && this.loading === false"
+      v-for="(communication, index) in communications"
+      :key="index"
+      @click="setComunicacion(index)"
     />
+    <!-- MODAL -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      v-if="this.selectCommunication"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fs-5" id="exampleModalLabel">
+              Comunicado: {{ this.selectCommunication.Asunto || "" }}
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              {{ this.selectCommunication.Texto || "" }}
+            </p>
+
+            <div style="display: flex; justify-content: space-around">
+              <p>
+                Firmado por:
+                <strong>{{ this.selectCommunication.Firma }}</strong>
+              </p>
+              <p>
+                {{ this.selectCommunication.Fecha }}
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="loading">
+      <div v-if="this.loading" class="spinner-border loading" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import CardNotificacionComponentVue from "../components/Notificaciones/CardNotificacionComponent.vue";
-//import Tabla from "@/components/Notificaciones/TablaComponent.vue";
-
+import axios from "axios";
 export default {
   components: {
-    //Tabla,
     CardNotificacionComponentVue,
   },
+
   data() {
     return {
-      notificaciones: [
-        {
-          id: 1,
-          description:
-            "Informamos que el pago de el trámite que iniciaste está impago. Podés imprimirlo y abonarlo directamente ennuestras oficinas ó desde la comodidad de tu casa en los diferentes medios de pago.",
-        },
-        {
-          id: 2,
-          description:
-            "Informamos que el pago de el trámite que iniciaste está impago. Podés imprimirlo y abonarlo directamente ennuestras oficinas ó desde la comodidad de tu casa en los diferentes medios de pago.",
-        },
-      ],
+      communications: [],
+      cidiCookie: "",
+      loading: false,
+      selectCommunication: null,
     };
+  },
+  created() {
+    this.cidiCookie = this.$store.state.CidiCookie;
+    this.getCommunication();
   },
   methods: {
     getCommunication() {
-      // const apiClient = axios.create({
-      //   //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      //   baseURL: process.env.VUE_APP_BASEURL,
-      //   withCredentials: false,
-      //   headers: {
-      //     "auth-header": localStorage.getItem("token"),
-      //   },
-      // });
-      // apiClient.post("/auth/cidi-communications/");
+      this.loading = true;
+      //console.log(this.cidiCookie);
+
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/auth/cidi-communications/" + this.cidiCookie)
+        .then((response) => {
+          this.loading = false;
+          console.log(response.data);
+          let comunicaciones = response.data.CommunicationsHistory;
+
+          for (let i = 0; i < comunicaciones.length; i++) {
+            const element = comunicaciones[i];
+
+            this.communications.push(element);
+          }
+        });
+    },
+    setComunicacion(index) {
+      this.selectCommunication = this.communications[index];
+      console.log(this.selectCommunication, "soy la comunicacionw");
     },
   },
 };
@@ -57,11 +131,22 @@ export default {
   text-align: left;
   margin-left: 3rem;
   margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.top h1 {
+  text-align: left;
 }
 .sector-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   background: var(--grey-bk);
+  align-items: center;
+}
+.loading {
+  margin-top: 5rem;
+}
+h5 {
+  color: var(--green);
 }
 </style>

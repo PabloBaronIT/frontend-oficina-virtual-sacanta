@@ -1,11 +1,20 @@
 <template>
   <main class="flex-container">
     <div class="top">
-      <p>Tenés un mensaje</p>
+      <p>Haz recibido un mensaje</p>
+      <p>
+        {{ dato.Fecha }}
+      </p>
     </div>
-    <p class="descripcion">
-      {{ dato.description }}
-    </p>
+    <div
+      class="descripcion"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      <p>{{ dato.Asunto }}</p>
+
+      <div class="leido" v-if="dato.LeidoPortal === `S`"><p>Leido</p></div>
+    </div>
   </main>
 </template>
 <script>
@@ -14,15 +23,17 @@ export default {
   props: {
     dato: Object,
   },
+  data() {
+    return {};
+  },
 };
 </script>
 <style scoped>
 .flex-container {
-  width: 50%;
+  width: 90%;
   height: auto;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  font-weight: bold;
+  /* border-top-left-radius: 30px; */
+  /* border-top-right-radius: 30px; */
   box-shadow: 5px 5px 12px #444;
   text-align: left;
   margin: auto;
@@ -41,12 +52,32 @@ export default {
   color: white;
   padding-left: 2rem;
   height: 3rem;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
+  /* border-top-left-radius: 30px; */
+  /* border-top-right-radius: 30px; */
   padding-top: 0.5rem;
+  padding: 0 1rem;
+
   text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .descripcion {
-  padding: 1rem;
+  height: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+.leido {
+  height: 1.5rem;
+  width: 4rem;
+  background: green;
+  align-items: center;
+  padding-left: 0.7rem;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
 }
 </style>

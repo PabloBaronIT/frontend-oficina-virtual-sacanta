@@ -1,17 +1,12 @@
 <template>
   <div class="main-container">
     <div class="header">
-      <h1 class="tituloPrincipal">
+      <h2 class="tituloPrincipal">
         {{ this.$route.params.formularioTitle }}
-      </h1>
+      </h2>
     </div>
 
-    <FormularioComponent
-      :title="title"
-      :questionProp="preguntas"
-      :length="this.length"
-      :idProcedure="this.procedureId"
-    />
+    <FormularioComponent :questionProp="preguntas" />
 
     <!-- Armar componente de formulario con props -->
   </div>
@@ -28,7 +23,7 @@ export default {
       // Extrayendo  datos de categoria y tramite desde el path con VUE ROUTER
       category: this.$route.params,
       length: null,
-      preguntas: [],
+      preguntas: null,
       title: "",
       procedureId: null,
     };
@@ -51,15 +46,15 @@ export default {
       .get("/oficina/procedures/template/" + this.$route.params.formularioId)
       .then((response) => {
         console.log(response.data);
-        let r = response.data.Template;
+        this.preguntas = response.data.Template.questionProcedure;
 
-        this.procedureId = r.id;
-        parseInt(r.id);
+        // this.procedureId = r.id;
+        // parseInt(r.id);
         // console.log(this.procedureId, "soy el procedureId");
 
-        this.title = r.title;
-        this.length = r.question.length;
-        this.preguntas.push(r);
+        // this.title = r.title;
+        // this.length = r.question.length;
+        // this.preguntas.push(r);
       })
       .catch((err) => {
         console.log(err);

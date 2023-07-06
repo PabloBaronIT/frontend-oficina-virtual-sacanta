@@ -779,7 +779,8 @@ export default {
     },
 
     //ENVIAR UN COMUNICADO DE UN TRAMITE
-    submitComunicacion(obj) {
+    submitComunicacion(a, b) {
+      console.log(a, b);
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -789,10 +790,10 @@ export default {
         },
       });
       apiClient
-        .post("/auth/send-communication", {
+        .post("/auth/send-communication/" + this.selectedTramite, {
           user_cuil: this.cuilUserNotificacion,
-          asunto_email: obj.title,
-          mensaje_email: obj.description,
+          subject_email: a,
+          message_email: b,
         })
         .then((response) => {
           console.log(response.data);

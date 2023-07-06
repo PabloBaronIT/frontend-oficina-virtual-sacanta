@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="tabla-container">
     <table v-if="this.hayDatos == true">
       <tr>
@@ -125,4 +125,4 @@ input:hover {
   cursor: pointer;
   box-shadow: 0px 0px 15px rgba(70, 70, 70, 0.459);
 }
-</style>
+</style> -->
