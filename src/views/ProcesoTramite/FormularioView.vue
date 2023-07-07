@@ -6,7 +6,7 @@
       </h2>
     </div>
 
-    <FormularioComponent :questionProp="this.preguntas" />
+    <FormularioComponent :questionProp="this.preguntas" :nivel="this.nivel" />
 
     <!-- Armar componente de formulario con props -->
   </div>
@@ -22,10 +22,11 @@ export default {
     return {
       // Extrayendo  datos de categoria y tramite desde el path con VUE ROUTER
       category: this.$route.params,
-      length: null,
+      // length: null,
       preguntas: null,
-      title: "",
-      procedureId: null,
+      nivel: null,
+      // title: "",
+      // procedureId: null,
     };
   },
   components: {
@@ -47,7 +48,7 @@ export default {
       .then((response) => {
         console.log(response.data);
         this.preguntas = response.data.Template.questionProcedure;
-
+        this.nivel = response.data.Template.level.level;
         // this.procedureId = r.id;
         // parseInt(r.id);
         // console.log(this.procedureId, "soy el procedureId");

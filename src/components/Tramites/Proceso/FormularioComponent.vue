@@ -1,15 +1,18 @@
 <template>
   <div class="container">
     <div v-if="this.loading" class="spinner-border" role="status">
-      <span>cargando rey</span>
+      <span></span>
     </div>
     <div class="question" v-if="!this.loading">
       <div class="topquestion">
-        <!-- <h1 class="fontB">{{ questionProp[0].question.title }}</h1> -->
         <h3>
           {{ this.preguntas[this.paso].question.title }}
         </h3>
         <p>Completar las preguntas</p>
+      </div>
+      <div class="modalReclamo" v-if="this.modalReclamo">
+        <h3>Su reclamo ha sido enviado! gracias por confiar en nosotros!</h3>
+        <p @click="setModal">cerrar</p>
       </div>
       <form action="" class="option-container">
         <!--detalle de opciones  -->
@@ -25,20 +28,18 @@
           <!-- INPUT TIPO RADIO -->
           <div class="tipoRadio" v-if="item.type == 'radio'">
             <input
-              :name="item.title"
+              :name="this.preguntas[this.paso].question.title"
               :type="item.type"
               v-model="this.selected"
-              :value="index"
+              :value="index + 1"
             />
             <div>
               <label :for="item.title" class="option-text">
                 {{ item.title }}</label
               >
               <br />
-              <label :for="item.id" class=""
-                ><p>
-                  {{ item.description }}
-                </p>
+              <label :for="item.id" class="">
+                {{ item.description }}
               </label>
             </div>
           </div>
@@ -48,6 +49,10 @@
             v-if="item.type == 'number' || item.type == 'text'"
             class="tipoTexto"
           >
+            <label class="option-text">{{ item.title }}</label
+            ><br />
+            <label for=""> {{ item.description }}</label>
+
             <input
               class="form-control text-number-input"
               :type="item.type"
@@ -165,10 +170,11 @@ export default {
 
   props: {
     questionProp: Object,
+    nivel: Number,
   },
   data() {
     return {
-      modal: false,
+      modalReclamo: false,
       paso: 0,
       validation: null,
       loading: false,
@@ -190,6 +196,9 @@ export default {
     //console.log(this.questionProp);
   },
   methods: {
+    setModal() {
+      this.modalReclamo = !this.modalReclamo;
+    },
     dispatchClean() {
       this.$store.dispatch("cleanAction");
     },
@@ -238,7 +247,7 @@ export default {
 
     //SE GUARDA LA RESPUESTA EN UN ARRAY PARA LUEGO ENVIAR
     next() {
-      let choice = this.selected;
+      let choice = this.selected - 1;
       let optionTitle = "";
 
       if (this.textInput != "") {
@@ -300,7 +309,14 @@ export default {
               this.$store.commit("saveProcedure", JSON.stringify(procedure));
               this.submitted = true;
               procedure.questions = [];
-              this.$router.replace({ path: "/prueba" });
+              if (this.nivel == 1) {
+                this.textInput = "";
+                alert(
+                  "Su Reclamo ha sido enviado! gracias por confiar en nosotros"
+                );
+              } else {
+                this.$router.replace({ path: "/prueba" });
+              }
               console.log(this.$store.procedure[0]);
             }
           })
@@ -360,6 +376,15 @@ export default {
   background-color: white;
   padding-left: 1rem;
 }
+.topquestion {
+  background-color: white;
+  padding-left: 3rem;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 40px 40px 0px 0px;
+  height: 7rem;
+  width: 100%;
+}
 .boton {
   width: 100px;
   height: 45px;
@@ -388,13 +413,13 @@ export default {
   margin-right: 15px;
 }
 .tipoTexto {
-  height: 4rem;
+  height: 7rem;
   padding: 1rem;
 }
 .tipoTexto input[type="number"] {
   width: 40%;
 }
-.tipoTexto input[type="text "] {
+.tipoTexto input[type="text"] {
   width: 40%;
 }
 .file-container {
@@ -455,6 +480,22 @@ export default {
   justify-content: right;
   padding-right: 2rem;
 }
+.option-text {
+  font-size: 1.1em;
+}
+.modalReclamo {
+  position: absolute;
+  top: 15rem;
+  left: 30rem;
+  height: 10rem;
+  width: 20rem;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 15;
+  text-align: center;
+  color: var(--green);
+}
 
 /* 
 
@@ -468,9 +509,7 @@ export default {
 
 
 
-.option-text {
-  font-size: 1.1em;
-}
+
 
 .input-option {
   width: 50%;
@@ -490,15 +529,7 @@ export default {
 p {
   font-weight: 100;
 }
-.topquestion {
-  background-color: white;
-  padding-left: 4rem;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 40px 40px 0px 0px;
-  height: 7rem;
-  width: 100%;
-}
+
 
 
  */
