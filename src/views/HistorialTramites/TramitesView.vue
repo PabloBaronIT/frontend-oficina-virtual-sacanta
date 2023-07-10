@@ -9,12 +9,10 @@
 
 <script>
 import Tabla from "@/components/Tramites/TablaComponent.vue";
-//import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 export default {
   name: "TramitesView",
   components: {
     Tabla,
-    //SideBar,
   },
 };
 </script>

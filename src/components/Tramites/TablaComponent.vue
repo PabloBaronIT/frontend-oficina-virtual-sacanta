@@ -291,10 +291,10 @@ export default {
         .then((response) => {
           let h = response.data.MyProcedures;
 
-          console.log(h.length + "mis tramites");
+          //console.log(h.length + "mis tramites");
           this.l = h.length;
 
-          for (let i = 0; i < this.l; i++) {
+          for (let i = 0; i < h.length; i++) {
             //Procedure
             let p = {
               id: null,
@@ -303,10 +303,10 @@ export default {
               estado: "",
               color: "",
               titulo: "",
-              comunicaciones: null,
-              requerimientos: null,
-              comunicado: false,
-              requerido: false,
+              // comunicaciones: null,
+              // requerimientos: null,
+              // comunicado: false,
+              // requerido: false,
             };
 
             let iso = h[i].updated_at;
@@ -321,13 +321,13 @@ export default {
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
             p.titulo = h[i].procedure.title;
-            p.comunicaciones = Array.isArray(h[i].communication)
-              ? h[i].communication
-              : null;
-            p.comunicado = Array.isArray(h[i].communication) ? true : false;
-            p.requerimientos = Array.isArray(h[i].requirementHistory)
-              ? h[i].requirementHistory
-              : null;
+            // p.comunicaciones = Array.isArray(h[i].communication)
+            //   ? h[i].communication
+            //   : null;
+            // p.comunicado = Array.isArray(h[i].communication) ? true : false;
+            // p.requerimientos = Array.isArray(h[i].requirementHistory)
+            //   ? h[i].requirementHistory
+            //   : null;
 
             switch (p.estado) {
               case "PRESENTADO":
