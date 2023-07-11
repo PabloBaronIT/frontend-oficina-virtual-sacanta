@@ -117,7 +117,9 @@
               />
             </div>
             <div class="data-container">
-              <section v-if="selectedHistory.procedure.id === selectedTramite">
+              <section
+                v-if="this.selectedHistory.procedure.id === selectedTramite"
+              >
                 <div class="data-container">
                   <h3>Datos del vecino:</h3>
                   <div class="user-data-container">
@@ -170,43 +172,41 @@
                 </div>
                 <!--EL TRAMITE QUE TENGA REQUERIMIENTOS SE PODRA VER LOS MISMOS-->
                 <div
-                  v-if="Array.isArray(this.selectedHistory.requirement)"
                   class="requerimiento"
+                  v-if="
+                    this.selectedHistory.procedure.requirementHistory.length >=
+                    1
+                  "
                 >
                   <p>Requerimiento:</p>
                   {{
-                    this.selectedHistory.requirement[
-                      this.selectedHistory.requirement.length - 1
-                    ].info_req
+                    this.selectedHistory.procedure.requirementHistory[
+                      this.selectedHistory.procedure.requirementHistory.length -
+                        1
+                    ].info_req || ""
                   }}
-                  <div
-                    v-if="
-                      this.selectedHistory.requirement[
-                        this.selectedHistory.requirement.length - 1
-                      ].answer ||
-                      this.selectedHistory.requirement[
-                        this.selectedHistory.requirement.length - 1
-                      ].documentRequirement.file
-                    "
-                  >
-                    <p>Respuesta</p>
+                  <div>
+                    <p>Respuesta:</p>
                     {{
-                      this.selectedHistory.requirement[
-                        this.selectedHistory.requirement.length - 1
+                      this.selectedHistory.procedure.requirementHistory[
+                        this.selectedHistory.procedure.requirementHistory
+                          .length - 1
                       ].answer || ""
                     }}
-                    {{
-                      this.selectedHistory.requirement[
-                        this.selectedHistory.requirement.length - 1
+                    <!-- {{
+                      this.selectedHistory.procedure.requirementHistory[
+                        this.selectedHistory.procedure.requirementHistory
+                          .length - 1
                       ].documentRequirement.file || ""
-                    }}
+                    }} -->
                   </div>
 
                   <span class="spanFecha"
                     >{{
                       new Date(
-                        this.selectedHistory.requirement[
-                          this.selectedHistory.requirement.length - 1
+                        this.selectedHistory.procedure.requirementHistory[
+                          this.selectedHistory.procedure.requirementHistory
+                            .length - 1
                         ].created_at
                       ).toLocaleString()
                     }}
@@ -285,6 +285,7 @@
             <ModalCreateRYCComponentVue
               :submitFunction="this.submitComunicacion"
               :datosEnviados="this.datosEnviados"
+              :documents="true"
             />
           </div>
         </div>
@@ -779,8 +780,8 @@ export default {
     },
 
     //ENVIAR UN COMUNICADO DE UN TRAMITE
-    submitComunicacion(a, b) {
-      console.log(a, b);
+    submitComunicacion(a, b, c) {
+      console.log(a, b, c);
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -790,16 +791,15 @@ export default {
         },
       });
       apiClient
-        .post("/auth/send-communication/" + this.selectedTramite, {
-          user_cuil: this.cuilUserNotificacion,
-          subject_email: a,
-          message_email: b,
+        .post("/communications/send-communication/" + this.selectedTramite, {
+          subject_communication: a,
+          message_communication: b,
+          documents: c,
         })
         .then((response) => {
           console.log(response.data);
-          if (response.status === 200) {
-            //SE ACTUALIZA EL ESTADO DEL TRAMITE A COMUNICACION
-            this.datosEnviados = response.data.message;
+          if (response.status === 201) {
+            this.datosEnviados = response.data;
           }
         })
         .catch((e) => {
@@ -809,7 +809,8 @@ export default {
           console.log(e);
         });
     },
-    submitRequerimiento(obj) {
+    //ENVIAR UN REQUERIMIENTO DEL TRAMITE
+    submitRequerimiento(a, b) {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -820,21 +821,20 @@ export default {
       });
       apiClient
         .post("/requirements/send-requirement/" + this.selectedTramite, {
-          title: obj.title,
-          info_req: obj.description,
+          title: a,
+          info_req: b,
         })
         .then((response) => {
           if (response.status === 201) {
             console.log(response.data.message);
             this.datosEnviados = response.data.message;
-            //this.message = "Requerimiento enviado";
           }
 
           this.getProcedures();
         })
         .catch((e) => {
           console.log(e);
-          //this.message = e.response.data.message;
+          this.datosEnviados = e.response.data.message;
         });
     },
     ModalResponse(id) {

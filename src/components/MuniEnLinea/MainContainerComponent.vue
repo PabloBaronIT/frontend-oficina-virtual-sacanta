@@ -82,7 +82,7 @@
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <p>{{ sector.title }}</p>
+                <!-- <p>{{ sector.title }}</p> -->
                 <img :src="sector.description" :alt="sector.title" />
               </router-link>
             </div>
