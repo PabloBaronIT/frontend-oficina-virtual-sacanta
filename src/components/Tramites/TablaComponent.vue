@@ -11,18 +11,18 @@
       </tr>
 
       <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
-        <td>{{ p.titulo || "" }}</td>
-        <td>{{ p.id || "" }}</td>
-        <td>{{ p.fecha || "" }}</td>
-        <td class="media">{{ p.categoria || "" }}</td>
-        <td :class="'estado-fila'">
-          <p :style="`background: ${p.color}`">
+        <td @click="verTramite(p.id)">{{ p.titulo || "" }}</td>
+        <td @click="verTramite(p.id)">{{ p.id || "" }}</td>
+        <td @click="verTramite(p.id)">{{ p.fecha || "" }}</td>
+        <td class="media" @click="verTramite(p.id)">{{ p.categoria || "" }}</td>
+        <td :class="'estado-fila'" @click="verTramite(p.id)">
+          <p :style="`background: ${p.color}`" @click="verTramite(p.id)">
             {{ p.estado || "" }}
           </p>
         </td>
 
         <td>
-          <p v-if="p.comunicado || p.requerido">
+          <p v-if="p.comunicaciones >= 1">
             <a
               data-bs-toggle="collapse"
               href="#collapseExample"
@@ -44,12 +44,12 @@
         <div
           class="modalComunicacion"
           id="collapseExample"
-          v-if="p.id === this.selectTramite && this.modalComunicaciones"
+          v-if="this.selectTramite === p.id && this.modalComunicaciones"
         >
           <!--VISTA DE LA COMUNICACION -->
-          <div class="card card-body" v-if="p.comunicado">
-            <p>Comunicado:</p>
-            <div class="title">
+          <div class="card card-body">
+            <p>Soy el modal comunicaciones</p>
+            <!-- <div class="title">
               <strong>{{ p.comunicaciones[0].title || "" }} : </strong>
               {{ p.comunicaciones[0].description || "" }}
             </div>
@@ -61,7 +61,7 @@
                   ""
                 }}
               </span>
-            </div>
+            </div> -->
           </div>
 
           <!--VISTA VISTA DEL REQUERIMIENTO -->
@@ -103,7 +103,7 @@
         <div v-if="this.modalresponse === true" class="modal-content">
           <div class="modal-top">
             <h3 v-if="!this.message">Enviar respuesta</h3>
-            <p>Nº Tramite: {{ this.selectTramite }}</p>
+            <p>Nº Tramite: {{ this.idTramite }}</p>
             <img
               @click="CloseModalRespuesta($event)"
               class="svg"
@@ -175,6 +175,52 @@
             />
           </div>
           <p v-if="message" class="enviado">{{ this.message }}</p>
+        </div>
+      </div>
+      <!-- MODAL DE VISTA DEL TRAMITE -->
+      <div v-if="modalVista" class="grafico-container">
+        <div class="modal-top">
+          <h1>
+            {{ this.selectTramite.procedure.procedure.title }}
+          </h1>
+          <img
+            @click="this.modalVista = false"
+            class="svg"
+            src="@/assets/close.svg"
+            alt=""
+          />
+        </div>
+        <div class="data-container">
+          <p>
+            {{ this.selectTramite.procedure.category.title }}/
+            {{ this.selectTramite.procedure.status.status }}
+          </p>
+          <div
+            v-if="this.selectTramite.procedure.requirementHistory.length >= 1"
+            class="requerimiento"
+          >
+            <p>
+              Requerimiento:
+              <strong>{{
+                this.selectTramite.procedure.requirementHistory[
+                  this.selectTramite.procedure.requirementHistory.length - 1
+                ].info_req
+              }}</strong>
+            </p>
+            <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
+            <input
+              type="button"
+              value="Responder"
+              @click="
+                OpenModalRespuesta(
+                  this.selectTramite.procedure.requirementHistory[
+                    this.selectTramite.procedure.requirementHistory.length - 1
+                  ].id
+                )
+              "
+              class="botonSubmit"
+            />
+          </div>
         </div>
       </div>
     </table>
@@ -256,12 +302,11 @@ export default {
       msj: "",
       length: null,
       activos: [],
-      mostrados: [],
-      paginaActual: 1,
       cont: 0,
       l: 0,
       paginas: null,
       modalComunicaciones: false,
+      modalVista: false,
       modalresponse: false,
       selectTramite: null,
       selectRequerimiento: null,
@@ -269,6 +314,8 @@ export default {
       respuestaB: [],
       asd: false,
       file: "",
+      pagina: 1,
+      idTramite: null,
     };
   },
   created() {
@@ -276,6 +323,25 @@ export default {
     this.getMyPorcedure();
   },
   methods: {
+    verTramite(id) {
+      //console.log("soy el trmite,", id);
+      this.idTramite = id;
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/procedures/my-procedure/" + id)
+        .then((response) => {
+          console.log(response.data);
+          this.selectTramite = response.data.MyProcedure;
+          this.modalVista = true;
+        });
+    },
     getMyPorcedure() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -287,11 +353,11 @@ export default {
       });
 
       apiClient
-        .get("/oficina/procedures/history/my-procedures")
+        .get(`/oficina/procedures/history/my-procedures?page=${this.pagina}`)
         .then((response) => {
           let h = response.data.MyProcedures;
 
-          //console.log(h.length + "mis tramites");
+          //console.log(response.data.MyProcedures + "mis tramites");
           this.l = h.length;
 
           for (let i = 0; i < h.length; i++) {
@@ -303,7 +369,7 @@ export default {
               estado: "",
               color: "",
               titulo: "",
-              // comunicaciones: null,
+              comunicaciones: null,
               // requerimientos: null,
               // comunicado: false,
               // requerido: false,
@@ -321,7 +387,7 @@ export default {
             p.categoria = h[i].category.title;
             p.estado = h[i].status.status;
             p.titulo = h[i].procedure.title;
-            // p.comunicaciones = Array.isArray(h[i].communication)
+            p.comunicaciones = h[i].communicationCount;
             //   ? h[i].communication
             //   : null;
             // p.comunicado = Array.isArray(h[i].communication) ? true : false;
@@ -366,7 +432,7 @@ export default {
     openModalComunicaciones(id) {
       this.selectTramite = id;
       this.modalComunicaciones = !this.modalComunicaciones;
-      this.comunicado = false;
+      //this.comunicado = false;
     },
     OpenModalRespuesta(id) {
       this.selectRequerimiento = id;
@@ -437,6 +503,7 @@ export default {
 
       //console.log(res.secure_url, "soy la url de la imagen");
     },
+    //ENVIAR RESPUESTA DE REQUERIMIENTO
     sentRespuesta() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -446,7 +513,7 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      if (this.respuestaA && Array.isArray(this.respuestaB)) {
+      if (this.respuestaA && this.respuestaB.length >= 1) {
         apiClient
           .post(
             "/requirements/answer-requirement/" + this.selectRequerimiento,
@@ -469,7 +536,7 @@ export default {
             this.message = e.response.data.message;
           });
       }
-      if (this.respuestaA && !this.respuestaB) {
+      if (this.respuestaA && this.respuestaB.length === 0) {
         apiClient
           .post(
             "/requirements/answer-requirement/" + this.selectRequerimiento,
@@ -520,23 +587,14 @@ export default {
       console.log(this.respuestaA, this.respuestaB);
     },
     nextPag() {
-      console.log("hola");
-      if (parseFloat(this.paginaActual) < parseFloat(this.paginas)) {
-        this.paginaActual++;
-        this.cantTramites(this.l);
-      } else {
-        console.log("No hay mas páginas disponibles.");
-      }
+      // console.log("hola");
+      // if (parseFloat(this.paginaActual) < parseFloat(this.paginas)) {
+      //   this.paginaActual++;
+      //   this.cantTramites(this.l);
+      // } else {
+      //   console.log("No hay mas páginas disponibles.");
+      // }
     },
-    // backPag() {
-    //   console.log("chau");
-    //   if (parseFloat(this.paginaActual) > parseFloat(this.paginas)) {
-    //     this.paginaActual--;
-    //     this.backTramites(this.l);
-    //   } else {
-    //     console.log("No hay mas paginbas disponibles.");
-    //   }
-    // },
   },
   computed: {
     pags() {
@@ -547,6 +605,46 @@ export default {
 </script>
 
 <style scoped>
+.modal-top {
+  display: flex;
+  width: 100%;
+  text-align: left;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.grafico-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px; /* Need a specific value to work */
+  height: auto;
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.data-container {
+  display: flex;
+  flex-flow: column wrap;
+  height: auto;
+  width: 100%;
+  align-items: center;
+  /* text-align: left;  */
+}
 .file-intro {
   display: flex;
   flex-flow: column wrap;
@@ -691,7 +789,7 @@ td {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  z-index: 15;
+  z-index: 20;
   position: absolute;
   top: 0;
   height: auto;
@@ -781,5 +879,9 @@ h3 {
   .media {
     display: none;
   }
+}
+.requerimiento {
+  border: solid 1px red;
+  padding: 1rem;
 }
 </style>
