@@ -14,7 +14,7 @@
       :key="index"
       @click="setComunicacion(index)"
     />
-    <!-- MODAL -->
+    <!-- MODAL VISTA DE LA COMUNICACION-->
     <div
       class="modal fade"
       id="exampleModal"
@@ -27,7 +27,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title fs-5" id="exampleModalLabel">
-              Comunicado: {{ this.selectCommunication.Asunto || "" }}
+              Comunicado: {{ this.selectCommunication.subject || "" }}
             </h5>
             <button
               type="button"
@@ -38,10 +38,10 @@
           </div>
           <div class="modal-body">
             <p>
-              {{ this.selectCommunication.Texto || "" }}
+              {{ this.selectCommunication.message || "" }}
             </p>
 
-            <div style="display: flex; justify-content: space-around">
+            <!-- <div style="display: flex; justify-content: space-around">
               <p>
                 Firmado por:
                 <strong>{{ this.selectCommunication.Firma }}</strong>
@@ -49,7 +49,7 @@
               <p>
                 {{ this.selectCommunication.Fecha }}
               </p>
-            </div>
+            </div> -->
           </div>
           <div class="modal-footer">
             <button
@@ -82,13 +82,13 @@ export default {
   data() {
     return {
       communications: [],
-      cidiCookie: "",
+      //cidiCookie: "",
       loading: false,
       selectCommunication: null,
     };
   },
   created() {
-    this.cidiCookie = this.$store.state.CidiCookie;
+    //this.cidiCookie = this.$store.state.CidiCookie;
     this.getCommunication();
   },
   methods: {
@@ -104,19 +104,17 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      apiClient
-        .post("/auth/cidi-communications/" + this.cidiCookie)
-        .then((response) => {
-          this.loading = false;
-          console.log(response.data);
-          let comunicaciones = response.data.CommunicationsHistory;
+      apiClient.get("/communications/my-communications").then((response) => {
+        this.loading = false;
+        console.log(response.data);
+        let comunicaciones = response.data.Communications;
 
-          for (let i = 0; i < comunicaciones.length; i++) {
-            const element = comunicaciones[i];
+        for (let i = 0; i < comunicaciones.length; i++) {
+          const element = comunicaciones[i];
 
-            this.communications.push(element);
-          }
-        });
+          this.communications.push(element);
+        }
+      });
     },
     setComunicacion(index) {
       this.selectCommunication = this.communications[index];

@@ -3,7 +3,7 @@
     <div class="top">
       <p>Haz recibido un mensaje</p>
       <p>
-        {{ dato.Fecha }}
+        {{ new Date(dato.created_at).toLocaleDateString() }}
       </p>
     </div>
     <div
@@ -11,9 +11,9 @@
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
     >
-      <p>{{ dato.Asunto }}</p>
+      <p>{{ dato.subject }}</p>
 
-      <div class="leido" v-if="dato.LeidoPortal === `S`"><p>Leido</p></div>
+      <!-- <div class="leido" v-if="dato.LeidoPortal === `S`"><p>Leido</p></div> -->
     </div>
   </main>
 </template>
