@@ -153,12 +153,13 @@
           <p v-if="message" class="enviado">{{ this.message }}</p>
         </div>
       </div>
+
       <!-- MODAL DE VISTA DEL TRAMITE -->
       <div v-if="modalVista" class="grafico-container">
         <div class="modal-top">
-          <h2>
+          <h3>
             {{ this.selectTramite.procedure.category.title }}
-          </h2>
+          </h3>
           <img
             @click="this.modalVista = false"
             class="svg"
@@ -179,13 +180,20 @@
           </div>
 
           <p>
-            Tipo de tramite: {{ this.selectTramite.procedure.procedure.title }}
+            Nombre de tramite:
+            {{ this.selectTramite.procedure.procedure.title }}
             <br />
 
             Estado:{{ this.selectTramite.procedure.status.status }}
           </p>
+          <!-- SI EXISTE REQUERIMIENTO ACTIVO SE PUEDE VER Y CONTESTAR -->
           <div
-            v-if="this.selectTramite.procedure.requirementHistory.length >= 1"
+            v-if="
+              this.selectTramite.procedure.requirementHistory.length >= 1 &&
+              this.selectTramite.procedure.requirementHistory[
+                this.selectTramite.procedure.requirementHistory.length - 1
+              ].active === true
+            "
             class="requerimiento"
           >
             <p>
@@ -196,15 +204,7 @@
                 ].info_req
               }}</strong>
             </p>
-            <p
-              v-if="
-                this.selectTramite.procedure.requirementHistory[
-                  this.selectTramite.procedure.requirementHistory.length - 1
-                ].active === false
-              "
-            >
-              (Respondido)
-            </p>
+
             <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
             <input
               v-if="
@@ -223,6 +223,21 @@
               "
               class="botonSubmit"
             />
+          </div>
+          <!-- SI EXISTEN DOCUMENTOS RELACIONADOS A ESTE TRAMITE SE PUEDEN VER Y DESCARGAR -->
+          <div
+            v-if="this.selectTramite.procedure.documents.length >= 1"
+            class="divDocumentos"
+          >
+            <h5>Documentación disponible para descargar</h5>
+            <div
+              v-for="item in this.selectTramite.procedure.documents"
+              :key="item.id"
+              style="display: flex; flex-direction: row"
+            >
+              <p>*{{ item.title }}</p>
+              <a target="_blank" :href="`${item.link}`">Descargar </a>
+            </div>
           </div>
         </div>
       </div>
@@ -623,7 +638,7 @@ export default {
 }
 .grafico-container {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   z-index: 15;
@@ -636,7 +651,7 @@ export default {
   width: 500px; /* Need a specific value to work */
   height: auto;
   border-radius: 10px;
-  padding: 10px;
+  /* padding: 5px; */
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(20px);
@@ -645,15 +660,17 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 .data-container {
   display: flex;
   flex-flow: column wrap;
   height: auto;
-  width: 100%;
-  align-items: center;
+  width: 90%;
+  /* align-items: s; */
 
-  text-align: center;
+  text-align: left;
 }
 .file-intro {
   display: flex;
@@ -863,6 +880,7 @@ span {
   border-style: none;
   margin-top: 1rem;
 }
+
 .response {
   display: flex;
   flex-direction: column;
@@ -879,6 +897,18 @@ span {
 }
 h3 {
   text-align: left;
+}
+.divDocumentos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background: rgba(128, 128, 128, 0.473);
+  align-items: center;
+}
+
+.divDocumentos a {
+  margin-left: 2rem;
 }
 /* @media (max-width: 1000px) {
   table {

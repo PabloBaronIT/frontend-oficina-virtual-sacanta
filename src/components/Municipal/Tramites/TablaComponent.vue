@@ -226,7 +226,8 @@
                   @click="
                     ModalComunicacion(
                       selectedHistory.procedure.id,
-                      selectedHistory.procedure.user.cuil
+                      selectedHistory.procedure.user.cuil,
+                      selectedHistory.procedure.procedure.level.level
                     )
                   "
                 />
@@ -287,6 +288,7 @@
               :datosEnviados="this.datosEnviados"
               :documents="true"
               :submitCidi="this.submitCidi"
+              :level="this.level"
             />
           </div>
         </div>
@@ -412,6 +414,7 @@ export default {
       messageBuscar: false,
       datosEnviados: "",
       cuilUserNotificacion: "",
+      level: "",
     };
   },
   created() {
@@ -737,9 +740,10 @@ export default {
     CloseTarea() {
       this.modalTarea = false;
     },
-    ModalComunicacion(id, cuil) {
+    ModalComunicacion(id, cuil, level) {
       this.selectedTramite = id;
       this.cuilUserNotificacion = cuil;
+      this.level = level;
       this.modalComunicacion = true;
     },
     CloseComunicaciones() {

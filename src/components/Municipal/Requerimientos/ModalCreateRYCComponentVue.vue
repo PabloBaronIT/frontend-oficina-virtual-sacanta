@@ -84,7 +84,7 @@
         type="button"
         value="Cidi"
         class="botonSubmit"
-        v-if="!message && this.documents"
+        v-if="!message && this.level >= 2"
         @click="this.submitFunctionCidi"
       />
     </div>
@@ -98,6 +98,7 @@ export default {
     datosEnviados: String,
     documents: Boolean,
     submitCidi: Function,
+    level: Number,
   },
 
   data() {
