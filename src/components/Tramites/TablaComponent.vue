@@ -1,6 +1,6 @@
 <template>
   <div class="tabla-container">
-    <table>
+    <table v-if="!this.loading">
       <tr>
         <th>Titulo</th>
         <th>ID</th>
@@ -10,7 +10,7 @@
         <th></th>
       </tr>
 
-      <tr class="fila-tabla" v-for="(p, key) in this.mostrados" :key="key">
+      <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
         <td @click="verTramite(p.id)">{{ p.titulo || "" }}</td>
         <td @click="verTramite(p.id)">{{ p.id || "" }}</td>
         <td @click="verTramite(p.id)">{{ p.fecha || "" }}</td>
@@ -29,7 +29,7 @@
               role="button"
               aria-expanded="false"
               aria-controls="collapseExample"
-              @click="this.openModalComunicaciones(p.id)"
+              @click="this.getComunicaciones(p.id)"
             >
               <img
                 class="svg"
@@ -46,53 +46,29 @@
           id="collapseExample"
           v-if="this.selectTramite === p.id && this.modalComunicaciones"
         >
-          <!--VISTA DE LA COMUNICACION -->
           <div class="card card-body">
-            <p>Soy el modal comunicaciones</p>
-            <!-- <div class="title">
-              <strong>{{ p.comunicaciones[0].title || "" }} : </strong>
-              {{ p.comunicaciones[0].description || "" }}
+            <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div> -->
+
+            <div class="title">
+              <strong>{{ this.comunicaciones.subject || "" }} : </strong>
+
+              {{ this.comunicaciones.message || "" }}
             </div>
 
             <div class="fecha">
               <span>
                 {{
-                  new Date(p.comunicaciones[0].created_at).toLocaleString() ||
+                  new Date(this.comunicaciones.created_at).toLocaleString() ||
                   ""
                 }}
               </span>
-            </div> -->
-          </div>
-
-          <!--VISTA VISTA DEL REQUERIMIENTO -->
-          <div class="card card-body" v-if="p.requerido">
-            <h3>Requerimiento de su trámite:</h3>
-            <div class="title">
-              <strong
-                >{{ p.requerimientos[p.requerimientos.length - 1].title || "" }}
-                :
-              </strong>
-              {{ p.requerimientos[p.requerimientos.length - 1].info_req || "" }}
             </div>
-            <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
-            <input
-              type="button"
-              value="Responder"
-              @click="
-                OpenModalRespuesta(
-                  p.requerimientos[p.requerimientos.length - 1].id
-                )
-              "
-              class="botonSubmit"
-            />
-            <div class="fecha">
-              <span>
-                {{
-                  new Date(
-                    p.requerimientos[p.requerimientos.length - 1].created_at
-                  ).toLocaleString() || ""
-                }}
-              </span>
+            <div style="padding-top: 0.3rem">
+              <p>
+                Ingrese a la seccion mis Comunicaciones para ver su historial.
+              </p>
             </div>
           </div>
         </div>
@@ -180,9 +156,9 @@
       <!-- MODAL DE VISTA DEL TRAMITE -->
       <div v-if="modalVista" class="grafico-container">
         <div class="modal-top">
-          <h1>
-            {{ this.selectTramite.procedure.procedure.title }}
-          </h1>
+          <h2>
+            {{ this.selectTramite.procedure.category.title }}
+          </h2>
           <img
             @click="this.modalVista = false"
             class="svg"
@@ -191,9 +167,22 @@
           />
         </div>
         <div class="data-container">
+          <div>
+            Tramite n°:{{ this.selectTramite.procedure.id }}
+            <br />
+            Presentado el dia:
+            {{
+              new Date(
+                this.selectTramite.procedure.created_at
+              ).toLocaleDateString()
+            }}
+          </div>
+
           <p>
-            {{ this.selectTramite.procedure.category.title }}/
-            {{ this.selectTramite.procedure.status.status }}
+            Tipo de tramite: {{ this.selectTramite.procedure.procedure.title }}
+            <br />
+
+            Estado:{{ this.selectTramite.procedure.status.status }}
           </p>
           <div
             v-if="this.selectTramite.procedure.requirementHistory.length >= 1"
@@ -207,8 +196,22 @@
                 ].info_req
               }}</strong>
             </p>
+            <p
+              v-if="
+                this.selectTramite.procedure.requirementHistory[
+                  this.selectTramite.procedure.requirementHistory.length - 1
+                ].active === false
+              "
+            >
+              (Respondido)
+            </p>
             <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
             <input
+              v-if="
+                this.selectTramite.procedure.requirementHistory[
+                  this.selectTramite.procedure.requirementHistory.length - 1
+                ].active === false
+              "
               type="button"
               value="Responder"
               @click="
@@ -257,24 +260,18 @@
           @click="backTramites"
           src="@/assets/previous.svg"
           alt=""
-          v-if="this.paginaActual > 1"
+          v-if="this.pagina > 1"
         />
         <div class="pagNum">
-          {{ this.paginaActual }}
+          {{ this.pagina }}
         </div>
-        <!-- <div v-for="(i, k) in this.paginas" :key="k">
-          <span v-if="this.paginaActual < k" c>{{ k + 1 }}</span>
-          <span v-if="this.paginaActual === k" class="pagNum"
-            ><b>{{ k + 1 }}</b></span
-          >
-          <span v-if="this.paginaActual > k" class="pagNum">{{ k + 1 }}</span>
-        </div>-->
+
         <img
           @click="nextPag"
           class="svg"
           src="@/assets/next.svg"
           alt=""
-          v-if="this.paginaActual < this.paginas"
+          v-if="this.l > 10"
         />
       </div>
 
@@ -298,7 +295,7 @@ export default {
 
   data() {
     return {
-      loading: true,
+      loading: false,
       msj: "",
       length: null,
       activos: [],
@@ -316,11 +313,13 @@ export default {
       file: "",
       pagina: 1,
       idTramite: null,
+      comunicaciones: "",
     };
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
     this.getMyPorcedure();
+    this.getComunicaciones();
   },
   methods: {
     verTramite(id) {
@@ -340,6 +339,9 @@ export default {
           console.log(response.data);
           this.selectTramite = response.data.MyProcedure;
           this.modalVista = true;
+        })
+        .catch((err) => {
+          console.log(err.response.data);
         });
     },
     getMyPorcedure() {
@@ -357,7 +359,7 @@ export default {
         .then((response) => {
           let h = response.data.MyProcedures;
 
-          //console.log(response.data.MyProcedures + "mis tramites");
+          console.log(response.data.MyProcedures + "mis tramites");
           this.l = h.length;
 
           for (let i = 0; i < h.length; i++) {
@@ -421,12 +423,35 @@ export default {
 
           this.length = response.data.MyProcedures.length;
 
-          this.cantTramites();
+          //this.cantTramites();
           this.loading = false;
         })
         .catch((err) => {
           console.log(err);
           this.msj = err.response.data.message;
+        });
+    },
+    getComunicaciones(id) {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/procedures/my-procedure/" + id)
+        .then((response) => {
+          console.log(response.data);
+          this.comunicaciones =
+            response.data.MyProcedure.procedure.communication[
+              response.data.MyProcedure.procedure.communication.length - 1
+            ];
+          this.openModalComunicaciones(id);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
         });
     },
     openModalComunicaciones(id) {
@@ -444,33 +469,22 @@ export default {
       this.respuestaA = "";
       this.respuestaB = "";
     },
-    cantTramites() {
-      this.paginas = Math.ceil(this.length / 5);
 
-      this.mostrados = [];
-      console.log("paginas " + this.mostrados);
-      for (let i = 0; i < 5; i++) {
-        let p = this.activos[this.cont];
-
-        if (p != undefined) {
-          this.mostrados.push(p);
-          this.cont++;
-        }
-      }
-    },
     backTramites() {
-      if (parseFloat(this.paginaActual) > 1) {
-        this.paginaActual--;
-        this.mostrados = [];
-        this.cont = (this.paginaActual - 1) * 5;
-        for (let i = 0; i < 5; i++) {
-          let p = this.activos[this.cont];
-          if (p != undefined) {
-            this.mostrados.push(p);
-            this.cont++;
-          }
-        }
-      }
+      // if (parseFloat(this.paginaActual) > 1) {
+      //   this.paginaActual--;
+      //   this.mostrados = [];
+      //   this.cont = (this.paginaActual - 1) * 5;
+      //   for (let i = 0; i < 5; i++) {
+      //     let p = this.activos[this.cont];
+      //     if (p != undefined) {
+      //       this.mostrados.push(p);
+      //       this.cont++;
+      //     }
+      //   }
+      // }
+      this.pagina--;
+      this.getMyPorcedure();
     },
     selectFile($event) {
       const imgPreview = document.getElementById("img-preview");
@@ -587,13 +601,8 @@ export default {
       console.log(this.respuestaA, this.respuestaB);
     },
     nextPag() {
-      // console.log("hola");
-      // if (parseFloat(this.paginaActual) < parseFloat(this.paginas)) {
-      //   this.paginaActual++;
-      //   this.cantTramites(this.l);
-      // } else {
-      //   console.log("No hay mas páginas disponibles.");
-      // }
+      this.pagina++;
+      this.getMyPorcedure();
     },
   },
   computed: {
@@ -609,7 +618,7 @@ export default {
   display: flex;
   width: 100%;
   text-align: left;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-start;
 }
 .grafico-container {
@@ -643,7 +652,8 @@ export default {
   height: auto;
   width: 100%;
   align-items: center;
-  /* text-align: left;  */
+
+  text-align: center;
 }
 .file-intro {
   display: flex;
@@ -725,7 +735,7 @@ input:hover {
 .tabla-container {
   width: 80%;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   align-items: center;
   justify-content: flex-start;
   position: relative;
@@ -840,7 +850,7 @@ span {
 }
 .title {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 }
 .botonSubmit {
