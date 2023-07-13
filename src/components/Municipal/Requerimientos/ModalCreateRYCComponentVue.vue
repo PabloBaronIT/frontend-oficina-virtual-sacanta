@@ -4,7 +4,13 @@
       <p>Debe completar todos los campos</p>
       <div class="asunto">
         <label for="asunto">Asunto</label>
-        <input type="text" name="asunto" id="" v-model="this.title" />
+        <input
+          type="text"
+          name="asunto"
+          id=""
+          v-model="this.title"
+          @keyup="limpiarMensaje"
+        />
       </div>
 
       <textarea type="text" v-model="this.description" aria-multiline="true" />
@@ -59,14 +65,29 @@
     </div>
 
     <!-- BOTON PARA ENVIAR LOS DATOS -->
-    <input type="button" value="Cidi" class="botonSubmit" v-if="!message" />
-    <input
-      type="button"
-      value="Enviar"
-      @click="submitRequer"
-      class="botonSubmit"
-      v-if="!message"
-    />
+    <div
+      style="
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      "
+    >
+      <input
+        type="button"
+        value="Enviar"
+        @click="submitRequer"
+        class="botonSubmit"
+        v-if="!message"
+      />
+      <input
+        type="button"
+        value="Cidi"
+        class="botonSubmit"
+        v-if="!message && this.level >= 2"
+        @click="this.submitFunctionCidi"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -76,6 +97,8 @@ export default {
     submitFunction: Function,
     datosEnviados: String,
     documents: Boolean,
+    submitCidi: Function,
+    level: Number,
   },
 
   data() {
@@ -93,14 +116,18 @@ export default {
 
   created() {},
   methods: {
+    limpiarMensaje() {
+      this.message = "";
+    },
     submitRequer() {
-      if (this.description) {
+      if (this.description && this.title) {
         console.log(this.description, this.title);
         this.submitFunction(this.title, this.description, this.documentsFile);
         this.title = "";
         this.description = "";
       } else {
-        this.message = "Debe escribir en el cuadro de texto antes de enviar ";
+        this.message =
+          "debe ingresar asunto y descripción de la comunicación a enviar";
       }
     },
     selectFile($event) {
@@ -135,6 +162,16 @@ export default {
           console.log(this.textInput, "archivo cargado en textInput");
         });
       this.fileSelect = null;
+    },
+    submitFunctionCidi() {
+      if (this.title && this.description) {
+        this.submitCidi(this.title, this.description, this.documentsFile);
+        this.title = "";
+        this.description = "";
+      } else {
+        this.message =
+          "debe ingresar asunto y descripción de la comunicación a enviar";
+      }
     },
   },
 };

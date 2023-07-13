@@ -53,7 +53,7 @@
             <a>Iniciar Trámite</a>
           </div>
         </div>
-        <!--MODAL DE NICEL 2 DE CIDI-->
+        <!--MODAL DE NIVEL 2 DE CIDI-->
 
         <div
           v-if="modalNivel === true && this.id == tramite.id"

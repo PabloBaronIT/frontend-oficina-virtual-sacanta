@@ -226,7 +226,8 @@
                   @click="
                     ModalComunicacion(
                       selectedHistory.procedure.id,
-                      selectedHistory.procedure.user.cuil
+                      selectedHistory.procedure.user.cuil,
+                      selectedHistory.procedure.procedure.level.level
                     )
                   "
                 />
@@ -286,6 +287,8 @@
               :submitFunction="this.submitComunicacion"
               :datosEnviados="this.datosEnviados"
               :documents="true"
+              :submitCidi="this.submitCidi"
+              :level="this.level"
             />
           </div>
         </div>
@@ -411,6 +414,7 @@ export default {
       messageBuscar: false,
       datosEnviados: "",
       cuilUserNotificacion: "",
+      level: "",
     };
   },
   created() {
@@ -736,9 +740,10 @@ export default {
     CloseTarea() {
       this.modalTarea = false;
     },
-    ModalComunicacion(id, cuil) {
+    ModalComunicacion(id, cuil, level) {
       this.selectedTramite = id;
       this.cuilUserNotificacion = cuil;
+      this.level = level;
       this.modalComunicacion = true;
     },
     CloseComunicaciones() {
@@ -779,7 +784,7 @@ export default {
       //this.ModalEstado();
     },
 
-    //ENVIAR UN COMUNICADO DE UN TRAMITE
+    //ENVIAR UN COMUNICADO DE UN TRAMITE EN GENERAL
     submitComunicacion(a, b, c) {
       console.log(a, b, c);
       const apiClient = axios.create({
@@ -799,7 +804,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           if (response.status === 201) {
-            this.datosEnviados = response.data;
+            this.datosEnviados = response.data.message;
           }
         })
         .catch((e) => {
@@ -808,6 +813,63 @@ export default {
           }
           console.log(e);
         });
+    },
+    //COMUNICACION VIA CIDI SOLO PARA NIVELES 2
+    submitCidi(a, b, c) {
+      console.log(a, b, c);
+      // const apiClient = axios.create({
+      //   //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+      //   baseURL: process.env.VUE_APP_BASEURL,
+      //   withCredentials: false,
+      //   headers: {
+      //     "auth-header": localStorage.getItem("token"),
+      //   },
+      // });
+      if (c.length > 0) {
+        console.log("tengo archivos para guaradar");
+        // apiClient
+        //   .post(
+        //     `/auth/send-communication/ ${this.selectedTramite}/${this.$store.state.CidiCookie} `,
+        //     {
+        //       user_cuil: this.cuilUserNotificacion,
+        //       subject_communication: a,
+        //       message_communication: b,
+        //       documents: c,
+        //     }
+        //   )
+        //   .then((response) => {
+        //     console.log(response.data);
+        //     if (response.status === 201) {
+        //       this.datosEnviados = response.data;
+        //     }
+        //   })
+        //   .catch((e) => {
+        //     if (e.response.status === 401) {
+        //       this.datosEnviados = e.response.data.message;
+        //     }
+        //     console.log(e);
+        //   });
+      } else {
+        console.log("no hay archivos para guardar");
+        // apiClient
+        // .post("/auth/send-communication/" + this.selectedTramite, {
+        //   user_cuil:this.cuilUserNotificacion,
+        //   subject_communication: a,
+        //   message_communication: b,
+        // })
+        // .then((response) => {
+        //   console.log(response.data);
+        //   if (response.status === 201) {
+        //     this.datosEnviados = response.data;
+        //   }
+        // })
+        // .catch((e) => {
+        //   if (e.response.status === 401) {
+        //     this.datosEnviados = e.response.data.message;
+        //   }
+        //   console.log(e);
+        // });
+      }
     },
     //ENVIAR UN REQUERIMIENTO DEL TRAMITE
     submitRequerimiento(a, b) {

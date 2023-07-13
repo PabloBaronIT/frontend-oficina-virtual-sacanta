@@ -32,7 +32,13 @@
               <li>
                 <p
                   class="dropdown-item"
-                  @click="ModalComunicacion(obj.id, obj.user.cuil)"
+                  @click="
+                    ModalComunicacion(
+                      obj.id,
+                      obj.user.cuil,
+                      obj.procedure.level.level
+                    )
+                  "
                 >
                   Notificación
                 </p>
