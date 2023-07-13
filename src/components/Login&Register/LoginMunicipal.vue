@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <form action="">
+    <form action="" v-if="!this.loading">
       <h1>Login Municipal</h1>
       <FormKit
         type="text"
@@ -21,13 +21,21 @@
         v-model="this.password"
       />
       <p style="color: red">{{ this.msj }}</p>
-      <input
-        @click="login()"
-        class="btn btn-primary"
-        type="button"
-        value="Ingresar"
-      />
+      <div class="botones">
+        <!-- <input
+          @click="login()"
+          class="btn btn-primary"
+          type="button"
+          value="Ingresar"
+        /> -->
+        <button class="btn btn-outline-secondary boton">
+          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
+        </button>
+      </div>
     </form>
+    <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div>
   </div>
 </template>
 
@@ -42,7 +50,21 @@ export default {
       password: "",
       msj: "",
       user: {},
+      loading: false,
+      cidiCookie: null,
     };
+  },
+  created() {
+    let cidi = this.$route.query.cidi || null;
+    console.log(cidi, "soy query de cidi");
+    if (cidi) {
+      this.loading = true;
+      this.cidiCookie = cidi;
+
+      //document.cookie = `cidi=${cidi};max-age=120`;
+      //se llama la api de cidi para saber si tienen representados o no
+      this.logCidi(cidi);
+    }
   },
   methods: {
     dispatchLogin() {
@@ -82,6 +104,48 @@ export default {
         .catch((error) => {
           console.log(error);
           this.msj = "Usuario incorrecto";
+        });
+    },
+
+    logCidi(cidi) {
+      //this.dispatchCidi();
+      //console.log(this.cidiCookie, "cidicookie");
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+      });
+      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
+      apiClient
+        .post("/auth/cidi-muni/signup/" + cidi)
+        .then((response) => {
+          console.log(response.data, "respuesta api cidi");
+          let token = response.data["Token"] || null; //token por calve fizcal o sin representados
+          let redireccionamiento = response.data["RedirectURL"] || null; //redireccionamiento con representados
+          // let tokenRepresetations =
+          //   response.data["TokenRepresentations"] || null; //token con representados
+
+          localStorage.setItem("token", token);
+
+          if (redireccionamiento) {
+            this.$router.push("/municipales/assign-area");
+          } else {
+            this.getMyProfile();
+            this.$router.push("muni");
+          }
+
+          //   this.getMyProfile();
+          //   this.$router.push("muni");
+
+          //si tiene representados
+        })
+        .catch((error) => {
+          console.log(error);
+          this.msj = "Usuario incorrecto";
+          this.loading = false;
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     getMyProfile() {
@@ -147,5 +211,20 @@ form {
   position: relative;
   z-index: 1;
   background: #fff;
+}
+.botones {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 10rem;
+  width: 100%;
+  margin-top: 5rem;
+}
+.boton {
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  color: var(--text-color);
 }
 </style>

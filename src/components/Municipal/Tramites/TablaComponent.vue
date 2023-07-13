@@ -185,22 +185,52 @@
                         1
                     ].info_req || ""
                   }}
-                  <div>
+                  <!-- SE MUESTRAN LAS RESPUESTAS SI EXISTEN -->
+                  <div
+                    v-if="
+                      this.selectedHistory.procedure.requirementHistory[
+                        this.selectedHistory.procedure.requirementHistory
+                          .length - 1
+                      ].answer ||
+                      this.selectedHistory.procedure.requirementHistory[
+                        this.selectedHistory.procedure.requirementHistory
+                          .length - 1
+                      ].documentRequirement[0]?.file
+                    "
+                  >
                     <p>Respuesta:</p>
-                    {{
+                    *{{
                       this.selectedHistory.procedure.requirementHistory[
                         this.selectedHistory.procedure.requirementHistory
                           .length - 1
                       ].answer || ""
                     }}
-                    {{
+                    <br />
+                    <!-- SE ABRE EL LINK AL ARCHIVO MANDADO -->
+                    Archivo:
+                    <a
+                      target="_blank"
+                      :href="`${
+                        this.selectedHistory.procedure.requirementHistory[
+                          this.selectedHistory.procedure.requirementHistory
+                            .length - 1
+                        ].documentRequirement[0]?.file
+                      }`"
+                      >{{
+                        this.selectedHistory.procedure.requirementHistory[
+                          this.selectedHistory.procedure.requirementHistory
+                            .length - 1
+                        ].documentRequirement[0]?.file
+                      }}
+                    </a>
+                    <!-- *{{
                       this.selectedHistory.procedure.requirementHistory[
                         this.selectedHistory.procedure.requirementHistory
                           .length - 1
-                      ].documentRequirement[0].file || ""
-                    }}
+                      ].documentRequirement[0]?.file || ""
+                    }} -->
                   </div>
-
+                  <!-- ------ -->
                   <span class="spanFecha"
                     >{{
                       new Date(
@@ -212,32 +242,33 @@
                     }}
                   </span>
                 </div>
-                <input
-                  class="btn btn-primary mx-2"
-                  type="button"
-                  value=" Tarea"
-                  @click="ModalTarea(selectedHistory.procedure.id)"
-                />
+                <!-- BOTONES PARA ACCIONES  -->
+                <div class="footer">
+                  <input
+                    class="btn btn-primary mx-2"
+                    type="button"
+                    value=" Tarea"
+                    @click="ModalTarea(selectedHistory.procedure.id)"
+                  />
 
-                <input
-                  class="btn btn-primary mx-2"
-                  type="button"
-                  value=" Notificación"
-                  @click="
-                    ModalComunicacion(
-                      selectedHistory.procedure.id,
-                      selectedHistory.procedure.user.cuil,
-                      selectedHistory.procedure.procedure.level.level
-                    )
-                  "
-                />
-                <input
-                  class="btn btn-primary mx-2"
-                  type="button"
-                  value=" Requerimiento"
-                  @click="ModalRequerimiento(selectedHistory.procedure.id)"
-                />
-                <div class="finalizar">
+                  <input
+                    class="btn btn-primary mx-2"
+                    type="button"
+                    value="Comunicación"
+                    @click="
+                      ModalComunicacion(
+                        selectedHistory.procedure.id,
+                        selectedHistory.procedure.user.cuil,
+                        selectedHistory.procedure.user.level.level
+                      )
+                    "
+                  />
+                  <input
+                    class="btn btn-primary mx-2"
+                    type="button"
+                    value=" Requerimiento"
+                    @click="ModalRequerimiento(selectedHistory.procedure.id)"
+                  />
                   <input
                     class="btn btn-success mx-2"
                     type="button"
@@ -314,46 +345,6 @@
           </div>
         </div>
 
-        <!--MODAL PARA VER LA RESPUESTA DEL REQUERIMIENTO-->
-        <div class="modalRespuesta">
-          <div v-if="this.modalresponse === true" class="modal-content">
-            <div class="modal-top">
-              <h3>Respuestas requerimiento:</h3>
-              <img
-                @click="CloseModalResponse"
-                class="svg"
-                src="@/assets/close.svg"
-                alt=""
-              />
-            </div>
-            <p>trámite N°: {{ this.selectedTramite }}</p>
-            <div
-              class="response"
-              v-for="resp in this.selectedHistory.requerimientos"
-              :key="resp.id"
-            >
-              <div class="respuestas" v-if="!resp.active">
-                <strong>Asunto: {{ resp.info_req }}</strong>
-                <p>* {{ resp.answer }}</p>
-                <a
-                  v-for="(file, index) in resp.documentRequirement"
-                  :key="index"
-                  :href="file.file"
-                  target="blak"
-                >
-                  * {{ file.file }}
-                </a>
-                <br />
-                <br />
-                <p>fecha: {{ new Date(resp.finalized_at).toLocaleString() }}</p>
-              </div>
-              <div v-if="resp.active">
-                <strong>Asunto: {{ resp.info_req }}</strong>
-                <p>SIN RESPONDER</p>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="modalRespuesta">
           <div v-if="this.messageBuscar === true" class="modal-content">
             <div class="modal-top">
@@ -1062,7 +1053,7 @@ section h3 {
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  width: 500px; /* Need a specific value to work */
+  width: 40rem; /* Need a specific value to work */
   height: auto;
   border-radius: 10px;
   padding: 10px;
@@ -1282,11 +1273,11 @@ textarea {
 .respuestas a {
   text-decoration: none;
 }
-.finalizar {
+/* .finalizar {
   width: 30%;
   margin: auto;
   margin-top: 1rem;
-}
+} */
 .title {
   position: absolute;
   top: 1rem;
@@ -1298,6 +1289,8 @@ textarea {
   padding: 1rem;
   margin-bottom: 1rem;
   position: relative;
+  max-width: 33rem;
+  word-break: break-all;
 }
 .requerimiento p {
   text-decoration: underline;
@@ -1307,6 +1300,12 @@ textarea {
   top: 1rem;
   right: 1rem;
   font-size: 12px;
+}
+.footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .cardFiltros {

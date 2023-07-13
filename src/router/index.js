@@ -93,6 +93,12 @@ const routes = [
     component: () => import("@/views/CreateUserOfi/CuentaUsuarioView.vue"),
     meta: { requiresAuth: false },
   },
+  {
+    path: "/municipales/assign-area",
+    name: "asignarArea",
+    component: () => import("@/views/AsignarArea/AsignarAreaView.vue"),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

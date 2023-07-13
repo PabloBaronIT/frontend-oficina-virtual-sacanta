@@ -47,27 +47,28 @@
           v-if="this.selectTramite === p.id && this.modalComunicaciones"
         >
           <div class="card card-body">
-            <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
-      <span class="sr-only"></span>
-    </div> -->
-
             <div class="title">
               <strong>{{ this.comunicaciones.subject || "" }} : </strong>
 
               {{ this.comunicaciones.message || "" }}
             </div>
 
-            <div class="fecha">
-              <span>
-                {{
-                  new Date(this.comunicaciones.created_at).toLocaleString() ||
-                  ""
-                }}
-              </span>
-            </div>
-            <div style="padding-top: 0.3rem">
+            <span>
+              {{
+                new Date(this.comunicaciones.created_at).toLocaleString() || ""
+              }}
+            </span>
+            <div
+              style="
+                padding-top: 0.3rem;
+                margin-bottom: 1rem;
+                background: rgba(0, 128, 0, 0.075);
+                font-size: 12px;
+              "
+            >
               <p>
-                Ingrese a la seccion mis Comunicaciones para ver su historial.
+                Ingrese a la seccion mis Comunicaciones para ver su historial, o
+                al detalle del trámite para mas información.
               </p>
             </div>
           </div>
@@ -207,11 +208,6 @@
 
             <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
             <input
-              v-if="
-                this.selectTramite.procedure.requirementHistory[
-                  this.selectTramite.procedure.requirementHistory.length - 1
-                ].active === false
-              "
               type="button"
               value="Responder"
               @click="
@@ -387,9 +383,6 @@ export default {
               color: "",
               titulo: "",
               comunicaciones: null,
-              // requerimientos: null,
-              // comunicado: false,
-              // requerido: false,
             };
 
             let iso = h[i].updated_at;
@@ -405,12 +398,6 @@ export default {
             p.estado = h[i].status.status;
             p.titulo = h[i].procedure.title;
             p.comunicaciones = h[i].communicationCount;
-            //   ? h[i].communication
-            //   : null;
-            // p.comunicado = Array.isArray(h[i].communication) ? true : false;
-            // p.requerimientos = Array.isArray(h[i].requirementHistory)
-            //   ? h[i].requirementHistory
-            //   : null;
 
             switch (p.estado) {
               case "PRESENTADO":
@@ -485,22 +472,6 @@ export default {
       this.respuestaB = "";
     },
 
-    backTramites() {
-      // if (parseFloat(this.paginaActual) > 1) {
-      //   this.paginaActual--;
-      //   this.mostrados = [];
-      //   this.cont = (this.paginaActual - 1) * 5;
-      //   for (let i = 0; i < 5; i++) {
-      //     let p = this.activos[this.cont];
-      //     if (p != undefined) {
-      //       this.mostrados.push(p);
-      //       this.cont++;
-      //     }
-      //   }
-      // }
-      this.pagina--;
-      this.getMyPorcedure();
-    },
     selectFile($event) {
       const imgPreview = document.getElementById("img-preview");
 
@@ -554,6 +525,7 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               this.message = "Respuesta enviada!";
+              this.activos = [];
               this.getMyPorcedure();
               this.modalComunicaciones = false;
               this.respuestaA = "";
@@ -617,6 +589,10 @@ export default {
     },
     nextPag() {
       this.pagina++;
+      this.getMyPorcedure();
+    },
+    backTramites() {
+      this.pagina--;
       this.getMyPorcedure();
     },
   },
@@ -862,9 +838,9 @@ span {
   width: 4rem;
   margin: auto;
 }
-.fecha {
-  margin-top: 1rem;
-}
+/* .fecha {
+  margin-top: 3rem;
+} */
 .title {
   display: flex;
   flex-direction: column;
@@ -905,6 +881,7 @@ h3 {
   width: 100%;
   background: rgba(128, 128, 128, 0.473);
   align-items: center;
+  margin-top: 2rem;
 }
 
 .divDocumentos a {
@@ -923,5 +900,8 @@ h3 {
 .requerimiento {
   border: solid 1px red;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
