@@ -193,12 +193,12 @@
                           .length - 1
                       ].answer || ""
                     }}
-                    <!-- {{
+                    {{
                       this.selectedHistory.procedure.requirementHistory[
                         this.selectedHistory.procedure.requirementHistory
                           .length - 1
-                      ].documentRequirement.file || ""
-                    }} -->
+                      ].documentRequirement[0].file || ""
+                    }}
                   </div>
 
                   <span class="spanFecha"
