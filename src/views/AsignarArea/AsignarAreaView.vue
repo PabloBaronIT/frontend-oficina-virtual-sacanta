@@ -33,6 +33,7 @@ export default {
     };
   },
   created() {
+    this.loading = true;
     this.getAreas();
   },
   methods: {
@@ -51,6 +52,7 @@ export default {
         .then((response) => {
           //console.log(response.data);
           this.areas = response.data.Areas;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error.data);

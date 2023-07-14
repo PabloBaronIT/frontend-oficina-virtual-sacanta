@@ -70,6 +70,9 @@ export default {
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
+    dispatchCidi() {
+      this.$store.dispatch("mockCidiAction", this.cidiCookie);
+    },
 
     login() {
       localStorage.removeItem("token");
@@ -108,7 +111,7 @@ export default {
     },
 
     logCidi(cidi) {
-      //this.dispatchCidi();
+      this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -121,21 +124,17 @@ export default {
         .then((response) => {
           console.log(response.data, "respuesta api cidi");
           let token = response.data["Token"] || null; //token por calve fizcal o sin representados
-          let redireccionamiento = response.data["RedirectURL"] || null; //redireccionamiento con representados
-          // let tokenRepresetations =
-          //   response.data["TokenRepresentations"] || null; //token con representados
+          let redireccionamiento = response.data["RedirectURL"] || null;
 
-          localStorage.setItem("token", token);
+          localStorage.setItem("token", token.token);
 
           if (redireccionamiento) {
             this.$router.push("/municipales/assign-area");
           } else {
             this.getMyProfile();
             this.$router.push("muni");
+            this.loading = false;
           }
-
-          //   this.getMyProfile();
-          //   this.$router.push("muni");
 
           //si tiene representados
         })
@@ -188,7 +187,6 @@ export default {
           "role",
           response.data.MuniProfile.muni.role
         );
-        this.validacion = true;
       });
     },
   },
