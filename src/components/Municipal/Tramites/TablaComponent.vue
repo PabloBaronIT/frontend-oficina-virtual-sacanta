@@ -43,6 +43,11 @@
           </button>
         </form>
       </div>
+      <div v-if="this.message">
+        <h3 style="text-decoration: none; margin-top: 1rem">
+          No se encontraron trámites con los filtros especificados
+        </h3>
+      </div>
       <!-- FILTROS -->
       <div v-if="this.modalFiltros">
         <FiltrosComponent
@@ -50,7 +55,7 @@
           :setModalFiltros="this.setModalFiltros"
         />
       </div>
-      <!-- VISTA EN TABLA DE TRAMITES -->
+      <!-- VISTA EN TABLA DE TODOS LOS TRAMITES -->
       <div v-if="this.vista" class="containerTramites">
         <TablaFiltrosComponent
           :history="this.history"
@@ -394,7 +399,7 @@ export default {
       paginas: null,
       paginaActual: 1,
       status: "",
-      message: "",
+      message: false,
       requerimiento: null,
       modalresponse: false,
       deadline: [],
@@ -557,6 +562,10 @@ export default {
         })
         .catch((err) => {
           this.message = true;
+          this.activos = [];
+          this.deadline = [];
+          this.requeridos = [];
+
           console.log(err.response.data);
         });
     },
@@ -830,7 +839,7 @@ export default {
           )
           .then((response) => {
             console.log(response.data);
-            if (response.status === 201) {
+            if (response.status === 200) {
               this.datosEnviados = response.data.message;
             }
           })

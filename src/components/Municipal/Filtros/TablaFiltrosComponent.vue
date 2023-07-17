@@ -35,7 +35,7 @@
       </tr>
     </table>
     <div v-else>
-      <h1>No se encontraron tramites con los filtros especificados</h1>
+      <h1>No se encontraron trámites con los filtros especificados</h1>
     </div>
   </div>
 </template>

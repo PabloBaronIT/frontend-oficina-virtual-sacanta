@@ -38,6 +38,7 @@ export default {
   text-align: left;
   margin: auto;
   margin-top: 1rem;
+  cursor: pointer;
 }
 .top {
   background-image: linear-gradient(

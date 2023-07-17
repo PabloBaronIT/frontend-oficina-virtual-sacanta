@@ -40,6 +40,27 @@
           <option :value="false">Todos los trámites</option>
         </select>
       </div>
+      <div class="select" style="justify-content: space-around">
+        <label for="">Filtrar por tipo de trámite:</label>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          v-model="this.tipoTramite"
+        >
+          <option value="Tramite Formal">Tramite Formal</option>
+          <option value="Servicio">Servicio</option>
+        </select>
+        <label for="">Filtrar por Usuario:</label>
+        <input
+          placeholder="Ingrese Cuil del vecino"
+          v-model="this.CuilUser"
+          type="text"
+          @keyup="validarCuil()"
+        />
+        <p style="font-size: 12px">
+          {{ this.error }}
+        </p>
+      </div>
       <div class="select">
         <div>
           <h5>Desde : {{ fromDate }}</h5>
@@ -66,33 +87,16 @@
       </div>
       <!-- SE APLICAN LOS FILTROS -->
       <div class="boton-fecha">
-        <button class="btn btn-light" type="submit" @click="getFiltros">
+        <button
+          class="btn btn-light"
+          type="submit"
+          @click="getFiltros"
+          :disabled="this.disabled"
+        >
           Aplicar
         </button>
       </div>
     </div>
-
-    <!--BUSCADOR POR CUIL DEL VECINO-->
-    <!-- <div class="collapse" id="collapseExampleB">
-          <div class="card card-body">
-            <div class="flex">
-              <input
-                class="buscar"
-                type="search"
-                placeholder="Ingrese Cuil del vecino"
-                aria-label="Buscar"
-                v-model="searchCuil"
-              />
-              <button
-                class="btn btn-light"
-                type="submit"
-                @click="this.getFiltroByCuilUser(searchCuil)"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-        </div> -->
   </div>
 </template>
 <script>
@@ -113,9 +117,20 @@ export default {
       status: "",
       deadline: "",
       userMuni: true,
+      tipoTramite: "",
+      CuilUser: "",
+      error: "",
+      disabled: false,
     };
   },
   methods: {
+    validarCuil() {
+      console.log("soy el input");
+      if (!/^([0-9])*$/.test(this.CuilUser))
+        (this.error = "Debe ingresar solo valores numéricos"),
+          (this.disabled = true);
+      else (this.error = ""), (this.disabled = false);
+    },
     handleDate() {
       console.log(this.fromDate, "A");
     },
@@ -125,6 +140,13 @@ export default {
     getFiltros() {
       //let asd = new Date();
       let values = { conditions: {} };
+      if (this.CuilUser) {
+        if (!/^([0-9])*$/.test(this.CuilUser)) {
+          this.error = "debe ingresar un cuil valido";
+        } else {
+          values.conditions.userCuil = this.CuilUser;
+        }
+      }
       if (this.status) {
         values.conditions.status = this.status;
       }
@@ -134,6 +156,10 @@ export default {
       if (this.userMuni) {
         values.conditions.userMuni = this.userMuni;
       }
+      if (this.tipoTramite) {
+        values.conditions.procedureType = this.tipoTramite;
+      }
+
       if (this.fromDate) {
         let a = this.fromDate.split("-");
         let dia = a[0];

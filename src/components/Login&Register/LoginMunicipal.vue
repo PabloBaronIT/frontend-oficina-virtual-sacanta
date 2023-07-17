@@ -22,15 +22,15 @@
       />
       <p style="color: red">{{ this.msj }}</p>
       <div class="botones">
-        <!-- <input
+        <input
           @click="login()"
           class="btn btn-primary"
           type="button"
           value="Ingresar"
-        /> -->
-        <button class="btn btn-outline-secondary boton">
+        />
+        <!-- <button class="btn btn-outline-secondary boton">
           <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
-        </button>
+        </button> -->
       </div>
     </form>
     <div v-if="this.loading" class="spinner-border loading" role="status">
@@ -55,16 +55,15 @@ export default {
     };
   },
   created() {
-    let cidi = this.$route.query.cidi || null;
-    console.log(cidi, "soy query de cidi");
-    if (cidi) {
-      this.loading = true;
-      this.cidiCookie = cidi;
-
-      //document.cookie = `cidi=${cidi};max-age=120`;
-      //se llama la api de cidi para saber si tienen representados o no
-      this.logCidi(cidi);
-    }
+    // let cidi = this.$route.query.cidi || null;
+    // console.log(cidi, "soy query de cidi");
+    // if (cidi) {
+    //   this.loading = true;
+    //   this.cidiCookie = cidi;
+    //   //document.cookie = `cidi=${cidi};max-age=120`;
+    //   //se llama la api de cidi para saber si tienen representados o no
+    //   this.logCidi(cidi);
+    // }
   },
   methods: {
     dispatchLogin() {

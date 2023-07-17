@@ -80,13 +80,13 @@
         class="botonSubmit"
         v-if="!message"
       />
-      <input
+      <!-- <input
         type="button"
         value="Cidi"
         class="botonSubmit"
         v-if="!message && this.level >= 2"
         @click="this.submitFunctionCidi"
-      />
+      /> -->
     </div>
   </div>
 </template>
