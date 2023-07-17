@@ -58,6 +58,7 @@
 <script>
 import axios from "axios";
 import dbService from "@/services/dbService";
+import setToken from "@/middlewares/setToken";
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
@@ -86,6 +87,7 @@ export default {
     next();
   },
   created() {
+    setToken();
     //tomo del la ruta la query string para tomar datos del usuario
     let cidi = this.$route.query.cidi || null;
     console.log(cidi, "soy query de cidi");
@@ -139,8 +141,11 @@ export default {
         .post("/auth/signin", { cuil: this.cuil, password: this.password })
         .then((response) => {
           console.log(response.data);
-          let tokenApi = response.data.Token.token;
+          // let tokenApi = response.data.Token.token;
+          let tokenApi = response.data.Tokens.AuthToken;
+          let refreshToken = response.data.Tokens.RefreshToken; //REFRESH TOKEN
           localStorage.setItem("token", tokenApi);
+          localStorage.setItem("refreshToken", refreshToken);
           this.getMyProfile();
         })
         .catch((error) => {
@@ -213,48 +218,56 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      apiClient.get("/oficina/user/profile").then((response) => {
-        console.log(response.data, "datos de usuariodb");
-        this.user = response.data.UserProfile.user;
-        this.user.cidiCookie = this.cidiCookie;
-        this.dispatchLogin();
-        window.localStorage.setItem(
-          "role",
-          response.data.UserProfile.user.role
-        );
-        window.localStorage.setItem(
-          "name",
-          response.data.UserProfile.user.firstname
-        );
-        window.localStorage.setItem(
-          "lastname",
-          response.data.UserProfile.user.lastname
-        );
-        window.localStorage.setItem(
-          "cuil",
-          response.data.UserProfile.user.cuil
-        );
-        window.localStorage.setItem(
-          "adress",
-          response.data.UserProfile.user.adress
-        );
-        window.localStorage.setItem(
-          "email",
-          response.data.UserProfile.user.email
-        );
-        window.localStorage.setItem("id", response.data.UserProfile.user.id);
-        window.localStorage.setItem(
-          "fecha-creacion",
-          response.data.UserProfile.user.created_at
-        );
-        window.localStorage.setItem(
-          "nivel",
-          response.data.UserProfile.user.level.level
-        );
+      apiClient
+        .get("/oficina/user/profile")
+        .then((response) => {
+          console.log(response.data, "datos de usuariodb");
+          this.user = response.data.UserProfile.user;
+          this.user.cidiCookie = this.cidiCookie;
+          this.dispatchLogin();
+          window.localStorage.setItem(
+            "role",
+            response.data.UserProfile.user.role
+          );
+          window.localStorage.setItem(
+            "name",
+            response.data.UserProfile.user.firstname
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.UserProfile.user.lastname
+          );
+          window.localStorage.setItem(
+            "cuil",
+            response.data.UserProfile.user.cuil
+          );
+          window.localStorage.setItem(
+            "adress",
+            response.data.UserProfile.user.adress
+          );
+          window.localStorage.setItem(
+            "email",
+            response.data.UserProfile.user.email
+          );
+          window.localStorage.setItem("id", response.data.UserProfile.user.id);
+          window.localStorage.setItem(
+            "fecha-creacion",
+            response.data.UserProfile.user.created_at
+          );
+          window.localStorage.setItem(
+            "nivel",
+            response.data.UserProfile.user.level.level
+          );
 
-        this.loading = false;
-        this.$router.push("munienlinea");
-      });
+          this.loading = false;
+          this.$router.push("munienlinea");
+        })
+        .catch((error) => {
+          console.log(error.response);
+          if (error.response.status === 500) {
+            setToken();
+          }
+        });
     },
     getRepresentante(id) {
       const apiClient = axios.create({
