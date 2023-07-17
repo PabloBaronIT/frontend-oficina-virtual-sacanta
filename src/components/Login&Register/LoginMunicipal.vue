@@ -209,14 +209,14 @@ form {
   z-index: 1;
   background: #fff;
 }
-.botones {
+/* .botones {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   height: 10rem;
   width: 100%;
   margin-top: 5rem;
-}
+} */
 .boton {
   width: 100%;
 }

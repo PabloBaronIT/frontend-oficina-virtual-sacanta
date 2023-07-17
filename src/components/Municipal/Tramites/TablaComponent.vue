@@ -30,7 +30,7 @@
           <input
             class="buscar"
             type="search"
-            placeholder="Ingrese ID"
+            placeholder="Ingrese ID del trámite"
             aria-label="Buscar"
             v-model="search"
           />
