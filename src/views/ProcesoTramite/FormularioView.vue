@@ -16,6 +16,7 @@
 import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
 // import dbService from "@/services/dbService";
 import axios from "axios";
+import setToken from "@/middlewares/setToken";
 
 export default {
   data() {
@@ -34,36 +35,45 @@ export default {
   },
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
-    const apiClient = axios.create({
-      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      baseURL: process.env.VUE_APP_BASEURL,
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get("/oficina/procedures/template/" + this.$route.params.formularioId)
-      .then((response) => {
-        console.log(response.data);
-        this.preguntas = response.data.Template.questionProcedure;
-        this.nivel = response.data.Template.level.level;
-        // this.procedureId = r.id;
-        // parseInt(r.id);
-        // console.log(this.procedureId, "soy el procedureId");
-
-        // this.title = r.title;
-        // this.length = r.question.length;
-        // this.preguntas.push(r);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getTemplate();
   },
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    getTemplate() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      apiClient
+        .get("/oficina/procedures/template/" + this.$route.params.formularioId)
+        .then((response) => {
+          console.log(response.data);
+          this.preguntas = response.data.Template.questionProcedure;
+          this.nivel = response.data.Template.level.level;
+          // this.procedureId = r.id;
+          // parseInt(r.id);
+          // console.log(this.procedureId, "soy el procedureId");
+
+          // this.title = r.title;
+          // this.length = r.question.length;
+          // this.preguntas.push(r);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token vencido") {
+              setToken();
+              this.getTemplate();
+            }
+          }
+        });
     },
   },
 };

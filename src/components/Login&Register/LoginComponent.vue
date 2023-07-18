@@ -87,7 +87,7 @@ export default {
     next();
   },
   created() {
-    setToken();
+    //setToken();
     //tomo del la ruta la query string para tomar datos del usuario
     let cidi = this.$route.query.cidi || null;
     console.log(cidi, "soy query de cidi");
@@ -263,9 +263,12 @@ export default {
           this.$router.push("munienlinea");
         })
         .catch((error) => {
-          console.log(error.response);
+          console.log(error);
           if (error.response.status === 500) {
-            setToken();
+            if (error.response.data.message === "Token vencido") {
+              setToken();
+              this.getMyProfile();
+            }
           }
         });
     },
@@ -281,21 +284,32 @@ export default {
             "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
-      apiClient.get("/oficina/users/" + id).then((response) => {
-        console.log(response.data, "datos representante");
+      apiClient
+        .get("/oficina/users/" + id)
+        .then((response) => {
+          console.log(response.data, "datos representante");
 
-        this.representante = response.data.User;
-        localStorage.setItem(
-          "representanteFirstname",
-          response.data.User.firstname
-        );
-        localStorage.setItem(
-          "representanteLastname",
-          response.data.User.lastname
-        );
+          this.representante = response.data.User;
+          localStorage.setItem(
+            "representanteFirstname",
+            response.data.User.firstname
+          );
+          localStorage.setItem(
+            "representanteLastname",
+            response.data.User.lastname
+          );
 
-        this.dispatchRepresentante();
-      });
+          this.dispatchRepresentante();
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token vencido") {
+              setToken();
+              this.getRepresentante(id);
+            }
+          }
+        });
     },
   },
 };

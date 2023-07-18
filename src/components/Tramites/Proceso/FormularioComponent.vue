@@ -153,6 +153,7 @@
 import axios from "axios";
 import { jsPDF } from "jspdf";
 
+import setToken from "@/middlewares/setToken";
 var procedure = {
   // title: "",
   // userId: "",
@@ -320,13 +321,17 @@ export default {
               console.log(this.$store.procedure[0]);
             }
           })
-          .catch((err) => {
-            if (err.response.status == 401) {
+          .catch((error) => {
+            if (error.response.status == 401) {
               alert("No esta autorizado para realizar este tramite.");
               this.$router.replace({ path: "/munienlinea" });
             }
-
-            console.log(err);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token vencido") {
+                setToken();
+                this.submitt();
+              }
+            }
           })
           .finally(() => {
             this.loading = false;
