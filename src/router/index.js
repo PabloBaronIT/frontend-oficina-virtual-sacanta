@@ -63,24 +63,14 @@ const routes = [
     component: () => import("@/views/CuentaView.vue"),
     meta: { requiresAuth: true },
   },
-  {
-    path: "/comunicaciones",
-    name: "comunicaciones",
-    component: () => import("@/views/ComunicacionesView.vue"),
-    meta: { requiresAuth: true },
-  },
+
   {
     path: "/auth/reset-password/:token",
     name: "reset-password",
     component: () => import("@/views/ResetView.vue"),
     meta: { requiresAuth: false },
   },
-  {
-    path: "/representaciones",
-    name: "representaciones",
-    component: () => import("@/views/Representados/RepresentadosView.vue"),
-    meta: { requiresAuth: true },
-  },
+
   {
     path: "/muni/creacion-usuario",
     name: "createUserMuni",

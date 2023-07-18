@@ -27,6 +27,9 @@
 
 <script>
 import axios from "axios";
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 export default {
   name: "DatosCompnent",
   data() {
@@ -40,31 +43,7 @@ export default {
     };
   },
   created() {
-    const apiClient = axios.create({
-      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      baseURL: process.env.VUE_APP_BASEURL,
-
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-    apiClient
-      .get("/oficina/user/profile")
-      .then((response) => {
-        console.log(response.data);
-        let res = response.data.UserProfile;
-        this.name = res.user.firstname;
-        this.lastname = res.user.lastname;
-        this.cuil = res.user.cuil;
-        this.email = res.user.email;
-        this.adress = res.user.adress;
-
-        this.fecha_creacion = res.user.created_at;
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+    this.getMyProfile();
   },
   computed: {
     fecha() {
@@ -75,6 +54,46 @@ export default {
       const year = date.getFullYear();
 
       return `${day}/${month}/${year}`;
+    },
+  },
+  methods: {
+    getMyProfile() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/user/profile")
+        .then((response) => {
+          console.log(response.data);
+          let res = response.data.UserProfile;
+          this.name = res.user.firstname;
+          this.lastname = res.user.lastname;
+          this.cuil = res.user.cuil;
+          this.email = res.user.email;
+          this.adress = res.user.adress;
+
+          this.fecha_creacion = res.user.created_at;
+        })
+        .catch((error) => {
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getMyProfile();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getMyProfile();
+            }
+          }
+        });
     },
   },
 };

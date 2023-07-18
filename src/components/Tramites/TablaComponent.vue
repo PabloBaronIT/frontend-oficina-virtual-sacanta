@@ -299,6 +299,7 @@
 // import dbService from "@/services/dbService";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
 
 export default {
   props: {
@@ -352,8 +353,19 @@ export default {
           this.selectTramite = response.data.MyProcedure;
           this.modalVista = true;
         })
-        .catch((err) => {
-          console.log(err.response.data);
+        .catch((error) => {
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.verTramite(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.verTramite(id);
+            }
+          }
         });
     },
     getMyPorcedure() {
@@ -432,8 +444,14 @@ export default {
         .catch((error) => {
           console.log(error);
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getMyPorcedure();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getMyPorcedure();
             }
           }
@@ -461,8 +479,14 @@ export default {
         })
         .catch((error) => {
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getComunicaciones(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getComunicaciones(id);
             }
           }
@@ -546,11 +570,20 @@ export default {
             }
           })
           .catch((error) => {
-            // if (error.response.status === 500) {
-            //   setToken();
-            //   this.sentRespuesta();
-            // }
-            console.log(error);
+            console.log(error.response);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setToken();
+                this.sentRespuesta();
+              }
+              if (
+                error.response.data.message ===
+                "Token de representante expirado"
+              ) {
+                setTokenRelations();
+                this.sentRespuesta();
+              }
+            }
           });
       }
       if (this.respuestaA && this.respuestaB.length === 0) {
@@ -573,8 +606,17 @@ export default {
           })
           .catch((error) => {
             if (error.response.status === 500) {
-              setToken();
-              this.sentRespuesta();
+              if (error.response.data.message === "Token de usuario expirado") {
+                setToken();
+                this.sentRespuesta();
+              }
+              if (
+                error.response.data.message ===
+                "Token de representante expirado"
+              ) {
+                setTokenRelations();
+                this.sentRespuesta();
+              }
             }
           });
       }
@@ -598,8 +640,17 @@ export default {
           })
           .catch((error) => {
             if (error.response.status === 500) {
-              setToken();
-              this.sentRespuesta();
+              if (error.response.data.message === "Token de usuario expirado") {
+                setToken();
+                this.sentRespuesta();
+              }
+              if (
+                error.response.data.message ===
+                "Token de representante expirado"
+              ) {
+                setTokenRelations();
+                this.sentRespuesta();
+              }
             }
           });
       } else {
@@ -616,11 +667,7 @@ export default {
       this.getMyPorcedure();
     },
   },
-  computed: {
-    pags() {
-      return "a";
-    },
-  },
+  computed: {},
 };
 </script>
 

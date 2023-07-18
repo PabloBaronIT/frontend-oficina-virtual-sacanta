@@ -104,9 +104,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import setToken from "@/middlewares/setToken";
-
+import setTokenRelations from "@/middlewares/setTokenRelations";
+import axios from "axios";
 export default {
   name: "MainCointainerComponent",
   data() {
@@ -127,7 +127,7 @@ export default {
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
         headers: {
-          "auth-header": window.localStorage.getItem("token"),
+          "auth-header": localStorage.getItem("token"),
         },
       });
       apiClient
@@ -140,8 +140,14 @@ export default {
         .catch((error) => {
           console.log(error);
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getCategories();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getCategories();
             }
           }

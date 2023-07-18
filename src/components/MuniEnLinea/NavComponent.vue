@@ -78,16 +78,9 @@
         </router-link>
 
         <!--este link solo se puede acceder en el propio perfil , no como representante-->
-        <!-- <router-link
-          v-show="permission"
-          :to="`/representaciones`"
-          v-if="!$store.state.RepresentativeUser"
-          class="bn3"
-        >
-          Mis representaciones
-        </router-link> -->
+
         <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
-          Mis Notificaciones
+          Mis Comunicaciones
         </router-link>
         <input
           @click="logOf"
@@ -110,9 +103,6 @@
 </template>
 
 <script>
-//import dbService from "@/services/dbService";
-import axios from "axios";
-
 export default {
   name: "NavComponent",
   data() {
@@ -145,55 +135,6 @@ export default {
           },
         })
       );
-    },
-    dispatchRepresentative() {
-      this.$store.dispatch("setRepresentativeAction");
-    },
-    dispatchProfile() {
-      this.$store.dispatch("getProfileAction", this.user);
-    },
-    dispatchClearRepresentativeUser() {
-      this.$store.dispatch("clearRepresentativeUserAction");
-    },
-    changeRepresentative() {
-      console.log("cambiew");
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("tokenCopia"),
-        },
-      });
-      apiClient
-        .post("/representations/choose-representation", {
-          representativeId: this.$store.state.RepresentativeUser.id,
-        })
-        .then((response) => {
-          console.log(response.data.message);
-          window.localStorage.removeItem("token");
-          window.localStorage.setItem("token", response.data.token);
-          this.getProfile();
-          setTimeout(() => this.$router.push("munienlinea"), 2000);
-          this.dispatchClearRepresentativeUser();
-          //this.dispatchRepresentative();
-          //this.dispachSaveRepresentativeUser();
-        });
-    },
-    getProfile() {
-      const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient.get("/oficina/user/profile").then((response) => {
-        this.user = response.data.UserProfile.user;
-        console.log(this.user);
-        this.dispatchProfile();
-      });
     },
   },
 };

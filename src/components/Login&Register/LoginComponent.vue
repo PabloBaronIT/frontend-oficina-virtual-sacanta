@@ -59,6 +59,8 @@
 import axios from "axios";
 import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
@@ -139,6 +141,7 @@ export default {
       });
       apiClient
         .post("/auth/signin", { cuil: this.cuil, password: this.password })
+
         .then((response) => {
           console.log(response.data);
           // let tokenApi = response.data.Token.token;
@@ -161,23 +164,29 @@ export default {
     logCidi(cidi) {
       this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
+
+      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
       });
-      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       apiClient
         .post("/auth/cidi/login/" + cidi)
+
         .then((response) => {
           console.log(response.data, "respuesta api cidi");
-          let token = response.data["Token"] || null; //token por calve fizcal o sin representados
+          let token = response.data["Tokens"] || null; //token por calve fizcal o sin representados
           let redireccionamiento = response.data["redirectURL"] || null; //redireccionamiento con representados
           let tokenRepresetations =
             response.data["TokenRepresentations"] || null; //token con representados
 
           if (token) {
-            localStorage.setItem("token", token.token);
+            localStorage.setItem("token", token.authToken);
+            localStorage.setItem("refreshToken", token.refreshToken);
 
             this.getMyProfile();
             this.$router.push("munienlinea");
@@ -188,9 +197,14 @@ export default {
             window.location.href = response.data.redirectURL;
           }
           if (tokenRepresetations) {
-            localStorage.setItem("token", tokenRepresetations.token);
+            localStorage.setItem("token", tokenRepresetations.authToken);
+            localStorage.setItem(
+              "refreshToken",
+              tokenRepresetations.refreshToken
+            );
+
             //se buscan los datos del usuario
-            let payload = dbService.getToken(tokenRepresetations.token);
+            let payload = dbService.getToken(tokenRepresetations.authToken);
             let idRepresentante = payload.representative;
             this.getMyProfile();
             //se busca los datos del representante
@@ -265,8 +279,14 @@ export default {
         .catch((error) => {
           console.log(error);
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getMyProfile();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getMyProfile();
             }
           }
@@ -304,8 +324,14 @@ export default {
         .catch((error) => {
           console.log(error);
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getRepresentante(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getRepresentante(id);
             }
           }

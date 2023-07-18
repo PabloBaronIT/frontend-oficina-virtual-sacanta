@@ -154,6 +154,8 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 
 import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 var procedure = {
   // title: "",
   // userId: "",
@@ -327,8 +329,15 @@ export default {
               this.$router.replace({ path: "/munienlinea" });
             }
             if (error.response.status === 500) {
-              if (error.response.data.message === "Token vencido") {
+              if (error.response.data.message === "Token de usuario expirado") {
                 setToken();
+                this.submitt();
+              }
+              if (
+                error.response.data.message ===
+                "Token de representante expirado"
+              ) {
+                setTokenRelations();
                 this.submitt();
               }
             }

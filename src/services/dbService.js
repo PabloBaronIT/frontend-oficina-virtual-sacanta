@@ -9,27 +9,7 @@ const apiClient = axios.create({
   },
 });
 
-const apiClientAuth = axios.create({
-  baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-  withCredentials: false,
-  headers: {
-    "auth-header": localStorage.getItem("token"),
-  },
-});
-
 export default {
-  //CREAR UN USUARIO
-  postCreateUser(registro) {
-    return apiClient.post("/auth/signUp", registro);
-  },
-  //LOGUIN DE USUARIO COMUN
-  postLoginUser(login) {
-    return apiClient.post("/auth/signin", login);
-  },
-  //OOBTENER DATOS DEL PERFIL DEL USUARIO
-  getMyProfileUser() {
-    return apiClient.get("/oficina/user/profile");
-  },
   //OBTENER DATOS DEL MUNICIPAL
   getProfileMunicipal() {
     return apiClient.get("/municipales/muni-profile");
@@ -41,21 +21,14 @@ export default {
       password: login.password,
     });
   },
-  //OBTENER TODAS LAS CATEGORIAS O SECTORES
-  getAllCategories() {
-    return apiClientAuth.get("/oficina/categories/categories");
-  },
+
   getCategorieById(id) {
     return apiClient.get("/oficina/categories/categories/" + id);
   },
   getQuestions(id) {
     return apiClient.get("/oficina/categories/getQuestions/" + id);
   },
-  getTramites(categoryId) {
-    return apiClient.get(
-      "/oficina/categories/category/procedure/" + categoryId
-    );
-  },
+
   getHistorialTramites() {
     return apiClient.get("/oficina/procedures/history");
   },

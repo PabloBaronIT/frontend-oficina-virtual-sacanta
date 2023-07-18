@@ -14,9 +14,9 @@
 
 <script>
 import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
-// import dbService from "@/services/dbService";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
 
 export default {
   data() {
@@ -68,8 +68,14 @@ export default {
         .catch((error) => {
           console.log(error);
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getTemplate();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getTemplate();
             }
           }
