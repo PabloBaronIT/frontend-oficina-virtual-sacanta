@@ -42,6 +42,8 @@
 <script>
 //import dbService from "@/services/dbService";
 import axios from "axios";
+// let header = process.env.VUE_APP_PASSWORD_HEADER;
+import dbService from "@/services/dbService";
 
 export default {
   data() {
@@ -92,10 +94,12 @@ export default {
 
         .then(async (response) => {
           if (response.status == 200) {
-            console.log(response.data.Token.token);
+            // console.log(response.data.Token.token);
             let token = response.data.Token.token;
             localStorage.setItem("token", token);
-            this.getMyProfile();
+            let payload = dbService.getToken(token);
+            let idMuni = payload.id;
+            this.getMyProfile(idMuni);
             this.$router.push("muni");
 
             //TOMO LOS DATOS DEL TOKEN
@@ -146,46 +150,39 @@ export default {
           this.loading = false;
         });
     },
-    getMyProfile() {
+
+    getMyProfile(id) {
+      //console.log(process.env.VUE_APP_PASSWORD_HEADER, "SOY EL HEADER");
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
+          // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
-      apiClient.get("/municipales/muni-profile").then((response) => {
+      apiClient.get("/municipales/" + id).then((response) => {
         console.log(response.data);
-        this.user = response.data.MuniProfile.muni;
+        this.user = response.data.UserMuni;
         this.dispatchLogin();
 
-        window.localStorage.setItem(
-          "name",
-          response.data.MuniProfile.muni.firstname
-        );
+        window.localStorage.setItem("name", response.data.UserMuni.firstname);
         window.localStorage.setItem(
           "lastname",
-          response.data.MuniProfile.muni.lastname
+          response.data.UserMuni.lastname
         );
-        window.localStorage.setItem(
-          "cuil",
-          response.data.MuniProfile.muni.cuil
-        );
+        window.localStorage.setItem("cuil", response.data.UserMuni.cuil);
 
-        window.localStorage.setItem(
-          "email",
-          response.data.MuniProfile.muni.email
-        );
-        window.localStorage.setItem("id", response.data.MuniProfile.muni.id);
-        window.localStorage.setItem(
-          "fecha-creacion",
-          response.data.MuniProfile.muni.created_at
-        );
-        window.localStorage.setItem(
-          "role",
-          response.data.MuniProfile.muni.role
-        );
+        window.localStorage.setItem("email", response.data.UserMuni.email);
+        window.localStorage.setItem("id", response.data.UserMuni.id);
+        // window.localStorage.setItem(
+        //   "fecha-creacion",
+        //   response.data.MuniProfile.muni.created_at
+        // );
+        window.localStorage.setItem("role", response.data.UserMuni.role);
       });
     },
   },

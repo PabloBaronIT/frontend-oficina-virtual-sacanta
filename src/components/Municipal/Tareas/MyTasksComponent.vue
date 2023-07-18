@@ -243,7 +243,7 @@ export default {
 
           console.log(Response.data, "mis tareas");
         })
-        .catch((e) => console.log(e));
+        .catch((e) => console.log(e.response.data));
     },
 
     ModalResponse(id, idTramite) {

@@ -154,9 +154,9 @@ export default {
             this.tasks.push(tarea);
           });
 
-          console.log(Response.data, "mis tareas");
+          console.log(response.data, "mis tareas");
         })
-        .catch((e) => console.log(e));
+        .catch((e) => console.log(e.response.data));
     },
 
     ModalResponse(id) {

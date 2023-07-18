@@ -61,7 +61,7 @@ import dbService from "@/services/dbService";
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
-
+let header = process.env.VUE_APP_PASSWORD_HEADER;
 export default {
   name: "LoginComponent",
   data() {
@@ -126,6 +126,7 @@ export default {
     },
     //LOGIN COMUN
     log() {
+      console.log(header);
       this.loading = true;
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -263,7 +264,7 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
+          // "access-user-header": header,
           "access-user-header":
             "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },

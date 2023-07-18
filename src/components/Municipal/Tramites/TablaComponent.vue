@@ -122,35 +122,29 @@
               />
             </div>
             <div class="data-container">
-              <section
-                v-if="this.selectedHistory.procedure.id === selectedTramite"
-              >
+              <section v-if="this.selectedHistory.id === selectedTramite">
                 <div class="data-container">
                   <h3>Datos del vecino:</h3>
                   <div class="user-data-container">
                     <div class="user-data">
                       <p>
                         <b>Nombre:</b>
-                        {{ selectedHistory.procedure.user.firstname }}
+                        {{ selectedHistory.user.firstname }}
                       </p>
 
                       <p>
                         <b>Apellido:</b>
-                        {{ selectedHistory.procedure.user.lastname }}
+                        {{ selectedHistory.user.lastname }}
                       </p>
 
-                      <p>
-                        <b>Email:</b> {{ selectedHistory.procedure.user.email }}
-                      </p>
+                      <p><b>Email:</b> {{ selectedHistory.user.email }}</p>
                     </div>
                     <div class="user-data">
-                      <p>
-                        <b>CUIL:</b> {{ selectedHistory.procedure.user.cuil }}
-                      </p>
+                      <p><b>CUIL:</b> {{ selectedHistory.user.cuil }}</p>
 
                       <p>
                         <b>Dirección:</b>
-                        {{ selectedHistory.procedure.user.adress }}
+                        {{ selectedHistory.user.adress }}
                       </p>
                     </div>
                   </div>
@@ -159,7 +153,7 @@
                 <h3>Info tramite:</h3>
                 <div
                   class="question"
-                  v-for="(q, key) in selectedHistory.procedure.questions"
+                  v-for="(q, key) in selectedHistory.questions"
                   :key="key"
                 >
                   <div>
@@ -178,53 +172,44 @@
                 <!--EL TRAMITE QUE TENGA REQUERIMIENTOS SE PODRA VER LOS MISMOS-->
                 <div
                   class="requerimiento"
-                  v-if="
-                    this.selectedHistory.procedure.requirementHistory.length >=
-                    1
-                  "
+                  v-if="this.selectedHistory.requirementHistory.length >= 1"
                 >
                   <p>Requerimiento:</p>
                   {{
-                    this.selectedHistory.procedure.requirementHistory[
-                      this.selectedHistory.procedure.requirementHistory.length -
-                        1
+                    this.selectedHistory.requirementHistory[
+                      this.selectedHistory.requirementHistory.length - 1
                     ].info_req || ""
                   }}
                   <!-- SE MUESTRAN LAS RESPUESTAS SI EXISTEN -->
                   <div
                     v-if="
-                      this.selectedHistory.procedure.requirementHistory[
-                        this.selectedHistory.procedure.requirementHistory
-                          .length - 1
+                      this.selectedHistory.requirementHistory[
+                        this.selectedHistory.requirementHistory.length - 1
                       ].answer ||
-                      this.selectedHistory.procedure.requirementHistory[
-                        this.selectedHistory.procedure.requirementHistory
-                          .length - 1
+                      this.selectedHistory.requirementHistory[
+                        this.selectedHistory.requirementHistory.length - 1
                       ].documentRequirement[0]?.file
                     "
                   >
                     <p>Respuesta:</p>
                     *{{
-                      this.selectedHistory.procedure.requirementHistory[
-                        this.selectedHistory.procedure.requirementHistory
-                          .length - 1
+                      this.selectedHistory.requirementHistory[
+                        this.selectedHistory.requirementHistory.length - 1
                       ].answer || ""
                     }}
                     <br />
-                    <!-- SE ABRE EL LINK AL ARCHIVO MANDADO -->
+                    <!-- SE ABRE EL LINK DEL ARCHIVO MANDADO -->
                     Archivo:
                     <a
                       target="_blank"
                       :href="`${
-                        this.selectedHistory.procedure.requirementHistory[
-                          this.selectedHistory.procedure.requirementHistory
-                            .length - 1
+                        this.selectedHistory.requirementHistory[
+                          this.selectedHistory.requirementHistory.length - 1
                         ].documentRequirement[0]?.file
                       }`"
                       >{{
-                        this.selectedHistory.procedure.requirementHistory[
-                          this.selectedHistory.procedure.requirementHistory
-                            .length - 1
+                        this.selectedHistory.requirementHistory[
+                          this.selectedHistory.requirementHistory.length - 1
                         ].documentRequirement[0]?.file
                       }}
                     </a>
@@ -239,9 +224,8 @@
                   <span class="spanFecha"
                     >{{
                       new Date(
-                        this.selectedHistory.procedure.requirementHistory[
-                          this.selectedHistory.procedure.requirementHistory
-                            .length - 1
+                        this.selectedHistory.requirementHistory[
+                          this.selectedHistory.requirementHistory.length - 1
                         ].created_at
                       ).toLocaleString()
                     }}
@@ -253,7 +237,7 @@
                     class="btn btn-primary mx-2"
                     type="button"
                     value=" Tarea"
-                    @click="ModalTarea(selectedHistory.procedure.id)"
+                    @click="ModalTarea(selectedHistory.id)"
                   />
 
                   <input
@@ -262,9 +246,9 @@
                     value="Comunicación"
                     @click="
                       ModalComunicacion(
-                        selectedHistory.procedure.id,
-                        selectedHistory.procedure.user.cuil,
-                        selectedHistory.procedure.user.level.level
+                        selectedHistory.id,
+                        selectedHistory.user.cuil,
+                        selectedHistory.user.level.level
                       )
                     "
                   />
@@ -272,7 +256,7 @@
                     class="btn btn-primary mx-2"
                     type="button"
                     value=" Requerimiento"
-                    @click="ModalRequerimiento(selectedHistory.procedure.id)"
+                    @click="ModalRequerimiento(selectedHistory.id)"
                   />
                   <input
                     class="btn btn-success mx-2"
@@ -495,7 +479,7 @@ export default {
       apiClient.get("/oficina/procedures/history/" + id).then((response) => {
         console.log(response.data);
         this.selectedHistory = response.data.Procedure;
-        if (response.data.Procedure.procedure.status.status === "PRESENTADO") {
+        if (response.data.Procedure.status.status === "PRESENTADO") {
           this.status = "2";
           this.updateStatus();
           this.activos = [];
