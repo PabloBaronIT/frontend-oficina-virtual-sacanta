@@ -72,6 +72,7 @@
 </template>
 <script>
 import axios from "axios";
+import setTokenMuni from "@/middlewares/setTokenMuni";
 
 export default {
   name: "MySentTasksComponent",
@@ -156,7 +157,15 @@ export default {
 
           console.log(response.data, "mis tareas");
         })
-        .catch((e) => console.log(e.response.data));
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getMySentTasks();
+            }
+          }
+        });
     },
 
     ModalResponse(id) {

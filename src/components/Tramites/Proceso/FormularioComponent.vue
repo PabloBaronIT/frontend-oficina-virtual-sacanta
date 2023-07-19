@@ -153,6 +153,9 @@
 import axios from "axios";
 import { jsPDF } from "jspdf";
 
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 var procedure = {
   // title: "",
   // userId: "",
@@ -320,13 +323,24 @@ export default {
               console.log(this.$store.procedure[0]);
             }
           })
-          .catch((err) => {
-            if (err.response.status == 401) {
+          .catch((error) => {
+            if (error.response.status == 401) {
               alert("No esta autorizado para realizar este tramite.");
               this.$router.replace({ path: "/munienlinea" });
             }
-
-            console.log(err);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setToken();
+                this.submitt();
+              }
+              if (
+                error.response.data.message ===
+                "Token de representante expirado"
+              ) {
+                setTokenRelations();
+                this.submitt();
+              }
+            }
           })
           .finally(() => {
             this.loading = false;

@@ -162,27 +162,26 @@
             />
           </div>
         </div>
-        <input
-          class="btn btn-primary btn-lg botonSubmit"
-          type="button"
-          value="Registrar"
-          @click="registrar"
-        />
-      </div>
-      <div
-        class="alert alert-success w-50 creado"
-        role="alert"
-        v-if="this.registrado"
-      >
-        {{ this.message }}
+        <div>
+          <input
+            class="btn btn-primary btn-lg botonSubmit"
+            type="button"
+            value="Registrar"
+            @click="registrar"
+          />
+          <div class="creado" v-if="this.registrado">
+            {{ this.message }}
+          </div>
+        </div>
       </div>
     </FormKit>
   </div>
 </template>
 
 <script>
-import dbService from "@/services/dbService";
-
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+import axios from "axios";
 export default {
   name: "RegisterComponent",
   data() {
@@ -226,18 +225,45 @@ export default {
         adress: this.adress,
         isPerson: this.isPerson,
       };
-      console.log(registro);
-      dbService
-        .postCreateUser(registro)
+      //console.log(registro);
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .post("/auth/signUp", registro)
         .then((response) => {
           console.log(response.data);
-          if (response.status === 201) {
-            this.registrado = true;
-            this.message = response.data.message;
-          }
+          this.registrado = true;
+          this.message = response.data.message;
+          this.firstname = "";
+          this.lastname = "";
+          this.cuil = "";
+          this.postCode = "";
+          this.adress = "";
+          this.city = "";
+          this.iSperson = "";
+          this.email = "";
+          this.confirmPassword = "";
+          this.password = "";
         })
         .catch(function (error) {
-          console.log(error.message);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.registrar();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.registrar();
+            }
+          }
         });
     },
   },
@@ -263,12 +289,10 @@ select {
 }
 .creado {
   margin: auto;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
+  font-size: 25px;
+  color: var(--green);
 }
 .botonSubmit {
-  position: absolute;
-  right: 3rem;
-  bottom: 2rem;
+  position: relative;
 }
 </style>

@@ -58,6 +58,9 @@
 <script>
 import axios from "axios";
 import dbService from "@/services/dbService";
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
@@ -86,6 +89,7 @@ export default {
     next();
   },
   created() {
+    //setToken();
     //tomo del la ruta la query string para tomar datos del usuario
     let cidi = this.$route.query.cidi || null;
     console.log(cidi, "soy query de cidi");
@@ -138,10 +142,14 @@ export default {
       });
       apiClient
         .post("/auth/signin", { cuil: this.cuil, password: this.password })
+
         .then((response) => {
           console.log(response.data);
-          let tokenApi = response.data.Token.token;
+          // let tokenApi = response.data.Token.token;
+          let tokenApi = response.data.Tokens.AuthToken;
+          let refreshToken = response.data.Tokens.RefreshToken; //REFRESH TOKEN
           localStorage.setItem("token", tokenApi);
+          localStorage.setItem("refreshToken", refreshToken);
           this.getMyProfile();
         })
         .catch((error) => {
@@ -157,23 +165,29 @@ export default {
     logCidi(cidi) {
       this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
+
+      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
       });
-      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       apiClient
         .post("/auth/cidi/login/" + cidi)
+
         .then((response) => {
           console.log(response.data, "respuesta api cidi");
-          let token = response.data["Token"] || null; //token por calve fizcal o sin representados
+          let token = response.data["Tokens"] || null; //token por calve fizcal o sin representados
           let redireccionamiento = response.data["redirectURL"] || null; //redireccionamiento con representados
           let tokenRepresetations =
             response.data["TokenRepresentations"] || null; //token con representados
 
           if (token) {
-            localStorage.setItem("token", token.token);
+            localStorage.setItem("token", token.authToken);
+            localStorage.setItem("refreshToken", token.refreshToken);
 
             this.getMyProfile();
             this.$router.push("munienlinea");
@@ -184,9 +198,14 @@ export default {
             window.location.href = response.data.redirectURL;
           }
           if (tokenRepresetations) {
-            localStorage.setItem("token", tokenRepresetations.token);
+            localStorage.setItem("token", tokenRepresetations.authToken);
+            localStorage.setItem(
+              "refreshToken",
+              tokenRepresetations.refreshToken
+            );
+
             //se buscan los datos del usuario
-            let payload = dbService.getToken(tokenRepresetations.token);
+            let payload = dbService.getToken(tokenRepresetations.authToken);
             let idRepresentante = payload.representative;
             this.getMyProfile();
             //se busca los datos del representante
@@ -214,48 +233,65 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      apiClient.get("/oficina/user/profile").then((response) => {
-        console.log(response.data, "datos de usuariodb");
-        this.user = response.data.UserProfile.user;
-        this.user.cidiCookie = this.cidiCookie;
-        this.dispatchLogin();
-        window.localStorage.setItem(
-          "role",
-          response.data.UserProfile.user.role
-        );
-        window.localStorage.setItem(
-          "name",
-          response.data.UserProfile.user.firstname
-        );
-        window.localStorage.setItem(
-          "lastname",
-          response.data.UserProfile.user.lastname
-        );
-        window.localStorage.setItem(
-          "cuil",
-          response.data.UserProfile.user.cuil
-        );
-        window.localStorage.setItem(
-          "adress",
-          response.data.UserProfile.user.adress
-        );
-        window.localStorage.setItem(
-          "email",
-          response.data.UserProfile.user.email
-        );
-        window.localStorage.setItem("id", response.data.UserProfile.user.id);
-        window.localStorage.setItem(
-          "fecha-creacion",
-          response.data.UserProfile.user.created_at
-        );
-        window.localStorage.setItem(
-          "nivel",
-          response.data.UserProfile.user.level.level
-        );
+      apiClient
+        .get("/oficina/user/profile")
+        .then((response) => {
+          console.log(response.data, "datos de usuariodb");
+          this.user = response.data.UserProfile.user;
+          this.user.cidiCookie = this.cidiCookie;
+          this.dispatchLogin();
+          window.localStorage.setItem(
+            "role",
+            response.data.UserProfile.user.role
+          );
+          window.localStorage.setItem(
+            "name",
+            response.data.UserProfile.user.firstname
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.UserProfile.user.lastname
+          );
+          window.localStorage.setItem(
+            "cuil",
+            response.data.UserProfile.user.cuil
+          );
+          window.localStorage.setItem(
+            "adress",
+            response.data.UserProfile.user.adress
+          );
+          window.localStorage.setItem(
+            "email",
+            response.data.UserProfile.user.email
+          );
+          window.localStorage.setItem("id", response.data.UserProfile.user.id);
+          window.localStorage.setItem(
+            "fecha-creacion",
+            response.data.UserProfile.user.created_at
+          );
+          window.localStorage.setItem(
+            "nivel",
+            response.data.UserProfile.user.level.level
+          );
 
-        this.loading = false;
-        this.$router.push("munienlinea");
-      });
+          this.loading = false;
+          this.$router.push("munienlinea");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getMyProfile();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getMyProfile();
+            }
+          }
+        });
     },
     getRepresentante(id) {
       const apiClient = axios.create({
@@ -269,21 +305,38 @@ export default {
             "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
-      apiClient.get("/oficina/users/" + id).then((response) => {
-        console.log(response.data, "datos representante");
+      apiClient
+        .get("/oficina/users/" + id)
+        .then((response) => {
+          console.log(response.data, "datos representante");
 
-        this.representante = response.data.User;
-        localStorage.setItem(
-          "representanteFirstname",
-          response.data.User.firstname
-        );
-        localStorage.setItem(
-          "representanteLastname",
-          response.data.User.lastname
-        );
+          this.representante = response.data.User;
+          localStorage.setItem(
+            "representanteFirstname",
+            response.data.User.firstname
+          );
+          localStorage.setItem(
+            "representanteLastname",
+            response.data.User.lastname
+          );
 
-        this.dispatchRepresentante();
-      });
+          this.dispatchRepresentante();
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getRepresentante(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getRepresentante(id);
+            }
+          }
+        });
     },
   },
 };

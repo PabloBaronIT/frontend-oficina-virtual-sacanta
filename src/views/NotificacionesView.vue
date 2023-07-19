@@ -74,6 +74,8 @@
 <script>
 import CardNotificacionComponentVue from "../components/Notificaciones/CardNotificacionComponent.vue";
 import axios from "axios";
+import setToken from "@/middlewares/setToken";
+
 export default {
   components: {
     CardNotificacionComponentVue,
@@ -104,17 +106,27 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      apiClient.get("/communications/my-communications").then((response) => {
-        this.loading = false;
-        console.log(response.data);
-        let comunicaciones = response.data.Communications;
+      apiClient
+        .get("/communications/my-communications")
+        .then((response) => {
+          this.loading = false;
+          console.log(response.data);
+          let comunicaciones = response.data.Communications;
 
-        for (let i = 0; i < comunicaciones.length; i++) {
-          const element = comunicaciones[i];
+          for (let i = 0; i < comunicaciones.length; i++) {
+            const element = comunicaciones[i];
 
-          this.communications.push(element);
-        }
-      });
+            this.communications.push(element);
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token vencido") {
+              setToken();
+              this.getCommunication();
+            }
+          }
+        });
     },
     setComunicacion(index) {
       this.selectCommunication = this.communications[index];

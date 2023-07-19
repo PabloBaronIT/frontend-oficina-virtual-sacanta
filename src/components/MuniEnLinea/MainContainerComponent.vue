@@ -104,8 +104,9 @@
 </template>
 
 <script>
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
-
 export default {
   name: "MainCointainerComponent",
   data() {
@@ -117,27 +118,41 @@ export default {
   created() {
     // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
     // Trae imagenes, id y titulo de categoria
-
-    const apiClient = axios.create({
-      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      baseURL: process.env.VUE_APP_BASEURL,
-      withCredentials: false,
-      headers: {
-        "auth-header": window.localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get("/oficina/categories/categories")
-      .then((response) => {
-        console.log(response.data);
-        this.categorias = response.data.Categories.Procedures;
-        this.servicios = response.data.Categories.Services;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.$router.push("login");
+    this.getCategories();
+  },
+  methods: {
+    getCategories() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
       });
+      apiClient
+        .get("/oficina/categories/categories")
+        .then((response) => {
+          console.log(response.data);
+          this.categorias = response.data.Categories.Procedures;
+          this.servicios = response.data.Categories.Services;
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getCategories();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getCategories();
+            }
+          }
+        });
+    },
   },
   components: {},
 };

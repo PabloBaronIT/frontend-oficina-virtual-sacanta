@@ -42,8 +42,7 @@
 <script>
 //import dbService from "@/services/dbService";
 import axios from "axios";
-// let header = process.env.VUE_APP_PASSWORD_HEADER;
-import dbService from "@/services/dbService";
+import setTokenMuni from "@/middlewares/setTokenMuni";
 
 export default {
   data() {
@@ -82,9 +81,6 @@ export default {
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
       });
       apiClient
         .post("/auth/signinMunicipales", {
@@ -94,12 +90,13 @@ export default {
 
         .then(async (response) => {
           if (response.status == 200) {
-            // console.log(response.data.Token.token);
-            let token = response.data.Token.token;
+            console.log(response.data.Tokens.authToken);
+            let token = response.data.Tokens.authToken;
+            let refreshToken = response.data.Tokens.refreshToken;
             localStorage.setItem("token", token);
-            let payload = dbService.getToken(token);
-            let idMuni = payload.id;
-            this.getMyProfile(idMuni);
+            localStorage.setItem("refreshToken", refreshToken);
+
+            this.getMyProfile();
             this.$router.push("muni");
 
             //TOMO LOS DATOS DEL TOKEN
@@ -112,7 +109,7 @@ export default {
           this.msj = "Usuario incorrecto";
         });
     },
-
+    //QUEDA PENDIENTE HASTA NUEVO AVISO
     logCidi(cidi) {
       this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
@@ -164,26 +161,49 @@ export default {
             "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
-      apiClient.get("/municipales/" + id).then((response) => {
-        console.log(response.data);
-        this.user = response.data.UserMuni;
-        this.dispatchLogin();
+      apiClient
+        .get("/municipales/muni-profile")
+        .then((response) => {
+          console.log(response.data);
+          this.user = response.data.MuniProfile.muni;
+          this.dispatchLogin();
 
-        window.localStorage.setItem("name", response.data.UserMuni.firstname);
-        window.localStorage.setItem(
-          "lastname",
-          response.data.UserMuni.lastname
-        );
-        window.localStorage.setItem("cuil", response.data.UserMuni.cuil);
+          window.localStorage.setItem(
+            "name",
+            response.data.MuniProfile.muni.firstname
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.MuniProfile.muni.lastname
+          );
+          window.localStorage.setItem(
+            "cuil",
+            response.data.MuniProfile.muni.cuil
+          );
 
-        window.localStorage.setItem("email", response.data.UserMuni.email);
-        window.localStorage.setItem("id", response.data.UserMuni.id);
-        // window.localStorage.setItem(
-        //   "fecha-creacion",
-        //   response.data.MuniProfile.muni.created_at
-        // );
-        window.localStorage.setItem("role", response.data.UserMuni.role);
-      });
+          window.localStorage.setItem(
+            "email",
+            response.data.MuniProfile.muni.email
+          );
+          window.localStorage.setItem("id", response.data.MuniProfile.muni.id);
+          window.localStorage.setItem(
+            "fecha-creacion",
+            response.data.MuniProfile.muni.created_at
+          );
+          window.localStorage.setItem(
+            "role",
+            response.data.MuniProfile.muni.role
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getMyProfile();
+            }
+          }
+        });
     },
   },
 };

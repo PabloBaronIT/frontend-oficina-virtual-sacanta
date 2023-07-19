@@ -85,7 +85,8 @@
 </template>
 <script>
 import axios from "axios";
-
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
 export default {
   data() {
     return {
@@ -101,38 +102,50 @@ export default {
   },
   created() {
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
-    console.log(this.$route.params);
-    const apiClient = axios.create({
-      //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      baseURL: process.env.VUE_APP_BASEURL,
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get(
-        "/oficina/categories/category/procedure/" + this.$route.params.sectorId
-      )
-      .then((response) => {
-        if (response.status == 200) {
-          for (let i = 0; i < response.data.Procedures.length; i++) {
-            this.tramitesApi.push(response.data.Procedures[i]);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.msj = true;
-      });
+    //console.log(this.$route.params);
+    this.GetProcedure();
   },
 
   methods: {
-    Hover(id) {
-      this.hover = !this.hover;
-      this.id = id;
+    GetProcedure() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get(
+          "/oficina/categories/category/procedure/" +
+            this.$route.params.sectorId
+        )
+
+        .then((response) => {
+          if (response.status == 200) {
+            for (let i = 0; i < response.data.Procedures.length; i++) {
+              this.tramitesApi.push(response.data.Procedures[i]);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.GetProcedure();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.GetProcedure();
+            }
+          }
+        });
     },
+
     verRequisitos(id) {
       this.modal = true;
       this.id = id;
@@ -151,13 +164,7 @@ export default {
       this.$router.go(-1);
     },
   },
-  computed: {
-    tramitesFiltered() {
-      return this.tramites.filter((tramite) => {
-        return tramite.sector === this.$route.params.sectorId;
-      });
-    },
-  },
+  computed: {},
 };
 </script>
 
