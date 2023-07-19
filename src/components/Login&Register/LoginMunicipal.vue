@@ -148,15 +148,15 @@ export default {
         });
     },
 
-    getMyProfile(id) {
-      //console.log(process.env.VUE_APP_PASSWORD_HEADER, "SOY EL HEADER");
+    getMyProfile() {
+      console.log(process.env.VUE_APP_PASSWORD_HEADER, "SOY EL HEADER");
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
+          // // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
           "access-user-header":
             "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },

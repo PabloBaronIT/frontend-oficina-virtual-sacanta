@@ -488,9 +488,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.selectedHistory = response.data.Procedure;
-          if (
-            response.data.Procedure.procedure.status.status === "PRESENTADO"
-          ) {
+          if (response.data.Procedure.status.status === "PRESENTADO") {
             this.status = "2";
             this.updateStatus();
             this.activos = [];
