@@ -660,7 +660,7 @@ export default {
         .then((response) => {
           console.log(response, "soy el tramite ");
 
-          asd = response.data.Procedure.procedure;
+          asd = response.data.Procedure;
           console.log(asd);
           this.search = "";
 
