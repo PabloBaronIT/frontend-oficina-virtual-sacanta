@@ -108,7 +108,7 @@
                 class="botonSubmit"
                 type="button"
                 value="Enviar"
-                @click="setnTasks"
+                @click="sentTasks"
                 v-if="this.respuestaA || this.respuestaB"
               />
               <p v-if="message" class="enviado">{{ this.message }}</p>
@@ -121,6 +121,7 @@
 </template>
 <script>
 import axios from "axios";
+import setTokenMuni from "@/middlewares/setTokenMuni";
 
 export default {
   data() {
@@ -243,7 +244,15 @@ export default {
 
           console.log(Response.data, "mis tareas");
         })
-        .catch((e) => console.log(e));
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getMyTasks();
+            }
+          }
+        });
     },
 
     ModalResponse(id, idTramite) {
@@ -257,7 +266,7 @@ export default {
       this.respuestaA = "";
       this.respuestaB = "";
     },
-    setnTasks() {
+    sentTasks() {
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
@@ -281,9 +290,15 @@ export default {
               this.getMyTasks();
             }
           })
-          .catch((e) => {
-            console.log(e);
-            this.message = e.response.data.message;
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.sentTasks();
+              }
+            }
+            this.message = error.response.data.message;
           });
       }
       if (this.respuestaA && !this.respuestaB) {
@@ -300,9 +315,15 @@ export default {
               this.getMyTasks();
             }
           })
-          .catch((e) => {
-            console.log(e);
-            this.message = e.response.data.message;
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.sentTasks();
+              }
+            }
+            this.message = error.response.data.message;
           });
       }
       if (!this.respuestaA && this.respuestaB) {
@@ -319,9 +340,15 @@ export default {
               this.getMyTasks();
             }
           })
-          .catch((e) => {
-            console.log(e);
-            this.message = e.response.data.message;
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.sentTasks();
+              }
+            }
+            this.message = error.response.data.message;
           });
       } else {
         this.messageResponse = true;

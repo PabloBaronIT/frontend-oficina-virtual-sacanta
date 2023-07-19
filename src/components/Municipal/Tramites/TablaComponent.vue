@@ -370,6 +370,7 @@
 
 <script>
 import axios from "axios";
+import setTokenMuni from "@/middlewares/setTokenMuni";
 import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
 import ModalCreateRYCComponentVue from "../Requerimientos/ModalCreateRYCComponentVue.vue";
 import CardComponentVue from "../CardComponent.vue";
@@ -423,7 +424,7 @@ export default {
       //this.modalFiltros = !this.modalFiltros;
       this.vista = !this.vista;
     },
-    //FUNCION PARA BUSCAR TODFOS LOS TRAMITES
+    //FUNCION PARA BUSCAR TODOS LOS TRAMITES
     getProcedures() {
       this.activos = [];
 
@@ -475,8 +476,14 @@ export default {
           this.message = false;
           console.log(this.history);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getProcedures();
+            }
+          }
         });
     },
 
@@ -492,16 +499,29 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
-      apiClient.get("/oficina/procedures/history/" + id).then((response) => {
-        console.log(response.data);
-        this.selectedHistory = response.data.Procedure;
-        if (response.data.Procedure.procedure.status.status === "PRESENTADO") {
-          this.status = "2";
-          this.updateStatus();
-          this.activos = [];
-          this.getProcedures();
-        }
-      });
+      apiClient
+        .get("/oficina/procedures/history/" + id)
+        .then((response) => {
+          console.log(response.data);
+          this.selectedHistory = response.data.Procedure;
+          if (
+            response.data.Procedure.procedure.status.status === "PRESENTADO"
+          ) {
+            this.status = "2";
+            this.updateStatus();
+            this.activos = [];
+            this.getProcedures();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.verTramite(id);
+            }
+          }
+        });
 
       this.modal = true;
     },
@@ -560,13 +580,19 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch((error) => {
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getFiltro(obj);
+            }
+          }
           this.message = true;
           this.activos = [];
           this.deadline = [];
           this.requeridos = [];
 
-          console.log(err.response.data);
+          console.log(error.response.data);
         });
     },
     // BUSCADOR POR CUIL DEL USUARIO
@@ -633,8 +659,14 @@ export default {
 
             //this.length = response.data.HistoryOfProcedures.length;
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.getFiltroByCuilUser(cuil);
+              }
+            }
           });
       } else {
         console.log(`el cuil ${cuil}NO!! tiene 11 digitos`);
@@ -697,8 +729,14 @@ export default {
 
           this.history.push(asd);
         })
-        .catch((err) => {
-          console.log(err.response.data.message);
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.searchValue(value);
+            }
+          }
           this.messageBuscar = true;
         });
     },
@@ -778,8 +816,14 @@ export default {
             console.log("Estado actualizado");
           }
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.updateStatus();
+            }
+          }
         });
       //this.ModalEstado();
     },
@@ -807,11 +851,17 @@ export default {
             this.datosEnviados = response.data.message;
           }
         })
-        .catch((e) => {
-          if (e.response.status === 401) {
-            this.datosEnviados = e.response.data.message;
+        .catch((error) => {
+          if (error.response.status === 401) {
+            this.datosEnviados = error.response.data.message;
           }
-          console.log(e);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.submitComunicacion(a, b, c);
+            }
+          }
+          console.log(error);
         });
     },
     //COMUNICACION VIA CIDI SOLO PARA NIVELES 2
@@ -843,11 +893,17 @@ export default {
               this.datosEnviados = response.data.message;
             }
           })
-          .catch((e) => {
-            if (e.response.status === 401) {
-              this.datosEnviados = e.response.data.message;
+          .catch((error) => {
+            if (error.response.status === 401) {
+              this.datosEnviados = error.response.data.message;
             }
-            console.log(e);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.submitCidi(a, b, c);
+              }
+            }
+            console.log(error);
           });
       } else {
         console.log("no hay archivos para guardar");
@@ -866,11 +922,17 @@ export default {
               this.datosEnviados = response.data;
             }
           })
-          .catch((e) => {
-            if (e.response.status === 401) {
-              this.datosEnviados = e.response.data.message;
+          .catch((error) => {
+            if (error.response.status === 401) {
+              this.datosEnviados = error.response.data.message;
             }
-            console.log(e);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.submitCidi(a, b, c);
+              }
+            }
+            console.log(error);
           });
       }
     },
@@ -897,9 +959,15 @@ export default {
 
           this.getProcedures();
         })
-        .catch((e) => {
-          console.log(e);
-          this.datosEnviados = e.response.data.message;
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.submitRequerimiento(a, b);
+            }
+          }
+          this.datosEnviados = error.response.data.message;
         });
     },
     ModalResponse(id) {

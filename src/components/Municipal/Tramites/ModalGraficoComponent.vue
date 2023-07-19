@@ -15,10 +15,13 @@
 </template>
 
 <script>
-import dbservice from "@/services/dbService";
+// import dbservice from "@/services/dbService";
 
 // import { Bar } from "vue-chartjs";
 import { Doughnut } from "vue-chartjs";
+import setTokenMuni from "@/middlewares/setTokenMuni";
+import axios from "axios";
+
 import {
   Chart as ChartJS,
   Title,
@@ -77,27 +80,47 @@ export default {
         ],
       };
     },
+    getProfileMuni() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/municipales/muni-profile")
+        .then((response) => {
+          let r =
+            response.data.MuniProfile.muniStatistics
+              .muniSolicitedProceduresCount;
+          let f =
+            response.data.MuniProfile.muniStatistics
+              .muniInProcessProceduresCount;
+          let i =
+            response.data.MuniProfile.muniStatistics
+              .muniFinalizedProceduresCount;
+          let c =
+            response.data.MuniProfile.muniStatistics
+              .muniUnderReviewProceduresCount;
+          //console.log(r, f, i);
+          this.sampleAsync(r, f, c, i);
+          this.modal = true;
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getProfileMuni();
+            }
+          }
+        });
+    },
   },
   created() {
-    dbservice
-      .getProfileMunicipal()
-      .then((response) => {
-        let r =
-          response.data.MuniProfile.muniStatistics.muniSolicitedProceduresCount;
-        let f =
-          response.data.MuniProfile.muniStatistics.muniInProcessProceduresCount;
-        let i =
-          response.data.MuniProfile.muniStatistics.muniFinalizedProceduresCount;
-        let c =
-          response.data.MuniProfile.muniStatistics
-            .muniUnderReviewProceduresCount;
-        //console.log(r, f, i);
-        this.sampleAsync(r, f, c, i);
-        this.modal = true;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getProfileMuni();
   },
 };
 </script>

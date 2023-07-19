@@ -39,6 +39,7 @@
 </template>
 <script>
 import axios from "axios";
+import setTokenMuni from "@/middlewares/setTokenMuni";
 
 export default {
   name: "CreateTaksComponent",
@@ -84,7 +85,15 @@ export default {
           console.log(this.usersMuni);
           console.log(response.data, "municipales");
         })
-        .catch((e) => console.log(e));
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getUsersMuni();
+            }
+          }
+        });
     },
 
     asignedUser(event) {
@@ -117,9 +126,15 @@ export default {
             this.title = "";
             this.descriptionTarea = "";
           })
-          .catch((e) => {
-            console.log(e);
-            this.message = e.response.data.message;
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 500) {
+              if (error.response.data.message === "Token de usuario expirado") {
+                setTokenMuni();
+                this.submitTasks();
+              }
+            }
+            this.message = error.response.data.message;
           });
         this.userMuniAsigned = null;
         this.title = "";
