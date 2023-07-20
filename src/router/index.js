@@ -84,10 +84,10 @@ const routes = [
     meta: { requiresAuth: false },
   },
   {
-    path: "/municipales/assign-area",
-    name: "asignarArea",
-    component: () => import("@/views/AsignarArea/AsignarAreaView.vue"),
-    meta: { requiresAuth: true },
+    path: "/municipales/assign-password",
+    name: "asign-password",
+    component: () => import("@/views/AsignarPassword/AsignarPasswordView.vue"),
+    meta: { requiresAuth: false },
   },
 ];
 

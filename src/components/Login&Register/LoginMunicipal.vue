@@ -97,7 +97,6 @@ export default {
             localStorage.setItem("refreshToken", refreshToken);
 
             this.getMyProfile();
-            this.$router.push("muni");
 
             //TOMO LOS DATOS DEL TOKEN
             //let payload = await dbService.getToken(token);
@@ -129,7 +128,7 @@ export default {
           localStorage.setItem("token", token.token);
 
           if (redireccionamiento) {
-            this.$router.push("/municipales/assign-area");
+            this.$router.push("/municipales/assign-password");
           } else {
             this.getMyProfile();
             this.$router.push("muni");
@@ -167,7 +166,6 @@ export default {
           console.log(response.data);
           this.user = response.data.MuniProfile.muni;
           this.dispatchLogin();
-
           window.localStorage.setItem(
             "name",
             response.data.MuniProfile.muni.firstname
@@ -180,7 +178,6 @@ export default {
             "cuil",
             response.data.MuniProfile.muni.cuil
           );
-
           window.localStorage.setItem(
             "email",
             response.data.MuniProfile.muni.email
@@ -194,9 +191,16 @@ export default {
             "role",
             response.data.MuniProfile.muni.role
           );
+          this.$router.push("/muni");
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 401) {
+            let redireccion = error.response.data.redirectURL;
+            if (redireccion) {
+              this.$router.push("/municipales/assign-password");
+            }
+          }
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setTokenMuni();
