@@ -172,7 +172,7 @@ export default {
   name: "FormularioComponent",
 
   props: {
-    questionProp: Object,
+    questionProp: Array,
     nivel: Number,
   },
   data() {
@@ -371,9 +371,7 @@ export default {
     setLoading() {
       this.loading = true;
       this.preguntas = this.questionProp;
-      if (this.preguntas.length) {
-        this.loading = false;
-      }
+      this.loading = false;
     },
   },
 };
