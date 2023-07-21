@@ -277,6 +277,7 @@ export default {
       choice = 0;
       this.textInput = "";
       this.validation = true;
+
       this.paso++;
     },
 

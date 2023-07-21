@@ -14,6 +14,10 @@
       :key="index"
       @click="setComunicacion(index)"
     />
+    <div :v-if="this.message && this.loading === false">
+      <h1>{{ this.message }}</h1>
+    </div>
+    <h1></h1>
     <!-- MODAL VISTA DE LA COMUNICACION-->
     <div
       class="modal fade"
@@ -87,6 +91,7 @@ export default {
       //cidiCookie: "",
       loading: false,
       selectCommunication: null,
+      message: null,
     };
   },
   created() {
@@ -120,6 +125,10 @@ export default {
           }
         })
         .catch((error) => {
+          if (error.response.status === 404) {
+            this.message = error.response.data.message;
+            this.loading = false;
+          }
           if (error.response.status === 500) {
             if (error.response.data.message === "Token vencido") {
               setToken();
