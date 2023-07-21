@@ -3,7 +3,7 @@
     <div v-if="this.loading" class="spinner-border" role="status">
       <span></span>
     </div>
-    <div class="question" v-if="!this.loading">
+    <div class="question" v-if="this.preguntas">
       <div class="topquestion">
         <h3>
           {{ this.preguntas[this.paso].question.title }}
@@ -195,6 +195,7 @@ export default {
   created() {
     // procedure.title = this.title;
     // procedure.userId = localStorage.getItem("id");
+    this.loading = true;
     this.setLoading();
     //console.log(this.questionProp);
   },
@@ -369,7 +370,6 @@ export default {
       doc.save("a4.pdf");
     },
     setLoading() {
-      this.loading = true;
       this.preguntas = this.questionProp;
       this.loading = false;
     },

@@ -165,21 +165,22 @@ export default {
     logCidi(cidi) {
       this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
-
+      console.log("entre en el logcidi");
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
         withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
+        // headers: {
+        //   "auth-header": localStorage.getItem("token"),
+        // },
       });
       apiClient
         .post("/auth/cidi/login/" + cidi)
 
         .then((response) => {
           console.log(response.data, "respuesta api cidi");
+          console.log("no hay respuesta de cidi");
           let token = response.data["Tokens"] || null; //token por calve fizcal o sin representados
           let redireccionamiento = response.data["redirectURL"] || null; //redireccionamiento con representados
           let tokenRepresetations =

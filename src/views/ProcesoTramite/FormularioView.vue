@@ -6,7 +6,11 @@
       </h2>
     </div>
 
-    <FormularioComponent :questionProp="this.preguntas" :nivel="this.nivel" />
+    <FormularioComponent
+      :questionProp="this.preguntas"
+      :nivel="this.nivel"
+      v-if="this.preguntas"
+    />
 
     <!-- Armar componente de formulario con props -->
   </div>
@@ -24,8 +28,8 @@ export default {
       // Extrayendo  datos de categoria y tramite desde el path con VUE ROUTER
       category: this.$route.params,
       // length: null,
-      preguntas: null,
-      nivel: null,
+      preguntas: "",
+      nivel: "",
       // title: "",
       // procedureId: null,
     };

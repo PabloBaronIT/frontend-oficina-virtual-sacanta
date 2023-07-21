@@ -171,13 +171,13 @@
         <div class="data-container">
           <div>
             Tramite n°:{{ this.selectTramite.procedure.id }}
-            <br />
+            <!-- <br />
             Presentado el dia:
             {{
               new Date(
                 this.selectTramite.procedure.created_at
               ).toLocaleDateString()
-            }}
+            }} -->
           </div>
 
           <p>
@@ -369,6 +369,7 @@ export default {
         });
     },
     getMyPorcedure() {
+      this.activos = [];
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
         baseURL: process.env.VUE_APP_BASEURL,
