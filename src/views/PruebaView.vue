@@ -69,8 +69,11 @@
                     :key="key"
                     class="answer"
                   >
-                    <h4>{{ ans.question }}</h4>
-                    <p>{{ ans.options[0].answer || "" }}</p>
+                    <!-- <h4>{{ ans.question }}</h4> -->
+
+                    <p>holaaa</p>
+                    <!-- <p>{{ ans.options[0].questionOption || "" }}</p>
+                    <p>{{ ans.options[0].answer || "" }}</p> -->
                   </div>
                 </div>
                 <div class="footerCoprobante">

@@ -8,8 +8,9 @@
     </div>
 
     <div class="text">
+      <b>{{ this.$store.state.procedure[0].title }}</b>
       <h2>Tramite arancelado</h2>
-      <p>Este tramite tiene un valor total de <b>$430</b></p>
+      <p>Este tramite tiene un valor total de <b></b></p>
       <input class="btn" type="button" value="Ir a PagoTic" />
       <input class="cancel" type="button" value="Cancelar" @click="cancel" />
     </div>
@@ -20,11 +21,7 @@
 export default {
   name: "PagarComponent",
 
-  methods: {
-    cancel() {
-      alert("Terminar method y radio btns");
-    },
-  },
+  methods: {},
 };
 </script>
 

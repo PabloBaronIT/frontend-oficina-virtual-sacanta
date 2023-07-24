@@ -9,6 +9,9 @@
     <FormularioComponent
       :questionProp="this.preguntas"
       :nivel="this.nivel"
+      :dispatchProcedure="this.dispatchProcedure"
+      :setProcedure="this.setProcedure"
+      :outProcedure="this.outProcedure"
       v-if="this.preguntas"
     />
 
@@ -21,7 +24,17 @@ import FormularioComponent from "@/components/Tramites/Proceso/FormularioCompone
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-
+var procedure = {
+  title: "",
+  // userId: "",
+  // categoryId: null,
+  // statusId: 1,
+  procedureId: null,
+  // selected: null,
+  // questions: [],
+  // date: new Date(),
+  questions: [],
+};
 export default {
   data() {
     return {
@@ -30,8 +43,11 @@ export default {
       // length: null,
       preguntas: "",
       nivel: "",
-      // title: "",
-      // procedureId: null,
+      // procedure: {
+      //   title: "",
+      //   procedureId: "",
+      //   questions: [],
+      // },
     };
   },
   components: {
@@ -40,10 +56,20 @@ export default {
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
     this.getTemplate();
+    procedure.questions = [];
   },
   methods: {
+    setProcedure(asd) {
+      procedure.questions.push(asd);
+    },
+    outProcedure() {
+      procedure.questions.pop();
+    },
     back() {
       this.$router.go(-1);
+    },
+    dispatchProcedure() {
+      this.$store.dispatch("saveP", procedure);
     },
     getTemplate() {
       const apiClient = axios.create({
@@ -61,13 +87,12 @@ export default {
           console.log(response.data);
           this.preguntas = response.data.Template.questionProcedure;
           this.nivel = response.data.Template.level.level;
-          // this.procedureId = r.id;
+          this.procedure.procedureId = response.data.Template.id;
           // parseInt(r.id);
           // console.log(this.procedureId, "soy el procedureId");
 
-          // this.title = r.title;
+          this.procedure.title = response.data.Template.title;
           // this.length = r.question.length;
-          // this.preguntas.push(r);
         })
         .catch((error) => {
           console.log(error);

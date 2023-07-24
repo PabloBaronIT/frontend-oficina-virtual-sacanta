@@ -156,17 +156,17 @@ import { jsPDF } from "jspdf";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 
-var procedure = {
-  // title: "",
-  // userId: "",
-  // categoryId: null,
-  // statusId: 1,
-  procedureId: null,
-  // selected: null,
-  // questions: [],
-  // date: new Date(),
-  questions: [],
-};
+// var procedure = {
+//   title: "",
+//   userId: "",
+//   categoryId: null,
+//   statusId: 1,
+//   procedureId: null,
+//   selected: null,
+//   questions: [],
+//   date: new Date(),
+//   questions: [],
+// };
 
 export default {
   name: "FormularioComponent",
@@ -174,6 +174,9 @@ export default {
   props: {
     questionProp: Array,
     nivel: Number,
+    dispatchProcedure: Function,
+    setProcedure: Function,
+    outProcedure: Function,
   },
   data() {
     return {
@@ -183,13 +186,14 @@ export default {
       loading: false,
       textInput: "",
       selected: "",
-      submitted: false,
+      //submitted: false,
       catId: null,
       file: null,
       fileSelect: null,
       asd: false,
       // idProcedure: null,
       preguntas: null,
+      respuestas: [],
     };
   },
   created() {
@@ -206,6 +210,7 @@ export default {
     dispatchClean() {
       this.$store.dispatch("cleanAction");
     },
+
     preNext() {
       if (this.selected == "" && this.textInput == "") {
         this.validation = false;
@@ -270,9 +275,10 @@ export default {
           },
         ],
       };
-
-      procedure.questions.push(q);
-      console.log(procedure.questions, "RESPUESTAS");
+      this.setProcedure(q);
+      this.respuestas.push(q);
+      // this.procedure.questions.push(q);
+      //console.log(this.procedure.questions, "RESPUESTAS");
       this.selected = "";
       choice = 0;
       this.textInput = "";
@@ -293,7 +299,7 @@ export default {
       if (this.validation) {
         this.preNext();
         this.loading = true;
-        this.modal = true;
+        //this.modal = true;
         const apiClient = axios.create({
           //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
           baseURL: process.env.VUE_APP_BASEURL,
@@ -305,24 +311,26 @@ export default {
 
         apiClient
           .post("/oficina/procedures/submit-procedure", {
-            questions: procedure.questions,
+            // questions: this.procedure.questions,
+            questions: this.respuestas,
             procedureId: parseInt(this.$route.params.formularioId),
           })
           .then((response) => {
+            console.log(response);
             if (response.status == 201) {
               this.dispatchClean();
-              this.$store.commit("saveProcedure", JSON.stringify(procedure));
-              this.submitted = true;
-              procedure.questions = [];
-              if (this.nivel == 1) {
-                this.textInput = "";
+              this.dispatchProcedure();
+              //   //this.submitted = true;
+              //this.procedure.questions = [];
+              if (this.nivel === 1) {
+                //     this.textInput = "";
                 alert(
                   "Su Reclamo ha sido enviado! gracias por confiar en nosotros"
                 );
               } else {
-                this.$router.replace({ path: "/prueba" });
+                this.$router.push("/pago");
               }
-              console.log(this.$store.procedure[0]);
+              //   //console.log(this.$store.procedure[0]);
             }
           })
           .catch((error) => {
@@ -349,22 +357,23 @@ export default {
           });
 
         this.loading = false;
-        console.log(this.procedure.questions);
+        //console.log(this.procedure.questions);
       }
     },
     back() {
       this.paso--;
-      procedure.questions.pop();
+      this.outProcedure();
+      this.preguntas.pop();
     },
     cancel() {
       this.$router.replace({ path: "/munienlinea" });
-      procedure.questions = [];
+      this.preguntas = [];
     },
     ver() {
       var doc = new jsPDF();
       doc.setTextColor(120, 12, 3);
       doc.setFontSize(22);
-      doc.text(20, 20, `${procedure.questions[0].options[0].answer}`);
+      //doc.text(20, 20, `${procedure.questions[0].options[0].answer}`);
       doc.setTextColor(20);
       doc.setFontSize(16);
       doc.text(20, 30, "This is some normal sized text underneath.");

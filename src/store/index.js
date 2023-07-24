@@ -21,9 +21,9 @@ export default createStore({
     setCidi(state, asd) {
       state.CidiCookie = asd;
     },
-    saveProcedure(state, p) {
-      let obj = JSON.parse(p);
-      state.procedure.push(obj);
+    saveProcedure(state, asd) {
+      //let obj = JSON.parse(asd);
+      state.procedure.push(asd);
     },
     cleanStore(state) {
       state.procedure = [];
@@ -43,8 +43,8 @@ export default createStore({
     mockRepresentanteAction(context, asd) {
       context.commit("representante", asd);
     },
-    saveP(context) {
-      context.commit("saveProcedure");
+    saveP(context, asd) {
+      context.commit("saveProcedure", asd);
     },
 
     cleanAction(context) {
