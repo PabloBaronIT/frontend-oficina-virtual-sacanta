@@ -35,6 +35,7 @@ var procedure = {
   // date: new Date(),
   questions: [],
   fecha: new Date().toLocaleDateString(),
+  precio: "",
 };
 export default {
   data() {
@@ -93,6 +94,7 @@ export default {
           // console.log(this.procedureId, "soy el procedureId");
 
           procedure.title = response.data.Template.title;
+          procedure.precio = response.data.Template.price;
           // this.length = r.question.length;
         })
         .catch((error) => {

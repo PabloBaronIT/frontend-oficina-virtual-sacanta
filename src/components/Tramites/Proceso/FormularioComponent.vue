@@ -318,6 +318,7 @@ export default {
           .then((response) => {
             console.log(response);
             if (response.status == 201) {
+              let idTramite = response.data.procedure_history_id;
               this.dispatchClean();
               this.dispatchProcedure();
               //   //this.submitted = true;
@@ -328,7 +329,7 @@ export default {
                   "Su Reclamo ha sido enviado! gracias por confiar en nosotros"
                 );
               } else {
-                this.$router.push("/pago");
+                this.$router.push(`/pago/${idTramite}`);
               }
               //   //console.log(this.$store.procedure[0]);
             }

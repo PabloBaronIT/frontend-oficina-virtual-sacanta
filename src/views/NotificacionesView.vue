@@ -160,7 +160,6 @@ export default {
   display: flex;
   flex-direction: column;
   background: var(--grey-bk);
-  align-items: center;
 }
 .loading {
   margin-top: 5rem;

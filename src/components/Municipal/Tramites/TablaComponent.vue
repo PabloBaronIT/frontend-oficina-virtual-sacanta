@@ -971,6 +971,8 @@ export default {
       this.status = "4";
       this.updateStatus();
       this.activos = [];
+      this.deadline = [];
+      this.requeridos = [];
       this.getProcedures();
     },
     setModalFiltros() {

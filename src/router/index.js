@@ -40,7 +40,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/pago",
+    path: "/pago/:idTramite",
     name: "pago",
     component: () => import("@/views/PruebaView.vue"),
     meta: { requiresAuth: true },
