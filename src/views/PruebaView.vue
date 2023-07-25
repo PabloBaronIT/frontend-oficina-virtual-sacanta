@@ -27,14 +27,14 @@
             value="Exportar  pdf"
           />-->
 
-          <button
+          <!-- <button
             type="button"
             class="btn btn-primary m-1"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
           >
             Ver comprobante
-          </button>
+          </button> -->
 
           <!-- Modal -->
           <div
@@ -60,7 +60,7 @@
                   ></button>
                 </div>
                 <div class="modal-body text-start">
-                  <p>Fecha: {{ this.verFecha() }}</p>
+                  <p>Fecha: {{ this.$store.state.procedure[0].fecha || "" }}</p>
                   <h2>
                     {{ this.$store.state.procedure[0].title || "" }}
                   </h2>
@@ -169,7 +169,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 100vw;
+  width: 90vw;
   height: 100vh;
   background-color: var(--grey-bk);
   border-top-left-radius: 30px;
@@ -184,6 +184,7 @@ export default {
 
 .container {
   width: 90%;
+  margin: auto;
 }
 
 .comprobante {

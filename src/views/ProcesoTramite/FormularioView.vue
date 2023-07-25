@@ -34,6 +34,7 @@ var procedure = {
   // questions: [],
   // date: new Date(),
   questions: [],
+  fecha: new Date().toLocaleDateString(),
 };
 export default {
   data() {

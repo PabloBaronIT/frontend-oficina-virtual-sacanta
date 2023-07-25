@@ -1,18 +1,23 @@
 <template>
   <div class="container">
-    <div class="img">
+    <!-- <div class="img">
       <img src="@/assets/mastercard.svg" alt="" />
       <img src="@/assets/visa.svg" alt="" />
 
       <img class="pagotic" src="@/assets/pagotic.svg" alt="" />
-    </div>
+    </div> -->
 
     <div class="text">
       <b>{{ this.$store.state.procedure[0].title }}</b>
       <h2>Tramite arancelado</h2>
       <p>Este tramite tiene un valor total de <b></b></p>
-      <input class="btn" type="button" value="Ir a PagoTic" />
-      <input class="cancel" type="button" value="Cancelar" @click="cancel" />
+      <input
+        class="btn"
+        type="button"
+        value="Abonar mi trámite"
+        style="width: 50%"
+      />
+      <!-- <input class="cancel" type="button" value="Cancelar" @click="cancel" /> -->
     </div>
   </div>
 </template>
@@ -48,6 +53,7 @@ export default {
 
 .text {
   width: 70%;
+  margin: auto;
 }
 
 .img {
