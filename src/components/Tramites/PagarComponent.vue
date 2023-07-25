@@ -24,7 +24,7 @@ export default {
   methods: {},
 };
 </script>
-
+<!-- IdResultado=57645cce-a0f6-4d5e-bfc5-97103327997b&IdReferenciaOperacion=01#inbox respuesta de SIRO -->
 <style scoped>
 .cancel {
   border: none;

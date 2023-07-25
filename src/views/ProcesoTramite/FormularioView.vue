@@ -87,11 +87,11 @@ export default {
           console.log(response.data);
           this.preguntas = response.data.Template.questionProcedure;
           this.nivel = response.data.Template.level.level;
-          this.procedure.procedureId = response.data.Template.id;
+          procedure.procedureId = response.data.Template.id;
           // parseInt(r.id);
           // console.log(this.procedureId, "soy el procedureId");
 
-          this.procedure.title = response.data.Template.title;
+          procedure.title = response.data.Template.title;
           // this.length = r.question.length;
         })
         .catch((error) => {

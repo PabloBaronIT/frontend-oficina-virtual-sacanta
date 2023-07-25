@@ -18,7 +18,7 @@
         <!--detalle de opciones  -->
         <div
           :v-if="
-            this.preguntas[this.paso].questionOption.length >= 1 &&
+            this.preguntas[this.paso].questionOption?.length >= 1 &&
             this.paso > this.preguntas.length
           "
           v-for="(item, index) in this.preguntas[this.paso].questionOption"

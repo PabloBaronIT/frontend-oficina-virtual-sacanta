@@ -38,7 +38,7 @@
 
           <!-- Modal -->
           <div
-            class="modal fade"
+            class="modal fade asd"
             id="exampleModal"
             tabindex="-1"
             aria-labelledby="exampleModalLabel"
@@ -61,7 +61,9 @@
                 </div>
                 <div class="modal-body text-start">
                   <p>Fecha: {{ this.verFecha() }}</p>
-                  <h2>{{ this.$store.state.procedure[0].title || "" }}</h2>
+                  <h2>
+                    {{ this.$store.state.procedure[0].title || "" }}
+                  </h2>
 
                   <div
                     v-for="(ans, key) in this.$store.state.procedure[0]
@@ -71,9 +73,9 @@
                   >
                     <!-- <h4>{{ ans.question }}</h4> -->
 
-                    <p>holaaa</p>
-                    <!-- <p>{{ ans.options[0].questionOption || "" }}</p>
-                    <p>{{ ans.options[0].answer || "" }}</p> -->
+                    <!-- <p>holaaa</p> -->
+                    <!-- <p>{{ ans.options[0].questionOption || "" }}</p> -->
+                    <p>{{ ans.options[0].answer || "" }}</p>
                   </div>
                 </div>
                 <div class="footerCoprobante">
@@ -167,7 +169,7 @@ export default {
 
 <style scoped>
 .main {
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: var(--grey-bk);
   border-top-left-radius: 30px;
@@ -175,6 +177,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.asd {
+  word-break: break-all;
 }
 
 .container {

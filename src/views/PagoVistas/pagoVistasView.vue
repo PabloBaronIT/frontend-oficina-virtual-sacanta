@@ -11,6 +11,21 @@
 <script>
 export default {
   name: "Pago-exitoso",
+  created() {
+    this.setValues();
+  },
+  data() {
+    return {
+      IdResultado: "",
+      IdReferenciaOperacion: "",
+    };
+  },
+  methods: {
+    setValues() {
+      this.IdResultado = this.$route.params.IdResultado;
+      this.IdReferenciaOperacion = this.$route.params.IdReferenciaOperacion;
+    },
+  },
 };
 </script>
 
