@@ -208,6 +208,7 @@ export default {
             //se buscan los datos del usuario
             let payload = dbService.getToken(tokenRepresetations.authToken);
             let idRepresentante = payload.representative;
+            localStorage.setItem("idRepresentante", idRepresentante);
             this.getMyProfile();
             //se busca los datos del representante
             this.getRepresentante(idRepresentante);

@@ -28,7 +28,7 @@
     </div>
     <div class="alert alert-success" role="alert" v-if="this.modal">
       Abra el siguiente link en el navegador Google Chrome para realizar su pago
-      {{ this.link }}
+      <a href=""> {{ this.link }}</a>
     </div>
   </div>
 </template>
@@ -49,30 +49,21 @@ export default {
     //   "soy precio  e idtramite"
     // );
 
-    let usrAg = navigator.userAgent;
-    usrAg = usrAg.toLowerCase();
-    switch (true) {
-      case usrAg.indexOf("edg/") > -1:
-        this.browser = "Microsofot Edge";
-        break;
-      case usrAg.indexOf("safari") > -1:
-        this.browser = "Apple Safari";
-        break;
-      case usrAg.indexOf("chrome") > -1:
-        this.browser = "Google chrome";
-        break;
-      case usrAg.indexOf("opr") > -1:
-        this.browser = "Opera";
-        break;
-      case usrAg.indexOf("firefox") > -1:
-        this.browser = "Mozilla Firefox";
-        break;
-      case usrAg.indexOf("msie") > -1:
-        this.browser = "Microsofot Explorer";
-        break;
-      //defaul: this.browser = "Desconocido";
+    let sUsrAg = navigator.userAgent;
+
+    if (sUsrAg.indexOf("Chrome") > -1) {
+      this.browser = "Google Chrome";
+    } else if (sUsrAg.indexOf("Safari") > -1) {
+      this.browser = "Apple Safari";
+    } else if (sUsrAg.indexOf("Opera") > -1) {
+      this.browser = "Opera";
+    } else if (sUsrAg.indexOf("Firefox") > -1) {
+      this.browser = "Mozilla Firefox";
+    } else if (sUsrAg.indexOf("MSIE") > -1) {
+      this.browser = "Microsoft Internet Explorer";
     }
-    console.log("Su navegador es " + this.browser);
+
+    console.log("Usted está utilizando: " + this.browser);
 
     // let sUsrAg = window.navigator.userAgent;
     // if (sUsrAg.indexOf("Chrome") > -1) {
@@ -107,7 +98,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
-          if (this.browser === "Google chrome") {
+          if (this.browser === "Google Chrome") {
             window.location.href = response.data.Url;
           } else {
             this.link = response.data.Url;

@@ -331,7 +331,7 @@ export default {
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
-    this.getMyPorcedure();
+    this.getMyProcedure();
     // this.getComunicaciones();
   },
   methods: {
@@ -368,7 +368,7 @@ export default {
           }
         });
     },
-    getMyPorcedure() {
+    getMyProcedure() {
       this.activos = [];
       const apiClient = axios.create({
         //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
@@ -447,13 +447,13 @@ export default {
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();
-              this.getMyPorcedure();
+              this.getMyProcedure();
             }
             if (
               error.response.data.message === "Token de representante expirado"
             ) {
               setTokenRelations();
-              this.getMyPorcedure();
+              this.getMyProcedure();
             }
           }
           //this.msj = err.response.data.message;
@@ -564,7 +564,7 @@ export default {
             if (response.status === 200) {
               this.message = "Respuesta enviada!";
               this.activos = [];
-              this.getMyPorcedure();
+              this.getMyProcedure();
               this.modalComunicaciones = false;
               this.respuestaA = "";
               this.respuestaB = "";
@@ -598,7 +598,7 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               this.message = "Respuesta enviada!";
-              this.getMyPorcedure();
+              this.getMyProcedure();
               this.modalComunicaciones = false;
 
               this.respuestaA = "";
@@ -632,7 +632,7 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               this.message = "Respuesta enviada!";
-              this.getMyPorcedure();
+              this.getMyProcedure();
               this.modalComunicaciones = false;
 
               this.respuestaA = "";
@@ -661,11 +661,11 @@ export default {
     },
     nextPag() {
       this.pagina++;
-      this.getMyPorcedure();
+      this.getMyProcedure();
     },
     backTramites() {
       this.pagina--;
-      this.getMyPorcedure();
+      this.getMyProcedure();
     },
   },
   computed: {},

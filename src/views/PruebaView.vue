@@ -64,6 +64,7 @@
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
+                    padding: 0px 1rem;
                   "
                 >
                   <p>
@@ -80,7 +81,8 @@
                     style="
                       display: flex;
                       flex-direction: row;
-                      justify-content: space-around;
+                      justify-content: space-between;
+                      padding: 0px 1rem;
                     "
                   >
                     <p>

@@ -165,8 +165,9 @@
   </div>
 </template>
 <script>
-//import axios from "axios";
-
+import axios from "axios";
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
 export default {
   name: "NavTopVue",
   data() {
@@ -179,14 +180,140 @@ export default {
       //user_id: localStorage.getItem("id"),
       //role: localStorage.getItem("role"),
       user: "",
+      representante: "",
     };
   },
   created() {
     this.role = this.$store.state.user?.role;
+    this.getMyProfile();
+    let idRepresentante = localStorage.getItem("idRepresentante") || null;
+    if (idRepresentante) {
+      this.getRepresentante(idRepresentante);
+    }
   },
   watch: {},
 
   methods: {
+    dispatchLogin() {
+      this.$store.dispatch("mockLoginAction", this.user);
+    },
+    dispatchRepresentante() {
+      this.$store.dispatch("mockRepresentanteAction", this.representante);
+    },
+    getMyProfile() {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/user/profile")
+        .then((response) => {
+          console.log(response.data, "datos de usuariodb");
+          this.user = response.data.UserProfile.user;
+          // this.user.cidiCookie = this.cidiCookie;
+          this.dispatchLogin();
+          window.localStorage.setItem(
+            "role",
+            response.data.UserProfile.user.role
+          );
+          window.localStorage.setItem(
+            "name",
+            response.data.UserProfile.user.firstname
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.UserProfile.user.lastname
+          );
+          window.localStorage.setItem(
+            "cuil",
+            response.data.UserProfile.user.cuil
+          );
+          window.localStorage.setItem(
+            "adress",
+            response.data.UserProfile.user.adress
+          );
+          window.localStorage.setItem(
+            "email",
+            response.data.UserProfile.user.email
+          );
+          window.localStorage.setItem("id", response.data.UserProfile.user.id);
+          window.localStorage.setItem(
+            "fecha-creacion",
+            response.data.UserProfile.user.created_at
+          );
+          window.localStorage.setItem(
+            "nivel",
+            response.data.UserProfile.user.level.level
+          );
+
+          // this.loading = false;
+          // this.$router.push("munienlinea");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getMyProfile();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getMyProfile();
+            }
+          }
+        });
+    },
+    getRepresentante(id) {
+      const apiClient = axios.create({
+        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: process.env.VUE_APP_BASEURL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+          // "access-user-header": header,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+        },
+      });
+      apiClient
+        .get("/oficina/users/" + id)
+        .then((response) => {
+          console.log(response.data, "datos representante");
+
+          this.representante = response.data.User;
+          // localStorage.setItem(
+          //   "representanteFirstname",
+          //   response.data.User.firstname
+          // );
+          // localStorage.setItem(
+          //   "representanteLastname",
+          //   response.data.User.lastname
+          // );
+
+          this.dispatchRepresentante();
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getRepresentante(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getRepresentante(id);
+            }
+          }
+        });
+    },
     logOf() {
       localStorage.clear();
       location.reload();
@@ -199,12 +326,7 @@ export default {
         })
       );
     },
-    dispatchProfile() {
-      this.$store.dispatch("getProfileAction", this.user);
-    },
-    dispatchClearRepresentativeUser() {
-      this.$store.dispatch("clearRepresentativeUserAction");
-    },
+
     // changeRepresentative() {
     //   console.log("cambiew");
     //   const apiClient = axios.create({
