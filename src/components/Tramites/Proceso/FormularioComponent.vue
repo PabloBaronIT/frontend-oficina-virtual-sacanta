@@ -10,10 +10,10 @@
         </h3>
         <p>Completar las preguntas</p>
       </div>
-      <div class="modalReclamo" v-if="this.modalReclamo">
+      <!-- <div class="modalReclamo" v-if="this.modalReclamo">
         <h3>Su reclamo ha sido enviado! gracias por confiar en nosotros!</h3>
         <p @click="setModal">cerrar</p>
-      </div>
+      </div> -->
       <form action="" class="option-container">
         <!--detalle de opciones  -->
         <div
@@ -126,7 +126,17 @@
 
         <input class="boton" type="button" value="Cancelar" @click="cancel()" />
       </div>
-
+      <div
+        class="alert alert-success text-center"
+        role="alert"
+        v-if="this.servicio === true"
+      >
+        <h5>
+          Gracias por utilizar la Oficina Virtual de la municipalidad de
+          Sacanta!
+          <h6>Su reclamo ha sido presentado!</h6>
+        </h5>
+      </div>
       <!-- Si esta en el ultimo paso se habilita el submitt -->
       <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
       <div v-if="this.paso + 1 == this.preguntas.length" class="btn-submit">
@@ -146,13 +156,13 @@
         />
       </div>
     </div>
+    <!-- MODAL DE VISTA DE SERVICIO PRESENTADO -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import { jsPDF } from "jspdf";
-
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 
@@ -194,6 +204,7 @@ export default {
       // idProcedure: null,
       preguntas: null,
       respuestas: [],
+      servicio: false,
     };
   },
   created() {
@@ -201,7 +212,7 @@ export default {
     // procedure.userId = localStorage.getItem("id");
     this.loading = true;
     this.setLoading();
-    //console.log(this.questionProp);
+    console.log(this.nivel, "soy el nivel");
   },
   methods: {
     setModal() {
@@ -319,18 +330,19 @@ export default {
             console.log(response);
             if (response.status == 201) {
               let idTramite = response.data.procedure_history_id;
-              this.dispatchClean();
-              this.dispatchProcedure();
+
               //   //this.submitted = true;
               //this.procedure.questions = [];
               if (this.nivel === 1) {
-                //     this.textInput = "";
+                this.textInput = "";
                 alert(
-                  "Su Reclamo ha sido enviado! gracias por confiar en nosotros"
+                  "Su reclamo fue presentado! Gracia por utilizar nuestra Oficina Virtual."
                 );
               } else {
                 this.$router.push(`/pago/${idTramite}`);
               }
+              this.dispatchClean();
+              this.dispatchProcedure();
               //   //console.log(this.$store.procedure[0]);
             }
           })

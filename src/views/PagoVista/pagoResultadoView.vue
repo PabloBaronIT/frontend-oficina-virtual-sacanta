@@ -1,12 +1,15 @@
 <template>
-  <Div class="container">
-    <h1>
-      Su pago ha sido exitoso! <br />
-      Gracias por utilizar la oficina virtual de Sacanta
-    </h1>
-    <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
-    <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
-  </Div>
+  <div class="container">
+    <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div v-else class="container">
+      <h1>{{ this.message }} <br /></h1>
+      <h2>Gracias por utilizar la oficina virtual de Sacanta</h2>
+      <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
+      <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,12 +21,15 @@ export default {
   created() {
     this.IdResultado = this.$route.query.IdResultado;
     this.IdReferenciaOperacion = this.$route.query.IdReferenciaOperacion;
+    this.loading = true;
     this.setPayment();
   },
   data() {
     return {
       IdResultado: "",
       IdReferenciaOperacion: "",
+      message: "",
+      loading: false,
     };
   },
   methods: {
@@ -48,9 +54,13 @@ export default {
         .post("/confirm-payment/" + this.IdReferenciaOperacion)
         .then((response) => {
           console.log(response.data);
+          this.message = response.data.message;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
+          this.message = error.response.data.message;
+          this.loading = false;
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();
@@ -71,7 +81,7 @@ export default {
 
 <style scoped>
 .container {
-  padding-top: 10rem;
+  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

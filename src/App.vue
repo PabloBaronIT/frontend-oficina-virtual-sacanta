@@ -134,6 +134,7 @@ h4 {
 .main-container {
   display: flex;
   background: var(--fondo);
+  margin-bottom: 2rem;
 }
 .fixed {
   position: fixed;

@@ -146,8 +146,8 @@ export default {
         .then((response) => {
           console.log(response.data);
           // let tokenApi = response.data.Token.token;
-          let tokenApi = response.data.Tokens.AuthToken;
-          let refreshToken = response.data.Tokens.RefreshToken; //REFRESH TOKEN
+          let tokenApi = response.data.Tokens.authToken;
+          let refreshToken = response.data.Tokens.refreshToken; //REFRESH TOKEN
           localStorage.setItem("token", tokenApi);
           localStorage.setItem("refreshToken", refreshToken);
           this.getMyProfile();

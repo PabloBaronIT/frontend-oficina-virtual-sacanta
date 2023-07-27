@@ -50,27 +50,26 @@ export default {
     // );
 
     let sUsrAg = navigator.userAgent;
+    //console.log(sUsrAg);
 
     if (sUsrAg.indexOf("Chrome") > -1) {
       this.browser = "Google Chrome";
-    } else if (sUsrAg.indexOf("Safari") > -1) {
-      this.browser = "Apple Safari";
-    } else if (sUsrAg.indexOf("Opera") > -1) {
-      this.browser = "Opera";
-    } else if (sUsrAg.indexOf("Firefox") > -1) {
-      this.browser = "Mozilla Firefox";
-    } else if (sUsrAg.indexOf("MSIE") > -1) {
-      this.browser = "Microsoft Internet Explorer";
+    } else {
+      this.browser = "desconocido";
     }
+    // else if (sUsrAg.indexOf("Safari") > -1) {
+    //   this.browser = "Apple Safari";
+    // } else if (sUsrAg.indexOf("Opera") > -1) {
+    //   this.browser = "Opera";
+    // } else if (sUsrAg.indexOf("Firefox") > -1) {
+    //   this.browser = "Mozilla Firefox";
+    // } else if (sUsrAg.indexOf("MSIE") > -1) {
+    //   this.browser = "Microsoft Internet Explorer";
+    // } else if (sUsrAg.indexOf("Edg/") > -1) {
+    //   this.browser = "Microsofot Edge";
+    // }
 
     console.log("Usted está utilizando: " + this.browser);
-
-    // let sUsrAg = window.navigator.userAgent;
-    // if (sUsrAg.indexOf("Chrome") > -1) {
-    //   this.navegador = true;
-    // } else {
-    //   this.navegador = false;
-    // }
   },
   data() {
     return {
@@ -121,12 +120,10 @@ export default {
             }
           }
         });
-      //console.log(this.procedure_amount, "soy el valor del tramite");
     },
   },
 };
 </script>
-<!-- IdResultado=57645cce-a0f6-4d5e-bfc5-97103327997b&IdReferenciaOperacion=01#inbox respuesta de SIRO -->
 <style scoped>
 .cancel {
   border: none;

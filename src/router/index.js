@@ -46,17 +46,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/pago-exitoso",
-    name: "pago-exitoso",
-    component: () => import("@/views/PagoVistas/pagoVistasView.vue"),
+    path: "/pago-resultado",
+    name: "pago-resultado",
+    component: () => import("@/views/PagoVista/pagoResultadoView.vue"),
     meta: { requiresAuth: true },
   },
-  {
-    path: "/pago-error",
-    name: "pago-error",
-    component: () => import("@/views/PagoVistas/pagoVistasErrorView.vue"),
-    meta: { requiresAuth: true },
-  },
+
   {
     path: "/muni",
     name: "muni",

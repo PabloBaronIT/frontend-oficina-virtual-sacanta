@@ -20,12 +20,6 @@
             procese el pago podra descargar su comprobante.
           </p>
           <PagarComponent />
-          <!--<input
-            class="btn btn-secondary m-1"
-            type="button"
-            @click="PDF"
-            value="Exportar  pdf"
-          />-->
 
           <button
             type="button"
@@ -36,7 +30,7 @@
             Ver detalles de trámite
           </button>
 
-          <!-- Modal -->
+          <!-- MODAL DE DETALLE DE TRAMITE -->
           <div
             class="modal fade asd"
             id="exampleModal"
@@ -170,25 +164,11 @@ export default {
   components: { PagarComponent },
   methods: {
     download() {
-      //let docDefinition = {};
-
-      // pdfMake.cretePdf(docDefinition).download();
       window.print();
     },
     verComprobante() {
       this.comprobante = !this.comprobante;
     },
-    // verFecha() {
-    //   let iso = this.$store.state.procedure[0].date;
-    //   let date = new Date(iso);
-    //   const day = date.getDate();
-    //   const month = date.getMonth() + 1;
-    //   const year = date.getFullYear();
-
-    //   //Carga del procedure
-    //   let fecha = `${day}/${month}/${year}`;
-    //   return fecha;
-    // },
   },
 };
 </script>
