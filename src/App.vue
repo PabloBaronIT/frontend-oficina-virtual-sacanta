@@ -5,6 +5,9 @@
         this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
       "
     />
+    <NavMunicipalesComponentVue
+      v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
+    />
     <div class="main-container">
       <NavComponent
         v-if="
@@ -20,6 +23,7 @@
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
+import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 export default {
   data() {
     return {
@@ -40,6 +44,7 @@ export default {
   components: {
     NavComponent,
     NavTopVue,
+    NavMunicipalesComponentVue,
   },
 };
 </script>

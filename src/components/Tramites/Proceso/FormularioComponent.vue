@@ -333,13 +333,13 @@ export default {
 
               //   //this.submitted = true;
               //this.procedure.questions = [];
-              if (this.nivel === 1) {
+              if (this.nivel === 2) {
+                this.$router.push(`/pago/${idTramite}`);
+              } else {
                 this.textInput = "";
                 alert(
                   "Su reclamo fue presentado! Gracia por utilizar nuestra Oficina Virtual."
                 );
-              } else {
-                this.$router.push(`/pago/${idTramite}`);
               }
               this.dispatchClean();
               this.dispatchProcedure();

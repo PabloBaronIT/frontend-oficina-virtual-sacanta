@@ -191,7 +191,7 @@ export default {
             "role",
             response.data.MuniProfile.muni.role
           );
-          this.$router.push("/muni");
+          this.$router.push("/municipales");
         })
         .catch((error) => {
           console.log(error);

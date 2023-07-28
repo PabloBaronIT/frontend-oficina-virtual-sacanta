@@ -53,12 +53,6 @@ const routes = [
   },
 
   {
-    path: "/muni",
-    name: "muni",
-    component: () => import("@/views/MuniView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
     path: "/formulario/:categoriaId/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
@@ -70,26 +64,37 @@ const routes = [
     component: () => import("@/views/CuentaView.vue"),
     meta: { requiresAuth: true },
   },
-
-  {
-    path: "/auth/reset-password/:token",
-    name: "reset-password",
-    component: () => import("@/views/ResetView.vue"),
-    meta: { requiresAuth: false },
-  },
-
-  {
-    path: "/muni/creacion-usuario",
-    name: "createUserMuni",
-    component: () => import("@/views/CreateUser/CreateUserMuniView.vue"),
-    meta: { requiresAuth: true },
-  },
   {
     path: "/crear-cuenta",
     name: "createUser",
     component: () => import("@/views/CreateUserOfi/CuentaUsuarioView.vue"),
     meta: { requiresAuth: false },
   },
+  {
+    path: "/auth/reset-password/:token",
+    name: "reset-password",
+    component: () => import("@/views/ResetView.vue"),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: "/municipales",
+    name: "municipales",
+    component: () => import("@/views/MuniView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/municipales/creacion-usuario",
+    name: "createUserMuni",
+    component: () => import("@/views/CreateUser/CreateUserMuniView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/municipales/pagos",
+    name: "municipales-pagos",
+    component: () => import("@/views/MuniPayments/MuniPaymentsView.vue"),
+    meta: { requiresAuth: true },
+  },
+
   {
     path: "/municipales/assign-password",
     name: "asign-password",
