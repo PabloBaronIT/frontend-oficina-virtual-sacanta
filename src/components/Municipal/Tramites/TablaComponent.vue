@@ -360,6 +360,8 @@ import ModalCreateRYCComponentVue from "../Requerimientos/ModalCreateRYCComponen
 import CardComponentVue from "../CardComponent.vue";
 import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
 import FiltrosComponent from "../Filtros/FiltrosComponent.vue";
+import { BASE_URL } from "@/env";
+
 export default {
   props: {
     color: String,
@@ -413,8 +415,7 @@ export default {
       this.activos = [];
 
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -476,8 +477,7 @@ export default {
       this.selectedTramite = id;
 
       let apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -523,8 +523,7 @@ export default {
     //FILTRAR TRAMITES POR STATUS
     getFiltro(obj) {
       let apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -581,8 +580,7 @@ export default {
     getFiltroByCuilUser(cuil) {
       console.log(cuil);
       let apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -678,8 +676,7 @@ export default {
       this.deadline = [];
       this.requeridos = [];
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -781,8 +778,7 @@ export default {
       console.log("cambiar estado");
       //console.log(this.selectedTramite);
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -814,8 +810,7 @@ export default {
     submitComunicacion(a, b, c) {
       console.log(a, b, c);
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -850,8 +845,7 @@ export default {
     submitCidi(a, b, c) {
       console.log(a, b, c);
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -921,8 +915,7 @@ export default {
     //ENVIAR UN REQUERIMIENTO DEL TRAMITE
     submitRequerimiento(a, b) {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),

@@ -147,7 +147,6 @@ export default {
     },
 
     getMyProfile() {
-      console.log(process.env.VUE_APP_PASSWORD_HEADER, "SOY EL HEADER");
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
