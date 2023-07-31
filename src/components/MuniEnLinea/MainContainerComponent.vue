@@ -107,6 +107,8 @@
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
+import { BASE_URL } from "@/env";
+
 export default {
   name: "MainCointainerComponent",
   data() {
@@ -123,8 +125,7 @@ export default {
   methods: {
     getCategories() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),

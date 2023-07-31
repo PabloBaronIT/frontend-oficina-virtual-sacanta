@@ -1,4 +1,5 @@
 import axios from "axios";
+import { BASE_URL } from "@/env";
 
 export default function setTokenRelations() {
   let refresh = localStorage.getItem("refreshToken");
@@ -6,8 +7,7 @@ export default function setTokenRelations() {
   //console.log(refresh);
   ///se toma el token refresh
   const apiClient = axios.create({
-    //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-    baseURL: process.env.VUE_APP_BASEURL,
+    baseURL: BASE_URL,
     withCredentials: false,
   });
   apiClient

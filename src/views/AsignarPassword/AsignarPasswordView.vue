@@ -28,6 +28,7 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
+import { PASSWORD_HEADER, BASE_URL } from "@/env";
 
 export default {
   name: "AsignarPasswordView",
@@ -58,14 +59,11 @@ export default {
     },
     getMyProfile() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          // // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient
@@ -112,8 +110,7 @@ export default {
     },
     setPassword() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),

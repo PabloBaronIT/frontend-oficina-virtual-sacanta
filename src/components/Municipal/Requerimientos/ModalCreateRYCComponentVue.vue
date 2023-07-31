@@ -91,6 +91,7 @@
   </div>
 </template>
 <script>
+import { CLOUDINARY_URL, CLOUDINARY_UPLOAD_PRESET } from "@/env";
 export default {
   name: "ModalCreateRYCComponent",
   props: {
@@ -139,9 +140,6 @@ export default {
       console.log(this.file, "soy el archivo");
     },
     postFile: async function () {
-      const CLOUDINARY_URL =
-        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
-      const CLOUDINARY_UPLOAD_PRESET = "lylceews";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);

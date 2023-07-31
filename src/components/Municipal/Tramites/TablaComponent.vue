@@ -694,7 +694,7 @@ export default {
           console.log(asd);
           this.search = "";
 
-          switch (asd.deadline.deadline) {
+          switch (asd.deadline) {
             case "EN PLAZO":
               this.activos.push(asd);
               break;

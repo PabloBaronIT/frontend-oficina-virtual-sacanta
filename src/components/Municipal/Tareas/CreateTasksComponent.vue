@@ -40,6 +40,7 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
+import { PASSWORD_HEADER, BASE_URL } from "@/env";
 
 export default {
   name: "CreateTaksComponent",
@@ -62,13 +63,11 @@ export default {
   methods: {
     getUsersMuni() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient
@@ -105,8 +104,7 @@ export default {
     submitTasks() {
       if (this.userMuniAsigned && this.descriptionTarea) {
         const apiClient = axios.create({
-          //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-          baseURL: process.env.VUE_APP_BASEURL,
+          baseURL: BASE_URL,
           withCredentials: false,
           headers: {
             "auth-header": localStorage.getItem("token"),

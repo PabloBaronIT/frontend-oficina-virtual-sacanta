@@ -43,7 +43,7 @@
 //import dbService from "@/services/dbService";
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
-
+import { PASSWORD_HEADER, BASE_URL } from "@/env";
 export default {
   data() {
     return {
@@ -56,6 +56,7 @@ export default {
     };
   },
   created() {
+    //console.log(PASSWORD_HEADER, "soy el password");
     // let cidi = this.$route.query.cidi || null;
     // console.log(cidi, "soy query de cidi");
     // if (cidi) {
@@ -78,8 +79,7 @@ export default {
       localStorage.removeItem("token");
 
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
       });
       apiClient
@@ -113,8 +113,7 @@ export default {
       this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
       });
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
@@ -150,14 +149,11 @@ export default {
     getMyProfile() {
       console.log(process.env.VUE_APP_PASSWORD_HEADER, "SOY EL HEADER");
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          // // "access-user-header": process.env.VUE_APP_PASSWORD_HEADER,
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient

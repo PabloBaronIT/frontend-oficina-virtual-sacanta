@@ -300,6 +300,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
+import { CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL, BASE_URL } from "@/env";
 
 export default {
   props: {
@@ -339,8 +340,7 @@ export default {
       //console.log("soy el trmite,", id);
       this.idTramite = id;
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -371,8 +371,7 @@ export default {
     getMyProcedure() {
       this.activos = [];
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -461,8 +460,7 @@ export default {
     },
     getComunicaciones(id) {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -519,9 +517,6 @@ export default {
       console.log(this.file, "soy el archivo");
     },
     postFile: async function () {
-      const CLOUDINARY_URL =
-        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
-      const CLOUDINARY_UPLOAD_PRESET = "lylceews";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
@@ -544,8 +539,7 @@ export default {
     //ENVIAR RESPUESTA DE REQUERIMIENTO
     sentRespuesta() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),

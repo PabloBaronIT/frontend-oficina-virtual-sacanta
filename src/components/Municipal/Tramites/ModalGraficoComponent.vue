@@ -21,6 +21,7 @@
 import { Doughnut } from "vue-chartjs";
 import setTokenMuni from "@/middlewares/setTokenMuni";
 import axios from "axios";
+import { BASE_URL } from "@/env";
 
 import {
   Chart as ChartJS,
@@ -82,8 +83,7 @@ export default {
     },
     getProfileMuni() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),

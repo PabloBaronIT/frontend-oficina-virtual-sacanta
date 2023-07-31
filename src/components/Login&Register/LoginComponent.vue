@@ -60,11 +60,10 @@ import axios from "axios";
 import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-
+import { PASSWORD_HEADER, BASE_URL } from "@/env";
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
-let header = process.env.VUE_APP_PASSWORD_HEADER;
 export default {
   name: "LoginComponent",
   data() {
@@ -130,11 +129,9 @@ export default {
     },
     //LOGIN COMUN
     log() {
-      console.log(header);
       this.loading = true;
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -168,8 +165,7 @@ export default {
       console.log("entre en el logcidi");
       //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         // headers: {
         //   "auth-header": localStorage.getItem("token"),
@@ -228,8 +224,7 @@ export default {
     //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
     getMyProfile() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -297,14 +292,11 @@ export default {
     },
     getRepresentante(id) {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          // "access-user-header": header,
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient

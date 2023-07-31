@@ -1,6 +1,8 @@
 <template>
   <div class="navMuni">
-    <h3>Hola! {{ name }} {{ lastName }}</h3>
+    <router-link to="/municipales" style="text-decoration: none">
+      <h3>Hola! {{ name }} {{ lastName }}</h3>
+    </router-link>
     <button type="button" class="btn btn-light" @click="logOf()">
       Cerrar sesión
     </button>

@@ -6,14 +6,14 @@
       <form class="d-flex">
         <input
           @keyup="this.validar()"
-          type="text"
+          type="search"
           placeholder="Ingrese CUIL del vecino"
           v-model="this.search"
           maxlength="11"
         />
         <button
           class="btn btn-outline-success"
-          type="submit"
+          type="button"
           @click="this.searchValue"
           :disabled="this.disabledBoton"
         >
@@ -94,6 +94,7 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
+import { BASE_URL } from "@/env";
 
 export default {
   data() {
@@ -130,8 +131,7 @@ export default {
     },
     getPayments() {
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -156,12 +156,10 @@ export default {
     },
     searchValue() {
       console.log(this.search);
-
       this.loading = true;
       this.payments = "";
       const apiClient = axios.create({
-        //baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-        baseURL: process.env.VUE_APP_BASEURL,
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -169,7 +167,7 @@ export default {
       });
       apiClient
         .get(`/registered-payment?page=${this.pagina}`, {
-          user_cuil: toString(this.search),
+          user_cuil: this.search,
         })
         .then((response) => {
           console.log(response.data);
@@ -199,9 +197,10 @@ export default {
 } */
 .containerTramites {
   width: 90%;
+
   padding-bottom: 2rem;
   padding-top: 2rem;
-  text-align: left;
+  text-align: center;
   position: relative;
   margin: auto;
   justify-content: center;

@@ -1,18 +1,5 @@
 <template>
   <article>
-    <!-- <div class="navMuni">
-      <h3>Hola! {{ name }} {{ lastName }}</h3>
-      <button type="button" class="btn btn-light" @click="logOf()">
-        Cerrar sesión
-      </button>
-      <router-link to="/municipales/creacion-usuario">
-        <button type="button" class="btn btn-light">Crear Usuarios</button>
-      </router-link>
-      <router-link to="/municipales/pagos">
-        <button type="button" class="btn btn-light">Registro de pagos</button>
-      </router-link>
-    </div> -->
-
     <ModalGraficoComponent v-if="token" />
     <!-- SECCION DE VISTAS DE TRAMITES -->
     <section>
