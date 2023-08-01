@@ -44,6 +44,7 @@
           <button class="btn btn-outline-secondary boton">
             <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
           </button>
+          <GoogleLogin :callback="callback" prompt />
         </div>
       </FormKit>
 
@@ -61,9 +62,16 @@ import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { decodeCredential } from "vue3-google-login";
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
+
+// const callback = (response) => {
+//   // This callback will be triggered when the user selects or login to
+//   // his Google account from the popup
+//   console.log("Handle the response", response);
+// };
 export default {
   name: "LoginComponent",
   data() {
@@ -76,6 +84,12 @@ export default {
       user: null,
       representante: null,
       cidiCookie: null,
+      callback: (response) => {
+        // This callback will be triggered when the user selects or login to
+        // his Google account from the popup
+        const userData = decodeCredential(response.credential);
+        console.log("Handle the response", userData);
+      },
     };
   },
 
