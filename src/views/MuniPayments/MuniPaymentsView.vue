@@ -6,7 +6,7 @@
       <form class="d-flex">
         <input
           @keyup="this.validar()"
-          type="search"
+          type="text"
           placeholder="Ingrese CUIL del vecino"
           v-model="this.search"
           maxlength="11"
@@ -167,7 +167,7 @@ export default {
       });
       apiClient
         .get(`/registered-payment?page=${this.pagina}`, {
-          user_cuil: this.search,
+          user_cuil: "27322213552",
         })
         .then((response) => {
           console.log(response.data);

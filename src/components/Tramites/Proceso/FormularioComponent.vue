@@ -165,7 +165,7 @@ import axios from "axios";
 import { jsPDF } from "jspdf";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 
 // var procedure = {
 //   title: "",
@@ -244,6 +244,9 @@ export default {
     },
     //GUARDAR EL ARCHIVO EN CLAUDINARY Y TOMAR SOLO LA URL
     postFile: async function () {
+      let CLOUDINARY_UPLOAD_PRESET = "lylceews";
+      let CLOUDINARY_URL =
+        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);

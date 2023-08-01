@@ -122,7 +122,7 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
-import { BASE_URL, CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL } from "@/env";
+import { BASE_URL } from "@/env";
 
 export default {
   data() {
@@ -158,6 +158,9 @@ export default {
       console.log(this.file, "soy el archivo");
     },
     postFile: async function () {
+      let CLOUDINARY_UPLOAD_PRESET = "lylceews";
+      let CLOUDINARY_URL =
+        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);

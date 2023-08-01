@@ -28,6 +28,7 @@
           type="button"
           value="Ingresar"
         />
+
         <!-- <button class="btn btn-outline-secondary boton">
           <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
         </button> -->

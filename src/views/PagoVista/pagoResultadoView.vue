@@ -16,7 +16,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 
 export default {
   name: "Pago-exitoso",
@@ -47,7 +47,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient

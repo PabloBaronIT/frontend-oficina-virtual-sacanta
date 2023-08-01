@@ -42,7 +42,15 @@
             <router-link to="/crear-cuenta"> Crear cuenta </router-link>
           </button>
           <button class="btn btn-outline-secondary boton">
-            <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
+            <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
+            <div class="representaCD">
+              <!-- <p class="nombreCD">iniciar sesion</p> -->
+              <a
+                href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
+                class="nombreCD"
+                >iniciar sesion</a
+              >
+            </div>
           </button>
           <GoogleLogin :callback="callback" prompt />
         </div>
@@ -61,17 +69,12 @@ import axios from "axios";
 import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 import { decodeCredential } from "vue3-google-login";
 //Duracion e sesiones de usuario (charlar con patricio)
 //Recordar sesion mediante cookies => Ver libreria js-cookie
 //
 
-// const callback = (response) => {
-//   // This callback will be triggered when the user selects or login to
-//   // his Google account from the popup
-//   console.log("Handle the response", response);
-// };
 export default {
   name: "LoginComponent",
   data() {
@@ -102,7 +105,6 @@ export default {
     next();
   },
   created() {
-    //setToken();
     //tomo del la ruta la query string para tomar datos del usuario
     let cidi = this.$route.query.cidi || null;
     console.log(cidi, "soy query de cidi");
@@ -310,7 +312,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient
@@ -351,6 +354,35 @@ export default {
 </script>
 
 <style scoped>
+.representaCD {
+  line-height: 17px;
+  font-size: 11px;
+  color: #000;
+  float: left;
+  margin-top: 4px;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid #e4b254;
+}
+
+.representaCD img {
+  padding: 0 0 0 0;
+  margin: 0 3px 0 2px;
+  float: none;
+  vertical-align: top;
+}
+img {
+  padding: 0 0 0 0;
+  /* margin: 0 6px 0 0; */
+  float: left;
+}
+.nombreCD {
+  line-height: 17px;
+  font-size: 12px;
+  color: #000;
+  float: left;
+  margin-top: 6px;
+}
 .botones {
   display: flex;
   flex-direction: column;
@@ -361,6 +393,7 @@ export default {
 }
 .boton {
   width: 100%;
+  height: 3rem;
 }
 h1 {
   color: var(--red);
