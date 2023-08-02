@@ -12,7 +12,7 @@
 <script>
 import axios from "axios";
 import CardComponentVue from "../CardComponent.vue";
-import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 
 export default {
   name: "procedureDeadlineComponent",

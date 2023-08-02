@@ -59,6 +59,14 @@
               v-model="this.textInput"
             />
           </div>
+          <div
+            v-if="
+              item.type == 'text' && item.title === `Describa la ubicación `
+            "
+            class="tipoTexto"
+          >
+            <h1>AQUI IRIA EL MAPA</h1>
+          </div>
 
           <!-- INPUT TIPO FILE -->
 

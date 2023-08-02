@@ -249,6 +249,9 @@ export default {
           this.email = "";
           this.confirmPassword = "";
           this.password = "";
+          setTimeout(() => {
+            this.$router.push("/munienlinea");
+          }, 2000);
         })
         .catch(function (error) {
           if (error.response.status === 500) {
