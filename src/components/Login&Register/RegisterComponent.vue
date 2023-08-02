@@ -204,10 +204,8 @@ export default {
   },
   methods: {
     //ToDo:
-    //Implementar Try Catch
     //Inverstigar funciones de $router (Ej: Historial de navegacion)
     //@submit.prevent="login"
-    // <p v-if="error" class="error">
     isPerson($event) {
       if ($event.target.value === "0") {
         this.isPerson = false;

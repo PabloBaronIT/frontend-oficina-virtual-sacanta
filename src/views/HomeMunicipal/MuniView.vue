@@ -72,7 +72,7 @@ import ModalGraficoComponent from "@/components/Municipal/Tramites/ModalGraficoC
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
 import BarComponent from "@/components/Municipal/Tramites/BarComponent.vue";
 import MyTasksComponentVue from "@/components/Municipal/Tareas/MyTasksComponent.vue";
-import MySentTasksComponentVue from "../components/Municipal/Tareas/MySentTasksComponent.vue";
+import MySentTasksComponentVue from "@/components/Municipal/Tareas/MySentTasksComponent.vue";
 export default {
   name: "MuniView",
   data() {

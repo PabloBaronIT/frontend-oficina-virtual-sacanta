@@ -2,16 +2,20 @@
   <div class="login-container">
     <form action="" v-if="!this.loading">
       <h1>Login Municipal</h1>
-      <FormKit
+      <input
         type="text"
         name="Cuil"
         id="Cuil"
         label="Cuil"
-        help="Your full name"
-        placeholder="“Jon Doe”"
+        placeholder="“123456789”"
         v-model="this.cuil"
+        maxlength="11"
+        @keyup="this.validar()"
       />
-      <FormKit
+      <p v-if="this.error" style="color: red; font-size: 12px">
+        {{ this.error }}
+      </p>
+      <input
         type="password"
         name="password"
         id="password"
@@ -19,6 +23,7 @@
         help="Your password"
         placeholder="********"
         v-model="this.password"
+        @keyup="this.validar()"
       />
       <p style="color: red">{{ this.msj }}</p>
       <div class="botones">
@@ -27,11 +32,8 @@
           class="btn btn-primary"
           type="button"
           value="Ingresar"
+          :disabled="this.disabled"
         />
-
-        <!-- <button class="btn btn-outline-secondary boton">
-          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551">CIDI</a>
-        </button> -->
       </div>
     </form>
     <div v-if="this.loading" class="spinner-border loading" role="status">
@@ -41,7 +43,6 @@
 </template>
 
 <script>
-//import dbService from "@/services/dbService";
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
 import { PASSWORD_HEADER, BASE_URL } from "@/env";
@@ -54,21 +55,22 @@ export default {
       user: {},
       loading: false,
       cidiCookie: null,
+      error: null,
+      disabled: false,
     };
   },
-  created() {
-    //console.log(PASSWORD_HEADER, "soy el password");
-    // let cidi = this.$route.query.cidi || null;
-    // console.log(cidi, "soy query de cidi");
-    // if (cidi) {
-    //   this.loading = true;
-    //   this.cidiCookie = cidi;
-    //   //document.cookie = `cidi=${cidi};max-age=120`;
-    //   //se llama la api de cidi para saber si tienen representados o no
-    //   this.logCidi(cidi);
-    // }
-  },
+  created() {},
   methods: {
+    validar() {
+      let asd = /^[0-9]+$/;
+      if (asd.test(this.cuil) && this.cuil?.length === 11 && this.password) {
+        this.error = null;
+        this.disabled = false;
+      } else {
+        this.error = "Debe ingresar solo números-debe ingresar 11 caracteres";
+        this.disabled = true;
+      }
+    },
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
@@ -98,10 +100,6 @@ export default {
             localStorage.setItem("refreshToken", refreshToken);
 
             this.getMyProfile();
-
-            //TOMO LOS DATOS DEL TOKEN
-            //let payload = await dbService.getToken(token);
-            //console.log(payload);
           }
         })
         .catch((error) => {
@@ -112,7 +110,6 @@ export default {
     //QUEDA PENDIENTE HASTA NUEVO AVISO
     logCidi(cidi) {
       this.dispatchCidi();
-      //console.log(this.cidiCookie, "cidicookie");
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -225,6 +222,7 @@ form {
   position: relative;
   z-index: 1;
   background: #fff;
+  width: 40vw;
 }
 /* .botones {
   display: flex;
@@ -240,5 +238,14 @@ form {
 a {
   text-decoration: none;
   color: var(--text-color);
+}
+input {
+  border-radius: 10px;
+  border-color: #333;
+  height: 3rem;
+  border-width: 0.5;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 </style>

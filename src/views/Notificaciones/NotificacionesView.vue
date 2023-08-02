@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import CardNotificacionComponentVue from "../components/Notificaciones/CardNotificacionComponent.vue";
+import CardNotificacionComponentVue from "../../components/Notificaciones/CardNotificacionComponent.vue";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import { BASE_URL } from "@/env";

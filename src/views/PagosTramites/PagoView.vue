@@ -149,7 +149,7 @@ import PagarComponent from "@/components/Tramites/PagarComponent.vue";
 //  import pdfMake from "pdfmake";
 
 export default {
-  name: "PruebaView",
+  name: "PagoView",
   data() {
     return {
       modal: false,

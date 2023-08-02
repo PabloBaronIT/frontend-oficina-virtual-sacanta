@@ -386,8 +386,8 @@ img {
 .botones {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 10rem;
+  justify-content: space-between;
+  height: 12rem;
   width: 100%;
   margin-top: 5rem;
 }
@@ -431,7 +431,7 @@ a {
 }
 
 form {
-  width: 30%;
+  width: 40vw;
   box-shadow: 0px 0px 10px #333;
   display: flex;
   align-items: center;
