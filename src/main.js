@@ -7,6 +7,8 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import vue3GoogleLogin from "vue3-google-login";
+import Vue3Geolocation from "vue3-geolocation";
+import VueGoogleMaps from "@fawmi/vue-google-maps";
 import { plugin, defaultConfig } from "@formkit/vue";
 import { GOOGLE_CLIENT_ID } from "./env";
 import "bootstrap/dist/css/bootstrap.css";
@@ -17,6 +19,12 @@ createApp(App)
   .use(plugin, defaultConfig)
   .use(store)
   .use(router)
+  .use(Vue3Geolocation)
+  .use(VueGoogleMaps, {
+    load: {
+      key: "AIzaSyCsrNj3q6jmjiavruiFIQIIR-xhWrDb6sQ",
+    },
+  })
   .use(vue3GoogleLogin, {
     clientId: GOOGLE_CLIENT_ID,
     buttonConfig: { theme: "filled_blue", shape: "rectangular" },

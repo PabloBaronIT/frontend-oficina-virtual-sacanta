@@ -65,7 +65,7 @@
             "
             class="tipoTexto"
           >
-            <h1>AQUI IRIA EL MAPA</h1>
+            <MapaLocationComponentVue />
           </div>
 
           <!-- INPUT TIPO FILE -->
@@ -174,7 +174,7 @@ import { jsPDF } from "jspdf";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
-
+import MapaLocationComponentVue from "../../Mapa/MapaLocationComponent.vue";
 // var procedure = {
 //   title: "",
 //   userId: "",
@@ -196,6 +196,9 @@ export default {
     dispatchProcedure: Function,
     setProcedure: Function,
     outProcedure: Function,
+  },
+  components: {
+    MapaLocationComponentVue,
   },
   data() {
     return {
