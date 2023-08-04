@@ -23,6 +23,7 @@ createApp(App)
   .use(VueGoogleMaps, {
     load: {
       key: "AIzaSyCsrNj3q6jmjiavruiFIQIIR-xhWrDb6sQ",
+      autobindAllEvents: true,
     },
   })
   .use(vue3GoogleLogin, {

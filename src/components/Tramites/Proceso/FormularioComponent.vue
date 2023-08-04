@@ -46,7 +46,10 @@
 
           <!-- INPUT TIPO TEXTO -->
           <div
-            v-if="item.type == 'number' || item.type == 'text'"
+            v-if="
+              item.type == 'number' ||
+              (item.type == 'text' && !item.title === `Describa la ubicación `)
+            "
             class="tipoTexto"
           >
             <label class="option-text">{{ item.title }}</label
@@ -59,12 +62,29 @@
               v-model="this.textInput"
             />
           </div>
+          <!-- PARA VER MAPA Y PODER ESCRIBIR DIRECCION -->
           <div
             v-if="
               item.type == 'text' && item.title === `Describa la ubicación `
             "
-            class="tipoTexto"
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-around;
+              padding: 1rem;
+            "
           >
+            <div style="width: 40%">
+              <label class="option-text">{{ item.title }}</label
+              ><br />
+              <label for=""> {{ item.description }}</label>
+
+              <input
+                class="form-control text-number-input"
+                :type="item.type"
+                v-model="this.textInput"
+              />
+            </div>
             <MapaLocationComponentVue />
           </div>
 

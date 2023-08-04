@@ -1,22 +1,21 @@
 <template>
   <div
-    style="display: flex; flex-direction: row; justify-content: space-around"
+    style="display: flex; flex-direction: column; justify-content: space-around"
   >
     <p>Indique la direccion en el mapa:</p>
     <GMapMap
       :center="center"
+      ref="myMapRef"
       :zoom="7"
       map-type-id="terrain"
       style="width: 400px; height: 300px"
     >
-      <GMapCluster>
-        <GMapMarker
-          :position="markers"
-          :clickable="true"
-          :draggable="true"
-          @click="center = m.position"
-        />
-      </GMapCluster>
+      <GMapMarker
+        :position="center"
+        :clickable="true"
+        :draggable="true"
+        @click="handleMapClick"
+      />
     </GMapMap>
     <!-- 
     <GoogleMap
@@ -38,7 +37,7 @@ export default {
     return {
       lat: "",
       lng: "",
-      selectedLocation: "",
+      selectedLocation: null,
       center: { lat: "", lng: "" },
       markers: [
         // {
@@ -57,26 +56,29 @@ export default {
         console.log(coordinates);
         (this.center.lat = coordinates.lat),
           (this.center.lng = coordinates.lng);
-        let asd = {
-          lat: coordinates.lat,
-          lgn: coordinates.lgn,
-        };
+        // let asd = {
+        //   lat: coordinates.lat,
+        //   lgn: coordinates.lgn,
+        // };
         // this.lat = coordinates.lat;
         // this.lng = coordinates.lng;
-        this.markers.push(asd);
+        // this.markers.push(asd);
       })
       .catch((error) => {
         console.log(error);
       });
   },
   methods: {
-    //  handleMapClick: async(event)=> {
-    //   const latLng = event.latLng;
-    //   this.selectedLocation = {
-    //     lat: latLng.lat(),
-    //     lng: latLng.lng(),
-    //   };
-    // }
+    handleMapClick: async (event) => {
+      const latLng = event.latLng;
+      console.log(latLng);
+
+      //  let selectedLocation = {
+      //   lat: latLng.lat(),
+      //   lng: latLng.lng(),
+      // };
+      // this.center=selectedLocation
+    },
   },
 };
 </script>
