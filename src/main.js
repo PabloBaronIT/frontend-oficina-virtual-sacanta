@@ -24,6 +24,7 @@ createApp(App)
     load: {
       key: "AIzaSyCsrNj3q6jmjiavruiFIQIIR-xhWrDb6sQ",
       autobindAllEvents: true,
+      libraries: "places",
     },
   })
   .use(vue3GoogleLogin, {

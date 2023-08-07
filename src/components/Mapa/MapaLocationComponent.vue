@@ -3,6 +3,8 @@
     style="display: flex; flex-direction: column; justify-content: space-around"
   >
     <p>Indique la direccion en el mapa:</p>
+    <p>{{ this.markerPosition?.lat }} {{ this.markerPosition?.lng }}</p>
+
     <GMapMap
       :center="center"
       ref="myMapRef"
@@ -11,21 +13,12 @@
       style="width: 400px; height: 300px"
     >
       <GMapMarker
-        :position="center"
-        :clickable="true"
+        :position="this.markerPosition"
+        :clickable="false"
         :draggable="true"
-        @click="handleMapClick"
+        @dragend="updateMarkerPosition"
       />
     </GMapMap>
-    <!-- 
-    <GoogleMap
-      api-key="AIzaSyCsrNj3q6jmjiavruiFIQIIR-xhWrDb6sQ"
-      style="width: 40%; height: 250px"
-      :center="{ lat: this.lat, lng: this.lng }"
-      :zoom="15"
-    >
-      <Marker :options="{ lat: this.lat, lng: this.lng }" />
-    </GoogleMap> -->
   </div>
 </template>
 
@@ -39,40 +32,33 @@ export default {
       lng: "",
       selectedLocation: null,
       center: { lat: "", lng: "" },
-      markers: [
-        // {
-        //   position: {
-        //     lat: 51.093048,
-        //     lng: 6.84212,
-        //   },
-        // }, // Along list of clusters
-      ],
+      markerPosition: { lat: 0, lng: 0 },
     };
   },
   //   components: { GoogleMap, Marker },
   created() {
     this.$getLocation()
       .then((coordinates) => {
-        console.log(coordinates);
+        console.log(coordinates, "coordiantes");
         (this.center.lat = coordinates.lat),
           (this.center.lng = coordinates.lng);
-        // let asd = {
-        //   lat: coordinates.lat,
-        //   lgn: coordinates.lgn,
-        // };
-        // this.lat = coordinates.lat;
-        // this.lng = coordinates.lng;
-        // this.markers.push(asd);
+        this.markerPosition.lat = coordinates.lat;
+        this.markerPosition.lng = coordinates.lng;
       })
       .catch((error) => {
         console.log(error);
       });
   },
   methods: {
-    handleMapClick: async (event) => {
-      const latLng = event.latLng;
-      console.log(latLng);
+    updateMarkerPosition: (event) => {
+      this.markerPosition.lat = event.latLng.lat();
+      this.markerPosition.lng = event.latLng.lng();
+      this.center.lat = event.latLng.lat();
+      this.center.lng = event.latLng.lng();
 
+      console.log(this.markerPosition.lat);
+      console.log(event.latLng.lat(), event.latLng.lng());
+      // console.log(this.center);
       //  let selectedLocation = {
       //   lat: latLng.lat(),
       //   lng: latLng.lng(),
