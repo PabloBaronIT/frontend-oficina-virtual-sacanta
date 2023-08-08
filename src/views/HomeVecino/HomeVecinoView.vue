@@ -1,6 +1,9 @@
 <template>
   <main>
     <MainContainerComponent />
+    <!-- <div v-else class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div> -->
   </main>
 </template>
 
@@ -11,6 +14,17 @@ export default {
   name: "HomeVecinoView",
   components: {
     MainContainerComponent,
+  },
+  created() {
+    // this.loading = true;
+    // this.role = localStorage.getItem("role");
+    // this.loading = false;
+  },
+  data() {
+    return {
+      // role: null,
+      // loading: false,
+    };
   },
 };
 </script>

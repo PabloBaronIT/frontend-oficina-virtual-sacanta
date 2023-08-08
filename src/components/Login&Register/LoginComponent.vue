@@ -89,6 +89,50 @@ export default {
       representante: null,
       cidiCookie: null,
       datos: null,
+      callback: (response) => {
+        // This callback will be triggered when the user selects or login to
+        // his Google account from the popup
+        // this.loading = true;
+
+        let userData = decodeCredential(response.credential);
+        console.log("Handle the response", userData);
+        const apiClient = axios.create({
+          baseURL: BASE_URL,
+          withCredentials: false,
+          headers: {
+            "auth-header": localStorage.getItem("token"),
+          },
+        });
+        apiClient
+          .post("/auth/signIn-providers", {
+            firstname: userData.given_name,
+            lastname: userData.family_name,
+            email: userData.email,
+          })
+          .then((response) => {
+            console.log(response.data);
+            let tokenApi = response.data.accessToken;
+            let refreshToken = response.data.refreshToken; //REFRESH TOKEN
+            let redirect = response.data["redirectURL"];
+            localStorage.setItem("token", tokenApi);
+            localStorage.setItem("refreshToken", refreshToken);
+            this.getMyProfile();
+            if (redirect) {
+              //console.log("usted debe rellenar su cuil");
+              // this.loading = true;
+              this.$router.push("micuenta");
+            } else {
+              // this.loading = true;
+              // this.getMyProfile();
+              this.loading = false;
+
+              this.$router.push("munienlinea");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
     };
   },
 
@@ -129,42 +173,7 @@ export default {
   },
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
-    callback: (response) => {
-      // This callback will be triggered when the user selects or login to
-      // his Google account from the popup
-      let userData = decodeCredential(response.credential);
-      console.log("Handle the response", userData);
 
-      const apiClient = axios.create({
-        baseURL: BASE_URL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .post("/auth/signIn-providers", {
-          firstname: userData.given_name,
-          lastname: userData.family_name,
-          email: userData.email,
-        })
-        .then((response) => {
-          console.log(response.data);
-          let tokenApi = response.data.accessToken;
-          let refreshToken = response.data.refreshToken; //REFRESH TOKEN
-          let redirect = response.data["redirectURL"];
-          localStorage.setItem("token", tokenApi);
-          localStorage.setItem("refreshToken", refreshToken);
-          if (redirect) {
-            console.log("usted debe rellenar su cuil");
-          } else {
-            this.$router.push("munienlinea");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     setDatos() {
       console.log("estoy dentro del collback");
     },
@@ -200,6 +209,7 @@ export default {
           localStorage.setItem("token", tokenApi);
           localStorage.setItem("refreshToken", refreshToken);
           this.getMyProfile();
+          this.$router.push("munienlinea");
         })
         .catch((error) => {
           console.log(error);
@@ -324,7 +334,7 @@ export default {
           );
 
           this.loading = false;
-          this.$router.push("munienlinea");
+          // this.$router.push("munienlinea");
         })
         .catch((error) => {
           console.log(error);
