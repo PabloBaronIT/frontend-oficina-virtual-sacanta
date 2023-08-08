@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="setPermission">
     <MainContainerComponent />
     <!-- <div v-else class="spinner-border loading" role="status">
       <span class="sr-only"></span>
@@ -25,6 +25,15 @@ export default {
       // role: null,
       // loading: false,
     };
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.user?.cuil) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>

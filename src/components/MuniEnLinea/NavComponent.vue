@@ -1,62 +1,6 @@
 <template>
   <!-- Sidebar -->
   <div class="nav-container">
-    <!--<router-link to="/munienlinea">
-      <img
-        class="logo scale-up-center"
-        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
-        alt=""
-      />
-    </router-link>-->
-
-    <!--<div class="usuario">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="86"
-        height="86"
-        fill="currentColor"
-        class="bi bi-person-circle scale-up-center"
-        viewBox="0 0 16 16"
-      >
-        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-        <path
-          fill-rule="evenodd"
-          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-        />
-      </svg>
-      <div class="usuario-details" v-if="this.$store.state.user">
-        <div class="datos">
-          <router-link v-show="permission" :to="`/micuenta`">
-            Mi cuenta
-          </router-link>
-       
-          <img
-            class="svg"
-            src="@/assets/comunicacion.svg"
-            alt="comunicaciones"
-          />
-      
-        </div>
-        <strong>
-          {{ $store.state.user.firstname }},<br />
-          {{ $store.state.user.lastname }}<br />
-        </strong>
-        <p>CUIL: {{ $store.state.user.cuil }}</p>
-        <p
-          v-if="this.$store.state.RepresentativeUser"
-          @click="changeRepresentative"
-        >
-          Representado por:
-          <br />
-          <strong class="nameRepresntative">
-            {{ $store.state.RepresentativeUser.firstname }}
-            {{ $store.state.RepresentativeUser.lastname }}
-          </strong>
-        </p>
-      </div>
-    </div>-->
-    <!-- nav del usuario -->
-
     <nav
       v-if="this.role !== 'MUNI_ROLE'"
       id="sidebarMenu"
@@ -65,21 +9,16 @@
       <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
 
       <div class="navUser">
-        <router-link
-          v-show="permission"
-          :to="`/munienlinea`"
-          class="bn3"
-          v-if="!$store.state.representative"
-        >
+        <router-link v-show="setPermission" :to="`/munienlinea`" class="bn3">
           Inicio
         </router-link>
-        <router-link v-show="permission" :to="`/tramites`" class="bn3">
+        <router-link v-show="setPermission" :to="`/tramites`" class="bn3">
           Mis tramites
         </router-link>
 
         <!--este link solo se puede acceder en el propio perfil , no como representante-->
 
-        <router-link v-show="permission" :to="`/notificaciones`" class="bn3">
+        <router-link v-show="setPermission" :to="`/notificaciones`" class="bn3">
           Mis Comunicaciones
         </router-link>
         <input
@@ -103,6 +42,7 @@
 </template>
 
 <script>
+import { googleLogout } from "vue3-google-login";
 export default {
   name: "NavComponent",
   data() {
@@ -111,7 +51,7 @@ export default {
       usuario: localStorage.getItem("name"),
       apellido: localStorage.getItem("lastname"),
       dni: localStorage.getItem("cuil"),
-      permission: true,
+      permission: false,
       user_id: localStorage.getItem("id"),
       role: localStorage.getItem("role"),
       user: null,
@@ -119,14 +59,27 @@ export default {
   },
   created() {
     this.role = localStorage.getItem("role");
+    if (this.$store.state.user?.cuil) {
+      this.permission = true;
+    }
   },
   watch: {},
+  computed: {
+    setPermission() {
+      if (this.$store.state.user?.cuil) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
 
   methods: {
     logOf() {
       localStorage.clear();
       location.reload();
       this.$router.push("login");
+      googleLogout();
       document.cookie = "cidi=; max-age=0";
       window.dispatchEvent(
         new CustomEvent("token-localstorage-changed", {

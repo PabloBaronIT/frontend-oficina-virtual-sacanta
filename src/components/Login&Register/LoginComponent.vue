@@ -92,8 +92,8 @@ export default {
       callback: (response) => {
         // This callback will be triggered when the user selects or login to
         // his Google account from the popup
-        // this.loading = true;
-
+        event.preventDefault();
+        this.loading = true;
         let userData = decodeCredential(response.credential);
         console.log("Handle the response", userData);
         const apiClient = axios.create({
@@ -111,6 +111,7 @@ export default {
           })
           .then((response) => {
             console.log(response.data);
+
             let tokenApi = response.data.accessToken;
             let refreshToken = response.data.refreshToken; //REFRESH TOKEN
             let redirect = response.data["redirectURL"];
@@ -119,7 +120,8 @@ export default {
             this.getMyProfile();
             if (redirect) {
               //console.log("usted debe rellenar su cuil");
-              // this.loading = true;
+              this.loading = false;
+
               this.$router.push("micuenta");
             } else {
               // this.loading = true;
@@ -174,9 +176,6 @@ export default {
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
 
-    setDatos() {
-      console.log("estoy dentro del collback");
-    },
     //SE GUARDA EN EL STORE EL USUARIO
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);

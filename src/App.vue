@@ -1,19 +1,11 @@
 <template>
   <div>
-    <NavTopVue
-      v-if="
-        this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
-      "
-    />
+    <NavTopVue v-if="setPermission && this.role != 'MUNI_ROLE'" />
     <NavMunicipalesComponentVue
       v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
     />
     <div class="main-container">
-      <NavComponent
-        v-if="
-          this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
-        "
-      />
+      <NavComponent v-if="setPermission && this.role != 'MUNI_ROLE'" />
 
       <router-view />
     </div>
@@ -28,6 +20,7 @@ export default {
   data() {
     return {
       role: "",
+      cuil: "",
     };
   },
   created() {
@@ -35,10 +28,20 @@ export default {
     //   this.role = event.detail.storage;
     // });
     this.role = this.$store.state.user?.role || "";
+    this.cuil = this.$store.state.user?.cuil || null;
   },
   watch: {
     $route() {
       this.role = localStorage.getItem("role");
+    },
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.user?.cuil) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   components: {

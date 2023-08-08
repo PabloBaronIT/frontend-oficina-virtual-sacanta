@@ -4,23 +4,26 @@
       <tr>
         <th>Titulo</th>
         <th>ID</th>
-        <th>Ultimo movimiento</th>
+        <!-- <th>Ultimo movimiento</th> -->
         <th class="media">Asunto</th>
         <th>Estado</th>
+        <th></th>
         <th></th>
       </tr>
 
       <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
         <td @click="verTramite(p.id)">{{ p.titulo || "" }}</td>
         <td @click="verTramite(p.id)">{{ p.id || "" }}</td>
-        <td @click="verTramite(p.id)">{{ p.fecha || "" }}</td>
+        <!-- <td @click="verTramite(p.id)">{{ p.fecha || "" }}</td> -->
         <td class="media" @click="verTramite(p.id)">{{ p.categoria || "" }}</td>
         <td :class="'estado-fila'" @click="verTramite(p.id)">
           <p :style="`background: ${p.color}`" @click="verTramite(p.id)">
             {{ p.estado || "" }}
           </p>
         </td>
-
+        <td>
+          <p><i class="bi bi-arrow-down-square-fill"></i></p>
+        </td>
         <td>
           <p v-if="p.comunicaciones >= 1">
             <a
@@ -31,11 +34,12 @@
               aria-controls="collapseExample"
               @click="this.getComunicaciones(p.id)"
             >
-              <img
+              <!-- <img
                 class="svg"
                 src="@/assets/comunicacion.svg"
                 alt="comunicaciones"
-              />
+              /> -->
+              <i class="bi bi-bell-fill"></i>
             </a>
           </p>
         </td>
@@ -968,5 +972,10 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.bi {
+  font-size: 1.5rem;
+  color: black;
+  margin: auto;
 }
 </style>

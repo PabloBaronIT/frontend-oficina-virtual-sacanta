@@ -45,13 +45,7 @@
           </div>
 
           <!-- INPUT TIPO TEXTO -->
-          <div
-            v-if="
-              item.type == 'number' ||
-              (item.type == 'text' && !item.title === `Describa la ubicación `)
-            "
-            class="tipoTexto"
-          >
+          <div v-if="item.title !== `Describa la ubicación `" class="tipoTexto">
             <label class="option-text">{{ item.title }}</label
             ><br />
             <label for=""> {{ item.description }}</label>
@@ -64,9 +58,7 @@
           </div>
           <!-- PARA VER MAPA Y PODER ESCRIBIR DIRECCION -->
           <div
-            v-if="
-              item.type == 'text' && item.title === `Describa la ubicación `
-            "
+            v-if="item.type == 'text' && item.title == `Describa la ubicación `"
             style="
               display: flex;
               flex-direction: row;
