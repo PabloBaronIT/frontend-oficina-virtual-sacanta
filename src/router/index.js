@@ -24,7 +24,6 @@ const routes = [
     path: "/sector/:sectorTitle/:sectorId",
     name: "sector",
     component: () => import("../views/ProcesoTramite/SectorView.vue"),
-
     meta: { requiresAuth: true },
   },
   {
@@ -65,6 +64,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/micuenta-update",
+    name: "micuenta-update",
+    component: () => import("@/views/UpdateData/UpdateDataView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/crear-cuenta",
     name: "createUser",
     component: () => import("@/views/CreateUserOfi/CuentaUsuarioView.vue"),
@@ -99,7 +104,7 @@ const routes = [
     path: "/municipales/assign-password",
     name: "asign-password",
     component: () => import("@/views/AsignarPassword/AsignarPasswordView.vue"),
-    meta: { requiresAuth: false },
+    meta: { requiresAuth: true },
   },
 ];
 

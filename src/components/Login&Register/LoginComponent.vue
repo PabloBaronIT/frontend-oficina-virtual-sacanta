@@ -122,7 +122,7 @@ export default {
               //console.log("usted debe rellenar su cuil");
               this.loading = false;
 
-              this.$router.push("micuenta");
+              this.$router.push("micuenta-update");
             } else {
               // this.loading = true;
               // this.getMyProfile();
@@ -148,6 +148,8 @@ export default {
   },
   created() {
     //tomo del la ruta la query string para tomar datos del usuario
+    localStorage.clear();
+
     let cidi = this.$route.query.cidi || null;
     console.log(cidi, "soy query de cidi");
 
@@ -208,6 +210,7 @@ export default {
           localStorage.setItem("token", tokenApi);
           localStorage.setItem("refreshToken", refreshToken);
           this.getMyProfile();
+          // this.loading = false;
           this.$router.push("munienlinea");
         })
         .catch((error) => {
@@ -300,36 +303,39 @@ export default {
           this.dispatchLogin();
           window.localStorage.setItem(
             "role",
-            response.data.UserProfile.user.role
+            response.data.UserProfile.user.role || null
           );
           window.localStorage.setItem(
             "name",
-            response.data.UserProfile.user.firstname
+            response.data.UserProfile.user.firstname || null
           );
           window.localStorage.setItem(
             "lastname",
-            response.data.UserProfile.user.lastname
+            response.data.UserProfile.user.lastname || null
           );
           window.localStorage.setItem(
             "cuil",
-            response.data.UserProfile.user.cuil
+            response.data.UserProfile.user.cuil || null
           );
           window.localStorage.setItem(
             "adress",
-            response.data.UserProfile.user.adress
+            response.data.UserProfile.user.adress || null
           );
           window.localStorage.setItem(
             "email",
-            response.data.UserProfile.user.email
+            response.data.UserProfile.user.email || null
           );
-          window.localStorage.setItem("id", response.data.UserProfile.user.id);
+          window.localStorage.setItem(
+            "id",
+            response.data.UserProfile.user.id || null
+          );
           window.localStorage.setItem(
             "fecha-creacion",
-            response.data.UserProfile.user.created_at
+            response.data.UserProfile.user.created_at || null
           );
           window.localStorage.setItem(
             "nivel",
-            response.data.UserProfile.user.level.level
+            response.data.UserProfile.user.level.level || null
           );
 
           this.loading = false;
