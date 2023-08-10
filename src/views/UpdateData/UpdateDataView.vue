@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="this.setPermission">
     <h2>Para poder ingresar a nuestra web, debe completar sus datos:</h2>
     <FormKit
       type="form"
@@ -204,6 +204,15 @@ export default {
   },
   created() {
     this.getMyProfile();
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     validar() {

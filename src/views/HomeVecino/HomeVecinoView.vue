@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     setPermission() {
-      if (this.$store.state.user?.cuil) {
+      if (this.$store.state.loggedIn === true) {
         return true;
       } else {
         return false;

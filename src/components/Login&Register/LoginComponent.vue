@@ -89,7 +89,8 @@ export default {
       representante: null,
       cidiCookie: null,
       datos: null,
-      callback: (response) => {
+      habilitado: null,
+      callback: async (response) => {
         // This callback will be triggered when the user selects or login to
         // his Google account from the popup
         event.preventDefault();
@@ -175,6 +176,15 @@ export default {
       this.logCidi(cidiCook[1]);
     }
   },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
 
@@ -185,6 +195,10 @@ export default {
     dispatchCidi() {
       this.$store.dispatch("mockCidiAction", this.cidiCookie);
     },
+    dispatchLoginTrue() {
+      this.$store.dispatch("mockPaseAction");
+    },
+
     //se guarda los datos del representante
     dispatchRepresentante() {
       this.$store.dispatch("mockRepresentanteAction", this.representante);
@@ -301,6 +315,7 @@ export default {
           this.user = response.data.UserProfile.user;
           this.user.cidiCookie = this.cidiCookie;
           this.dispatchLogin();
+          this.dispatchLoginTrue();
           window.localStorage.setItem(
             "role",
             response.data.UserProfile.user.role || null
@@ -337,8 +352,7 @@ export default {
             "nivel",
             response.data.UserProfile.user.level.level || null
           );
-
-          this.loading = false;
+          // this.loading = false;
           // this.$router.push("munienlinea");
         })
         .catch((error) => {

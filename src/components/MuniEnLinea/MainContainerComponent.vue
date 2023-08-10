@@ -152,6 +152,9 @@ export default {
               this.getCategories();
             }
           }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
+          }
         });
     },
   },

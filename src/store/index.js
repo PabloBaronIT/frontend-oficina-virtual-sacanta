@@ -32,6 +32,9 @@ export default createStore({
     representante(state, asd) {
       state.representante = asd;
     },
+    login(state) {
+      state.loggedIn = true;
+    },
   },
   actions: {
     mockLoginAction(context, asd) {
@@ -45,6 +48,9 @@ export default createStore({
     },
     saveP(context, asd) {
       context.commit("saveProcedure", asd);
+    },
+    mockPaseAction(context) {
+      context.commit("login");
     },
 
     cleanAction(context) {

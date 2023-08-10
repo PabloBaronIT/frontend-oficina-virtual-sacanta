@@ -459,6 +459,9 @@ export default {
               this.getMyProcedure();
             }
           }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
+          }
           //this.msj = err.response.data.message;
         });
     },

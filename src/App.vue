@@ -2,7 +2,10 @@
   <div>
     <NavTopVue
       v-if="
-        this.role != 'MUNI_ROLE' && this.role != undefined && this.role != null
+        this.role != 'MUNI_ROLE' &&
+        // this.role != undefined &&
+        // this.role != null &&
+        this.setPermission
       "
     />
     <NavMunicipalesComponentVue
@@ -12,8 +15,9 @@
       <NavComponent
         v-if="
           this.role != 'MUNI_ROLE' &&
-          this.role != undefined &&
-          this.role != null
+          // this.role != undefined &&
+          // this.role != null &&
+          this.setPermission
         "
       />
 
@@ -45,13 +49,13 @@ export default {
     },
   },
   computed: {
-    // setPermission() {
-    //   if (this.role) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // },
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   components: {
     NavComponent,
