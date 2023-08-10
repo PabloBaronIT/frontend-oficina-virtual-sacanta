@@ -25,6 +25,7 @@ export default {
     this.IdReferenciaOperacion = this.$route.query.IdReferenciaOperacion;
     this.loading = true;
     this.setPayment();
+    this.getMyProfile();
   },
   data() {
     return {
@@ -32,6 +33,8 @@ export default {
       IdReferenciaOperacion: "",
       message: "",
       loading: false,
+      user: "",
+      cidiCookie: "",
     };
   },
   methods: {
@@ -72,6 +75,86 @@ export default {
             ) {
               setTokenRelations();
               this.setPayment();
+            }
+          }
+        });
+    },
+    dispatchLogin() {
+      this.$store.dispatch("mockLoginAction", this.user);
+    },
+    dispatchCidi() {
+      this.$store.dispatch("mockCidiAction", this.cidiCookie);
+    },
+    dispatchLoginTrue() {
+      this.$store.dispatch("mockPaseAction");
+    },
+    getMyProfile() {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/user/profile")
+        .then((response) => {
+          console.log(response.data, "datos de usuariodb");
+          this.user = response.data.UserProfile.user;
+          this.user.cidiCookie = this.cidiCookie;
+          this.dispatchLogin();
+          this.dispatchLoginTrue();
+          window.localStorage.setItem(
+            "role",
+            response.data.UserProfile.user.role || null
+          );
+          window.localStorage.setItem(
+            "name",
+            response.data.UserProfile.user.firstname || null
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.UserProfile.user.lastname || null
+          );
+          window.localStorage.setItem(
+            "cuil",
+            response.data.UserProfile.user.cuil || null
+          );
+          window.localStorage.setItem(
+            "adress",
+            response.data.UserProfile.user.adress || null
+          );
+          window.localStorage.setItem(
+            "email",
+            response.data.UserProfile.user.email || null
+          );
+          window.localStorage.setItem(
+            "id",
+            response.data.UserProfile.user.id || null
+          );
+          window.localStorage.setItem(
+            "fecha-creacion",
+            response.data.UserProfile.user.created_at || null
+          );
+          window.localStorage.setItem(
+            "nivel",
+            response.data.UserProfile.user.level.level || null
+          );
+          // this.loading = false;
+          // this.$router.push("munienlinea");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getMyProfile();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getMyProfile();
             }
           }
         });

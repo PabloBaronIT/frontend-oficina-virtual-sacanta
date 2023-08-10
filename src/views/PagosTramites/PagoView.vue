@@ -90,7 +90,7 @@
                   :key="key"
                   class="answer"
                 >
-                  <p>{{ ans.options[0].answer || "" }}</p>
+                  <p>{{ ans.question_option_history[0].answer || "" }}</p>
                 </div>
               </div>
               <div class="footerCoprobante">

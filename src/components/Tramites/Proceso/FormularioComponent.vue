@@ -45,7 +45,28 @@
           </div>
 
           <!-- INPUT TIPO TEXTO -->
-          <div v-if="item.title !== `Describa la ubicación `" class="tipoTexto">
+          <div
+            v-if="
+              item.title !== `Describa la ubicación ` && item.type === 'text'
+            "
+            class="tipoTexto"
+          >
+            <label class="option-text">{{ item.title }}</label
+            ><br />
+            <label for=""> {{ item.description }}</label>
+
+            <input
+              class="form-control text-number-input"
+              :type="item.type"
+              v-model="this.textInput"
+            />
+          </div>
+          <div
+            v-if="
+              item.title !== `Describa la ubicación ` && item.type === 'number'
+            "
+            class="tipoTexto"
+          >
             <label class="option-text">{{ item.title }}</label
             ><br />
             <label for=""> {{ item.description }}</label>

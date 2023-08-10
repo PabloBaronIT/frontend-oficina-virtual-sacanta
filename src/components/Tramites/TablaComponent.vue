@@ -1,20 +1,74 @@
 <template>
   <div class="tabla-container">
-    <table v-if="!this.loading">
-      <tr>
+    <div class="accordion" id="accordionExample" style="width: 100%">
+      <div class="accordion-item" v-for="(p, key) in this.activos" :key="key">
+        <div style="display: flex; flex-direction: row">
+          <div style="display: flex; flex-direction: row; width: 90%">
+            {{ p.titulo || "" }} {{ p.id || "" }}{{ p.categoria || "" }}
+            {{ p.estado || "" }}
+          </div>
+          <!-- <h2 class="accordion-header"> -->
+          <button
+            class="accordion-button"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+            style="width: 3rem"
+          >
+            <!-- <p><i class="bi bi-arrow-down-square-fill"></i></p> -->
+          </button>
+        </div>
+        <!-- </h2> -->
+        <!-- <div
+          id="collapseOne"
+          class="accordion-collapse collapse show"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+            <strong>This is the first item's accordion body.</strong> It is
+            shown by default, until the collapse plugin adds the appropriate
+            classes that we use to style each element. These classes control the
+            overall appearance, as well as the showing and hiding via CSS
+            transitions. You can modify any of this with custom CSS or
+            overriding our default variables. It's also worth noting that just
+            about any HTML can go within the <code>.accordion-body</code>,
+            though the transition does limit overflow.
+          </div>
+        </div> -->
+      </div>
+      <div
+        id="collapseOne"
+        class="accordion-collapse collapse show"
+        data-bs-parent="#accordionExample"
+      >
+        <div class="accordion-body">
+          <strong>This is the first item's accordion body.</strong> It is shown
+          by default, until the collapse plugin adds the appropriate classes
+          that we use to style each element. These classes control the overall
+          appearance, as well as the showing and hiding via CSS transitions. You
+          can modify any of this with custom CSS or overriding our default
+          variables. It's also worth noting that just about any HTML can go
+          within the <code>.accordion-body</code>, though the transition does
+          limit overflow.
+        </div>
+      </div>
+    </div>
+    <!-- <table v-if="!this.loading"> -->
+    <!-- <tr>
         <th>Titulo</th>
         <th>ID</th>
-        <!-- <th>Ultimo movimiento</th> -->
         <th class="media">Asunto</th>
         <th>Estado</th>
         <th></th>
         <th></th>
-      </tr>
+      </tr> -->
+    <!-- ACORDEON -->
 
-      <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
+    <!-- <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
         <td @click="verTramite(p.id)">{{ p.titulo || "" }}</td>
         <td @click="verTramite(p.id)">{{ p.id || "" }}</td>
-        <!-- <td @click="verTramite(p.id)">{{ p.fecha || "" }}</td> -->
         <td class="media" @click="verTramite(p.id)">{{ p.categoria || "" }}</td>
         <td :class="'estado-fila'" @click="verTramite(p.id)">
           <p :style="`background: ${p.color}`" @click="verTramite(p.id)">
@@ -34,18 +88,14 @@
               aria-controls="collapseExample"
               @click="this.getComunicaciones(p.id)"
             >
-              <!-- <img
-                class="svg"
-                src="@/assets/comunicacion.svg"
-                alt="comunicaciones"
-              /> -->
+             
               <i class="bi bi-bell-fill"></i>
             </a>
           </p>
-        </td>
+        </td> -->
 
-        <!-- MODAL VISTA COMUNICACIONES-->
-        <div
+    <!-- MODAL VISTA COMUNICACIONES-->
+    <!-- <div
           class="modalComunicacion"
           id="collapseExample"
           v-if="this.selectTramite === p.id && this.modalComunicaciones"
@@ -76,172 +126,172 @@
               </p>
             </div>
           </div>
-        </div>
-      </tr>
+        </div> -->
+    <!-- </tr> -->
 
-      <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
-      <div class="modalRespuesta">
-        <div v-if="this.modalresponse === true" class="modal-content">
-          <div class="modal-top">
-            <h3 v-if="!this.message">Enviar respuesta</h3>
-            <p>Nº Tramite: {{ this.idTramite }}</p>
-            <img
-              @click="CloseModalRespuesta($event)"
-              class="svg"
-              src="@/assets/close.svg"
-              alt=""
-            />
-          </div>
-          <!--RESPUESTA ESCRITA-->
-
-          <div class="response" v-if="!message">
-            <label for="asunto">Respuesta</label>
-            <textarea
-              aria-multiline="true"
-              name="asunto"
-              id=""
-              v-model="this.respuestaA"
-            />
-
-            <!--SUBIR ARCHIVOS-->
-
-            <div class="file-container2">
-              <div v-if="!asd" class="file-intro">
-                <img
-                  v-if="!this.messageResponse"
-                  src="@/assets/tramite-logo.svg"
-                  alt=""
-                  id="img-preview"
-                  class="imgFile"
-                />
-
-                <hr />
-                <input
-                  accept=".jpg, .jpeg, .png, .webp"
-                  type="file"
-                  id="img-uploader"
-                  @change="selectFile($event)"
-                />
-
-                <!--INPUT PARA SUBIR EL ARCHIVO-->
-                <div class="fileup">
-                  <input
-                    v-if="this.file"
-                    class="m-2 btn btn-secondary"
-                    type="button"
-                    value="Subir archivo"
-                    @click="postFile()"
-                  />
-                </div>
-              </div>
-              <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
-
-              <div v-else class="cargado">
-                <img
-                  src="@/assets/red-check-mark-icon.svg"
-                  alt=""
-                  id="img-preview"
-                  class="imgFile"
-                />
-                <p>Archivo cargado</p>
-              </div>
-            </div>
-
-            <input
-              class="botonSubmit"
-              type="button"
-              value="Enviar"
-              @click="sentRespuesta"
-              v-if="this.respuestaA || this.respuestaB"
-            />
-          </div>
-          <p v-if="message" class="enviado">{{ this.message }}</p>
-        </div>
-      </div>
-
-      <!-- MODAL DE VISTA DEL TRAMITE -->
-      <div v-if="modalVista" class="grafico-container">
+    <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
+    <div class="modalRespuesta">
+      <div v-if="this.modalresponse === true" class="modal-content">
         <div class="modal-top">
-          <h3>
-            {{ this.selectTramite.procedure.category.title }}
-          </h3>
+          <h3 v-if="!this.message">Enviar respuesta</h3>
+          <p>Nº Tramite: {{ this.idTramite }}</p>
           <img
-            @click="this.modalVista = false"
+            @click="CloseModalRespuesta($event)"
             class="svg"
             src="@/assets/close.svg"
             alt=""
           />
         </div>
-        <div class="data-container">
-          <div>
-            Tramite n°:{{ this.selectTramite.procedure.id }}
-            <!-- <br />
+        <!--RESPUESTA ESCRITA-->
+
+        <div class="response" v-if="!message">
+          <label for="asunto">Respuesta</label>
+          <textarea
+            aria-multiline="true"
+            name="asunto"
+            id=""
+            v-model="this.respuestaA"
+          />
+
+          <!--SUBIR ARCHIVOS-->
+
+          <div class="file-container2">
+            <div v-if="!asd" class="file-intro">
+              <img
+                v-if="!this.messageResponse"
+                src="@/assets/tramite-logo.svg"
+                alt=""
+                id="img-preview"
+                class="imgFile"
+              />
+
+              <hr />
+              <input
+                accept=".jpg, .jpeg, .png, .webp"
+                type="file"
+                id="img-uploader"
+                @change="selectFile($event)"
+              />
+
+              <!--INPUT PARA SUBIR EL ARCHIVO-->
+              <div class="fileup">
+                <input
+                  v-if="this.file"
+                  class="m-2 btn btn-secondary"
+                  type="button"
+                  value="Subir archivo"
+                  @click="postFile()"
+                />
+              </div>
+            </div>
+            <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
+
+            <div v-else class="cargado">
+              <img
+                src="@/assets/red-check-mark-icon.svg"
+                alt=""
+                id="img-preview"
+                class="imgFile"
+              />
+              <p>Archivo cargado</p>
+            </div>
+          </div>
+
+          <input
+            class="botonSubmit"
+            type="button"
+            value="Enviar"
+            @click="sentRespuesta"
+            v-if="this.respuestaA || this.respuestaB"
+          />
+        </div>
+        <p v-if="message" class="enviado">{{ this.message }}</p>
+      </div>
+    </div>
+
+    <!-- MODAL DE VISTA DEL TRAMITE -->
+    <div v-if="modalVista" class="grafico-container">
+      <div class="modal-top">
+        <h3>
+          {{ this.selectTramite.procedure.category.title }}
+        </h3>
+        <img
+          @click="this.modalVista = false"
+          class="svg"
+          src="@/assets/close.svg"
+          alt=""
+        />
+      </div>
+      <div class="data-container">
+        <div>
+          Tramite n°:{{ this.selectTramite.procedure.id }}
+          <!-- <br />
             Presentado el dia:
             {{
               new Date(
                 this.selectTramite.procedure.created_at
               ).toLocaleDateString()
             }} -->
-          </div>
+        </div>
 
+        <p>
+          Nombre de tramite:
+          {{ this.selectTramite.procedure.procedure.title }}
+          <br />
+
+          Estado:{{ this.selectTramite.procedure.status.status }}
+        </p>
+        <!-- SI EXISTE REQUERIMIENTO ACTIVO SE PUEDE VER Y CONTESTAR -->
+        <div
+          v-if="
+            this.selectTramite.procedure.requirementHistory.length >= 1 &&
+            this.selectTramite.procedure.requirementHistory[
+              this.selectTramite.procedure.requirementHistory.length - 1
+            ].active === true
+          "
+          class="requerimiento"
+        >
           <p>
-            Nombre de tramite:
-            {{ this.selectTramite.procedure.procedure.title }}
-            <br />
-
-            Estado:{{ this.selectTramite.procedure.status.status }}
-          </p>
-          <!-- SI EXISTE REQUERIMIENTO ACTIVO SE PUEDE VER Y CONTESTAR -->
-          <div
-            v-if="
-              this.selectTramite.procedure.requirementHistory.length >= 1 &&
+            Requerimiento:
+            <strong>{{
               this.selectTramite.procedure.requirementHistory[
                 this.selectTramite.procedure.requirementHistory.length - 1
-              ].active === true
-            "
-            class="requerimiento"
-          >
-            <p>
-              Requerimiento:
-              <strong>{{
+              ].info_req
+            }}</strong>
+          </p>
+
+          <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
+          <input
+            type="button"
+            value="Responder"
+            @click="
+              OpenModalRespuesta(
                 this.selectTramite.procedure.requirementHistory[
                   this.selectTramite.procedure.requirementHistory.length - 1
-                ].info_req
-              }}</strong>
-            </p>
-
-            <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
-            <input
-              type="button"
-              value="Responder"
-              @click="
-                OpenModalRespuesta(
-                  this.selectTramite.procedure.requirementHistory[
-                    this.selectTramite.procedure.requirementHistory.length - 1
-                  ].id
-                )
-              "
-              class="botonSubmit"
-            />
-          </div>
-          <!-- SI EXISTEN DOCUMENTOS RELACIONADOS A ESTE TRAMITE SE PUEDEN VER Y DESCARGAR -->
+                ].id
+              )
+            "
+            class="botonSubmit"
+          />
+        </div>
+        <!-- SI EXISTEN DOCUMENTOS RELACIONADOS A ESTE TRAMITE SE PUEDEN VER Y DESCARGAR -->
+        <div
+          v-if="this.selectTramite.procedure.documents.length >= 1"
+          class="divDocumentos"
+        >
+          <h5>Documentación disponible para descargar</h5>
           <div
-            v-if="this.selectTramite.procedure.documents.length >= 1"
-            class="divDocumentos"
+            v-for="item in this.selectTramite.procedure.documents"
+            :key="item.id"
+            style="display: flex; flex-direction: row"
           >
-            <h5>Documentación disponible para descargar</h5>
-            <div
-              v-for="item in this.selectTramite.procedure.documents"
-              :key="item.id"
-              style="display: flex; flex-direction: row"
-            >
-              <p>*{{ item.title }}</p>
-              <a target="_blank" :href="`${item.link}`">Descargar </a>
-            </div>
+            <p>*{{ item.title }}</p>
+            <a target="_blank" :href="`${item.link}`">Descargar </a>
           </div>
         </div>
       </div>
-    </table>
+    </div>
+    <!-- </table> -->
 
     <div class="loader">
       <div
