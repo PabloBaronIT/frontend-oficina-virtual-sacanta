@@ -127,12 +127,14 @@
               name="telefono"
               label="Telefóno"
               placeholder="Teléfono"
-              validation="required|number|length:10,10"
+              validation="required|number|length:6,20"
               help="Ingresar solo numeros"
               :validation-messages="{
-                required: 'Ingresa el codigo de area y telefono sin 0 ni 15',
+                required:
+                  'Ingresa el codigo de area y telefono sin 0 ni 15 y sin espacios',
                 number: 'Ingresar solo nùmeros',
-                length: 'El telefono debe tener 10 caracteres',
+                length:
+                  'Debe ingresar al menos 6 caracteres, y hasta 30, como máximo',
               }"
             />
           </div>
@@ -153,6 +155,9 @@
         </div>
 
         <div style="margin-top: 2rem">
+          <div class="alert alert-success" role="alert" v-if="this.registrado">
+            {{ this.message }}
+          </div>
           <input
             class="btn btn-primary btn-lg botonSubmit"
             type="button"
@@ -160,9 +165,6 @@
             @click="registrar"
             :disabled="this.disabled"
           />
-          <div class="creado" v-if="this.registrado">
-            {{ this.message }}
-          </div>
         </div>
       </div>
     </FormKit>
@@ -174,7 +176,7 @@ import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
 import { BASE_URL } from "@/env";
 export default {
-  name: "CuentaView",
+  name: "UpdateDataView",
   data() {
     return {
       firstname: "",
@@ -216,11 +218,22 @@ export default {
   },
   methods: {
     validar() {
+      let asd = /^[0-9]+$/;
       if (
+        this.firstname != null &&
+        this.lastname != null &&
         this.cuil != null &&
+        this.cuil.length > 0 &&
+        this.cuil.length === 11 &&
         this.telefono != null &&
+        this.telefono.length >= 6 &&
+        this.telefono.length < 20 &&
+        this.postCode.length === 4 &&
         this.email != null &&
-        this.avatarSelect != null
+        this.avatarSelect != null &&
+        asd.test(this.cuil) &&
+        asd.test(this.postCode) &&
+        asd.test(this.telefono)
       ) {
         this.disabled = false;
       } else {
@@ -411,11 +424,7 @@ export default {
   margin-top: 1rem;
   align-items: center;
 }
-.creado {
-  margin: auto;
-  font-size: 25px;
-  color: var(--green);
-}
+
 h2 {
   margin-bottom: 5rem;
 }

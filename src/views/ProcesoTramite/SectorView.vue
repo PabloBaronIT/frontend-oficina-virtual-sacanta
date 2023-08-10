@@ -1,5 +1,5 @@
 <template>
-  <div class="sector-container">
+  <div class="sector-container" v-if="setPermission">
     <Sector />
   </div>
 </template>
@@ -11,6 +11,15 @@ export default {
   name: "SectorView",
   components: {
     Sector,
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>

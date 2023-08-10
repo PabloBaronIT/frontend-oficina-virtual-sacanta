@@ -303,7 +303,7 @@ export default {
 
       let q = {
         question: this.preguntas[this.paso].question.id,
-        options: [
+        question_option_history: [
           {
             questionOption: this.preguntas[this.paso].questionOption[choice].id,
             answer: optionTitle,

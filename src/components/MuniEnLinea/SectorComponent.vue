@@ -144,6 +144,9 @@ export default {
               this.GetProcedure();
             }
           }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
+          }
         });
     },
 

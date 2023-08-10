@@ -1,58 +1,75 @@
 <template>
-  <div>
-    <div class="main">
-      <div class="container">
-        <div class="prueba-container l" v-if="!modal">
-          <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only"></span>
-          </div>
-          <div class="spinner-grow text-secondary" role="status">
-            <span class="sr-only"></span>
-          </div>
-          <div class="spinner-grow text-success" role="status">
-            <span class="sr-only"></span>
-          </div>
+  <div class="main" v-if="setPermission">
+    <div class="container">
+      <div class="prueba-container l" v-if="!modal">
+        <div class="spinner-grow text-primary" role="status">
+          <span class="sr-only"></span>
         </div>
-        <div v-show="modal" class="prueba-container" id="elemento">
-          <h2>Último paso:</h2>
-          <p>
-            Este tramite es arancelado, una vez que se <br />
-            procese el pago podra descargar su comprobante.
-          </p>
-          <PagarComponent />
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="sr-only"></span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+      <div v-show="modal" class="prueba-container" id="elemento">
+        <h2>Último paso:</h2>
+        <p>
+          Este tramite es arancelado, una vez que se <br />
+          procese el pago podra descargar su comprobante.
+        </p>
+        <PagarComponent />
 
-          <button
-            type="button"
-            class="btn btn-primary m-1"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-          >
-            Ver detalles de trámite
-          </button>
+        <button
+          type="button"
+          class="btn btn-primary m-1"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Ver detalles de trámite
+        </button>
 
-          <!-- MODAL DE DETALLE DE TRAMITE -->
+        <!-- MODAL DE DETALLE DE TRAMITE -->
+        <div
+          class="modal fade asd"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
           <div
-            class="modal fade asd"
-            id="exampleModal"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
+            class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
           >
-            <div
-              class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
-            >
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">
-                    Detalle:
-                  </h1>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Detalle:
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  padding: 0px 1rem;
+                "
+              >
+                <p>
+                  Usuario:{{ this.$store.state.user.firstname }} {{ " " }}
+                  {{ this.$store.state.user.lastname }}
+                </p>
+                <p>cuil:{{ this.$store.state.user.cuil }}</p>
+              </div>
+              <div class="modal-body text-start">
+                <h2>
+                  {{ this.$store.state.procedure[0].title || "" }}
+                </h2>
                 <div
                   style="
                     display: flex;
@@ -61,80 +78,54 @@
                     padding: 0px 1rem;
                   "
                 >
+                  <p>Fecha: {{ this.$store.state.procedure[0].fecha || "" }}</p>
                   <p>
-                    Usuario:{{ this.$store.state.user.firstname }} {{ " " }}
-                    {{ this.$store.state.user.lastname }}
+                    Valor: {{ this.$store.state.procedure[0].precio || "" }}
                   </p>
-                  <p>cuil:{{ this.$store.state.user.cuil }}</p>
-                </div>
-                <div class="modal-body text-start">
-                  <h2>
-                    {{ this.$store.state.procedure[0].title || "" }}
-                  </h2>
-                  <div
-                    style="
-                      display: flex;
-                      flex-direction: row;
-                      justify-content: space-between;
-                      padding: 0px 1rem;
-                    "
-                  >
-                    <p>
-                      Fecha: {{ this.$store.state.procedure[0].fecha || "" }}
-                    </p>
-                    <p>
-                      Valor: {{ this.$store.state.procedure[0].precio || "" }}
-                    </p>
-                  </div>
-
-                  <p>respuetas:</p>
-                  <div
-                    v-for="(ans, key) in this.$store.state.procedure[0]
-                      .questions"
-                    :key="key"
-                    class="answer"
-                  >
-                    <p>{{ ans.options[0].answer || "" }}</p>
-                  </div>
-                </div>
-                <div class="footerCoprobante">
-                  <div>
-                    <p>Declaro que los datos asignados son verdaderos.</p>
-                  </div>
-                  <div
-                    v-if="this.$store.state.representante"
-                    class="textRepresentative"
-                  >
-                    Este trámite fue presentado por
-                    <strong>
-                      {{ this.$store.state.representante.firstname }}
-                      {{ this.$store.state.representante.lastname }} en
-                    </strong>
-
-                    representacion de
-                    <strong>
-                      {{ this.$store.state.user.firstname }}
-                      {{ this.$store.state.user.lastname }}
-                    </strong>
-                  </div>
                 </div>
 
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                  <button
-                    type="button"
-                    @click="download"
-                    class="btn btn-primary"
-                  >
-                    Descargar
-                  </button>
+                <p>respuetas:</p>
+                <div
+                  v-for="(ans, key) in this.$store.state.procedure[0].questions"
+                  :key="key"
+                  class="answer"
+                >
+                  <p>{{ ans.options[0].answer || "" }}</p>
                 </div>
+              </div>
+              <div class="footerCoprobante">
+                <div>
+                  <p>Declaro que los datos asignados son verdaderos.</p>
+                </div>
+                <div
+                  v-if="this.$store.state.representante"
+                  class="textRepresentative"
+                >
+                  Este trámite fue presentado por
+                  <strong>
+                    {{ this.$store.state.representante.firstname }}
+                    {{ this.$store.state.representante.lastname }} en
+                  </strong>
+
+                  representacion de
+                  <strong>
+                    {{ this.$store.state.user.firstname }}
+                    {{ this.$store.state.user.lastname }}
+                  </strong>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+                <button type="button" @click="download" class="btn btn-primary">
+                  Descargar
+                </button>
               </div>
             </div>
           </div>
@@ -155,6 +146,15 @@ export default {
       modal: false,
       comprobante: false,
     };
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   created() {
     setTimeout(() => {

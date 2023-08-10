@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="setPermission">
     <div class="top">
       <h1>Mis trámites</h1>
     </div>
@@ -13,6 +13,15 @@ export default {
   name: "TramitesView",
   components: {
     Tabla,
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>

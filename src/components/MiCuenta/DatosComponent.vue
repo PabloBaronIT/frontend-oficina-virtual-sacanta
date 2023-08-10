@@ -21,6 +21,12 @@
       <p>
         Cuenta creada el <b>{{ fecha }}</b>
       </p>
+      <p>
+        Ciudad: <b>{{ this.city }}</b>
+      </p>
+      <p>
+        Teléfono: <b>{{ this.phoneNumber }}</b>
+      </p>
     </div>
   </div>
 </template>
@@ -40,6 +46,8 @@ export default {
       email: "",
       adress: "",
       fecha_creacion: "",
+      city: "",
+      phoneNumber: "",
     };
   },
   created() {
@@ -75,7 +83,9 @@ export default {
           this.cuil = res.user.cuil;
           this.email = res.user.email;
           this.adress = res.user.adress;
-
+          this.city = res.user.city;
+          this.phoneNumber = res.user.phoneNumber;
+          this.nivel = res.user.level.level;
           this.fecha_creacion = res.user.created_at;
         })
         .catch((error) => {
@@ -90,6 +100,9 @@ export default {
               setTokenRelations();
               this.getMyProfile();
             }
+          }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
           }
         });
     },

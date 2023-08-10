@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" v-if="setPermission">
     <div class="header">
       <h2 class="tituloPrincipal">
         {{ this.$route.params.formularioTitle }}
@@ -14,8 +14,6 @@
       :outProcedure="this.outProcedure"
       v-if="this.preguntas"
     />
-
-    <!-- Armar componente de formulario con props -->
   </div>
 </template>
 
@@ -112,7 +110,19 @@ export default {
               this.getTemplate();
             }
           }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
+          }
         });
+    },
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };

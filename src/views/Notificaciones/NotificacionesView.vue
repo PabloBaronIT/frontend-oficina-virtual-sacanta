@@ -1,5 +1,5 @@
 <template>
-  <div class="sector-container">
+  <div class="sector-container" v-if="setPermission">
     <div class="top">
       <h1>Mis Comunicaciones</h1>
     </div>
@@ -99,6 +99,15 @@ export default {
     //this.cidiCookie = this.$store.state.CidiCookie;
     this.getCommunication();
   },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   methods: {
     getCommunication() {
       this.loading = true;
@@ -134,6 +143,9 @@ export default {
               setToken();
               this.getCommunication();
             }
+          }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
           }
         });
     },
