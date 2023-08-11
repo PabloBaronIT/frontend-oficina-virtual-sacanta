@@ -1,58 +1,50 @@
 <template>
   <div class="tabla-container">
-    <div class="accordion" id="accordionExample" style="width: 100%">
-      <div class="accordion-item" v-for="(p, key) in this.activos" :key="key">
-        <div style="display: flex; flex-direction: row">
-          <div style="display: flex; flex-direction: row; width: 90%">
-            {{ p.titulo || "" }} {{ p.id || "" }}{{ p.categoria || "" }}
-            {{ p.estado || "" }}
-          </div>
-          <!-- <h2 class="accordion-header"> -->
-          <button
-            class="accordion-button"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseOne"
-            aria-expanded="true"
-            aria-controls="collapseOne"
-            style="width: 3rem"
-          >
-            <!-- <p><i class="bi bi-arrow-down-square-fill"></i></p> -->
-          </button>
-        </div>
-        <!-- </h2> -->
-        <!-- <div
-          id="collapseOne"
-          class="accordion-collapse collapse show"
-          data-bs-parent="#accordionExample"
-        >
-          <div class="accordion-body">
-            <strong>This is the first item's accordion body.</strong> It is
-            shown by default, until the collapse plugin adds the appropriate
-            classes that we use to style each element. These classes control the
-            overall appearance, as well as the showing and hiding via CSS
-            transitions. You can modify any of this with custom CSS or
-            overriding our default variables. It's also worth noting that just
-            about any HTML can go within the <code>.accordion-body</code>,
-            though the transition does limit overflow.
-          </div>
-        </div> -->
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        background: gray;
+        color: aliceblue;
+        padding: 0.5rem;
+      "
+    >
+      <p>Titulo</p>
+      <P>ID</P>
+      <P>asunto</P>
+      <p>Estado</p>
+    </div>
+    <div v-for="(item, index) in this.activos" :key="index">
+      <div class="encabezado" @click="this.open(item.id)">
+        <p>{{ item.titulo }}</p>
+        <p>{{ item.id }}</p>
+        <p>{{ item.categoria }}</p>
+        <p>{{ item.estado }}</p>
       </div>
-      <div
-        id="collapseOne"
-        class="accordion-collapse collapse show"
-        data-bs-parent="#accordionExample"
-      >
-        <div class="accordion-body">
-          <strong>This is the first item's accordion body.</strong> It is shown
-          by default, until the collapse plugin adds the appropriate classes
-          that we use to style each element. These classes control the overall
-          appearance, as well as the showing and hiding via CSS transitions. You
-          can modify any of this with custom CSS or overriding our default
-          variables. It's also worth noting that just about any HTML can go
-          within the <code>.accordion-body</code>, though the transition does
-          limit overflow.
+      <div :class="item.open ? `open` : `noOpen`">
+        <p>Historial del tramite {{ item.id }}:</p>
+        <p>
+          Fecha de presentación:
+          {{ new Date(this.presentacionTramite).toLocaleDateString() }}
+
+          <i class="bi bi-arrow-down-square"> </i>
+        </p>
+        <p v-if="this.inicioTramite">
+          Fecha de Inicio:
+          {{ new Date(this.inicioTramite).toLocaleDateString() }}
+        </p>
+        <div v-if="this.requerimientoTramite.length > 0">
+          <p v-for="item in this.requerimientoTramite" :key="item.id">
+            Fecha de Requerimiento/s:
+            {{ new Date(item.created_at).toLocaleDateString() }}
+          </p>
         </div>
+
+        <p v-if="this.finalizacionTramite">
+          Fecha de Finalización:
+          {{ new Date(this.finalizacionTramite).toLocaleDateString() }}
+        </p>
       </div>
     </div>
     <!-- <table v-if="!this.loading"> -->
@@ -382,6 +374,10 @@ export default {
       pagina: 1,
       idTramite: null,
       comunicaciones: "",
+      presentacionTramite: null,
+      inicioTramite: null,
+      requerimientoTramite: [],
+      finalizacionTramite: null,
     };
   },
   created() {
@@ -437,7 +433,7 @@ export default {
         .then((response) => {
           let h = response.data.MyProcedures;
 
-          console.log(response.data.MyProcedures + "mis tramites");
+          console.log(response + "mis tramites");
           this.l = h.length;
 
           for (let i = 0; i < h.length; i++) {
@@ -450,6 +446,7 @@ export default {
               color: "",
               titulo: "",
               comunicaciones: null,
+              open: false,
             };
 
             let iso = h[i].updated_at;
@@ -721,8 +718,38 @@ export default {
       this.pagina--;
       this.getMyProcedure();
     },
+    //ABRIR UN TRAMITE
+    open(id) {
+      let asd = this.activos.map((item) => {
+        if (item.id === id) {
+          item.open = !item.open;
+          if (item.open === true) {
+            this.getHistory(id);
+          }
+        } else {
+          item.open = false;
+        }
+        return asd;
+      });
+    },
+    //BUSQUEDA DE HISTORIAL DE UN TRAMITE
+    getHistory(id) {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient.get("/oficina/procedures/timeline/" + id).then((response) => {
+        console.log(response.data);
+        this.presentacionTramite = response.data.CreatedDate;
+        this.inicioTramite = response.data.InProcessDate;
+        this.requerimientoTramite = response.data.RequirementDates;
+        this.finalizacionTramite = response.data.FinalizedDate;
+      });
+    },
   },
-  computed: {},
 };
 </script>
 
@@ -846,16 +873,40 @@ input:hover {
   width: 15%;
   height: 10px;
 }
-
+/* TABLA DE TRAMITES */
 .tabla-container {
-  width: 80%;
-  display: flex;
+  width: 80vw;
+  height: auto;
+  margin: auto;
+  /* display: flex;
   flex-flow: column;
-  align-items: center;
+  align-items: center; */
   justify-content: flex-start;
-  position: relative;
-  margin-left: 2rem;
+  /* position: relative; */
+  /* margin-left: 2rem; */
 }
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  background: #66666656;
+  border-bottom: 1px solid black;
+}
+.encabezado p {
+  width: 20%;
+}
+.open {
+  max-height: 150px;
+  text-align: left;
+  padding: 1rem;
+}
+.noOpen {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/*  */
 .file-container2 {
   border: 1px solid var(--grey);
   padding: 20px;
