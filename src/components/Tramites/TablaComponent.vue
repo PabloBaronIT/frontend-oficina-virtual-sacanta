@@ -14,49 +14,60 @@
       <P>ID</P>
       <P>asunto</P>
       <p>Estado</p>
+      <p>Más</p>
     </div>
     <div v-for="(item, index) in this.activos" :key="index">
-      <div class="encabezado" @click="this.open(item.id)">
-        <p>{{ item.titulo }}</p>
-        <p>{{ item.id }}</p>
-        <p>{{ item.categoria }}</p>
-        <p>{{ item.estado }}</p>
+      <div class="encabezado">
+        <p @click="this.open(item.id)">{{ item.titulo }}</p>
+        <p @click="this.open(item.id)">{{ item.id }}</p>
+        <p @click="this.open(item.id)">{{ item.categoria }}</p>
+        <p @click="this.open(item.id)">{{ item.estado }}</p>
+        <p
+          style="cursor: pointer; text-decoration: underline"
+          @click="verTramite(item.id)"
+        >
+          Ver Tramite
+        </p>
       </div>
+
       <div :class="item.open ? `open` : `noOpen`">
         <p>Historial del tramite {{ item.id }}:</p>
         <p>
           Fecha de presentación:
           {{ new Date(this.presentacionTramite).toLocaleDateString() }}
 
-          <i class="bi bi-arrow-down-square"> </i>
+          <i class="bi bi-arrow-down-square" @click="createPDFsubmitt(item.id)">
+          </i>
         </p>
         <p v-if="this.inicioTramite">
           Fecha de Inicio:
           {{ new Date(this.inicioTramite).toLocaleDateString() }}
         </p>
-        <div v-if="this.requerimientoTramite.length > 0">
-          <p v-for="item in this.requerimientoTramite" :key="item.id">
+        <div v-if="this.requerimientoTramite">
+          <p v-for="element in this.requerimientoTramite" :key="element.id">
             Fecha de Requerimiento/s:
-            {{ new Date(item.created_at).toLocaleDateString() }}
+
+            {{ new Date(element.created_at).toLocaleDateString() }} -
+            <i
+              class="bi bi-arrow-down-square"
+              @click="createPDFrequirement(item.id, element.id)"
+            >
+            </i>
           </p>
         </div>
 
         <p v-if="this.finalizacionTramite">
           Fecha de Finalización:
           {{ new Date(this.finalizacionTramite).toLocaleDateString() }}
+          <i
+            class="bi bi-arrow-down-square"
+            @click="createPDFfinalized(item.id)"
+          >
+          </i>
         </p>
       </div>
     </div>
     <!-- <table v-if="!this.loading"> -->
-    <!-- <tr>
-        <th>Titulo</th>
-        <th>ID</th>
-        <th class="media">Asunto</th>
-        <th>Estado</th>
-        <th></th>
-        <th></th>
-      </tr> -->
-    <!-- ACORDEON -->
 
     <!-- <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
         <td @click="verTramite(p.id)">{{ p.titulo || "" }}</td>
@@ -215,19 +226,10 @@
         />
       </div>
       <div class="data-container">
-        <div>
-          Tramite n°:{{ this.selectTramite.procedure.id }}
-          <!-- <br />
-            Presentado el dia:
-            {{
-              new Date(
-                this.selectTramite.procedure.created_at
-              ).toLocaleDateString()
-            }} -->
-        </div>
+        <div>Tramite n°:{{ this.selectTramite.procedure.id }}</div>
 
         <p>
-          Nombre de tramite:
+          Nombre de trámite:
           {{ this.selectTramite.procedure.procedure.title }}
           <br />
 
@@ -283,6 +285,106 @@
         </div>
       </div>
     </div>
+
+    <!-- MODAL PARA PDF -->
+    <div v-if="modalPDF === true" class="grafico-container pdf">
+      <div v-if="pdfSubmitt" style="width: 100%">
+        <div class="modal-top">
+          <h2>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h2>
+        </div>
+        <h5>Nombre: {{ this.pdfSubmitt.procedure.title }}</h5>
+        <p>
+          Fecha de creación:
+          {{ new Date(this.pdfSubmitt?.created_at).toLocaleDateString() }}
+        </p>
+        <p style="width: 70%">{{ this.pdfSubmitt.communication[0].message }}</p>
+        <p>
+          Usuario Municipal asignado:
+          <strong
+            >{{ this.pdfSubmitt.userMuni.firstname }}
+            {{ this.pdfSubmitt.userMuni.lastname }}</strong
+          >
+        </p>
+        <p>
+          Fecha de emisión:
+          {{ new Date(this.pdfSubmitt?.actual_date).toLocaleDateString() }}
+        </p>
+      </div>
+      <div v-if="pdfRequirement">
+        <div class="modal-top">
+          <h2>
+            Constancia de requerimiento Nº:
+            {{ this.pdfRequirement.procedureHistory.id }}
+          </h2>
+        </div>
+        <h5>Nombre: {{ this.pdfRequirement.title }}</h5>
+        <p>
+          Fecha de creación:
+          {{ new Date(this.pdfRequirement?.created_at).toLocaleDateString() }}
+        </p>
+        <p>
+          Fecha de cierre de requerimiento:
+          {{ new Date(this.pdfRequirement?.finalized_at).toLocaleDateString() }}
+        </p>
+        <p style="width: 100%">{{ this.pdfRequirement.info_req }}</p>
+
+        <p>
+          Fecha de emisión:
+          {{ new Date(this.pdfRequirement?.actual_date).toLocaleDateString() }}
+        </p>
+      </div>
+      <!-- PARA FINALIZACION -->
+      <div v-if="this.pdfFinalized">
+        <div class="modal-top">
+          <h2>
+            Constancia de finalización trámite Nº:
+            {{ this.pdfFinalized.id }}
+          </h2>
+        </div>
+        <h5>Nombre: {{ this.pdfFinalized.procedure.title }}</h5>
+        <p>
+          Fecha de finalización:
+          {{
+            new Date(this.pdfFinalized?.resolution__date).toLocaleDateString()
+          }}
+        </p>
+        <p style="width: 100%">
+          {{ this.pdfFinalized.communication[0].message }}
+        </p>
+        <p>
+          Usuario Municipal asignado:
+          <strong
+            >{{ this.pdfFinalized.userMuni.firstname }}
+            {{ this.pdfFinalized.userMuni.lastname }}</strong
+          >
+        </p>
+        <p>
+          Fecha de emisión:
+          {{ new Date(this.pdfFinalized?.actual_date).toLocaleDateString() }}
+        </p>
+      </div>
+
+      <div
+        style="
+          width: 50%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+        "
+      >
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          @click="this.modalPDF = false"
+        >
+          Cerrar
+        </button>
+        <button type="button" @click="download" class="btn btn-primary">
+          Descargar
+        </button>
+      </div>
+    </div>
     <!-- </table> -->
 
     <div class="loader">
@@ -328,7 +430,7 @@
           class="svg"
           src="@/assets/next.svg"
           alt=""
-          v-if="this.l > 10"
+          v-if="this.l > 5"
         />
       </div>
 
@@ -376,8 +478,12 @@ export default {
       comunicaciones: "",
       presentacionTramite: null,
       inicioTramite: null,
-      requerimientoTramite: [],
+      requerimientoTramite: null,
       finalizacionTramite: null,
+      pdfSubmitt: null,
+      pdfRequirement: null,
+      pdfFinalized: null,
+      modalPDF: false,
     };
   },
   created() {
@@ -386,6 +492,9 @@ export default {
     // this.getComunicaciones();
   },
   methods: {
+    download() {
+      window.print();
+    },
     verTramite(id) {
       //console.log("soy el trmite,", id);
       this.idTramite = id;
@@ -657,6 +766,7 @@ export default {
             }
           })
           .catch((error) => {
+            console.log(error);
             if (error.response.status === 500) {
               if (error.response.data.message === "Token de usuario expirado") {
                 setToken();
@@ -720,17 +830,27 @@ export default {
     },
     //ABRIR UN TRAMITE
     open(id) {
-      let asd = this.activos.map((item) => {
+      this.activos.forEach((item) => {
         if (item.id === id) {
           item.open = !item.open;
-          if (item.open === true) {
-            this.getHistory(id);
-          }
         } else {
           item.open = false;
         }
-        return asd;
+        if (item.open === true) {
+          this.getHistory(id);
+        }
       });
+      // let asd = this.activos.map((item) => {
+      //   if (item.id === id) {
+      //     item.open = !item.open;
+      //     if (item.open === true) {
+      //       this.getHistory(id);
+      //     }
+      //   } else {
+      //     item.open = false;
+      //   }
+      //   return asd;
+      // });
     },
     //BUSQUEDA DE HISTORIAL DE UN TRAMITE
     getHistory(id) {
@@ -748,6 +868,107 @@ export default {
         this.requerimientoTramite = response.data.RequirementDates;
         this.finalizacionTramite = response.data.FinalizedDate;
       });
+    },
+    createPDFsubmitt(id) {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/procedures/submitted-procedure-data/" + id)
+        .then((response) => {
+          this.pdfSubmitt = response.data;
+          this.pdfRequirement = null;
+          this.pdfFinalized = null;
+          this.modalPDF = true;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.createPDFsubmitt(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.createPDFsubmitt(id);
+            }
+          }
+        });
+    },
+    createPDFrequirement(tramite, id) {
+      console.log(tramite, id, "soy el tramite y el requer");
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get(
+          "/oficina/procedures/requirement-procedure-data/" + tramite + "/" + id
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.pdfRequirement = response.data;
+          this.pdfSubmitt = null;
+          this.pdfFinalized = null;
+          this.modalPDF = true;
+        })
+        .catch((error) => {
+          console.log(error.response);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.createPDFrequirement(tramite, id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.createPDFrequirement(tramite, id);
+            }
+          }
+        });
+    },
+    createPDFfinalized(id) {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/oficina/procedures/finalized-procedure-data/" + id)
+        .then((response) => {
+          console.log(response);
+          (this.pdfFinalized = response.data), (this.pdfSubmitt = null);
+          this.pdfRequirement = null;
+          this.modalPDF = true;
+        })
+        .catch((error) => {
+          console.log(error.response);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.createPDFfinalized(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.createPDFfinalized(id);
+            }
+          }
+        });
     },
   },
 };
@@ -768,13 +989,14 @@ export default {
   align-items: center;
   z-index: 15;
   position: absolute;
-  top: 10%;
+  top: 20%;
   left: 0;
   right: 0;
   margin-left: auto;
   margin-right: auto;
   width: 500px; /* Need a specific value to work */
   height: auto;
+  padding: 1rem;
   border-radius: 10px;
   /* padding: 5px; */
   background: rgba(255, 255, 255, 0.3);
@@ -787,6 +1009,10 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.18);
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+.pdf {
+  width: 80vw;
+  height: 60vh;
 }
 .data-container {
   display: flex;
@@ -837,6 +1063,7 @@ export default {
 
 .svg {
   max-width: 20px;
+  margin-left: 3rem;
 }
 
 input[type="checkbox"] {
@@ -897,7 +1124,7 @@ input:hover {
   width: 20%;
 }
 .open {
-  max-height: 150px;
+  max-height: 250px;
   text-align: left;
   padding: 1rem;
 }
@@ -962,12 +1189,16 @@ td {
 }
 .modalRespuesta {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   z-index: 20;
   position: absolute;
-  top: 0;
+  top: 20%;
+  left: 0;
+  right: 0;
+  margin-left: 25%;
+  margin-right: auto;
   height: auto;
   width: 600px; /* Need a specific value to work */
   border-radius: 10px;
@@ -994,7 +1225,7 @@ td {
   display: flex;
   width: 100%;
   text-align: left;
-  justify-content: space-around;
+  justify-content: center;
   align-items: flex-start;
 }
 span {

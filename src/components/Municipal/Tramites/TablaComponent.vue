@@ -163,8 +163,8 @@
                       </strong>
                     </h5>
 
-                    <p v-if="q.question_option_history[0].answer">
-                      {{ q.question_option_history[0].answer }}
+                    <p v-if="q.question_option_history[0]?.answer">
+                      {{ q.question_option_history[0]?.answer }}
                     </p>
                     <p v-else>No hay respuesta registrada</p>
                   </div>
