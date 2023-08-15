@@ -98,7 +98,7 @@
                 v-model="this.textInput"
               />
             </div>
-            <MapaLocationComponentVue />
+            <MapaLocationComponentVue :setTextInput="this.setTextInput" />
           </div>
 
           <!-- INPUT TIPO FILE -->
@@ -240,6 +240,7 @@ export default {
       validation: null,
       loading: false,
       textInput: "",
+      coordenadas: "",
       selected: "",
       //submitted: false,
       catId: null,
@@ -260,6 +261,9 @@ export default {
     console.log(this.nivel, "soy el nivel");
   },
   methods: {
+    setTextInput(value) {
+      this.coordenadas = value;
+    },
     setModal() {
       this.modalReclamo = !this.modalReclamo;
     },

@@ -3,7 +3,6 @@
     style="display: flex; flex-direction: column; justify-content: space-around"
   >
     <p>Indique la direccion en el mapa:</p>
-    <p>{{ this.markerPosition?.lat }} {{ this.markerPosition?.lng }}</p>
 
     <GMapMap
       :center="center"
@@ -26,6 +25,9 @@
 // import { GoogleMap, Marker } from "vue3-google-map";
 export default {
   name: "MapaLocation",
+  props: {
+    setTextInput: Function,
+  },
   data() {
     return {
       lat: "",
@@ -33,6 +35,13 @@ export default {
       selectedLocation: null,
       center: { lat: "", lng: "" },
       markerPosition: { lat: 0, lng: 0 },
+      updateMarkerPosition: (event) => {
+        // console.log(event.latLng.lat(), event.latLng.lng());
+        this.markerPosition.lat = event.latLng.lat();
+        this.markerPosition.lng = event.latLng.lng();
+        console.log(this.markerPosition.lat?.toFixed(7));
+        console.log(this.markerPosition.lng?.toFixed(7));
+      },
     };
   },
   //   components: { GoogleMap, Marker },
@@ -49,22 +58,6 @@ export default {
         console.log(error);
       });
   },
-  methods: {
-    updateMarkerPosition: (event) => {
-      this.markerPosition.lat = event.latLng.lat();
-      this.markerPosition.lng = event.latLng.lng();
-      this.center.lat = event.latLng.lat();
-      this.center.lng = event.latLng.lng();
-
-      console.log(this.markerPosition.lat);
-      console.log(event.latLng.lat(), event.latLng.lng());
-      // console.log(this.center);
-      //  let selectedLocation = {
-      //   lat: latLng.lat(),
-      //   lng: latLng.lng(),
-      // };
-      // this.center=selectedLocation
-    },
-  },
+  methods: {},
 };
 </script>

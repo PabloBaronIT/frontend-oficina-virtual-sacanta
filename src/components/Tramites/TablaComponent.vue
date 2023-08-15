@@ -15,18 +15,25 @@
       <P>asunto</P>
       <p>Estado</p>
       <p>Más</p>
+      <p>Historial</p>
     </div>
     <div v-for="(item, index) in this.activos" :key="index">
       <div class="encabezado">
-        <p @click="this.open(item.id)">{{ item.titulo }}</p>
-        <p @click="this.open(item.id)">{{ item.id }}</p>
-        <p @click="this.open(item.id)">{{ item.categoria }}</p>
-        <p @click="this.open(item.id)">{{ item.estado }}</p>
+        <p>{{ item.titulo }}</p>
+        <p>{{ item.id }}</p>
+        <p>{{ item.categoria }}</p>
+        <p>{{ item.estado }}</p>
         <p
           style="cursor: pointer; text-decoration: underline"
           @click="verTramite(item.id)"
         >
           Ver Tramite
+        </p>
+        <p
+          @click="this.open(item.id)"
+          style="cursor: pointer; text-decoration: underline"
+        >
+          ver
         </p>
       </div>
 
@@ -290,7 +297,7 @@
     <div v-if="modalPDF === true" class="grafico-container pdf">
       <div v-if="pdfSubmitt" style="width: 90%; margin: auto" id="content1">
         <div class="modal-top">
-          <h2>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h2>
+          <h3>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h3>
         </div>
         <h5>Nombre: {{ this.pdfSubmitt.procedure.title }}</h5>
         <p>
@@ -314,10 +321,10 @@
       </div>
       <div v-if="pdfRequirement" id="content2" style="width: 90%; margin: auto">
         <div class="modal-top">
-          <h2>
+          <h3>
             Constancia de requerimiento Nº:
             {{ this.pdfRequirement.procedureHistory.id }}
-          </h2>
+          </h3>
         </div>
         <h5>Nombre: {{ this.pdfRequirement.title }}</h5>
         <p>
@@ -342,10 +349,10 @@
         style="width: 90%; margin: auto"
       >
         <div class="modal-top">
-          <h2>
+          <h3>
             Constancia de finalización trámite Nº:
             {{ this.pdfFinalized.id }}
-          </h2>
+          </h3>
         </div>
         <h5>Nombre: {{ this.pdfFinalized.procedure.title }}</h5>
         <p>

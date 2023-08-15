@@ -262,7 +262,7 @@
                     class="btn btn-success mx-2"
                     type="button"
                     value=" Finalizar trámite"
-                    @click="FinalizarTramite()"
+                    @click="FinalizarTramite(selectedHistory.id)"
                   />
                 </div>
               </section>
@@ -296,7 +296,7 @@
                 Trámite n°: {{ this.selectedTramite }}
               </h5>
               <img
-                @click="CloseComunicaciones()"
+                @click="this.modalComunicacion = false"
                 class="svg"
                 src="@/assets/close.svg"
                 alt=""
@@ -321,7 +321,7 @@
                 Trámite n°: {{ this.selectedTramite }}
               </h5>
               <img
-                @click="CloseRequerimiento"
+                @click="this.modalRequerimiento = false"
                 class="svg"
                 src="@/assets/close.svg"
                 alt=""
@@ -333,7 +333,33 @@
             />
           </div>
         </div>
+        <!-- MODAL PARA FINALIZAR EL TRAMITE -->
+        <div class="modalTarea">
+          <div
+            v-if="this.modalComunicacionFinal === true"
+            class="modal-content"
+          >
+            <div class="modal-top">
+              <h5>
+                Enviar Notificación. <br />
+                Trámite n°: {{ this.selectedTramite }}
+              </h5>
+              <img
+                @click="this.modalComunicacionFinal = false"
+                class="svg"
+                src="@/assets/close.svg"
+                alt=""
+              />
+            </div>
 
+            <ModalCreateRYCComponentVue
+              :submitFunction="this.submitComunicationFinalized"
+              :datosEnviados="this.datosEnviados"
+              :documents="true"
+              :finalized="true"
+            />
+          </div>
+        </div>
         <div class="modalRespuesta">
           <div v-if="this.messageBuscar === true" class="modal-content">
             <div class="modal-top">
@@ -379,6 +405,7 @@ export default {
       modalTarea: false,
       modalComunicacion: false,
       modalRequerimiento: false,
+      modalComunicacionFinal: false,
       selectedHistory: null,
       selectedTramite: null,
       activos: [],
@@ -763,16 +790,12 @@ export default {
       this.level = level;
       this.modalComunicacion = true;
     },
-    CloseComunicaciones() {
-      this.modalComunicacion = false;
-    },
+
     ModalRequerimiento(id) {
       this.selectedTramite = id;
       this.modalRequerimiento = !this.modalRequerimiento;
     },
-    CloseRequerimiento() {
-      this.modalRequerimiento = !this.modalRequerimiento;
-    },
+
     //CAMBIAR EL ESTADO DE UN TRAMITE
     updateStatus() {
       console.log("cambiar estado");
@@ -945,6 +968,36 @@ export default {
           this.datosEnviados = error.response.data.message;
         });
     },
+    submitComunicationFinalized(a, b) {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .put("/oficina/procedures/finish-procedure/" + this.selectedTramite, {
+          message_communication: a,
+          documents: b,
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.datosEnviados = response.data.message;
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            this.datosEnviados = error.response.data.message;
+          }
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.submitComunicationFinalized(a, b);
+            }
+          }
+          console.log(error);
+        });
+    },
     ModalResponse(id) {
       this.selectedTramite = id;
       for (let i = 0; i < this.activos.length; i++) {
@@ -960,13 +1013,15 @@ export default {
     CloseModalResponse() {
       this.modalresponse = false;
     },
-    FinalizarTramite() {
-      this.status = "4";
-      this.updateStatus();
-      this.activos = [];
-      this.deadline = [];
-      this.requeridos = [];
-      this.getProcedures();
+    FinalizarTramite(id) {
+      this.selectedTramite = id;
+      this.modalComunicacionFinal = true;
+      // this.status = "4";
+      // // this.updateStatus();
+      // this.activos = [];
+      // this.deadline = [];
+      // this.requeridos = [];
+      // this.getProcedures();
     },
     setModalFiltros() {
       this.modalFiltros = !this.modalFiltros;

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="container-tasks">
       <p>Debe completar todos los campos</p>
-      <div class="asunto">
+      <div class="asunto" v-if="!this.finalized">
         <label for="asunto">Asunto</label>
         <input
           type="text"
@@ -15,7 +15,12 @@
 
       <textarea type="text" v-model="this.description" aria-multiline="true" />
       <!-- DIV PARA CARGAR UN DOCUMENTO EN UNA COMUNICACION -->
-      <div v-if="this.documents && this.title" class="">
+      <div
+        v-if="
+          (this.documents && this.title) || (this.documents && this.description)
+        "
+        class=""
+      >
         <p>cargar documentación</p>
         <div class="file-container" v-if="!asd">
           <div class="file-intro">
@@ -99,6 +104,7 @@ export default {
     documents: Boolean,
     submitCidi: Function,
     level: Number,
+    finalized: Boolean,
   },
 
   data() {
@@ -120,7 +126,7 @@ export default {
       this.message = "";
     },
     submitRequer() {
-      if (this.description && this.title) {
+      if (!this.finalized && this.description && this.title) {
         console.log(this.description, this.title);
         this.submitFunction(this.title, this.description, this.documentsFile);
         this.title = "";
@@ -128,6 +134,11 @@ export default {
       } else {
         this.message =
           "debe ingresar asunto y descripción de la comunicación a enviar";
+      }
+      if (this.finalized && this.description && !this.title) {
+        this.message = "";
+        this.submitFunction(this.description, this.documentsFile);
+        this.description = "";
       }
     },
     selectFile($event) {
