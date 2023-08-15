@@ -288,7 +288,7 @@
 
     <!-- MODAL PARA PDF -->
     <div v-if="modalPDF === true" class="grafico-container pdf">
-      <div v-if="pdfSubmitt" style="width: 100%">
+      <div v-if="pdfSubmitt" style="width: 90%; margin: auto" id="content1">
         <div class="modal-top">
           <h2>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h2>
         </div>
@@ -297,7 +297,9 @@
           Fecha de creación:
           {{ new Date(this.pdfSubmitt?.created_at).toLocaleDateString() }}
         </p>
-        <p style="width: 70%">{{ this.pdfSubmitt.communication[0].message }}</p>
+        <p style="width: 100%">
+          {{ this.pdfSubmitt.communication[0].message }}
+        </p>
         <p>
           Usuario Municipal asignado:
           <strong
@@ -310,7 +312,7 @@
           {{ new Date(this.pdfSubmitt?.actual_date).toLocaleDateString() }}
         </p>
       </div>
-      <div v-if="pdfRequirement">
+      <div v-if="pdfRequirement" id="content2" style="width: 90%; margin: auto">
         <div class="modal-top">
           <h2>
             Constancia de requerimiento Nº:
@@ -334,7 +336,11 @@
         </p>
       </div>
       <!-- PARA FINALIZACION -->
-      <div v-if="this.pdfFinalized">
+      <div
+        v-if="this.pdfFinalized"
+        id="content3"
+        style="width: 90%; margin: auto"
+      >
         <div class="modal-top">
           <h2>
             Constancia de finalización trámite Nº:
@@ -380,7 +386,11 @@
         >
           Cerrar
         </button>
-        <button type="button" @click="download" class="btn btn-primary">
+        <button
+          type="button"
+          @click="download(this.content)"
+          class="btn btn-primary"
+        >
           Descargar
         </button>
       </div>
@@ -449,7 +459,7 @@ import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
-
+import jsPDF from "jspdf";
 export default {
   props: {
     color: String,
@@ -484,16 +494,29 @@ export default {
       pdfRequirement: null,
       pdfFinalized: null,
       modalPDF: false,
+      content: "",
     };
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
     this.getMyProcedure();
+
     // this.getComunicaciones();
   },
   methods: {
-    download() {
-      window.print();
+    download(content) {
+      // window.print();
+      let asd = document.getElementById("content" + content);
+      var doc = new jsPDF("p", "pt", "A4");
+
+      doc.html(asd, {
+        y: 2,
+        x: 2,
+
+        callback: function (doc) {
+          doc.save("constancia.pdf");
+        },
+      });
     },
     verTramite(id) {
       //console.log("soy el trmite,", id);
@@ -883,6 +906,7 @@ export default {
           this.pdfSubmitt = response.data;
           this.pdfRequirement = null;
           this.pdfFinalized = null;
+          this.content = "1";
           this.modalPDF = true;
           console.log(response.data);
         })
@@ -920,6 +944,8 @@ export default {
           this.pdfRequirement = response.data;
           this.pdfSubmitt = null;
           this.pdfFinalized = null;
+          this.content = "2";
+
           this.modalPDF = true;
         })
         .catch((error) => {
@@ -952,6 +978,8 @@ export default {
           console.log(response);
           (this.pdfFinalized = response.data), (this.pdfSubmitt = null);
           this.pdfRequirement = null;
+          this.content = "3";
+
           this.modalPDF = true;
         })
         .catch((error) => {
@@ -1011,7 +1039,7 @@ export default {
   padding-bottom: 1rem;
 }
 .pdf {
-  width: 80vw;
+  width: 50vw;
   height: 60vh;
 }
 .data-container {
