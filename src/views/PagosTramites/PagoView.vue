@@ -40,7 +40,11 @@
           <div
             class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
           >
-            <div class="modal-content" id="content">
+            <div
+              class="modal-content"
+              id="content"
+              style="width: 100%; height: 100%; font-size: 15px"
+            >
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">
                   Detalle:
@@ -166,7 +170,11 @@ export default {
     download() {
       // window.print();
       let asd = document.getElementById("content");
-      var doc = new jsPDF("p", "pt", "A4");
+      var doc = new jsPDF({
+        orientation: "p",
+        unit: "px",
+        format: "a4",
+      });
 
       doc.html(asd, {
         y: 2,

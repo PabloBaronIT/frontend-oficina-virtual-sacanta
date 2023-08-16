@@ -39,8 +39,10 @@ export default {
         // console.log(event.latLng.lat(), event.latLng.lng());
         this.markerPosition.lat = event.latLng.lat();
         this.markerPosition.lng = event.latLng.lng();
-        console.log(this.markerPosition.lat?.toFixed(7));
-        console.log(this.markerPosition.lng?.toFixed(7));
+
+        this.asd();
+        // console.log(this.markerPosition.lat?.toFixed(7));
+        // console.log(this.markerPosition.lng?.toFixed(7));
       },
     };
   },
@@ -58,6 +60,13 @@ export default {
         console.log(error);
       });
   },
-  methods: {},
+  methods: {
+    asd() {
+      this.setTextInput(
+        this.markerPosition.lat.toFixed(7),
+        this.markerPosition.lng.toFixed(7)
+      );
+    },
+  },
 };
 </script>
