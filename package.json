@@ -18,7 +18,7 @@
     "bootstrap-vue": "^2.23.1",
     "chart.js": "^4.1.2",
     "core-js": "^3.8.3",
-    "html2pdf.js": "^0.10.1",
+    "html2pdf.js": "^0.9.0",
     "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "pdfmake": "^0.2.7",

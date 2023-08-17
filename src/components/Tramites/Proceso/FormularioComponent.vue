@@ -47,7 +47,7 @@
           <!-- INPUT TIPO TEXTO -->
           <div
             v-if="
-              item.title !== `Describa la ubicación ` && item.type === 'text'
+              item.title !== `Describa la ubicación` && item.type === 'text'
             "
             class="tipoTexto"
           >
@@ -63,7 +63,7 @@
           </div>
           <div
             v-if="
-              item.title !== `Describa la ubicación ` && item.type === 'number'
+              item.title !== `Describa la ubicación` && item.type === 'number'
             "
             class="tipoTexto"
           >
@@ -79,7 +79,7 @@
           </div>
           <!-- PARA VER MAPA Y PODER ESCRIBIR DIRECCION -->
           <div
-            v-if="item.type == 'text' && item.title == `Describa la ubicación `"
+            v-if="item.type == 'text' && item.title == `Describa la ubicación`"
             style="
               display: flex;
               flex-direction: row;
@@ -391,6 +391,7 @@ export default {
             }
           })
           .catch((error) => {
+            console.log(error);
             if (error.response.status == 401) {
               alert("No esta autorizado para realizar este tramite.");
               this.$router.replace({ path: "/munienlinea" });

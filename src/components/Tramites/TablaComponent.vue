@@ -287,7 +287,7 @@
     </div>
 
     <!-- MODAL PARA PDF -->
-    <div v-if="modalPDF === true" class="grafico-container pdf">
+    <div v-if="modalPDF === true" class="grafico-container pdf" id="content">
       <div v-if="pdfSubmitt" style="width: 100%">
         <div class="modal-top">
           <h2>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h2>
@@ -297,7 +297,9 @@
           Fecha de creación:
           {{ new Date(this.pdfSubmitt?.created_at).toLocaleDateString() }}
         </p>
-        <p style="width: 70%">{{ this.pdfSubmitt.communication[0].message }}</p>
+        <p style="width: 100%">
+          {{ this.pdfSubmitt.communication[0].message }}
+        </p>
         <p>
           Usuario Municipal asignado:
           <strong
@@ -449,7 +451,7 @@ import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
-
+import html2pdf from "html2pdf.js";
 export default {
   props: {
     color: String,
@@ -493,7 +495,12 @@ export default {
   },
   methods: {
     download() {
-      window.print();
+      var element = document.getElementById("#content");
+      html2pdf(element);
+      // const archivo = this.$ref;
+      // doc.text(archivo, 10, 10);
+      // doc.save("constancis.pdf");
+      // window.print();
     },
     verTramite(id) {
       //console.log("soy el trmite,", id);
