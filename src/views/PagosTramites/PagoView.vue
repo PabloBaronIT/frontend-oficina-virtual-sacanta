@@ -40,7 +40,11 @@
           <div
             class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
           >
-            <div class="modal-content">
+            <div
+              class="modal-content"
+              id="content"
+              style="width: 100%; height: 100%; font-size: 15px"
+            >
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">
                   Detalle:
@@ -137,7 +141,7 @@
 
 <script>
 import PagarComponent from "@/components/Tramites/PagarComponent.vue";
-//  import pdfMake from "pdfmake";
+import jsPDF from "jspdf";
 
 export default {
   name: "PagoView",
@@ -164,7 +168,22 @@ export default {
   components: { PagarComponent },
   methods: {
     download() {
-      window.print();
+      // window.print();
+      let asd = document.getElementById("content");
+      var doc = new jsPDF({
+        orientation: "p",
+        unit: "px",
+        format: "a4",
+      });
+
+      doc.html(asd, {
+        y: 2,
+        x: 2,
+
+        callback: function (doc) {
+          doc.save("ConstanciaPago.pdf");
+        },
+      });
     },
     verComprobante() {
       this.comprobante = !this.comprobante;

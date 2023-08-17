@@ -15,18 +15,25 @@
       <P>asunto</P>
       <p>Estado</p>
       <p>Más</p>
+      <p>Historial</p>
     </div>
     <div v-for="(item, index) in this.activos" :key="index">
       <div class="encabezado">
-        <p @click="this.open(item.id)">{{ item.titulo }}</p>
-        <p @click="this.open(item.id)">{{ item.id }}</p>
-        <p @click="this.open(item.id)">{{ item.categoria }}</p>
-        <p @click="this.open(item.id)">{{ item.estado }}</p>
+        <p>{{ item.titulo }}</p>
+        <p>{{ item.id }}</p>
+        <p>{{ item.categoria }}</p>
+        <p>{{ item.estado }}</p>
         <p
           style="cursor: pointer; text-decoration: underline"
           @click="verTramite(item.id)"
         >
           Ver Tramite
+        </p>
+        <p
+          @click="this.open(item.id)"
+          style="cursor: pointer; text-decoration: underline"
+        >
+          ver
         </p>
       </div>
 
@@ -287,10 +294,15 @@
     </div>
 
     <!-- MODAL PARA PDF -->
+<<<<<<< HEAD
     <div v-if="modalPDF === true" class="grafico-container pdf" id="content">
       <div v-if="pdfSubmitt" style="width: 100%">
+=======
+    <div v-if="modalPDF === true" class="grafico-container pdf">
+      <div v-if="pdfSubmitt" style="width: 90%; margin: auto" id="content1">
+>>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
         <div class="modal-top">
-          <h2>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h2>
+          <h3>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h3>
         </div>
         <h5>Nombre: {{ this.pdfSubmitt.procedure.title }}</h5>
         <p>
@@ -312,12 +324,12 @@
           {{ new Date(this.pdfSubmitt?.actual_date).toLocaleDateString() }}
         </p>
       </div>
-      <div v-if="pdfRequirement">
+      <div v-if="pdfRequirement" id="content2" style="width: 90%; margin: auto">
         <div class="modal-top">
-          <h2>
+          <h3>
             Constancia de requerimiento Nº:
             {{ this.pdfRequirement.procedureHistory.id }}
-          </h2>
+          </h3>
         </div>
         <h5>Nombre: {{ this.pdfRequirement.title }}</h5>
         <p>
@@ -336,12 +348,16 @@
         </p>
       </div>
       <!-- PARA FINALIZACION -->
-      <div v-if="this.pdfFinalized">
+      <div
+        v-if="this.pdfFinalized"
+        id="content3"
+        style="width: 90%; margin: auto"
+      >
         <div class="modal-top">
-          <h2>
+          <h3>
             Constancia de finalización trámite Nº:
             {{ this.pdfFinalized.id }}
-          </h2>
+          </h3>
         </div>
         <h5>Nombre: {{ this.pdfFinalized.procedure.title }}</h5>
         <p>
@@ -382,7 +398,11 @@
         >
           Cerrar
         </button>
-        <button type="button" @click="download" class="btn btn-primary">
+        <button
+          type="button"
+          @click="download(this.content)"
+          class="btn btn-primary"
+        >
           Descargar
         </button>
       </div>
@@ -451,7 +471,11 @@ import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
+<<<<<<< HEAD
 import html2pdf from "html2pdf.js";
+=======
+import jsPDF from "jspdf";
+>>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
 export default {
   props: {
     color: String,
@@ -486,14 +510,17 @@ export default {
       pdfRequirement: null,
       pdfFinalized: null,
       modalPDF: false,
+      content: "",
     };
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
     this.getMyProcedure();
+
     // this.getComunicaciones();
   },
   methods: {
+<<<<<<< HEAD
     download() {
       var element = document.getElementById("#content");
       html2pdf(element);
@@ -501,6 +528,21 @@ export default {
       // doc.text(archivo, 10, 10);
       // doc.save("constancis.pdf");
       // window.print();
+=======
+    download(content) {
+      // window.print();
+      let asd = document.getElementById("content" + content);
+      var doc = new jsPDF("p", "pt", "A4");
+
+      doc.html(asd, {
+        y: 2,
+        x: 2,
+
+        callback: function (doc) {
+          doc.save("constancia.pdf");
+        },
+      });
+>>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
     },
     verTramite(id) {
       //console.log("soy el trmite,", id);
@@ -890,6 +932,7 @@ export default {
           this.pdfSubmitt = response.data;
           this.pdfRequirement = null;
           this.pdfFinalized = null;
+          this.content = "1";
           this.modalPDF = true;
           console.log(response.data);
         })
@@ -927,6 +970,8 @@ export default {
           this.pdfRequirement = response.data;
           this.pdfSubmitt = null;
           this.pdfFinalized = null;
+          this.content = "2";
+
           this.modalPDF = true;
         })
         .catch((error) => {
@@ -959,6 +1004,8 @@ export default {
           console.log(response);
           (this.pdfFinalized = response.data), (this.pdfSubmitt = null);
           this.pdfRequirement = null;
+          this.content = "3";
+
           this.modalPDF = true;
         })
         .catch((error) => {
@@ -1018,7 +1065,7 @@ export default {
   padding-bottom: 1rem;
 }
 .pdf {
-  width: 80vw;
+  width: 50vw;
   height: 60vh;
 }
 .data-container {

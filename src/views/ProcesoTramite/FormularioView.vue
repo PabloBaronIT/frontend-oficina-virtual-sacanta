@@ -136,14 +136,13 @@ export default {
 
 .main-container {
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   justify-content: center;
-  padding-top: 0;
 }
 
 .options-container {

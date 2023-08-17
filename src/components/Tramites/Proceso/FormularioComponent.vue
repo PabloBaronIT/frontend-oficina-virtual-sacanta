@@ -3,17 +3,18 @@
     <div v-if="this.loading" class="spinner-border" role="status">
       <span></span>
     </div>
-    <div class="question" v-if="this.preguntas">
-      <div class="topquestion">
-        <h3>
-          {{ this.preguntas[this.paso].question.title }}
-        </h3>
-        <p>Completar las preguntas</p>
-      </div>
-      <!-- <div class="modalReclamo" v-if="this.modalReclamo">
+    <!-- <div> -->
+    <div class="topquestion" v-if="this.preguntas">
+      <h3>
+        {{ this.preguntas[this.paso].question.title }}
+      </h3>
+      <p>Completar las preguntas</p>
+    </div>
+    <!-- <div class="modalReclamo" v-if="this.modalReclamo">
         <h3>Su reclamo ha sido enviado! gracias por confiar en nosotros!</h3>
         <p @click="setModal">cerrar</p>
       </div> -->
+<<<<<<< HEAD
       <form action="" class="option-container">
         <!--detalle de opciones  -->
         <div
@@ -141,62 +142,182 @@
               />
               <p>Archivo cargado</p>
             </div>
+=======
+    <form action="">
+      <!--DETALLES DE OPCIONES-->
+      <div
+        :v-if="
+          this.preguntas[this.paso].questionOption?.length >= 1 &&
+          this.paso > this.preguntas.length
+        "
+        v-for="(item, index) in this.preguntas[this.paso].questionOption"
+        :key="item.id"
+        class="questions"
+      >
+        <!-- INPUT TIPO RADIO -->
+        <div class="tipoRadio" v-if="item.type == 'radio'">
+          <input
+            :name="this.preguntas[this.paso].question.title"
+            :type="item.type"
+            v-model="this.selected"
+            :value="index + 1"
+          />
+          <div>
+            <label :for="item.title" class="option-text">
+              {{ item.title }}</label
+            >
+            <br />
+            <label :for="item.id" class="">
+              {{ item.description }}
+            </label>
+>>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
           </div>
         </div>
 
-        <p class="error" v-show="validation == false">
-          Debe seleccionar una opcion para continuar
-        </p>
-      </form>
-      <div class="btn-div">
-        <input
-          class="boton"
-          v-if="this.paso + 1 < this.preguntas.length"
-          type="button"
-          value="Siguiente"
-          @click="preNext()"
-        />
+        <!-- INPUT TIPO TEXTO -->
+        <div
+          v-if="
+            item.title !== `Marque la ubicacion en el mapa` &&
+            item.type === 'text'
+          "
+          class="tipoTexto"
+        >
+          <label class="option-text">{{ item.title }}</label
+          ><br />
+          <label for=""> {{ item.description }}</label>
 
-        <input
-          v-if="this.paso + 1 > 1"
-          class="boton"
-          type="button"
-          value="Anterior"
-          @click="back()"
-        />
+          <input
+            class="form-control text-number-input"
+            :type="item.type"
+            v-model="this.textInput"
+          />
+        </div>
+        <div
+          v-if="
+            item.title !== `Marque la ubicacion en el mapa` &&
+            item.type === 'number'
+          "
+          class="tipoTexto"
+        >
+          <label class="option-text">{{ item.title }}</label
+          ><br />
+          <label for=""> {{ item.description }}</label>
 
-        <input class="boton" type="button" value="Cancelar" @click="cancel()" />
+          <input
+            class="form-control text-number-input"
+            :type="item.type"
+            v-model="this.textInput"
+          />
+        </div>
+        <!-- PARA VER MAPA Y PODER ESCRIBIR DIRECCION -->
+        <div
+          v-if="
+            item.type == 'text' &&
+            item.title == `Marque la ubicacion en el mapa`
+          "
+          class="tipoMap"
+        >
+          <label>{{ item.title }}</label
+          ><br />
+          <label for=""> {{ item.description }}</label>
+          <MapaLocationComponentVue :setTextInput="this.setTextInput" />
+        </div>
+
+        <!-- INPUT TIPO FILE -->
+
+        <div v-if="item.type == 'file'" class="file-container">
+          <div v-if="!asd" class="file-intro">
+            <img
+              src="@/assets/tramite-logo.svg"
+              alt=""
+              id="img-preview"
+              class="imgFile"
+            />
+
+            <hr />
+            <input
+              accept=".jpg, .jpeg, .png, .webp"
+              :type="item.type"
+              v-model="this.fileSelect"
+              id="img-uploader"
+              @change="selectFile($event)"
+            />
+
+            <!--INPUT PARA SUBIR EL ARCHIVO-->
+            <div class="fileup">
+              <input
+                v-if="this.fileSelect"
+                class="m-2 btn btn-secondary"
+                type="button"
+                value="Subir archivo"
+                @click="postFile()"
+              />
+            </div>
+          </div>
+          <div v-else class="cargado">
+            <img
+              src="@/assets/red-check-mark-icon.svg"
+              alt=""
+              id="img-preview"
+              class="imgFile"
+            />
+            <p>Archivo cargado</p>
+          </div>
+        </div>
       </div>
-      <div
-        class="alert alert-success text-center"
-        role="alert"
-        v-if="this.servicio === true"
-      >
-        <h5>
-          Gracias por utilizar la Oficina Virtual de la municipalidad de
-          Sacanta!
-          <h6>Su reclamo ha sido presentado!</h6>
-        </h5>
-      </div>
-      <!-- Si esta en el ultimo paso se habilita el submitt -->
-      <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
-      <div v-if="this.paso + 1 == this.preguntas.length" class="btn-submit">
-        <input
-          v-if="this.paso + 1 == this.preguntas.length"
-          class="botonSubmit"
-          type="button"
-          value="Submitt"
-          @click="submitt"
-        />
-        <input
-          v-if="this.paso + 1 == this.preguntas.length"
-          class="botonSubmit"
-          type="button"
-          value="Verpdf"
-          @click="ver"
-        />
-      </div>
+
+      <p class="error" v-show="validation == false">
+        Debe seleccionar una opcion para continuar
+      </p>
+    </form>
+    <div class="btn-div">
+      <input
+        class="boton"
+        v-if="this.paso + 1 < this.preguntas.length"
+        type="button"
+        value="Siguiente"
+        @click="preNext()"
+      />
+
+      <input
+        v-if="this.paso + 1 > 1"
+        class="boton"
+        type="button"
+        value="Anterior"
+        @click="back()"
+      />
+
+      <input class="boton" type="button" value="Cancelar" @click="cancel()" />
     </div>
+    <div
+      class="alert alert-success text-center"
+      role="alert"
+      v-if="this.servicio === true"
+    >
+      <h5>
+        Gracias por utilizar la Oficina Virtual de la municipalidad de Sacanta!
+        <h6>Su reclamo ha sido presentado!</h6>
+      </h5>
+    </div>
+    <!-- Si esta en el ultimo paso se habilita el submitt -->
+    <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
+    <div v-if="this.paso + 1 == this.preguntas.length" class="btn-submit">
+      <input
+        v-if="this.paso + 1 == this.preguntas.length"
+        class="botonSubmit"
+        type="button"
+        value="Submitt"
+        @click="submitt"
+      />
+      <input
+        v-if="this.paso + 1 == this.preguntas.length"
+        class="botonSubmit"
+        type="button"
+        value="Verpdf"
+        @click="ver"
+      />
+    </div>
+    <!-- </div> -->
     <!-- MODAL DE VISTA DE SERVICIO PRESENTADO -->
   </div>
 </template>
@@ -240,6 +361,7 @@ export default {
       validation: null,
       loading: false,
       textInput: "",
+      coordenadas: "",
       selected: "",
       //submitted: false,
       catId: null,
@@ -260,6 +382,11 @@ export default {
     console.log(this.nivel, "soy el nivel");
   },
   methods: {
+    setTextInput(a, b) {
+      console.log(a, b, "soy las coordenadas");
+      let valor = `${a},${b}`;
+      this.coordenadas = valor;
+    },
     setModal() {
       this.modalReclamo = !this.modalReclamo;
     },
@@ -268,11 +395,35 @@ export default {
     },
 
     preNext() {
-      if (this.selected == "" && this.textInput == "") {
+      if (
+        this.selected == "" &&
+        this.textInput == "" &&
+        this.coordenadas == ""
+      ) {
         this.validation = false;
-      } else if (this.selected == "" && this.textInput != "") {
+      } else if (
+        this.selected != "" &&
+        this.textInput == "" &&
+        this.coordenadas == ""
+      ) {
         this.next();
-      } else if (this.selected != "" && this.textInput == "") {
+      } else if (
+        this.selected == "" &&
+        this.textInput != "" &&
+        this.coordenadas == ""
+      ) {
+        this.next();
+      } else if (
+        this.selected == "" &&
+        this.textInput == "" &&
+        this.coordenadas != ""
+      ) {
+        this.next();
+      } else if (
+        this.selected == "" &&
+        this.textInput != "" &&
+        this.coordenadas != ""
+      ) {
         this.next();
       }
       this.asd = false;
@@ -312,27 +463,93 @@ export default {
 
     //SE GUARDA LA RESPUESTA EN UN ARRAY PARA LUEGO ENVIAR
     next() {
+      // let choice = this.selected - 1;
+      // let optionTitle = "";
+
+      // if (this.textInput != "") {
+      //   optionTitle = this.textInput;
+      //   choice = 0;
+      // } else {
+      //   optionTitle = this.preguntas[this.paso].questionOption[choice].title;
+      // }
+
+      // let q = {
+      //   question: this.preguntas[this.paso].question.id,
+      //   question_option_history: [
+      //     {
+      //       questionOption: this.preguntas[this.paso].questionOption[choice].id,
+      //       answer: optionTitle,
+      //     },
+      //   ],
+      // };
+
       let choice = this.selected - 1;
       let optionTitle = "";
-
-      if (this.textInput != "") {
+      let optionTitle2 = "";
+      let q = "";
+      if (this.textInput != "" && this.coordenadas == "") {
         optionTitle = this.textInput;
         choice = 0;
+        q = {
+          question: this.preguntas[this.paso].question.id,
+          question_option_history: [
+            {
+              questionOption:
+                this.preguntas[this.paso].questionOption[choice].id,
+              answer: optionTitle,
+            },
+          ],
+        };
+      } else if (this.textInput == "" && this.coordenadas != "") {
+        optionTitle = this.coordenadas;
+        choice = 1;
+        q = {
+          question: this.preguntas[this.paso].question.id,
+          question_option_history: [
+            {
+              questionOption:
+                this.preguntas[this.paso].questionOption[choice].id,
+              answer: optionTitle,
+            },
+          ],
+        };
+      } else if (this.textInput != "" && this.coordenadas != "") {
+        optionTitle = this.textInput;
+        optionTitle2 = this.coordenadas;
+        choice = 0;
+        let choice2 = 1;
+        q = {
+          question: this.preguntas[this.paso].question.id,
+          question_option_history: [
+            {
+              questionOption:
+                this.preguntas[this.paso].questionOption[choice].id,
+              answer: optionTitle,
+            },
+            {
+              questionOption:
+                this.preguntas[this.paso].questionOption[choice2].id,
+              answer: optionTitle2,
+            },
+          ],
+        };
       } else {
         optionTitle = this.preguntas[this.paso].questionOption[choice].title;
+        q = {
+          question: this.preguntas[this.paso].question.id,
+          question_option_history: [
+            {
+              questionOption:
+                this.preguntas[this.paso].questionOption[choice].id,
+              answer: optionTitle,
+            },
+          ],
+        };
       }
 
-      let q = {
-        question: this.preguntas[this.paso].question.id,
-        question_option_history: [
-          {
-            questionOption: this.preguntas[this.paso].questionOption[choice].id,
-            answer: optionTitle,
-          },
-        ],
-      };
       this.setProcedure(q);
       this.respuestas.push(q);
+      console.log(this.respuestas, "!respuestas ");
       // this.procedure.questions.push(q);
       //console.log(this.procedure.questions, "RESPUESTAS");
       this.selected = "";
@@ -462,7 +679,7 @@ export default {
   padding-top: 1rem;
   margin-bottom: 1rem;
   border-radius: 40px 40px 0px 0px;
-  height: 7rem;
+  height: 8rem;
   width: 100%;
 }
 .boton {
@@ -474,14 +691,7 @@ export default {
   margin-left: 1rem;
   border-style: none;
 }
-.options-container {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: 100%;
-  margin-bottom: 2rem;
-}
+
 .tipoRadio {
   display: flex;
   flex-direction: row;
@@ -494,6 +704,9 @@ export default {
 }
 .tipoTexto {
   height: 7rem;
+  padding: 1rem;
+}
+.tipoMap {
   padding: 1rem;
 }
 .tipoTexto input[type="number"] {
@@ -513,6 +726,7 @@ export default {
   margin: auto;
   margin-bottom: 2rem;
 }
+
 .file-intro {
   display: flex;
   flex-flow: column wrap;
