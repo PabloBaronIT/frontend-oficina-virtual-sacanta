@@ -179,7 +179,7 @@
                   class="btn btn-primary mx-2"
                   value=" generar pdf"
                   v-if="this.pdf != null"
-                  @click="this.modalPdf = true"
+                  @click="this.download"
                 />
 
                 <!--EL TRAMITE QUE TENGA REQUERIMIENTOS SE PODRA VER LOS MISMOS-->
@@ -477,18 +477,34 @@ export default {
   },
   methods: {
     download() {
+      // let asd =
       // window.print();
-      let asd = document.getElementById("content");
+      // let asd = document.getElementById("content");
+
       var doc = new jsPDF("p", "pt", "A4");
+      let imagenA =
+        "https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true";
+      doc.setFontSize(20);
+      doc.setTextColor(0, 128, 0);
+      doc.addImage(imagenA, "JPEG", 50, 30, 60, 60);
+      doc.text(20, 30, "Orden de trabajo.");
+      doc.setFontSize(15);
 
-      doc.html(asd, {
-        y: 2,
-        x: 2,
+      doc.setTextColor(0, 0, 0);
 
-        callback: function (doc) {
-          doc.save("constancia.pdf");
-        },
+      doc.text(20, 60, `Tramite: ${this.pdf?.title}, Id: ${this.pdf.id}`, {
+        lineHeightFactor: 2,
       });
+      doc.text(
+        20,
+        80,
+        `Cuil: ${this.pdf.user.cuil}, nombre: ${this.pdf.user.firstname} ${this.pdf.user.lastname}`
+      );
+      doc.text(20, 100, `Teléfono: ${this.pdf.user.phoneNumber}`);
+      doc.text(20, 130, `Vencimiento del trámite: ${this.pdf.deadlineDays}`);
+      doc.text(20, 150, `Dirección: ${this.pdf.location}`);
+
+      doc.save("orde.pdf");
     },
     //TRAE LOS TRAMITES DE SU AREA
     SetVistaLista() {

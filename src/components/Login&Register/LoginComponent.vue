@@ -234,7 +234,7 @@ export default {
     dispatchCidi() {
       this.$store.dispatch("mockCidiAction", this.cidiCookie);
     },
-    dispatchLoginTrue() {
+    dispatchLoginPermission() {
       this.$store.dispatch("mockPaseAction");
     },
 
@@ -354,7 +354,7 @@ export default {
           this.user = response.data.UserProfile.user;
           this.user.cidiCookie = this.cidiCookie;
           this.dispatchLogin();
-          this.dispatchLoginTrue();
+          this.dispatchLoginPermission();
           window.localStorage.setItem(
             "role",
             response.data.UserProfile.user.role || null

@@ -35,6 +35,9 @@ export default createStore({
     login(state) {
       state.loggedIn = true;
     },
+    outLogin(state) {
+      state.loggedIn = false;
+    },
   },
   actions: {
     mockLoginAction(context, asd) {
@@ -52,7 +55,9 @@ export default createStore({
     mockPaseAction(context) {
       context.commit("login");
     },
-
+    mockOutAction(context) {
+      context.commit("outLogin");
+    },
     cleanAction(context) {
       context.commit("cleanStore");
     },

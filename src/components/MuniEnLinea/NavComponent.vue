@@ -77,6 +77,7 @@ export default {
   methods: {
     logOf() {
       localStorage.clear();
+      this.dispatchOutLogin();
       location.reload();
       this.$router.push("login");
       googleLogout();
@@ -88,6 +89,9 @@ export default {
           },
         })
       );
+    },
+    dispatchOutLogin() {
+      this.$store.dispatch("mockOutAction");
     },
   },
 };
