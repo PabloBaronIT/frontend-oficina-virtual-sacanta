@@ -278,7 +278,7 @@ export default {
             (this.adress = ""),
             (this.city = ""),
             (this.postCode = ""),
-            this.getMyProfileNew();
+            this.z();
           setTimeout(() => {
             this.$router.push("/munienlinea");
           }, 2000);
@@ -315,7 +315,8 @@ export default {
           //   this.dispatchLogin();
           (this.firstname = response.data.UserProfile.user.firstname || null),
             (this.lastname = response.data.UserProfile.user.lastname || null),
-            (this.telefono = response.data.UserProfile.user.telefono || null),
+            (this.telefono =
+              response.data.UserProfile.user.phoneNumber || null),
             (this.email = response.data.UserProfile.user.email || null),
             (this.cuil = response.data.UserProfile.user.cuil || null),
             (this.adress = response.data.UserProfile.user.adress || null),

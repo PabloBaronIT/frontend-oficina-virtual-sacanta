@@ -26,7 +26,7 @@
           d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
         />
       </svg> -->
-      <img :src="this.$store.state.user?.avatar" alt="imagen" />
+      <img :src="this.avatar" alt="imagen" />
       <div class="usuario-details" v-if="this.$store.state.user">
         <div>
           <router-link v-show="permission" :to="`/micuenta`">
@@ -184,6 +184,9 @@ export default {
       //role: localStorage.getItem("role"),
       user: "",
       representante: "",
+      avatar: this.$store.state.user?.avatar,
+      // ||
+      // "https://res.cloudinary.com/ddko88otf/image/upload/v1692727232/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv_t3fopl.jpg",
     };
   },
   created() {

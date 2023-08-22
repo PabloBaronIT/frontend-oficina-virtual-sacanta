@@ -166,7 +166,7 @@ export default {
         },
       });
       apiClient
-        .get(`/registered-payment?page=${this.pagina}`, {
+        .post(`/registered-payment?page=${this.pagina}`, {
           user_cuil: this.search,
         })
         .then((response) => {

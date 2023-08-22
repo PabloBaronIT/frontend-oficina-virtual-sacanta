@@ -521,7 +521,7 @@ export default {
         x: 2,
 
         callback: function (doc) {
-          doc.save("constancia.pdf");
+          doc.save("Constancia.pdf");
         },
       });
     },
