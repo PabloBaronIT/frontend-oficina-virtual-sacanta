@@ -131,7 +131,10 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
+          if (error.response.status === 401) {
+            this.$router.push("/micuenta-update");
+          }
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();
@@ -143,9 +146,6 @@ export default {
               setTokenRelations();
               this.GetProcedure();
             }
-          }
-          if (error.response.status === 401) {
-            this.$router.push("micuenta-update");
           }
         });
     },

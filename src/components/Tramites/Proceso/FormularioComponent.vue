@@ -164,6 +164,11 @@
     </div>
     <!-- Si esta en el ultimo paso se habilita el submitt -->
     <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
+    <div v-if="this.mensaje != null">
+      <p>
+        {{ this.mensaje }}
+      </p>
+    </div>
     <div v-if="this.paso + 1 == this.preguntas.length" class="btn-submit">
       <input
         v-if="this.paso + 1 == this.preguntas.length"
@@ -172,13 +177,13 @@
         value="Submitt"
         @click="submitt"
       />
-      <input
+      <!-- <input
         v-if="this.paso + 1 == this.preguntas.length"
         class="botonSubmit"
         type="button"
         value="Verpdf"
         @click="ver"
-      />
+      /> -->
     </div>
     <!-- </div> -->
     <!-- MODAL DE VISTA DE SERVICIO PRESENTADO -->
@@ -235,6 +240,7 @@ export default {
       preguntas: null,
       respuestas: [],
       servicio: false,
+      mensaje: null,
     };
   },
   created() {
@@ -493,6 +499,8 @@ export default {
                 setTokenRelations();
                 this.submitt();
               }
+            } else {
+              this.mensaje = "Se ha producido un error, vuelva a interntarlo.";
             }
           })
           .finally(() => {
