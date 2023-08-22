@@ -46,10 +46,7 @@
 
         <!-- INPUT TIPO TEXTO -->
         <div
-          v-if="
-            item.title !== `Marque la ubicacion en el mapa` &&
-            item.type === 'text'
-          "
+          v-if="item.title !== `Indique la ubicación:` && item.type === 'text'"
           class="tipoTexto"
         >
           <label class="option-text">{{ item.title }}</label
@@ -64,8 +61,7 @@
         </div>
         <div
           v-if="
-            item.title !== `Marque la ubicacion en el mapa` &&
-            item.type === 'number'
+            item.title !== `Indique la ubicación:` && item.type === 'number'
           "
           class="tipoTexto"
         >
@@ -81,10 +77,7 @@
         </div>
         <!-- PARA VER MAPA Y PODER ESCRIBIR DIRECCION -->
         <div
-          v-if="
-            item.type == 'text' &&
-            item.title == `Marque la ubicacion en el mapa`
-          "
+          v-if="item.type == 'text' && item.title == `Indique la ubicación:`"
           class="tipoMap"
         >
           <label>{{ item.title }}</label
@@ -425,6 +418,7 @@ export default {
       this.selected = "";
       choice = 0;
       this.textInput = "";
+      this.coordenadas = "";
       this.validation = true;
 
       this.paso++;
@@ -433,7 +427,11 @@ export default {
     //ENVIO DE LAS RESPUESTAS -FINAL DEL FORMULARIO-
 
     submitt() {
-      if (this.selected == 0 && this.textInput == "") {
+      if (
+        this.selected == 0 &&
+        this.textInput == "" &&
+        this.coordenadas == ""
+      ) {
         this.validation = false;
       } else {
         this.validation = true;

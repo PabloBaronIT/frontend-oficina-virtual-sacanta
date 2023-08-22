@@ -162,13 +162,26 @@
                         {{ q.question.title }}
                       </strong>
                     </h5>
+                    <div v-if="q.question_option_history[0]?.answer">
+                      <p
+                        v-for="(item, index) in q.question_option_history"
+                        :key="index"
+                      >
+                        {{ item.answer }}
+                      </p>
+                    </div>
 
-                    <p v-if="q.question_option_history[0]?.answer">
-                      {{ q.question_option_history[0]?.answer }}
-                    </p>
                     <p v-else>No hay respuesta registrada</p>
                   </div>
                 </div>
+                <input
+                  type="button"
+                  class="btn btn-primary mx-2"
+                  value=" generar pdf"
+                  v-if="this.pdf != null"
+                  @click="this.download"
+                />
+
                 <!--EL TRAMITE QUE TENGA REQUERIMIENTOS SE PODRA VER LOS MISMOS-->
                 <div
                   class="requerimiento"
@@ -373,6 +386,34 @@
             </div>
           </div>
         </div>
+
+        <!-- MODAL DE PDF -->
+        <div id="content" v-if="this.modalPdf" class="modalTarea">
+          <div>
+            <div class="modal-top">
+              <h5>Constancia {{ this.selectedTramite }}</h5>
+              <img
+                @click="this.modalPdf = false"
+                class="svg"
+                src="@/assets/close.svg"
+                alt=""
+              />
+            </div>
+            <div style="text-align: left; padding: 1rem; width: 100%">
+              <h2>{{ this.pdf?.title }}</h2>
+              <p>{{ this.pdf.user.cuil }}</p>
+              <p>{{ this.pdf.user.firstname }} {{ this.pdf.user.lastname }}</p>
+              <p></p>
+              <p>{{ this.pdf.user.phoneNumber }}</p>
+              <p>
+                Ubicación:
+                <a :href="this.pdf.location" target="_blank">
+                  {{ this.pdf.location }}</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -387,6 +428,7 @@ import CardComponentVue from "../CardComponent.vue";
 import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
 import FiltrosComponent from "../Filtros/FiltrosComponent.vue";
 import { BASE_URL } from "@/env";
+import jsPDF from "jspdf";
 
 export default {
   props: {
@@ -406,6 +448,7 @@ export default {
       modalComunicacion: false,
       modalRequerimiento: false,
       modalComunicacionFinal: false,
+      modalPdf: false,
       selectedHistory: null,
       selectedTramite: null,
       activos: [],
@@ -425,6 +468,7 @@ export default {
       datosEnviados: "",
       cuilUserNotificacion: "",
       level: "",
+      pdf: null,
     };
   },
   created() {
@@ -432,6 +476,36 @@ export default {
     this.getProcedures();
   },
   methods: {
+    download() {
+      // let asd =
+      // window.print();
+      // let asd = document.getElementById("content");
+
+      var doc = new jsPDF("p", "pt", "A4");
+      let imagenA =
+        "https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true";
+      doc.setFontSize(20);
+      doc.setTextColor(0, 128, 0);
+      doc.addImage(imagenA, "JPEG", 50, 30, 60, 60);
+      doc.text(20, 30, "Orden de trabajo.");
+      doc.setFontSize(15);
+
+      doc.setTextColor(0, 0, 0);
+
+      doc.text(20, 60, `Tramite: ${this.pdf?.title}, Id: ${this.pdf.id}`, {
+        lineHeightFactor: 2,
+      });
+      doc.text(
+        20,
+        80,
+        `Cuil: ${this.pdf.user.cuil}, nombre: ${this.pdf.user.firstname} ${this.pdf.user.lastname}`
+      );
+      doc.text(20, 100, `Teléfono: ${this.pdf.user.phoneNumber}`);
+      doc.text(20, 130, `Vencimiento del trámite: ${this.pdf.deadlineDays}`);
+      doc.text(20, 150, `Dirección: ${this.pdf.location}`);
+
+      doc.save("orde.pdf");
+    },
     //TRAE LOS TRAMITES DE SU AREA
     SetVistaLista() {
       //this.modalFiltros = !this.modalFiltros;
@@ -515,6 +589,11 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.selectedHistory = response.data.Procedure;
+          let asd = response.data["PDFData"];
+          if (asd) {
+            this.pdf = asd;
+            console.log(asd, "soy el pdf");
+          }
           if (response.data.Procedure.status.status === "PRESENTADO") {
             this.status = "2";
             this.updateStatus();
@@ -1418,6 +1497,7 @@ textarea {
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
+  margin-top: 1rem;
 }
 
 .cardFiltros {

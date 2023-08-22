@@ -53,6 +53,9 @@
             </div>
           </button>
           <GoogleLogin :callback="callback" prompt />
+          <button class="button" @click="logInWithFacebook">
+            Login with Facebook
+          </button>
         </div>
       </FormKit>
 
@@ -78,6 +81,7 @@ import { decodeCredential } from "vue3-google-login";
 
 export default {
   name: "LoginComponent",
+
   data() {
     return {
       cuil: null,
@@ -187,6 +191,41 @@ export default {
   },
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
+    async logInWithFacebook() {
+      await this.loadFacebookSDK(document, "script", "facebook-jssdk");
+      await this.initFacebook();
+      window.FB.login(function (response) {
+        console.log(response);
+        if (response.status == "connected") {
+          window.FB.api("/me?fields=email,name", (response) => {
+            console.log(response);
+          });
+          // Now you can redirect the user or do an AJAX request to
+          // a PHP script that grabs the signed request from the cookie.
+        }
+      });
+      return false;
+    },
+    async initFacebook() {
+      window.fbAsyncInit = function () {
+        window.FB.init({
+          appId: "1235789680464916", //You will need to change this
+          cookie: true, // This is important, it's not enabled by default
+          version: "v17.0",
+        });
+      };
+    },
+    async loadFacebookSDK(d, s, id) {
+      var js,
+        fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    },
 
     //SE GUARDA EN EL STORE EL USUARIO
     dispatchLogin() {
@@ -195,7 +234,7 @@ export default {
     dispatchCidi() {
       this.$store.dispatch("mockCidiAction", this.cidiCookie);
     },
-    dispatchLoginTrue() {
+    dispatchLoginPermission() {
       this.$store.dispatch("mockPaseAction");
     },
 
@@ -315,7 +354,7 @@ export default {
           this.user = response.data.UserProfile.user;
           this.user.cidiCookie = this.cidiCookie;
           this.dispatchLogin();
-          this.dispatchLoginTrue();
+          this.dispatchLoginPermission();
           window.localStorage.setItem(
             "role",
             response.data.UserProfile.user.role || null
