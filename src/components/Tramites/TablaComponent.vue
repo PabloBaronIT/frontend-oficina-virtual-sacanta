@@ -294,13 +294,8 @@
     </div>
 
     <!-- MODAL PARA PDF -->
-<<<<<<< HEAD
-    <div v-if="modalPDF === true" class="grafico-container pdf" id="content">
-      <div v-if="pdfSubmitt" style="width: 100%">
-=======
     <div v-if="modalPDF === true" class="grafico-container pdf">
       <div v-if="pdfSubmitt" style="width: 90%; margin: auto" id="content1">
->>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
         <div class="modal-top">
           <h3>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h3>
         </div>
@@ -471,11 +466,7 @@ import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
-<<<<<<< HEAD
-import html2pdf from "html2pdf.js";
-=======
 import jsPDF from "jspdf";
->>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
 export default {
   props: {
     color: String,
@@ -520,15 +511,6 @@ export default {
     // this.getComunicaciones();
   },
   methods: {
-<<<<<<< HEAD
-    download() {
-      var element = document.getElementById("#content");
-      html2pdf(element);
-      // const archivo = this.$ref;
-      // doc.text(archivo, 10, 10);
-      // doc.save("constancis.pdf");
-      // window.print();
-=======
     download(content) {
       // window.print();
       let asd = document.getElementById("content" + content);
@@ -542,7 +524,6 @@ export default {
           doc.save("constancia.pdf");
         },
       });
->>>>>>> a1f053d14cdab1dec13263ca3d2bf191712731df
     },
     verTramite(id) {
       //console.log("soy el trmite,", id);
