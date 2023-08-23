@@ -175,17 +175,10 @@ nav a {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 20%;
+  width: 328px;
   padding: 0;
   height: 90vh;
-  background-image: linear-gradient(
-    to bottom,
-    #dcdddf,
-    #e4e5e6,
-    #ececed,
-    #f4f4f5,
-    #fcfcfc
-  );
+  background-image: linear-gradient(0deg, #fff 0%, #d9d9d9 100%);
 }
 .navUser {
   display: flex;

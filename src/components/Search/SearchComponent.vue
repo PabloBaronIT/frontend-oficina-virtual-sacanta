@@ -32,11 +32,15 @@
         <i class="bi bi-search"></i
       ></span>
     </div>
-
-    <div class="vistaValues">
-      <p v-for="item in this.values" :key="item.id">
-        {{ item.title }}
-      </p>
+    <div v-if="this.values" style="position: absolute; z-index: 15; width: 83%">
+      <div class="vistaValues" v-for="item in this.values" :key="item.id">
+        <router-link :to="`/formulario/${item.title}/${item.id}`">
+          <a>{{ item.title }}</a>
+        </router-link>
+        <!-- <p>
+          {{ item.title }}
+        </p> -->
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +55,7 @@ export default {
   data() {
     return {
       value: "",
-      values: "",
+      values: null,
     };
   },
   methods: {
@@ -96,6 +100,7 @@ export default {
           });
       } else {
         console.log(" soy null");
+        this.values = null;
       }
     },
   },
@@ -105,6 +110,7 @@ export default {
 <style scoped>
 .container {
   width: 100vw;
+  margin-bottom: 4rem;
 }
 .containerSearch {
   width: 100%;
@@ -115,20 +121,24 @@ export default {
 .search {
   width: 70%;
   position: relative;
-  margin-left: 4rem;
+  margin-left: 3rem;
   height: 55px;
   border-color: transparent;
   padding-left: 1rem;
 }
 .vistaValues {
-  background: red;
   width: 70%;
-  display: flex;
-  flex-direction: column;
+  background: white;
   text-align: left;
-  margin-left: 4rem;
-  height: 55px;
-  border-color: transparent;
+  margin-left: 3rem;
+  height: 45px;
   padding-left: 1rem;
+  z-index: 15;
+  border-bottom: solid 1px grey;
+}
+.vistaValues a {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 </style>

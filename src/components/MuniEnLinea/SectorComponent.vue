@@ -43,7 +43,7 @@
           <!--SI TIENE EL NIVEL REQUERIDO PUEDE HACER EL TRAMITE-->
           <router-link
             v-if="tramite.level.level <= this.nivel"
-            :to="`/formulario/${this.$route.params.sectorId}/${tramite.title}/${tramite.id}`"
+            :to="`/formulario/${tramite.title}/${tramite.id}`"
           >
             <a>Iniciar Trámite</a>
           </router-link>

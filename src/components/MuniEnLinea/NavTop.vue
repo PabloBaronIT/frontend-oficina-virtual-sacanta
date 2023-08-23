@@ -1,14 +1,11 @@
 <template>
-  <div class="container">
+  <div class="asd">
     <!--logo muni-->
-
-    <router-link to="/munienlinea">
-      <img
-        class="logo scale-up-center"
-        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
-        alt=""
-      />
-    </router-link>
+    <img
+      src="@/assets/LogoSacantaHorizontal.svg"
+      alt="Sacanta"
+      class="imagenlogo"
+    />
 
     <!--mi cuenta-->
     <div class="usuario">
@@ -29,10 +26,16 @@
       <img :src="this.avatar" alt="imagen" />
       <div class="usuario-details" v-if="this.$store.state.user">
         <div>
-          <router-link v-show="permission" :to="`/micuenta`">
+          <!-- <router-link v-show="permission" :to="`/micuenta`">
             Mi cuenta
-          </router-link>
-
+          </router-link> -->
+          <h5>
+            Hola
+            <strong>
+              {{ $store.state.user.firstname }}
+            </strong>
+          </h5>
+          <span>CUIL: {{ $store.state.user.cuil }} </span>
           <!-- <img
             class="svg"
             src="@/assets/comunicacion.svg"
@@ -41,9 +44,9 @@
         </div>
         <div>
           <p>
-            {{ $store.state.user.firstname }} {{ $store.state.user.lastname }}
-            <br />
-            <span>CUIL: {{ $store.state.user.cuil }} </span>
+            <!-- {{ $store.state.user.firstname }} {{ $store.state.user.lastname }} -->
+            <!-- <br />
+            <span>CUIL: {{ $store.state.user.cuil }} </span> -->
           </p>
         </div>
 
@@ -58,9 +61,13 @@
         </div>
       </div>
     </div>
-
-    <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
-
+    <router-link to="/munienlinea">
+      <img
+        class="logo scale-up-center"
+        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
+        alt=""
+      />
+    </router-link>
     <!-- <button
       type="button"
       data-bs-toggle="offcanvas"
@@ -374,16 +381,14 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  height: 10rem;
+.asd {
+  height: 130px;
   background-color: white;
-  position: relative;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   padding-top: 1rem;
+  padding-left: 0;
 }
 .body-container {
   display: flex;
@@ -420,9 +425,10 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   align-items: left;
+  margin-left: 3rem;
 }
 .usuario svg {
-  width: 60px;
+  width: 50px;
 }
 
 .usuario-details {
@@ -442,8 +448,8 @@ export default {
   font-weight: bold;
 }
 img {
-  width: 6rem;
-  height: 6rem;
+  width: 4.5rem;
+  height: 4.5rem;
 }
 
 button {
@@ -460,8 +466,10 @@ button {
   color: #2c5777;
 }
 .imagenlogo {
-  width: 100px;
-  height: 120px;
+  width: 180px;
+  height: 70px;
+  position: relative;
+  margin-left: 15px;
 }
 
 @media (max-width: 1000px) {

@@ -1,6 +1,17 @@
 <template>
-  <div>
-    <NavTopVue
+  <NavTopVue
+    v-if="
+      this.role != 'MUNI_ROLE' &&
+      // this.role != undefined &&
+      // this.role != null &&
+      this.setPermission
+    "
+  />
+  <NavMunicipalesComponentVue
+    v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
+  />
+  <div class="main-container">
+    <NavComponent
       v-if="
         this.role != 'MUNI_ROLE' &&
         // this.role != undefined &&
@@ -8,21 +19,8 @@
         this.setPermission
       "
     />
-    <NavMunicipalesComponentVue
-      v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
-    />
-    <div class="main-container">
-      <NavComponent
-        v-if="
-          this.role != 'MUNI_ROLE' &&
-          // this.role != undefined &&
-          // this.role != null &&
-          this.setPermission
-        "
-      />
 
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
@@ -113,10 +111,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   font-family: "Roboto", sans-serif;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: var(--text-color);
   margin: 0;
-  width: 100%;
+  /* width: 100%; */
 }
 body {
   overflow-y: auto;

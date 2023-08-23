@@ -52,7 +52,7 @@ const routes = [
   },
 
   {
-    path: "/formulario/:categoriaId/:formularioTitle/:formularioId",
+    path: "/formulario/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },
