@@ -32,7 +32,6 @@
           name="password"
           label="Contraseña"
           placeholder="clave"
-          @keyup.enter="log"
         />
         <div class="botones">
           <button type="button" class="btn btn-outline-secondary" @click="log">
@@ -43,14 +42,15 @@
           </button>
           <button class="btn btn-outline-secondary boton">
             <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
-            <div class="representaCD">
-              <!-- <p class="nombreCD">iniciar sesion</p> -->
-              <a
-                href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
-                class="nombreCD"
-                >iniciar sesion</a
-              >
-            </div>
+            <a
+              href="https://cidi.cba.gov.ar/Cuenta/Login?app=551"
+              class="nombreCD"
+            >
+              <div class="representaCD">
+                <!-- <p class="nombreCD">iniciar sesion</p> -->
+                iniciar sesion
+              </div>
+            </a>
           </button>
           <GoogleLogin :callback="callback" prompt />
           <button class="button" @click="logInWithFacebook">
