@@ -3,34 +3,63 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     loggedIn: false,
-    name: "joa",
-    lastname: "",
-    cuil: 11,
     token: localStorage.getItem("token"),
     procedure: [],
+    user: {},
+    CidiCookie: null,
+    representante: null,
   },
-  getters: {},
+  getters: {
+    getProfile(state) {
+      return state.firstname;
+    },
+  },
   mutations: {
-    loggedIn(state, n, l) {
-      state.loggedIn = true;
-      state.name = n;
-      state.lastname = l;
+    loggedIn(state, asd) {
+      state.user = asd;
     },
-    saveProcedure(state, p) {
-      let obj = JSON.parse(p);
-      state.procedure.push(obj);
+    setCidi(state, asd) {
+      state.CidiCookie = asd;
     },
-    cleanStore(state, p) {
+    saveProcedure(state, asd) {
+      //let obj = JSON.parse(asd);
+      state.procedure.push(asd);
+    },
+    cleanStore(state) {
       state.procedure = [];
-      console.log(p);
+    },
+
+    representante(state, asd) {
+      state.representante = asd;
+    },
+    login(state) {
+      state.loggedIn = true;
+    },
+    outLogin(state) {
+      state.loggedIn = false;
     },
   },
   actions: {
-    mockLogin(context) {
-      context.commit("loggedIn");
+    mockLoginAction(context, asd) {
+      context.commit("loggedIn", asd);
     },
-    saveP(context) {
-      context.commit("saveProcedure");
+    mockCidiAction(context, asd) {
+      context.commit("setCidi", asd);
+    },
+    mockRepresentanteAction(context, asd) {
+      context.commit("representante", asd);
+    },
+    saveP(context, asd) {
+      context.commit("saveProcedure", asd);
+    },
+    mockPaseAction(context) {
+      context.commit("login");
+    },
+    mockOutAction(context) {
+      context.commit("outLogin");
+    },
+    cleanAction(context) {
+      context.commit("cleanStore");
     },
   },
   modules: {},

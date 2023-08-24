@@ -5,18 +5,18 @@ const routes = [
     path: "/",
     redirect: "/login",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Login/LoginView.vue"),
   },
   {
     path: "/login",
     name: "login", //para usar el router link sin modificar la ruta web
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Login/LoginView.vue"),
   },
   {
     path: "/munienlinea",
     name: "munienlinea",
-    component: () => import("../views/HomeVecinoView.vue"),
+    component: () => import("../views/HomeVecino/HomeVecinoView.vue"),
     meta: { requiresAuth: true },
   },
   {
@@ -24,7 +24,6 @@ const routes = [
     path: "/sector/:sectorTitle/:sectorId",
     name: "sector",
     component: () => import("../views/ProcesoTramite/SectorView.vue"),
-
     meta: { requiresAuth: true },
   },
   {
@@ -36,23 +35,24 @@ const routes = [
   {
     path: "/notificaciones",
     name: "notificaciones",
-    component: () => import("@/views/NotificacionesView.vue"),
+    component: () => import("@/views/Notificaciones/NotificacionesView.vue"),
     meta: { requiresAuth: true },
   },
   {
-    path: "/prueba",
-    name: "prueba",
-    component: () => import("@/views/PruebaView.vue"),
+    path: "/pago/:idTramite",
+    name: "pago",
+    component: () => import("@/views/PagosTramites/PagoView.vue"),
     meta: { requiresAuth: true },
   },
   {
-    path: "/muni",
-    name: "muni",
-    component: () => import("@/views/MuniView.vue"),
+    path: "/pago-resultado",
+    name: "pago-resultado",
+    component: () => import("@/views/PagoVista/pagoResultadoView.vue"),
     meta: { requiresAuth: true },
   },
+
   {
-    path: "/formulario/:categoriaId/:formularioTitle/:formularioId",
+    path: "/formulario/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },
@@ -60,20 +60,51 @@ const routes = [
   {
     path: "/micuenta",
     name: "micuenta",
-    component: () => import("@/views/CuentaView.vue"),
+    component: () => import("@/views/PerfilVecino/CuentaView.vue"),
     meta: { requiresAuth: true },
   },
   {
-    path: "/comunicaciones",
-    name: "comunicaciones",
-    component: () => import("@/views/ComunicacionesView.vue"),
+    path: "/micuenta-update",
+    name: "micuenta-update",
+    component: () => import("@/views/UpdateData/UpdateDataView.vue"),
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/crear-cuenta",
+    name: "createUser",
+    component: () => import("@/views/CreateUserOfi/CuentaUsuarioView.vue"),
+    meta: { requiresAuth: false },
   },
   {
     path: "/auth/reset-password/:token",
     name: "reset-password",
     component: () => import("@/views/ResetView.vue"),
     meta: { requiresAuth: false },
+  },
+  {
+    path: "/municipales",
+    name: "municipales",
+    component: () => import("@/views/HomeMunicipal/MuniView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/municipales/creacion-usuario",
+    name: "createUserMuni",
+    component: () => import("@/views/CreateUser/CreateUserMuniView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/municipales/pagos",
+    name: "municipales-pagos",
+    component: () => import("@/views/MuniPayments/MuniPaymentsView.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/municipales/assign-password",
+    name: "asign-password",
+    component: () => import("@/views/AsignarPassword/AsignarPasswordView.vue"),
+    meta: { requiresAuth: true },
   },
 ];
 

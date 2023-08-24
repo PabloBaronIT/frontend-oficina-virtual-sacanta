@@ -3,46 +3,91 @@
     <!-- Mostrar los tramites
      correspondientes al sector seleccionado -->
     <header>
-      <h1>
-        <img @click="back()" src="@/assets/back-arrow.svg" alt="Volver" />
+      <h1 class="tituloPrincipal">
         {{ this.$route.params.sectorTitle }}
       </h1>
     </header>
+
+    <div v-if="msj" class="sinTramites">
+      <h2>No hay trámites para esta categoría por el momento</h2>
+    </div>
     <div class="tramites">
       <div
-        class="card slide-top"
         v-for="tramite in tramitesApi"
         :key="tramite.id"
+        class="cardTramites"
       >
-        <div class="descripcion">
+        <div class="divTitleImag">
           <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
-          <p class="title">{{ tramite.title }}</p>
-        </div>
-        <div class="requisitos">
-          <a href="">Ver requisitos</a>
-          <img
-            src="@/assets/arancel.svg"
-            alt="arancel"
-            @mouseover="Hover"
-            @mouseleave="Hover"
-          />
+          <div class="divTitle">
+            <h2 class="fontB">
+              {{ tramite.title }}
+            </h2>
+            <h3 class="mouse" @click="verRequisitos(tramite.id)">
+              Ver Requisitos
+            </h3>
+          </div>
+          <div
+            v-if="this.modal === true && this.id == tramite.id"
+            :id="key"
+            class="modalDescription"
+          >
+            <div class="modalTop">
+              <p @click="close">X</p>
+            </div>
+            <h3>{{ tramite.description }}</h3>
+          </div>
         </div>
 
-        <router-link
-          class="btn-iniciar"
-          :to="`/formulario/${this.$route.params.sectorId}/${tramite.title}/${tramite.id}`"
+        <div class="footercard">
+          <!--SI TIENE EL NIVEL REQUERIDO PUEDE HACER EL TRAMITE-->
+          <router-link
+            v-if="tramite.level.level <= this.nivel"
+            :to="`/formulario/${tramite.title}/${tramite.id}`"
+          >
+            <a>Iniciar Trámite</a>
+          </router-link>
+          <!--SI NO!TIENE EL NIVEL REQUERIDO NO ! PUEDE HACER EL TRAMITE-->
+
+          <div v-else @click="ModalNivel(tramite.id)">
+            <a>Iniciar Trámite</a>
+          </div>
+        </div>
+        <!--MODAL DE NIVEL 2 DE CIDI-->
+
+        <div
+          v-if="modalNivel === true && this.id == tramite.id"
+          class="modalEstado"
         >
-          Iniciar tramite
-        </router-link>
-        <p :id="key" class="hover" v-if="this.hover && id == this.id">
-          {{ tramite.description }}
-        </p>
+          <div class="modal-content">
+            <div class="modalTop">
+              <p @click="closeModalNivel">X</p>
+            </div>
+            <h3>Trámite no disponible.</h3>
+            <p>
+              para poder realizar este trámite usted debe tener
+              <strong>nivel 2</strong> en Cidi.
+              <br />
+
+              <a
+                href="https://cidi.cba.gov.ar/portal-publico/acceso"
+                target="blak"
+                class="linkCidi"
+              >
+                Ver más...</a
+              >
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+import { BASE_URL } from "@/env";
 
 export default {
   data() {
@@ -51,55 +96,87 @@ export default {
       title: "",
       hover: false,
       tramitesApi: [],
+      msj: false,
+      modal: false,
+      modalNivel: false,
+      nivel: localStorage.getItem("nivel"),
     };
   },
   created() {
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
-    console.log(this.$route.params);
-    const apiClient = axios.create({
-      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get(
-        "/oficina/categories/category/procedure/" + this.$route.params.sectorId
-      )
-      .then((response) => {
-        if (response.status == 200) {
-          for (let i = 0; i < response.data.length; i++) {
-            this.tramitesApi.push(response.data[i]);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    //console.log(this.$route.params);
+    this.GetProcedure();
   },
 
   methods: {
-    Hover(id) {
-      this.hover = !this.hover;
+    GetProcedure() {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get(
+          "/oficina/categories/category/procedure/" +
+            this.$route.params.sectorId
+        )
+
+        .then((response) => {
+          if (response.status == 200) {
+            for (let i = 0; i < response.data.Procedures.length; i++) {
+              this.tramitesApi.push(response.data.Procedures[i]);
+            }
+          }
+        })
+        .catch((error) => {
+          // console.log(error);
+          if (error.response.status === 401) {
+            this.$router.push("/micuenta-update");
+          }
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.GetProcedure();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.GetProcedure();
+            }
+          }
+        });
+    },
+
+    verRequisitos(id) {
+      this.modal = true;
       this.id = id;
+    },
+    ModalNivel(id) {
+      this.modalNivel = true;
+      this.id = id;
+    },
+    closeModalNivel() {
+      this.modalNivel = false;
+    },
+    close() {
+      this.modal = false;
     },
     back() {
       this.$router.go(-1);
     },
   },
-  computed: {
-    tramitesFiltered() {
-      return this.tramites.filter((tramite) => {
-        return tramite.sector === this.$route.params.sectorId;
-      });
-    },
-  },
+  computed: {},
 };
 </script>
 
 <style scoped>
+header {
+  text-align: left;
+  padding-left: 5rem;
+}
 .slide-top {
   -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -139,6 +216,7 @@ export default {
 }
 .title {
   color: var(--blue);
+  margin-left: 1rem;
 }
 
 .hover {
@@ -167,11 +245,17 @@ export default {
 }
 
 .tramites {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: row wrap;
-  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* text-align: center; */
+  width: 90%;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-flow: row wrap; */
+  margin: auto;
+  margin-top: 3rem;
+  gap: 20px;
+  margin-bottom: 3rem;
 }
 .btn-iniciar {
   width: 100%;
@@ -184,14 +268,18 @@ export default {
 }
 
 .tramites a {
-  color: var(--blue);
-  font-size: 0.9em;
+  /*color: var(--blue);*/
+  /*font-size: 0.9em;*/
   text-decoration: none;
+  color: white;
+  font-size: 20px;
 }
 .tramites a:hover {
-  color: var(--red);
+  transition: all 0.3s ease-in-out;
+  color: black;
+  /*color: var(--red);
   font-size: 0.9em;
-  text-decoration: none;
+  text-decoration: none;*/
 }
 
 .tramites input:hover {
@@ -200,12 +288,7 @@ export default {
 }
 
 img {
-  max-width: 30px;
-  align-self: center;
-}
-
-h1 {
-  color: var(--red);
+  max-width: 50px;
 }
 
 .card {
@@ -219,5 +302,119 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.sinTramites {
+  margin-top: 4rem;
+  text-align: center;
+  width: 100%;
+}
+.cardTramites {
+  position: relative;
+  width: 90%;
+  height: 14rem;
+  background-color: white;
+  margin: auto;
+  border-radius: 40px 40px 0px 0px;
+  padding-top: 2rem;
+}
+.divTitleImag {
+  display: flex;
+  flex-direction: row;
+  padding-left: 1rem;
+}
+.divTitle {
+  text-align: left;
+  margin-left: 2rem;
+  width: 55%;
+}
+.footercard {
+  position: absolute;
+  background-image: linear-gradient(
+    to right,
+    #88ba3e,
+    #75b23f,
+    #62aa40,
+    #4ea242,
+    #399943,
+    #399943,
+    #399943,
+    #399943,
+    #4ea242,
+    #62aa40,
+    #75b23f,
+    #88ba3e
+  );
+  height: 3rem;
+  width: 100%;
+  bottom: 0;
+  padding-top: 0.5rem;
+}
+.mouse {
+  cursor: pointer;
+}
+.mouse:hover {
+  transition: all 0.3s ease-in-out;
+  color: #88ba3e;
+}
+.modalDescription {
+  position: absolute;
+  width: 250px;
+  height: 50px;
+  top: 7rem;
+  left: 4rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 20px;
+  text-align: center;
+  padding-top: 0.5rem;
+}
+.modalTop {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+.modalEstado {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 2rem;
+  right: -0.8rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px; /* Need a specific value to work */
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.modal-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.modal-content a {
+  text-decoration: none;
+  color: var(--green);
+}
+.modal-content a:hover {
+  color: #2c6331;
+}
+.linkCidi {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
 }
 </style>

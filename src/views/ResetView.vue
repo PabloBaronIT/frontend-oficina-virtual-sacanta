@@ -23,6 +23,7 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import { BASE_URL } from "@/env";
 
 export default {
   name: "ResetView",
@@ -39,7 +40,7 @@ export default {
   methods: {
     reset() {
       const apiClient = axios.create({
-        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
+        baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "reset-token": this.token,

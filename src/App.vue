@@ -1,47 +1,24 @@
 <template>
+  <NavTopVue
+    v-if="
+      this.role != 'MUNI_ROLE' &&
+      // this.role != undefined &&
+      // this.role != null &&
+      this.setPermission
+    "
+  />
+  <NavMunicipalesComponentVue
+    v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
+  />
   <div class="main-container">
     <NavComponent
       v-if="
-        this.role != '' && this.role != undefined && this.role != 'MUNI_ROLE'
+        this.role != 'MUNI_ROLE' &&
+        // this.role != undefined &&
+        // this.role != null &&
+        this.setPermission
       "
     />
-
-    <div
-      class="modal fade"
-      id="staticBackdrop"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              Modal title
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <router-view />
   </div>
@@ -49,25 +26,39 @@
 
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
-
+import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
+import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 export default {
   data() {
     return {
       role: "",
+      cuil: "",
     };
   },
   created() {
-    window.addEventListener("token-localstorage-changed", (event) => {
-      this.role = event.detail.storage;
-    });
+    // window.addEventListener("token-localstorage-changed", (event) => {
+    //   this.role = event.detail.storage;
+    // });
+    this.role = localStorage.getItem("role") || null;
   },
   watch: {
     $route() {
       this.role = localStorage.getItem("role");
     },
   },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   components: {
     NavComponent,
+    NavTopVue,
+    NavMunicipalesComponentVue,
   },
 };
 </script>
@@ -79,15 +70,23 @@ export default {
 
 @media (prefers-color-scheme: light) {
   #app {
-    --green: #68b984;
+    --green: rgb(104, 185, 132);
     --blue: #415f77;
-    --lblue: #8ba7be;
-    --yellow: #f0a92f;
-    --red: #e14d2a;
+    --lblue: rgb(139, 167, 190);
+    --yellow: rgb(240, 169, 47);
+    --red: rgb(225, 77, 42);
     --text-color: #2c3e50;
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
+    --fondo: linear-gradient(
+      to bottom,
+      #dcdddf,
+      #e4e5e6,
+      #ececed,
+      #f4f4f5,
+      #fcfcfc
+    );
   }
 }
 
@@ -102,27 +101,65 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
+    --colorpricipal: #128d44;
   }
 }
 
 #app {
+  user-select: none;
   overflow-x: hidden;
-  font-family: "Roboto Slab", serif;
   -webkit-font-smoothing: antialiased;
+  font-family: "Roboto", sans-serif;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: var(--text-color);
   margin: 0;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  /* width: 100%; */
 }
 body {
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+h1 {
+  color: #128d44;
+
+  font-size: 35px;
+  font-weight: 100;
+}
+h2 {
+  color: #128d44;
+  font-weight: 500;
+}
+h3 {
+  color: #128d44;
+  font-weight: 100;
+}
+h4 {
+  color: #128d44;
+  font-weight: 300;
+}
+.fontB {
+  font-weight: bold;
+}
+.fontL {
+  font-weight: 300;
+}
+.tituloPrincipal {
+  font-size: 50px;
+  margin-bottom: 4rem;
 }
 </style>
 
 <style scoped>
 .main-container {
   display: flex;
+  background: var(--fondo);
+  margin-bottom: 2rem;
+}
+.fixed {
+  position: fixed;
+  width: 100vw;
 }
 
 @media (max-width: 1000px) {

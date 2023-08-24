@@ -1,24 +1,37 @@
 <template>
-  <div class="main-container">
-    <div class="menu"><SideBar /></div>
-    <h4>Tus tramites</h4>
+  <main v-if="setPermission">
+    <div class="top">
+      <h1>Mis trámites</h1>
+    </div>
     <Tabla color="var(--green)" />
-  </div>
+  </main>
 </template>
 
 <script>
 import Tabla from "@/components/Tramites/TablaComponent.vue";
-import SideBar from "@/components/MuniEnLinea/SideBar.vue";
 export default {
   name: "TramitesView",
   components: {
     Tabla,
-    SideBar,
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+.top {
+  text-align: left;
+  margin-left: 3rem;
+  margin-top: 2rem;
+}
 .menu {
   width: 100%;
   display: flex;
@@ -31,17 +44,14 @@ h4 {
   color: var(--blue);
 }
 
-.main-container {
-  height: 100vh;
-  width: 80%;
+main {
+  height: auto;
+  width: 100%;
   display: flex;
-  padding: 3%;
+  flex-direction: column;
+
   flex-flow: column wrap;
-  background: rgb(235, 235, 235);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  justify-content: flex-start;
-  align-items: center;
+  background: var(--grey-bk);
 }
 
 @media (max-width: 800px) {

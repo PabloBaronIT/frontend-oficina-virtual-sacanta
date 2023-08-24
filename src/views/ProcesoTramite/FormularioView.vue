@@ -1,34 +1,55 @@
 <template>
-  <div class="main-container">
-    <h1>
-      {{ this.$route.params.formularioTitle }}
-    </h1>
+  <div class="main-container" v-if="setPermission">
+    <div class="header">
+      <h2 class="tituloPrincipal">
+        {{ this.$route.params.formularioTitle }}
+      </h2>
+    </div>
 
     <FormularioComponent
-      :title="title"
-      :questionProp="preguntas"
-      :length="this.length"
-      :procedureId="this.procedureId"
+      :questionProp="this.preguntas"
+      :nivel="this.nivel"
+      :dispatchProcedure="this.dispatchProcedure"
+      :setProcedure="this.setProcedure"
+      :outProcedure="this.outProcedure"
+      v-if="this.preguntas"
     />
-
-    <!-- Armar componente de formulario con props -->
   </div>
 </template>
 
 <script>
 import FormularioComponent from "@/components/Tramites/Proceso/FormularioComponent.vue";
-// import dbService from "@/services/dbService";
 import axios from "axios";
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+import { BASE_URL } from "@/env";
 
+var procedure = {
+  title: "",
+  // userId: "",
+  // categoryId: null,
+  // statusId: 1,
+  procedureId: null,
+  // selected: null,
+  // questions: [],
+  // date: new Date(),
+  questions: [],
+  fecha: new Date().toLocaleDateString(),
+  precio: "",
+};
 export default {
   data() {
     return {
       // Extrayendo  datos de categoria y tramite desde el path con VUE ROUTER
       category: this.$route.params,
-      length: null,
-      preguntas: [],
-      title: "",
-      procedureId: null,
+      // length: null,
+      preguntas: "",
+      nivel: "",
+      // procedure: {
+      //   title: "",
+      //   procedureId: "",
+      //   questions: [],
+      // },
     };
   },
   components: {
@@ -36,54 +57,92 @@ export default {
   },
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
-    const apiClient = axios.create({
-      baseURL: "https://oficina-virtual-pablo-baron.up.railway.app/",
-      withCredentials: false,
-      headers: {
-        "auth-header": localStorage.getItem("token"),
-      },
-    });
-
-    apiClient
-      .get("/oficina/procedures/template/" + this.$route.params.formularioId)
-      .then((response) => {
-        let r = response.data;
-
-        this.procedureId = response.data.id;
-        parseInt(r.id);
-
-        this.title = r.title;
-        this.length = r.question.length;
-        this.preguntas.push(r);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getTemplate();
+    procedure.questions = [];
   },
   methods: {
+    setProcedure(asd) {
+      procedure.questions.push(asd);
+    },
+    outProcedure() {
+      procedure.questions.pop();
+    },
     back() {
       this.$router.go(-1);
+    },
+    dispatchProcedure() {
+      this.$store.dispatch("saveP", procedure);
+    },
+    getTemplate() {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+
+      apiClient
+        .get("/oficina/procedures/template/" + this.$route.params.formularioId)
+        .then((response) => {
+          console.log(response.data);
+          this.preguntas = response.data.Template.questionProcedure;
+          this.nivel = response.data.Template.level.level;
+          procedure.procedureId = response.data.Template.id;
+          // parseInt(r.id);
+          // console.log(this.procedureId, "soy el procedureId");
+
+          procedure.title = response.data.Template.title;
+          procedure.precio = response.data.Template.price;
+          // this.length = r.question.length;
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.getTemplate();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.getTemplate();
+            }
+          }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
+          }
+        });
+    },
+  },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-h1 {
-  color: var(--red);
+.header {
+  text-align: left;
+  padding-left: 5rem;
 }
 
 .main-container {
   width: 100%;
-  height: 100vh;
+  height: auto;
   display: flex;
-  padding: 20px;
-  flex-flow: column wrap;
+  flex-direction: column;
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   justify-content: center;
-  align-items: center;
 }
 
 .options-container {

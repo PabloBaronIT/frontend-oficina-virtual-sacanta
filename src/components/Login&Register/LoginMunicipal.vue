@@ -1,17 +1,21 @@
 <template>
   <div class="login-container">
-    <form action="">
+    <form action="" v-if="!this.loading">
       <h1>Login Municipal</h1>
-      <FormKit
+      <input
         type="text"
         name="Cuil"
         id="Cuil"
         label="Cuil"
-        help="Your full name"
-        placeholder="“Jon Doe”"
+        placeholder="“123456789”"
         v-model="this.cuil"
+        maxlength="11"
+        @keyup="this.validar()"
       />
-      <FormKit
+      <p v-if="this.error" style="color: red; font-size: 12px">
+        {{ this.error }}
+      </p>
+      <input
         type="password"
         name="password"
         id="password"
@@ -19,62 +23,183 @@
         help="Your password"
         placeholder="********"
         v-model="this.password"
+        @keyup="this.validar()"
       />
       <p style="color: red">{{ this.msj }}</p>
-      <input
-        @click="login()"
-        class="btn btn-primary"
-        type="button"
-        value="Ingresar"
-      />
+      <div class="botones">
+        <input
+          @click="login()"
+          class="btn btn-primary"
+          type="button"
+          value="Ingresar"
+          :disabled="this.disabled"
+        />
+      </div>
     </form>
+    <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div>
   </div>
 </template>
 
 <script>
-import dbService from "@/services/dbService";
-import { mapActions } from "vuex";
+import axios from "axios";
+import setTokenMuni from "@/middlewares/setTokenMuni";
+import { PASSWORD_HEADER, BASE_URL } from "@/env";
 export default {
   data() {
     return {
       cuil: null,
       password: "",
       msj: "",
+      user: {},
+      loading: false,
+      cidiCookie: null,
+      error: null,
+      disabled: false,
     };
   },
+  created() {},
   methods: {
-    ...mapActions(["mockLogin"]),
+    validar() {
+      let asd = /^[0-9]+$/;
+      if (asd.test(this.cuil) && this.cuil?.length === 11 && this.password) {
+        this.error = null;
+        this.disabled = false;
+      } else {
+        this.error = "Debe ingresar solo números-debe ingresar 11 caracteres";
+        this.disabled = true;
+      }
+    },
+    dispatchLogin() {
+      this.$store.dispatch("mockLoginAction", this.user);
+    },
+    dispatchCidi() {
+      this.$store.dispatch("mockCidiAction", this.cidiCookie);
+    },
 
     login() {
-      let log = {
-        cuil: this.cuil,
-        password: this.password,
-      };
+      localStorage.removeItem("token");
 
-      dbService
-        .postLoginMunicipal(log)
-        .then((response) => {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+      });
+      apiClient
+        .post("/auth/signinMunicipales", {
+          cuil: this.cuil,
+          password: this.password,
+        })
+
+        .then(async (response) => {
           if (response.status == 200) {
-            localStorage.removeItem("token");
+            console.log(response.data.Tokens.authToken);
+            let token = response.data.Tokens.authToken;
+            let refreshToken = response.data.Tokens.refreshToken;
+            localStorage.setItem("token", token);
+            localStorage.setItem("refreshToken", refreshToken);
 
-            this.validacion = true;
-            this.mockLogin();
-            localStorage.clear();
-            localStorage.setItem("name", response.data.firstname);
-            localStorage.setItem("lastname", response.data.lastname);
-            localStorage.setItem("cuil", response.data.cuil);
-            localStorage.setItem("adress", response.data.adress);
-            localStorage.setItem("email", response.data.email);
-            localStorage.setItem("id", response.data.id);
-            localStorage.setItem("fecha-creacion", response.data.created_at);
-            localStorage.setItem("role", response.data.role);
-            localStorage.setItem("token", response.data.token);
-            this.$router.push("muni");
+            this.getMyProfile();
           }
         })
         .catch((error) => {
           console.log(error);
           this.msj = "Usuario incorrecto";
+        });
+    },
+    //QUEDA PENDIENTE HASTA NUEVO AVISO
+    logCidi(cidi) {
+      this.dispatchCidi();
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+      });
+      //SE ENVIA LA QUERY PARA OBTENER TODA LA INFO DEL USUARIO
+      apiClient
+        .post("/auth/cidi-muni/signup/" + cidi)
+        .then((response) => {
+          console.log(response.data, "respuesta api cidi");
+          let token = response.data["Token"] || null; //token por calve fizcal o sin representados
+          let redireccionamiento = response.data["RedirectURL"] || null;
+
+          localStorage.setItem("token", token.token);
+
+          if (redireccionamiento) {
+            this.$router.push("/municipales/assign-password");
+          } else {
+            this.getMyProfile();
+            this.$router.push("muni");
+            this.loading = false;
+          }
+
+          //si tiene representados
+        })
+        .catch((error) => {
+          console.log(error);
+          this.msj = "Usuario incorrecto";
+          this.loading = false;
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+
+    getMyProfile() {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+          "access-user-header": PASSWORD_HEADER,
+        },
+      });
+      apiClient
+        .get("/municipales/muni-profile")
+        .then((response) => {
+          console.log(response.data);
+          this.user = response.data.MuniProfile.muni;
+          this.dispatchLogin();
+          window.localStorage.setItem(
+            "name",
+            response.data.MuniProfile.muni.firstname
+          );
+          window.localStorage.setItem(
+            "lastname",
+            response.data.MuniProfile.muni.lastname
+          );
+          window.localStorage.setItem(
+            "cuil",
+            response.data.MuniProfile.muni.cuil
+          );
+          window.localStorage.setItem(
+            "email",
+            response.data.MuniProfile.muni.email
+          );
+          window.localStorage.setItem("id", response.data.MuniProfile.muni.id);
+          window.localStorage.setItem(
+            "fecha-creacion",
+            response.data.MuniProfile.muni.created_at
+          );
+          window.localStorage.setItem(
+            "role",
+            response.data.MuniProfile.muni.role
+          );
+          this.$router.push("/municipales");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 401) {
+            let redireccion = error.response.data.redirectURL;
+            if (redireccion) {
+              this.$router.push("/municipales/assign-password");
+            }
+          }
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.getMyProfile();
+            }
+          }
         });
     },
   },
@@ -97,5 +222,30 @@ form {
   position: relative;
   z-index: 1;
   background: #fff;
+  width: 40vw;
+}
+/* .botones {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 10rem;
+  width: 100%;
+  margin-top: 5rem;
+} */
+.boton {
+  width: 100%;
+}
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+input {
+  border-radius: 10px;
+  border-color: #333;
+  height: 3rem;
+  border-width: 0.5;
+  width: 80%;
+  margin: auto;
+  margin-bottom: 2rem;
 }
 </style>
