@@ -175,9 +175,9 @@ nav a {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  width: 328px;
+  width: 17vw;
   padding: 0;
-  height: 90vh;
+  height: 100vh;
   background-image: linear-gradient(0deg, #fff 0%, #d9d9d9 100%);
 }
 .navUser {

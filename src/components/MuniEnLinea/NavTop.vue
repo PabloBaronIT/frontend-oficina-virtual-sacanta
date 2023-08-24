@@ -378,7 +378,7 @@ export default {
 
 <style scoped>
 .asd {
-  height: 152px;
+  height: 14vh;
   background-color: white;
   width: 100%;
   display: flex;
@@ -462,8 +462,8 @@ button {
   color: #2c5777;
 }
 .imagenlogo {
-  width: 232px;
-  height: 93px;
+  width: 12vw;
+  height: 8.6vh;
   position: relative;
   margin-left: 15px;
 }
