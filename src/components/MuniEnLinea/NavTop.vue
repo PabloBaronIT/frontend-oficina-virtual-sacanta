@@ -29,12 +29,12 @@
           <!-- <router-link v-show="permission" :to="`/micuenta`">
             Mi cuenta
           </router-link> -->
-          <h5>
+          <h4>
             Hola
             <strong>
               {{ $store.state.user.firstname }}
             </strong>
-          </h5>
+          </h4>
           <span>CUIL: {{ $store.state.user.cuil }} </span>
           <!-- <img
             class="svg"
@@ -62,11 +62,7 @@
       </div>
     </div>
     <router-link to="/munienlinea">
-      <img
-        class="logo scale-up-center"
-        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
-        alt=""
-      />
+      <img class="logo scale-up-center" src="@/assets/MuniEnLinea.svg" alt="" />
     </router-link>
     <!-- <button
       type="button"
@@ -382,7 +378,7 @@ export default {
 
 <style scoped>
 .asd {
-  height: 130px;
+  height: 152px;
   background-color: white;
   width: 100%;
   display: flex;
@@ -414,22 +410,22 @@ export default {
 }
 
 .logo {
-  max-width: 100px;
+  width: 170px;
 }
 
-.svg {
+/* .svg {
   max-width: 30px;
-}
+} */
 .usuario {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: left;
-  margin-left: 3rem;
+  margin-left: 7rem;
 }
-.usuario svg {
-  width: 50px;
-}
+/* .usuario svg {
+  width: 94px;
+} */
 
 .usuario-details {
   display: flex;
@@ -437,19 +433,19 @@ export default {
   justify-content: center;
   padding-left: 20px;
   text-align: left;
-  font-size: 15px;
+  font-size: 20px;
   color: #128d44;
   width: 300px;
 }
-.usuario-details a {
+/* .usuario-details a {
   text-decoration: none;
   color: red;
   font-size: 20px;
   font-weight: bold;
-}
+} */
 img {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 94px;
+  height: 93px;
 }
 
 button {
@@ -466,8 +462,8 @@ button {
   color: #2c5777;
 }
 .imagenlogo {
-  width: 180px;
-  height: 70px;
+  width: 232px;
+  height: 93px;
   position: relative;
   margin-left: 15px;
 }

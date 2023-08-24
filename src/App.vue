@@ -134,7 +134,7 @@ h3 {
   font-weight: 100;
 }
 h4 {
-  color: white;
+  color: #128d44;
   font-weight: 300;
 }
 .fontB {
