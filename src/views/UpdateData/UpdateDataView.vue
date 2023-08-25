@@ -280,7 +280,7 @@ export default {
             (this.postCode = ""),
             this.z();
           setTimeout(() => {
-            this.$router.push("/munienlinea");
+            this.$router.push("munienlinea");
           }, 2000);
         })
         .catch(function (error) {

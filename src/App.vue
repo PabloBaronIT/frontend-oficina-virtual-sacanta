@@ -109,10 +109,10 @@ export default {
   user-select: none;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  font-family: "Roboto", sans-serif;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Open Sans", sans-serif;
+  /* -moz-osx-font-smoothing: grayscale; */
   /* text-align: center; */
-  color: var(--text-color);
+  /* color: var(--text-color); */
   margin: 0;
   width: 100vw;
   height: 100vh;
@@ -121,12 +121,28 @@ export default {
 body {
   overflow-y: auto;
 }
-h1 {
-  color: #128d44;
 
-  font-size: 35px;
+/* ACTUALIZADO */
+h1 {
+  color: #008838;
+  /* font-size: px; */
   font-weight: 100;
+  font-style: normal;
+  line-height: normal;
 }
+h4 {
+  color: #128d44;
+  font-weight: 200;
+  /* font-size: 25px; */
+}
+h5 {
+  color: #808081;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: normal;
+}
+/* ---------------------------- */
+
 h2 {
   color: #128d44;
   font-weight: 500;
@@ -135,10 +151,7 @@ h3 {
   color: #128d44;
   font-weight: 100;
 }
-h4 {
-  color: #128d44;
-  font-weight: 300;
-}
+
 .fontB {
   font-weight: bold;
 }

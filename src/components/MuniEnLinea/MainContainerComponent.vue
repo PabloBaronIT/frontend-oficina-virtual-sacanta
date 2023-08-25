@@ -1,6 +1,6 @@
 <template>
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
-  <div>
+  <div style="position: relative">
     <!-- <div class="top">
       <p>
         <strong>Bienvenido!</strong>
@@ -15,6 +15,15 @@
         alt="imagen"
       />
     </div> -->
+    <div class="fecha">
+      <h5>
+        <i class="bi bi-calendar" style="margin-right: 8px"></i
+        ><strong>Viernes 19 de Agosto</strong>
+      </h5>
+    </div>
+    <h1>¿Qué gestión querés realizar?</h1>
+
+    <!-- BUSCADOR DE TRAMITES -->
     <SearchComponent />
     <div class="containerTabs">
       <ul class="nav nav-tabs centerTabs" id="myTab" role="tablist">
@@ -166,6 +175,16 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 4vh;
+  margin-left: 5vw;
+  margin-bottom: 4vh;
+}
+.fecha {
+  letter-spacing: 0px;
+  position: absolute;
+  right: 5vw;
+}
 .top {
   position: relative;
   text-align: left;
@@ -237,11 +256,11 @@ img {
   width: 90%;
   height: 50px;
 } */
-.imagenConstruccion {
+/* .imagenConstruccion {
   width: 150px;
   height: 150px;
   margin-top: 2rem;
-}
+} */
 .flex-container {
   width: 100%;
   height: auto;

@@ -35,7 +35,9 @@
               {{ $store.state.user.firstname }}
             </strong>
           </h4>
-          <span>CUIL: {{ $store.state.user.cuil }} </span>
+          <h6>
+            <span>CUIL: {{ $store.state.user.cuil }} </span>
+          </h6>
           <!-- <img
             class="svg"
             src="@/assets/comunicacion.svg"
@@ -61,9 +63,29 @@
         </div>
       </div>
     </div>
-    <router-link to="/munienlinea">
-      <img class="logo scale-up-center" src="@/assets/MuniEnLinea.svg" alt="" />
-    </router-link>
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        width: 350px;
+        justify-content: space-between;
+        position: absolute;
+        right: 7vw;
+      "
+    >
+      <router-link to="/munienlinea">
+        <img
+          class="logo scale-up-center"
+          src="@/assets/MuniEnLinea.svg"
+          alt=""
+        />
+      </router-link>
+      <div style="display: flex; flex-direction: row">
+        <div class="botonNotificacion"><i class="bi bi-bell"></i></div>
+        <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
+      </div>
+    </div>
+
     <!-- <button
       type="button"
       data-bs-toggle="offcanvas"
@@ -173,6 +195,7 @@ import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { googleLogout } from "vue3-google-login";
 
 export default {
   name: "NavTopVue",
@@ -321,8 +344,11 @@ export default {
     },
     logOf() {
       localStorage.clear();
+      this.dispatchOutLogin();
       location.reload();
       this.$router.push("login");
+      googleLogout();
+      document.cookie = "cidi=; max-age=0";
       window.dispatchEvent(
         new CustomEvent("token-localstorage-changed", {
           detail: {
@@ -330,6 +356,9 @@ export default {
           },
         })
       );
+    },
+    dispatchOutLogin() {
+      this.$store.dispatch("mockOutAction");
     },
 
     // changeRepresentative() {
@@ -378,9 +407,10 @@ export default {
 
 <style scoped>
 .asd {
+  position: relative;
   height: 14vh;
   background-color: white;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   padding-top: 1rem;
@@ -410,9 +440,32 @@ export default {
 }
 
 .logo {
-  width: 170px;
+  width: 9vw;
+  height: 7.6vh;
 }
-
+.botonNotificacion {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: #ec6249;
+  margin-right: 23px;
+  font-size: 30px;
+  color: whitesmoke;
+  text-align: center;
+  padding-right: 3px;
+  padding-top: 3px;
+  transform: rotate(40deg);
+}
+.botonOut {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: red;
+  margin-right: 23px;
+  font-size: 30px;
+  color: whitesmoke;
+  text-align: center;
+}
 /* .svg {
   max-width: 30px;
 } */
@@ -421,7 +474,7 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   align-items: left;
-  margin-left: 7rem;
+  margin-left: 6vw;
 }
 /* .usuario svg {
   width: 94px;
@@ -435,7 +488,7 @@ export default {
   text-align: left;
   font-size: 20px;
   color: #128d44;
-  width: 300px;
+  width: 360px;
 }
 /* .usuario-details a {
   text-decoration: none;
@@ -443,9 +496,10 @@ export default {
   font-size: 20px;
   font-weight: bold;
 } */
-img {
-  width: 94px;
-  height: 93px;
+
+.usuario img {
+  width: 5vw;
+  height: 10vh;
 }
 
 button {
@@ -462,10 +516,10 @@ button {
   color: #2c5777;
 }
 .imagenlogo {
-  width: 12vw;
-  height: 8.6vh;
+  width: 11vw;
+  height: 9vh;
   position: relative;
-  margin-left: 15px;
+  margin-left: 2.6vw;
 }
 
 @media (max-width: 1000px) {

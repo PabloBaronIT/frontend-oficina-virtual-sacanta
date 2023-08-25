@@ -25,14 +25,18 @@
           height: 50px;
           width: 50px;
           border-radius: 50%;
-          padding-top: 0.4rem;
+          padding-top: 5px;
+          padding-left: 12px;
           cursor: pointer;
         "
       >
         <i class="bi bi-search"></i
       ></span>
     </div>
-    <div v-if="this.values" style="position: absolute; z-index: 15; width: 83%">
+    <div
+      v-if="this.values"
+      style="position: absolute; z-index: 15; width: 50vw"
+    >
       <div class="vistaValues" v-for="item in this.values" :key="item.id">
         <router-link :to="`/formulario/${item.title}/${item.id}`">
           <a>{{ item.title }}</a>
@@ -116,21 +120,21 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: row;
-  margin-top: 4rem;
+  /* margin-top: 4rem; */
 }
 .search {
-  width: 70%;
+  width: 50vw;
   position: relative;
-  margin-left: 3rem;
+  margin-left: 5vw;
   height: 55px;
   border-color: transparent;
   padding-left: 1rem;
 }
 .vistaValues {
-  width: 70%;
+  width: 50vw;
   background: white;
   text-align: left;
-  margin-left: 3rem;
+  margin-left: 5vw;
   height: 45px;
   padding-left: 1rem;
   z-index: 15;

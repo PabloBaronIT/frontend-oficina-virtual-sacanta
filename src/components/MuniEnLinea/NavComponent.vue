@@ -1,34 +1,33 @@
 <template>
   <!-- Sidebar -->
-  <div class="nav-container">
-    <nav
-      v-if="this.role !== 'MUNI_ROLE'"
-      id="sidebarMenu"
-      class="btn-container scale-up-center"
-    >
-      <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
+  <div class="nav-container" v-if="this.role !== 'MUNI_ROLE'" id="sidebarMenu">
+    <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
+    <div class="tusGestiones">
+      <h4 class="tus"><strong>Tus</strong></h4>
+      <h1 style="margin-top: 10px">gestiones</h1>
+      <h4 class="estes"><strong>donde estés</strong></h4>
+    </div>
 
-      <div class="navUser">
-        <router-link v-show="setPermission" :to="`/munienlinea`" class="bn3">
-          Inicio
-        </router-link>
-        <router-link v-show="setPermission" :to="`/tramites`" class="bn3">
-          Mis tramites
-        </router-link>
+    <div class="navUser">
+      <router-link v-show="setPermission" :to="`/munienlinea`" class="bn3">
+        <h5>Inicio</h5>
+      </router-link>
+      <router-link v-show="setPermission" :to="`/tramites`" class="bn3">
+        <h5>Presentadas</h5>
+      </router-link>
 
-        <!--este link solo se puede acceder en el propio perfil , no como representante-->
-
-        <router-link v-show="setPermission" :to="`/notificaciones`" class="bn3">
-          Mis Comunicaciones
-        </router-link>
-        <input
-          @click="logOf"
-          class="bn3 close"
-          type="button"
-          value="Cerrar Sesion"
-        />
-      </div>
-    </nav>
+      <router-link v-show="setPermission" :to="`/notificaciones`" class="bn3">
+        <h5>Notificaciones</h5>
+      </router-link>
+    </div>
+    <div class="inpuestos">
+      <router-link v-show="setPermission" :to="`/notificaciones`">
+        <h6 style="color: white; font-weight: 500">
+          Impuestos Municipales <br />
+          Ver y Pagar
+        </h6>
+      </router-link>
+    </div>
 
     <!-- nav del mmunicipal -->
     <nav v-if="this.role == 'MUNI_ROLE'" id="sidebarMenu" class="btn-container">
@@ -42,7 +41,6 @@
 </template>
 
 <script>
-import { googleLogout } from "vue3-google-login";
 export default {
   name: "NavComponent",
   data() {
@@ -74,26 +72,7 @@ export default {
     },
   },
 
-  methods: {
-    logOf() {
-      localStorage.clear();
-      this.dispatchOutLogin();
-      location.reload();
-      this.$router.push("login");
-      googleLogout();
-      document.cookie = "cidi=; max-age=0";
-      window.dispatchEvent(
-        new CustomEvent("token-localstorage-changed", {
-          detail: {
-            storage: localStorage.getItem("token"),
-          },
-        })
-      );
-    },
-    dispatchOutLogin() {
-      this.$store.dispatch("mockOutAction");
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -136,7 +115,24 @@ export default {
     transform: scale(1);
   }
 }
-
+.tusGestiones {
+  position: relative;
+  top: 8vh;
+  height: 15vh;
+  width: 100%;
+  padding-left: 1.5vw;
+}
+.tus {
+  position: absolute;
+  left: 2.5vw;
+  font-weight: 700;
+}
+.estes {
+  position: absolute;
+  font-weight: 700;
+  left: 2.5vw;
+  bottom: 1.5vh;
+}
 .svg {
   max-width: 25px;
   margin-left: 10px;
@@ -168,24 +164,26 @@ nav a {
 
 .nav-container {
   color: var(--text-color);
-  position: -webkit-sticky;
   position: sticky;
-  top: 0;
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  width: 17vw;
-  padding: 0;
+  flex-direction: column;
+  /* flex-flow: row wrap; */
+  width: 18vw;
   height: 100vh;
   background-image: linear-gradient(0deg, #fff 0%, #d9d9d9 100%);
+  /* padding-top: 4vh; */
 }
 .navUser {
   display: flex;
   flex-direction: column;
-  margin-top: 6rem;
+  position: relative;
+  margin-top: 14vh;
+  align-items: center;
 }
-
+h5 {
+  color: white;
+  font-weight: 500;
+}
 .bn3:first-child {
   background-color: var(--red);
 }
@@ -205,24 +203,48 @@ nav a {
   text-align: center;
   transition: all 0.2s;
   width: 100%;*/
-  height: 3rem;
-  width: 11rem;
+  height: 6vh;
+  width: 13.5vw;
   border: 0.16em solid rgb(255, 255, 255);
   text-align: center;
   background-image: linear-gradient(
     to right,
-    #399943,
-    #4ea242,
-    #62aa40,
-    #75b23f,
-    #88ba3e
+    #038638,
+    #389533,
+    #5aa32d,
+    #7bb026,
+    #9cbd1d
   );
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  padding-top: 0.8rem;
-  margin-top: 1rem;
+  border-top-right-radius: 15px;
   transition: all 0.2s;
   border-style: none;
+  color: white;
+  margin-bottom: 2.5vh;
+  padding-top: 1vh;
+  /* margin: auto; */
+}
+.inpuestos {
+  position: relative;
+  top: 5vh;
+  width: 13.5vw;
+  text-align: center;
+  border-top-right-radius: 15px;
+  left: 1vw;
+  background-image: linear-gradient(
+    to right,
+    #f9b100,
+    #fa9300,
+    #f87400,
+    #f45015,
+    #ec1c24
+  );
+  text-align: left;
+  font-size: 600;
+  padding-left: 1vw;
+  padding-top: 1vh;
+}
+.bn4 {
+  background: rebeccapurple;
 }
 .close {
   color: rgba(255, 0, 0, 0.542);
@@ -230,7 +252,6 @@ nav a {
 }
 
 .bn3:hover {
-  background-color: rgb(63, 119, 192);
   color: black;
 }
 
