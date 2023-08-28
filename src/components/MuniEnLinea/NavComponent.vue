@@ -227,6 +227,7 @@ h5 {
   position: relative;
   top: 5vh;
   width: 13.5vw;
+  height: 8vh;
   text-align: center;
   border-top-right-radius: 15px;
   left: 1vw;

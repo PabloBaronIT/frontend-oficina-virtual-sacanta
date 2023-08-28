@@ -15,17 +15,110 @@
         alt="imagen"
       />
     </div> -->
-    <div class="fecha">
-      <h5>
+    <div class="row">
+      <h5 class="fecha">
         <i class="bi bi-calendar" style="margin-right: 8px"></i
         ><strong>Viernes 19 de Agosto</strong>
       </h5>
     </div>
-    <h1>¿Qué gestión querés realizar?</h1>
+    <div class="row">
+      <h1>¿Qué gestión querés realizar?</h1>
+    </div>
+    <div class="row">
+      <SearchComponent />
+    </div>
 
-    <!-- BUSCADOR DE TRAMITES -->
-    <SearchComponent />
+    <!--VISTA  DE TRAMITES -->
     <div class="containerTabs">
+      <div class="row row-cols-2">
+        <div class="col-6 text-center">
+          <h4>Trámites Administrativos</h4>
+          <div class="gridcontainer">
+            <div v-for="sector in categorias" :key="sector.Id">
+              <router-link
+                :to="`/sector/${sector.title}/${sector.id}`"
+                class="card scale-up-center"
+                style="text-decoration: none; color: #222"
+              >
+                <div>
+                  <img :src="sector.description" alt="imagen" />
+                  <!-- <i class="bi bi-emoji-sunglasses"></i> -->
+                </div>
+                <div style="margin-left: 15px">
+                  <h5 style="text-decoration: none">
+                    <strong> {{ sector.title }}</strong>
+                  </h5>
+                </div>
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 text-center">
+          <h4>Servicios, reclamos y consultas</h4>
+          <div class="gridcontainer">
+            <div v-for="sector in servicios" :key="sector.Id">
+              <router-link
+                :to="`/sector/${sector.title}/${sector.id}`"
+                class="card scale-up-center"
+                style="text-decoration: none; color: #222"
+              >
+                <!-- <img :src="sector.description" :alt="sector.title" /> -->
+                <div style="font-size: 35px">
+                  <i class="bi bi-emoji-smile"></i>
+                </div>
+                <div style="margin-left: 15px">
+                  <h5 style="text-decoration: none">
+                    <strong> {{ sector.title }}</strong>
+                  </h5>
+                </div>
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="
+        text-align: left;
+        margin-top: 10vh;
+        height: 30vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin-left: 3vw;
+      "
+    >
+      <h5 style="display: flex; flex-direction: row">
+        Si no encontras tu gestion o tenes dudas, iniciala aqui
+        <span>
+          <img
+            src="@/assets/mano.svg"
+            alt=""
+            style="height: 5vh; width: 5vw; left: 0px"
+          />
+        </span>
+        <p class="cuadradospan">...Otras Gestiones</p>
+      </h5>
+      <h5 style="display: flex; flex-direction: row">
+        Si necesitas ayuda o queres que te llamemos, clik aqui
+        <span>
+          <img
+            src="@/assets/mano.svg"
+            alt=""
+            style="height: 5vh; width: 5vw; left: 0px"
+          />
+        </span>
+        <p class="cuadradospan">
+          <i
+            class="bi bi-telephone"
+            style="color: green; margin-right: 5px; font-size: 25px"
+          ></i
+          >Llamenmen
+        </p>
+      </h5>
+    </div>
+
+    <!-- <div class="c">
       <ul class="nav nav-tabs centerTabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button
@@ -64,7 +157,6 @@
           aria-labelledby="home-tab"
           tabindex="0"
         >
-          <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
           <div class="card-container">
             <div v-for="sector in categorias" :key="sector.Id">
               <router-link
@@ -91,14 +183,13 @@
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <!-- <p>{{ sector.title }}</p> -->
                 <img :src="sector.description" :alt="sector.title" />
               </router-link>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- <main class="flex-container">
       <div class="header">
@@ -125,7 +216,7 @@ export default {
   },
   data() {
     return {
-      categorias: null,
+      categorias: [],
       servicios: null,
     };
   },
@@ -135,6 +226,7 @@ export default {
     // Trae imagenes, id y titulo de categoria
     this.getCategories();
   },
+  computed: {},
   methods: {
     getCategories() {
       const apiClient = axios.create({
@@ -149,6 +241,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.categorias = response.data.Categories.Procedures;
+
           this.servicios = response.data.Categories.Services;
         })
         .catch((error) => {
@@ -170,6 +263,22 @@ export default {
           }
         });
     },
+    setImagen(title) {
+      let srcImg = "";
+      switch (title) {
+        case "Tasas y Contribuciones":
+          srcImg = "@/assets/tramitesSVG/peso.svg";
+          break;
+        case "Catastro y Obras":
+          srcImg = "@/assets/tramitesSVG/construccion.svg";
+          break;
+
+        default:
+          srcImg = "";
+      }
+      // console.log(srcImg, "soy la imagen");
+      return srcImg;
+    },
   },
 };
 </script>
@@ -183,7 +292,10 @@ h1 {
 .fecha {
   letter-spacing: 0px;
   position: absolute;
-  right: 5vw;
+  /* right: 5vw; */
+  text-align: right;
+  padding-top: 2vh;
+  /* background: rebeccapurple; */
 }
 .top {
   position: relative;
@@ -245,9 +357,9 @@ h1 {
   }
 }
 
-img {
+/* img {
   width: 8px;
-}
+} */
 
 /* .header {
   margin: 10px 0;
@@ -272,7 +384,14 @@ img {
   justify-content: center;
   align-items: center;
 }
-
+.gridcontainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: auto;
+  margin-left: 3vw;
+  grid-auto-rows: minmax(100px, auto);
+}
 .card-container {
   display: flex;
   justify-content: center;
@@ -283,25 +402,28 @@ img {
 }
 
 .card img {
-  border-radius: 50%;
+  /* border-radius: 50%; */
   object-fit: cover;
-  width: 80%;
+  width: 100%;
+  min-height: 20px;
 }
 
 .card {
   background: var(--grey-bk);
   font-weight: bold;
   border: none;
-  box-shadow: 5px 5px 15px rgb(137, 137, 137);
-  width: 320px;
-  height: 100px;
-  margin: 15px 15px;
+  /* box-shadow: 5px 5px 15px rgb(137, 137, 137); */
+  width: 85%;
+  height: 14.5vh;
+  /* margin: 15px 15px; */
   display: flex;
-  flex-flow: column wrap;
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border-radius: 40px 40px 0px 0px;
+  border-radius: 0px 20px 0px 0px;
   background-color: white;
+  text-align: left;
+  padding: 1rem;
 }
 
 .card:hover {
@@ -309,7 +431,7 @@ img {
 }
 .containerTabs {
   width: 100%;
-  /*background: var(--grey-bk);*/
+  /* background: red; */
 }
 .butonNav {
   width: 330px;
@@ -325,11 +447,37 @@ img {
 
   font-weight: bold;
 }*/
-
+.containerTabs h4 {
+  margin-bottom: 2rem;
+}
+.containerTabs h4:hover {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 0, 0, 0.856);
+}
+.cuadradospan {
+  background: white;
+  height: 6vh;
+  width: 14vw;
+  text-align: center;
+  padding-top: 5px;
+  font-weight: 700;
+}
 @media (max-width: 1000px) {
   .flex-container {
     width: 100vw;
     height: auto;
+  }
+  .gridcontainer {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    margin: auto;
+    margin-left: 3vw;
+    grid-auto-rows: minmax(100px, auto);
+  }
+  .fecha {
+    text-align: center;
+    padding-top: 0;
   }
 }
 </style>

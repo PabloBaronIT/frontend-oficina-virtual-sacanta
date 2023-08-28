@@ -12,7 +12,7 @@
     >
       <p>Titulo</p>
       <P>ID</P>
-      <P>asunto</P>
+      <P>Asunto</P>
       <p>Estado</p>
       <p>Más</p>
       <p>Historial</p>
@@ -1150,10 +1150,11 @@ input:hover {
 .encabezado {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 10px;
   background: #66666656;
   border-bottom: 1px solid black;
+  text-align: center;
 }
 .encabezado p {
   width: 20%;

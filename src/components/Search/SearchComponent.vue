@@ -9,29 +9,7 @@
         @keyup="this.searchValue"
       />
 
-      <span
-        style="
-          color: white;
-          font-size: 25px;
-          margin-left: 2rem;
-          background-image: linear-gradient(
-            to right,
-            #399943,
-            #4ea242,
-            #62aa40,
-            #75b23f,
-            #88ba3e
-          );
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
-          padding-top: 5px;
-          padding-left: 12px;
-          cursor: pointer;
-        "
-      >
-        <i class="bi bi-search"></i
-      ></span>
+      <span class="circuloVerde"> <i class="bi bi-search"></i></span>
     </div>
     <div
       v-if="this.values"
@@ -113,7 +91,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 100vw;
+  width: 100%;
   margin-bottom: 4rem;
 }
 .containerSearch {
@@ -140,9 +118,39 @@ export default {
   z-index: 15;
   border-bottom: solid 1px grey;
 }
+.circuloVerde {
+  color: white;
+  font-size: 25px;
+  margin-left: 2rem;
+  background-image: linear-gradient(
+    to right,
+    #399943,
+    #4ea242,
+    #62aa40,
+    #75b23f,
+    #88ba3e
+  );
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  padding-top: 5px;
+  padding-left: 12px;
+  cursor: pointer;
+}
 .vistaValues a {
   cursor: pointer;
   text-decoration: none;
   color: black;
+}
+@media (max-width: 800px) {
+  .search {
+    width: 90%;
+  }
+  .containerSearch i {
+    display: none;
+  }
+  .circuloVerde {
+    display: none;
+  }
 }
 </style>
