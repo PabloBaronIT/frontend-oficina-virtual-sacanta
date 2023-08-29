@@ -131,7 +131,7 @@ export default {
   position: absolute;
   font-weight: 700;
   left: 2.5vw;
-  top: 5vh;
+  top: 7vh;
   /* bottom: 1.5vh; */
 }
 .svg {
@@ -170,7 +170,7 @@ nav a {
   flex-direction: column;
   /* flex-flow: row wrap; */
   width: 18vw;
-  height: 100vh;
+  height: auto;
   background-image: linear-gradient(0deg, #fff 0%, #d9d9d9 100%);
   /* padding-top: 4vh; */
 }

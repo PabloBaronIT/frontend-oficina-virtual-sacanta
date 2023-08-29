@@ -52,8 +52,9 @@
             </div>
           </button>
           <GoogleLogin :callback="callback" prompt />
-          <button class="button" @click="logInWithFacebook">
-            Login with Facebook
+          <button class="button face" @click="logInWithFacebook">
+            <i class="bi bi-facebook" style="font-size: 25px"></i>
+            Continuar con Facebook
           </button>
         </div>
       </FormKit>
@@ -193,17 +194,76 @@ export default {
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function (response) {
-        console.log(response);
-        if (response.status == "connected") {
-          window.FB.api("/me?fields=email,name", (response) => {
-            console.log(response);
-          });
-          // Now you can redirect the user or do an AJAX request to
-          // a PHP script that grabs the signed request from the cookie.
-        }
-      });
-      return false;
+      window.FB.login(
+        function (response) {
+          // console.log(response);
+          if (response.status == "connected") {
+            // window.FB.api("/me?fields=email,name", (response) => {
+            //   console.log(response);
+            // });
+            window.FB.api(
+              "/me",
+              "GET",
+              { fields: "id,name, email" },
+              (response) => {
+                console.log(response);
+
+                let dataUser = {
+                  name: response.name.split(" "),
+                  email: response.email,
+                };
+                console.log(dataUser);
+                const apiClient = axios.create({
+                  baseURL: BASE_URL,
+                  withCredentials: false,
+                  // headers: {
+                  //   "auth-header": localStorage.getItem("token"),
+                  // },
+                });
+                apiClient
+                  .post("/auth/signIn-providers", {
+                    firstname: dataUser.name[0],
+                    lastname: dataUser.name[1],
+                    email: dataUser.email,
+                  })
+                  .then((response) => {
+                    console.log(response.data);
+
+                    let tokenApi = response.data.accessToken;
+                    let refreshToken = response.data.refreshToken; //REFRESH TOKEN
+                    // let redirect = response.data["redirectURL"];
+                    localStorage.setItem("token", tokenApi);
+                    localStorage.setItem("refreshToken", refreshToken);
+                    // if (redirect) {
+                    //   //console.log("usted debe rellenar su cuil");
+                    //   this.loading = false;
+
+                    //   this.$router.push("micuenta-update");
+                    // } else {
+                    //   // this.loading = true;
+                    //   // this.getMyProfile();
+                    //   this.loading = false;
+
+                    //   this.$router.push("munienlinea");
+                    // }
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              }
+            );
+            // Now you can redirect the user or do an AJAX request to
+            // a PHP script that grabs the signed request from the cookie.
+          }
+          this.getMyProfile();
+          this.loading = false;
+
+          this.$router.push("munienlinea");
+        },
+        { scope: "public_profile,email" }
+      );
+
+      // return false;
     },
     async initFacebook() {
       window.fbAsyncInit = function () {
@@ -554,7 +614,14 @@ form input {
 form img {
   margin-bottom: 15%;
 }
-
+.face {
+  background: #5890ff;
+  color: white;
+  border-radius: 5px;
+  border-color: transparent;
+  height: 40px;
+  text-align: center;
+}
 @media (max-width: 750px) {
   .deco {
     display: none;

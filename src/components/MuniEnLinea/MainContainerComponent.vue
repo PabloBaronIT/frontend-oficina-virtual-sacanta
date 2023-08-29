@@ -62,9 +62,9 @@
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <!-- <img :src="sector.description" :alt="sector.title" /> -->
-                <div style="font-size: 35px">
-                  <i class="bi bi-emoji-smile"></i>
+                <div>
+                  <img :src="sector.description" alt="imagen" />
+                  <!-- <i class="bi bi-emoji-sunglasses"></i> -->
                 </div>
                 <div style="margin-left: 15px">
                   <h5 style="text-decoration: none">
@@ -77,18 +77,8 @@
         </div>
       </div>
     </div>
-    <div
-      style="
-        text-align: left;
-        margin-top: 10vh;
-        height: 30vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        margin-left: 3vw;
-      "
-    >
-      <h5 style="display: flex; flex-direction: row; align-items: center">
+    <div class="otrosTramites">
+      <h5>
         Si no encontras tu gestion o tenes dudas, iniciala aqui
         <span>
           <img
@@ -99,7 +89,7 @@
         </span>
         <p class="cuadradospan">...Otras Gestiones</p>
       </h5>
-      <h5 style="display: flex; flex-direction: row; align-items: center">
+      <h5>
         Si necesitas ayuda o queres que te llamemos, clik aqui
         <span>
           <img
@@ -111,11 +101,22 @@
         <p class="cuadradospan">
           <i
             class="bi bi-telephone"
-            style="color: green; margin-right: 15px; font-size: 25px"
+            style="color: green; margin-right: 15px; font-size: 20px"
           ></i
           >Llamenmen
         </p>
       </h5>
+    </div>
+    <div class="accesos">
+      <h5 style="color: #008838">
+        Si tu gestion es para Rentas o Afip, también te facilitamos el acceso.
+      </h5>
+      <div class="items">
+        <h1>RENTAS</h1>
+        <h1>AFIP</h1>
+        <h1>ANSES</h1>
+        <h1>DNRPA</h1>
+      </div>
     </div>
 
     <!-- <div class="c">
@@ -462,6 +463,29 @@ h1 {
   padding-top: 1.5vh;
   font-weight: 700;
 }
+.otrosTramites {
+  text-align: left;
+  margin-top: 10vh;
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 3vw;
+}
+.otrosTramites h5 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.accesos {
+  text-align: center;
+  margin-bottom: 20vh;
+}
+.items {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 @media (max-width: 1000px) {
   .flex-container {
     width: 100vw;
@@ -478,6 +502,27 @@ h1 {
   .fecha {
     text-align: center;
     padding-top: 0;
+  }
+  .cuadradospan {
+    font-weight: 400;
+    font-size: 15px;
+    padding-top: 1vh;
+  }
+}
+@media (max-width: 800px) {
+  .otrosTramites {
+    width: 60vw;
+    margin: auto;
+  }
+  .otrosTramites h5 {
+    font-size: 18px;
+  }
+  .cuadradospan {
+    width: 30vw;
+    padding-top: 0.7vh;
+  }
+  h1 {
+    text-align: center;
   }
 }
 </style>

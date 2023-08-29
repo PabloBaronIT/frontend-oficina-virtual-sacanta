@@ -144,13 +144,11 @@ export default {
 }
 @media (max-width: 800px) {
   .search {
-    width: 90%;
+    width: 80%;
+    margin-left: 0;
   }
-  .containerSearch i {
-    display: none;
-  }
-  .circuloVerde {
-    display: none;
+  .container {
+    width: 80%;
   }
 }
 </style>

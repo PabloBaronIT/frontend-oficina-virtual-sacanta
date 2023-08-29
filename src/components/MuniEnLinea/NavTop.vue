@@ -63,16 +63,7 @@
         </div>
       </div>
     </div>
-    <div
-      style="
-        display: flex;
-        flex-direction: row;
-        width: 350px;
-        justify-content: space-between;
-        position: absolute;
-        right: 7vw;
-      "
-    >
+    <div class="muniEnlinea">
       <router-link to="/munienlinea">
         <img
           class="logo scale-up-center"
@@ -410,7 +401,7 @@ export default {
   position: relative;
   height: 14vh;
   background-color: white;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   padding-top: 1rem;
@@ -465,6 +456,14 @@ export default {
   font-size: 30px;
   color: whitesmoke;
   text-align: center;
+}
+.muniEnlinea {
+  display: flex;
+  flex-direction: row;
+  width: 22vw;
+  justify-content: space-between;
+  position: absolute;
+  right: 5vw;
 }
 /* .svg {
   max-width: 30px;
@@ -534,13 +533,37 @@ button {
   .logo {
     width: 15vw;
   }
+  .muniEnlinea {
+    /* justify-content: space-around; */
+    width: 30vw;
+  }
 }
 @media (max-width: 800px) {
   .usuario {
     display: none;
   }
   .imagenlogo {
-    width: 18vw;
+    width: 20vw;
+  }
+  .botonNotificacion {
+    height: 40px;
+    width: 40px;
+    font-size: 25px;
+  }
+  .botonOut {
+    height: 40px;
+    width: 40px;
+    font-size: 25px;
+  }
+  .muniEnlinea {
+    /* justify-content: space-around; */
+    width: 50vw;
+  }
+}
+@media (max-width: 600px) {
+  .imagenlogo {
+    width: 30vw;
+    height: 6vh;
   }
 }
 </style>
