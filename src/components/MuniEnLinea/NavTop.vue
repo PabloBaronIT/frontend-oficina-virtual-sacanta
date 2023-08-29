@@ -80,7 +80,7 @@
           alt=""
         />
       </router-link>
-      <div style="display: flex; flex-direction: row">
+      <div style="display: flex; flex-direction: row; padding-top: 2vh">
         <div class="botonNotificacion"><i class="bi bi-bell"></i></div>
         <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
       </div>
@@ -530,6 +530,17 @@ button {
     width: 40px;
     height: 40px;
     margin: 10px;
+  }
+  .logo {
+    width: 15vw;
+  }
+}
+@media (max-width: 800px) {
+  .usuario {
+    display: none;
+  }
+  .imagenlogo {
+    width: 18vw;
   }
 }
 </style>

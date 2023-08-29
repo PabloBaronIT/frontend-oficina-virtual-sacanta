@@ -131,7 +131,8 @@ export default {
   position: absolute;
   font-weight: 700;
   left: 2.5vw;
-  bottom: 1.5vh;
+  top: 5vh;
+  /* bottom: 1.5vh; */
 }
 .svg {
   max-width: 25px;

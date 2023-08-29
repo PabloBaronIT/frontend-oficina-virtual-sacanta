@@ -88,7 +88,7 @@
         margin-left: 3vw;
       "
     >
-      <h5 style="display: flex; flex-direction: row">
+      <h5 style="display: flex; flex-direction: row; align-items: center">
         Si no encontras tu gestion o tenes dudas, iniciala aqui
         <span>
           <img
@@ -99,7 +99,7 @@
         </span>
         <p class="cuadradospan">...Otras Gestiones</p>
       </h5>
-      <h5 style="display: flex; flex-direction: row">
+      <h5 style="display: flex; flex-direction: row; align-items: center">
         Si necesitas ayuda o queres que te llamemos, clik aqui
         <span>
           <img
@@ -111,7 +111,7 @@
         <p class="cuadradospan">
           <i
             class="bi bi-telephone"
-            style="color: green; margin-right: 5px; font-size: 25px"
+            style="color: green; margin-right: 15px; font-size: 25px"
           ></i
           >Llamenmen
         </p>
@@ -459,7 +459,7 @@ h1 {
   height: 6vh;
   width: 14vw;
   text-align: center;
-  padding-top: 5px;
+  padding-top: 1.5vh;
   font-weight: 700;
 }
 @media (max-width: 1000px) {
