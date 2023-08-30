@@ -192,9 +192,11 @@ export default {
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
     async logInWithFacebook() {
+      let dataUser = null;
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(
+
+      await window.FB.login(
         function (response) {
           // console.log(response);
           if (response.status == "connected") {
@@ -205,65 +207,65 @@ export default {
               "/me",
               "GET",
               { fields: "id,name, email" },
-              (response) => {
-                console.log(response);
-
-                let dataUser = {
+              async (response) => {
+                // console.log(response);
+                dataUser = {
                   name: response.name.split(" "),
                   email: response.email,
                 };
-                console.log(dataUser);
-                const apiClient = axios.create({
-                  baseURL: BASE_URL,
-                  withCredentials: false,
-                  // headers: {
-                  //   "auth-header": localStorage.getItem("token"),
-                  // },
-                });
-                apiClient
-                  .post("/auth/signIn-providers", {
-                    firstname: dataUser.name[0],
-                    lastname: dataUser.name[1],
-                    email: dataUser.email,
-                  })
-                  .then((response) => {
-                    console.log(response.data);
-
-                    let tokenApi = response.data.accessToken;
-                    let refreshToken = response.data.refreshToken; //REFRESH TOKEN
-                    // let redirect = response.data["redirectURL"];
-                    localStorage.setItem("token", tokenApi);
-                    localStorage.setItem("refreshToken", refreshToken);
-                    // if (redirect) {
-                    //   //console.log("usted debe rellenar su cuil");
-                    //   this.loading = false;
-
-                    //   this.$router.push("micuenta-update");
-                    // } else {
-                    //   // this.loading = true;
-                    //   // this.getMyProfile();
-                    //   this.loading = false;
-
-                    //   this.$router.push("munienlinea");
-                    // }
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  });
               }
             );
+            // console.log("otro afuera");
             // Now you can redirect the user or do an AJAX request to
             // a PHP script that grabs the signed request from the cookie.
           }
-          this.getMyProfile();
-          this.loading = false;
-
-          this.$router.push("munienlinea");
         },
         { scope: "public_profile,email" }
       );
+      if (dataUser) {
+        console.log("holaaa");
+      }
+    },
+    async getLogFace(userData) {
+      console.log("estoy en getlogface");
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        // headers: {
+        //   "auth-header": localStorage.getItem("token"),
+        // },
+      });
+      apiClient
+        .post("/auth/signIn-providers", {
+          firstname: userData.name[0],
+          lastname: userData.name[1],
+          email: userData.email,
+        })
+        .then((response) => {
+          console.log(response.data);
 
-      // return false;
+          let tokenApi = response.data.accessToken;
+          let refreshToken = response.data.refreshToken; //REFRESH TOKEN
+          let redirect = response.data["redirectURL"];
+          localStorage.setItem("token", tokenApi);
+          localStorage.setItem("refreshToken", refreshToken);
+          this.getMyProfile();
+          if (redirect) {
+            //console.log("usted debe rellenar su cuil");
+            this.loading = false;
+
+            this.$router.push("micuenta-update");
+          } else {
+            // this.loading = true;
+            // this.getMyProfile();
+            this.loading = false;
+
+            this.$router.push("munienlinea");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     async initFacebook() {
       window.fbAsyncInit = function () {
@@ -398,7 +400,7 @@ export default {
     },
 
     //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
-    getMyProfile() {
+    async getMyProfile() {
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
