@@ -225,10 +225,46 @@ export default {
   created() {
     // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
     // Trae imagenes, id y titulo de categoria
+    const script = document.createElement("script");
+    script.id = "amoforms_script_1183376";
+    script.async = true;
+    script.charset = "utf-8";
+    script.src =
+      "https://forms.kommo.com/forms/assets/js/amoforms.js?1692267763";
+    document.head.appendChild(script);
+    script.onload = () => {
+      // this.initializeAmoForms();
+      console.log;
+    };
     this.getCategories();
   },
   computed: {},
   methods: {
+    // initializeAmoForms() {
+    //   !(function (a, m, o, c, r, m) {
+    //     (a[o + c] = a[o + c] || {
+    //       setMeta: function (p) {
+    //         this.params = (this.params || []).concat([p]);
+    //       },
+    //     }),
+    //       (a[o + r] =
+    //         a[o + r] ||
+    //         function (f) {
+    //           a[o + r].f = (a[o + r].f || []).concat([f]);
+    //         }),
+    //       a[o + r]({
+    //         id: "1183376",
+    //         hash: "7eb5e7ce44edb738085bbc2bb3a57d24",
+    //         locale: "es",
+    //       }),
+    //       (a[o + m] =
+    //         a[o + m] ||
+    //         function (f, k) {
+    //           a[o + m].f = (a[o + m].f || []).concat([[f, k]]);
+    //         });
+    //   })(window, 0, "amo_forms_", "params", "load", "loaded");
+    // },
+
     getCategories() {
       const apiClient = axios.create({
         baseURL: BASE_URL,

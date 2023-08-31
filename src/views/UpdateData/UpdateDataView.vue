@@ -278,7 +278,7 @@ export default {
             (this.adress = ""),
             (this.city = ""),
             (this.postCode = ""),
-            this.z();
+            this.getMyProfileNew();
           setTimeout(() => {
             this.$router.push("munienlinea");
           }, 2000);
@@ -399,13 +399,13 @@ export default {
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();
-              this.getMyProfile();
+              this.getMyProfileNew();
             }
             if (
               error.response.data.message === "Token de representante expirado"
             ) {
               setTokenRelations();
-              this.getMyProfile();
+              this.getMyProfileNew();
             }
           }
         });

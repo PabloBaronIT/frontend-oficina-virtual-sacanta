@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <form v-if="!this.loading">
+    <form v-if="!this.loading && !this.datafacebook">
       <img
         class="w-50"
         src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
@@ -140,6 +140,11 @@ export default {
             console.log(error);
           });
       },
+
+      datafacebook: "",
+      // redirecFace: async function () {
+      //   console.log("hola desde redirectFace");
+      // },
     };
   },
 
@@ -189,16 +194,23 @@ export default {
       }
     },
   },
+  watch: {
+    datafacebook(newValue) {
+      if (newValue) {
+        this.getLogFace(newValue);
+      }
+    },
+  },
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
     async logInWithFacebook() {
-      let dataUser = null;
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
 
-      await window.FB.login(
-        function (response) {
+      window.FB.login(
+        (response) => {
           // console.log(response);
+
           if (response.status == "connected") {
             // window.FB.api("/me?fields=email,name", (response) => {
             //   console.log(response);
@@ -207,12 +219,21 @@ export default {
               "/me",
               "GET",
               { fields: "id,name, email" },
-              async (response) => {
-                // console.log(response);
-                dataUser = {
+              (response) => {
+                console.log(response);
+                this.datafacebook = {
                   name: response.name.split(" "),
                   email: response.email,
                 };
+                console.log(
+                  this.datafacebook,
+                  "soy los datos de face en un estado"
+                );
+                // await this.getLogFace(this.datafacebook);
+                // dataUser = {
+                //   name: response.name.split(" "),
+                //   email: response.email,
+                // };
               }
             );
             // console.log("otro afuera");
@@ -222,11 +243,8 @@ export default {
         },
         { scope: "public_profile,email" }
       );
-      if (dataUser) {
-        console.log("holaaa");
-      }
     },
-    async getLogFace(userData) {
+    getLogFace(userData) {
       console.log("estoy en getlogface");
       const apiClient = axios.create({
         baseURL: BASE_URL,
@@ -400,7 +418,7 @@ export default {
     },
 
     //FUNCION PARA OBTENER EL PERFIL DEL USUARIO
-    async getMyProfile() {
+    getMyProfile() {
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
