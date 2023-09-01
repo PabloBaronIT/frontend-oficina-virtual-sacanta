@@ -3,9 +3,17 @@
     <div v-if="this.loading" class="spinner-border loading" role="status">
       <span class="sr-only"></span>
     </div>
+
     <div v-else class="container">
       <h1>{{ this.message }} <br /></h1>
       <h2>Gracias por utilizar la oficina virtual de Sacanta</h2>
+      <div class="constancia">
+        <h1>Nombre de tramite</h1>
+        <p>valor de $100</p>
+        <p>Numero de operacion:{{}}</p>
+        <h4>Pepe Pepito cuil: 27322213552</h4>
+        <p>fecha: 01/09/2023</p>
+      </div>
       <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
       <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
     </div>
@@ -26,6 +34,7 @@ export default {
     this.loading = true;
     this.setPayment();
     this.getMyProfile();
+    this.dispatchLoginPermission();
   },
   data() {
     return {
@@ -37,7 +46,19 @@ export default {
       cidiCookie: "",
     };
   },
+  computed: {
+    setPermission() {
+      if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   methods: {
+    dispatchLoginPermission() {
+      this.$store.dispatch("mockPaseAction");
+    },
     setPayment() {
       console.log(
         this.IdResultado,
@@ -63,20 +84,20 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.message = error.response.data.message;
-          this.loading = false;
-          if (error.response.status === 500) {
-            if (error.response.data.message === "Token de usuario expirado") {
-              setToken();
-              this.setPayment();
-            }
-            if (
-              error.response.data.message === "Token de representante expirado"
-            ) {
-              setTokenRelations();
-              this.setPayment();
-            }
-          }
+          // this.message = error.response.data.message;
+          // this.loading = false;
+          // if (error.response.status === 500) {
+          //   if (error.response.data.message === "Token de usuario expirado") {
+          //     setToken();
+          //     this.setPayment();
+          //   }
+          //   if (
+          //     error.response.data.message === "Token de representante expirado"
+          //   ) {
+          //     setTokenRelations();
+          //     this.setPayment();
+          //   }
+          // }
         });
     },
     dispatchLogin() {
@@ -165,11 +186,20 @@ export default {
 
 <style scoped>
 .container {
-  padding-top: 5rem;
+  padding-top: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.constancia {
+  width: 50vw;
+  display: block;
+  margin: auto;
+  background: rgb(255, 255, 255);
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1rem;
 }
 .bn3 {
   height: 3rem;

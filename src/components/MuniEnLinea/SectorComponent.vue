@@ -1,12 +1,13 @@
 <template>
-  <div class="sector-component">
+  <div>
     <!-- Mostrar los tramites
      correspondientes al sector seleccionado -->
-    <header>
-      <h1 class="tituloPrincipal">
-        {{ this.$route.params.sectorTitle }}
-      </h1>
-    </header>
+    <h1 class="tituloPrincipal">
+      {{ this.$route.params.sectorTitle }}
+      <h4 style="color: #808080; font-weight: 100; margin-top: 1rem">
+        Por favor, elige aqui el tipo de solicitud que queres realizar.
+      </h4>
+    </h1>
 
     <div v-if="msj" class="sinTramites">
       <h2>No hay trámites para esta categoría por el momento</h2>
@@ -18,14 +19,14 @@
         class="cardTramites"
       >
         <div class="divTitleImag">
-          <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
+          <!-- <img src="@/assets/tramite-logo.svg" :alt="tramite.id" /> -->
           <div class="divTitle">
-            <h2 class="fontB">
+            <h4 class="fontB">
               {{ tramite.title }}
-            </h2>
-            <h3 class="mouse" @click="verRequisitos(tramite.id)">
+            </h4>
+            <!-- <h3 class="mouse" @click="verRequisitos(tramite.id)">
               Ver Requisitos
-            </h3>
+            </h3> -->
           </div>
           <div
             v-if="this.modal === true && this.id == tramite.id"
@@ -124,6 +125,7 @@ export default {
         )
 
         .then((response) => {
+          console.log(response);
           if (response.status == 200) {
             for (let i = 0; i < response.data.Procedures.length; i++) {
               this.tramitesApi.push(response.data.Procedures[i]);
@@ -173,9 +175,14 @@ export default {
 </script>
 
 <style scoped>
+.tituloPrincipal {
+  color: #808081;
+  font-weight: 700;
+  padding-left: 3rem;
+}
 header {
   text-align: left;
-  padding-left: 5rem;
+  padding-left: 3rem;
 }
 .slide-top {
   -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -235,8 +242,8 @@ header {
   width: 70vw;
   height: 100vh;
   background: var;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
+  /* border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px; */
   padding: 10px 0;
 }
 
@@ -247,15 +254,10 @@ header {
 .tramites {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* text-align: center; */
-  width: 90%;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* flex-flow: row wrap; */
+  gap: 10px;
   margin: auto;
-  margin-top: 3rem;
-  gap: 20px;
-  margin-bottom: 3rem;
+  margin-left: 3vw;
+  grid-auto-rows: minmax(100px, auto);
 }
 .btn-iniciar {
   width: 100%;
@@ -309,13 +311,29 @@ img {
   width: 100%;
 }
 .cardTramites {
-  position: relative;
+  /* position: relative;
   width: 90%;
   height: 14rem;
   background-color: white;
   margin: auto;
   border-radius: 40px 40px 0px 0px;
-  padding-top: 2rem;
+  padding-top: 2rem; */
+
+  background: var(--grey-bk);
+  font-weight: bold;
+  border: none;
+  /* box-shadow: 5px 5px 15px rgb(137, 137, 137); */
+  width: 85%;
+  height: 14.5vh;
+  /* margin: 15px 15px; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 0px 20px 0px 0px;
+  background-color: white;
+  text-align: left;
+  padding: 1rem;
 }
 .divTitleImag {
   display: flex;
@@ -327,7 +345,7 @@ img {
   margin-left: 2rem;
   width: 55%;
 }
-.footercard {
+/* .footercard {
   position: absolute;
   background-image: linear-gradient(
     to right,
@@ -348,7 +366,7 @@ img {
   width: 100%;
   bottom: 0;
   padding-top: 0.5rem;
-}
+} */
 .mouse {
   cursor: pointer;
 }
