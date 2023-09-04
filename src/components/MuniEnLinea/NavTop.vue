@@ -535,7 +535,7 @@ button {
   }
   .muniEnlinea {
     /* justify-content: space-around; */
-    width: 30vw;
+    width: 40vw;
   }
 }
 @media (max-width: 800px) {

@@ -118,89 +118,6 @@
         <h1>DNRPA</h1>
       </div>
     </div>
-
-    <!-- <div class="c">
-      <ul class="nav nav-tabs centerTabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link active butonNav"
-            id="home-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#home-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="home-tab-pane"
-            aria-selected="true"
-          >
-            <h5>Trámites Administrativos</h5>
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link butonNav"
-            id="profile-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#profile-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="profile-tab-pane"
-            aria-selected="false"
-          >
-            <h5>Servicios, reclamos y consultas</h5>
-          </button>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
-        <div
-          class="tab-pane fade show active"
-          id="home-tab-pane"
-          role="tabpanel"
-          aria-labelledby="home-tab"
-          tabindex="0"
-        >
-          <div class="card-container">
-            <div v-for="sector in categorias" :key="sector.Id">
-              <router-link
-                :to="`/sector/${sector.title}/${sector.id}`"
-                class="card scale-up-center"
-                style="text-decoration: none; color: #222"
-              >
-                <img :src="sector.description" :alt="sector.title" />
-              </router-link>
-            </div>
-          </div>
-        </div>
-        <div
-          class="tab-pane fade"
-          id="profile-tab-pane"
-          role="tabpanel"
-          aria-labelledby="profile-tab"
-          tabindex="0"
-        >
-          <div class="card-container">
-            <div v-for="sector in servicios" :key="sector.Id">
-              <router-link
-                :to="`/sector/${sector.title}/${sector.id}`"
-                class="card scale-up-center"
-                style="text-decoration: none; color: #222"
-              >
-                <img :src="sector.description" :alt="sector.title" />
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- <main class="flex-container">
-      <div class="header">
-        <h1>Trámites mas frecuentes</h1> 
-        <Busqueda /> 
-       </div>
-       <TramitesFrecuentes /> 
-
-      <div class="header"></div>
-    </main>-->
   </div>
 </template>
 
@@ -507,6 +424,7 @@ h1 {
   flex-direction: column;
   justify-content: space-around;
   margin-left: 3vw;
+  margin-bottom: 8vh;
 }
 .otrosTramites h5 {
   display: flex;

@@ -243,7 +243,7 @@ h5 {
     #ec1c24
   );
   text-align: left;
-  font-size: 600;
+  font-weight: 600;
   padding-left: 1vw;
   padding-top: 1vh;
 }
