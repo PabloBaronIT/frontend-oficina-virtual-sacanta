@@ -1,9 +1,9 @@
 <template>
-  <div class="main-container" v-if="setPermission">
+  <div v-if="setPermission" class="sector-container">
     <div class="header">
-      <h2 class="tituloPrincipal">
+      <h1 class="tituloPrincipal">
         {{ this.$route.params.formularioTitle }}
-      </h2>
+      </h1>
     </div>
 
     <FormularioComponent
@@ -129,23 +129,36 @@ export default {
 </script>
 
 <style scoped>
-.header {
-  text-align: left;
-  padding-left: 5rem;
-}
+.tituloPrincipal {
+  color: #808081;
+  font-weight: 700;
 
-.main-container {
+  /* padding-left: 3rem; */
+  padding-left: 3rem;
+}
+.sector-container {
   width: 100%;
-  height: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--grey-bk);
+  padding-left: 3rem;
+  padding: 3vw;
+}
+/* .header {
+  text-align: left;
+} */
+
+/* .main-container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: rgb(235, 235, 235);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
   justify-content: center;
-}
+} */
 
-.options-container {
+/* .options-container {
   width: 500px;
   padding: 0px 5px;
   border-top: 1px solid var(--red);
@@ -154,5 +167,5 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-}
+} */
 </style>

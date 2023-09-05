@@ -20,14 +20,16 @@
         <h5>Notificaciones</h5>
       </router-link>
     </div>
-    <div class="inpuestos">
-      <router-link v-show="setPermission" :to="`/notificaciones`">
-        <h6 style="color: white; font-weight: 500">
-          Impuestos Municipales <br />
-          Ver y Pagar
-        </h6>
-      </router-link>
-    </div>
+    <router-link
+      v-show="setPermission"
+      :to="`/notificaciones`"
+      class="inpuestos"
+    >
+      <h6 style="color: white; font-weight: 500">
+        Impuestos Municipales <br />
+        Ver y Pagar
+      </h6>
+    </router-link>
 
     <!-- nav del mmunicipal -->
     <nav v-if="this.role == 'MUNI_ROLE'" id="sidebarMenu" class="btn-container">
@@ -241,7 +243,7 @@ h5 {
     #ec1c24
   );
   text-align: left;
-  font-size: 600;
+  font-weight: 600;
   padding-left: 1vw;
   padding-top: 1vh;
 }

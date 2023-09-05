@@ -22,12 +22,21 @@
 
     <router-view />
   </div>
+  <FooterComponentVue
+    v-if="
+      this.role != 'MUNI_ROLE' &&
+      // this.role != undefined &&
+      // this.role != null &&
+      this.setPermission
+    "
+  />
 </template>
 
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
 import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
+import FooterComponentVue from "@/components/Footer/FooterComponent.vue";
 export default {
   data() {
     return {
@@ -59,6 +68,7 @@ export default {
     NavComponent,
     NavTopVue,
     NavMunicipalesComponentVue,
+    FooterComponentVue,
   },
 };
 </script>
@@ -130,6 +140,11 @@ h1 {
   font-style: normal;
   line-height: normal;
 }
+h3 {
+  color: #808081;
+  font-weight: 200;
+}
+
 h4 {
   color: #128d44;
   font-weight: 200;
@@ -141,15 +156,17 @@ h5 {
   font-weight: 700;
   line-height: normal;
 }
+/* h6 {
+  color: #808081;
+  font-size: 24px;
+  font-weight: 200;
+  line-height: normal;
+} */
 /* ---------------------------- */
 
 h2 {
   color: #128d44;
   font-weight: 500;
-}
-h3 {
-  color: #128d44;
-  font-weight: 100;
 }
 
 .fontB {
@@ -168,7 +185,6 @@ h3 {
 .main-container {
   display: flex;
   background: var(--fondo);
-  margin-bottom: 2rem;
 }
 .fixed {
   position: fixed;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containerA">
     <!-- <div class="img">
       <img src="@/assets/mastercard.svg" alt="" />
       <img src="@/assets/visa.svg" alt="" />
@@ -137,17 +137,23 @@ export default {
   max-width: 100px;
 }
 
-.container {
+.containerA {
   border: 1px solid var(--green);
   padding: 0;
-  display: flex;
-  flex-flow: row wrap;
+  /* display: flex; */
+  /* flex-flow: row wrap; */
+  /* flex-direction: row; */
   height: 150px;
+  width: 50vw;
 }
 
 .text {
   width: 70%;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .img {

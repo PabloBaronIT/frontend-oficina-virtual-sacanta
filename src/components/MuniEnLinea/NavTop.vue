@@ -23,7 +23,7 @@
           d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
         />
       </svg> -->
-      <img :src="this.avatar" alt="imagen" />
+      <img :src="this.avatar" alt="imagen" v-if="this.avatar" />
       <div class="usuario-details" v-if="this.$store.state.user">
         <div>
           <!-- <router-link v-show="permission" :to="`/micuenta`">
@@ -535,7 +535,7 @@ button {
   }
   .muniEnlinea {
     /* justify-content: space-around; */
-    width: 30vw;
+    width: 40vw;
   }
 }
 @media (max-width: 800px) {
