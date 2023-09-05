@@ -39,4 +39,15 @@ h6 {
   font-weight: 700;
   color: #858585;
 }
+
+@media (max-width: 800px) {
+  .general {
+    width: 100vw;
+    margin-left: 0;
+  }
+  h6 {
+    font-size: 15px;
+    font-weight: 500;
+  }
+}
 </style>

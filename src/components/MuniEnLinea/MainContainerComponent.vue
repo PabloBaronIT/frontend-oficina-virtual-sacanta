@@ -240,7 +240,7 @@ export default {
 <style scoped>
 h1 {
   margin-top: 4vh;
-  margin-left: 5vw;
+  margin-left: 4vw;
   margin-bottom: 4vh;
 }
 .fecha {
@@ -477,6 +477,7 @@ h1 {
   }
   h1 {
     text-align: center;
+    margin-left: 0;
   }
 }
 </style>

@@ -14,8 +14,11 @@
       :key="index"
       @click="setComunicacion(index)"
     />
-    <div :v-if="this.message && this.loading === false">
-      <h1>{{ this.message }}</h1>
+    <div
+      :v-if="this.message && this.loading === false"
+      style="text-align: center"
+    >
+      <h3>{{ this.message }}</h3>
     </div>
     <h1></h1>
     <!-- MODAL VISTA DE LA COMUNICACION-->
@@ -174,7 +177,7 @@ export default {
   background: var(--grey-bk);
 }
 .loading {
-  margin-top: 5rem;
+  margin: auto;
 }
 h5 {
   color: var(--green);

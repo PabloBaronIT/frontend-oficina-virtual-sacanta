@@ -45,7 +45,7 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
-import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 export default {
   data() {
     return {
@@ -100,6 +100,7 @@ export default {
             localStorage.setItem("refreshToken", refreshToken);
 
             this.getMyProfile();
+            this.$router.push("/municipales");
           }
         })
         .catch((error) => {
@@ -150,7 +151,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient
@@ -184,7 +186,7 @@ export default {
             "role",
             response.data.MuniProfile.muni.role
           );
-          this.$router.push("/municipales");
+          // this.$router.push("/municipales");
         })
         .catch((error) => {
           console.log(error);

@@ -313,7 +313,7 @@ header {
   grid-template-columns: repeat(4, 1fr);
   gap: 3vw;
   margin-bottom: 200px;
-  /* min-height: 100%; */
+  min-height: 100vh;
   margin-left: 3vw;
   /* grid-auto-rows: minmax(100px, auto); */
 }
@@ -544,6 +544,7 @@ img {
     gap: 1vw;
     margin: auto;
     margin-left: 3vw;
+    min-height: 50vh;
     /* grid-auto-rows: minmax(100px, auto); */
   }
   .cardTramites {

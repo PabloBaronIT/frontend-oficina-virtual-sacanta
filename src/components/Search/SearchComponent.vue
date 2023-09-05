@@ -103,7 +103,7 @@ export default {
 .search {
   width: 50vw;
   position: relative;
-  margin-left: 5vw;
+  margin-left: 4vw;
   height: 55px;
   border-color: transparent;
   padding-left: 1rem;
@@ -144,11 +144,11 @@ export default {
 }
 @media (max-width: 800px) {
   .search {
-    width: 80%;
+    width: 90%;
     margin-left: 0;
   }
   .container {
-    width: 80%;
+    width: 90%;
   }
 }
 </style>
