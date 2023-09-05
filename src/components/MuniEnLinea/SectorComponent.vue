@@ -313,7 +313,6 @@ header {
   grid-template-columns: repeat(4, 1fr);
   gap: 3vw;
   margin-bottom: 200px;
-  min-height: 100vh;
   margin-left: 3vw;
   /* grid-auto-rows: minmax(100px, auto); */
 }

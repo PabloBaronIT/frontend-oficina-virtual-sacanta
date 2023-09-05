@@ -48,7 +48,6 @@ const routes = [
     path: "/pago-resultado",
     name: "pago-resultado",
     component: () => import("@/views/PagoVista/pagoResultadoView.vue"),
-    meta: { requiresAuth: true },
   },
 
   {

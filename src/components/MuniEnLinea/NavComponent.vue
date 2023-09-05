@@ -325,7 +325,16 @@ a {
   box-shadow: none;
   color: #2c5777;
 }
-
+@media (max-width: 1200px) {
+  h6 {
+    font-size: 13px;
+  }
+}
+@media (max-width: 1000px) {
+  h6 {
+    font-size: 13px;
+  }
+}
 @media (max-width: 800px) {
   .nav-container {
     display: none;

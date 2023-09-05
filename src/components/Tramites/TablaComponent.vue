@@ -143,7 +143,7 @@
     <div class="modalRespuesta">
       <div v-if="this.modalresponse === true" class="modal-content">
         <div class="modal-top">
-          <h3 v-if="!this.message">Enviar respuesta</h3>
+          <h5 v-if="!this.message">Respuesta:</h5>
           <p>Nº Tramite: {{ this.idTramite }}</p>
           <img
             @click="CloseModalRespuesta($event)"
@@ -1013,6 +1013,7 @@ export default {
 .modal-top {
   display: flex;
   width: 100%;
+  flex-direction: row;
   text-align: left;
   justify-content: space-between;
   align-items: flex-start;
@@ -1027,7 +1028,7 @@ export default {
   top: 20%;
   left: 0;
   right: 0;
-  margin-left: auto;
+  margin-left: 35vw;
   margin-right: auto;
   width: 500px; /* Need a specific value to work */
   height: auto;
@@ -1233,12 +1234,12 @@ td {
   top: 20%;
   left: 0;
   right: 0;
-  margin-left: 25%;
+  margin-left: 35vw;
   margin-right: auto;
   height: auto;
-  width: 600px; /* Need a specific value to work */
+  width: 650px; /* Need a specific value to work */
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(255, 255, 255);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   /* backdrop-filter: blur(20px); */
   /* -webkit-backdrop-filter: blur(20px); */

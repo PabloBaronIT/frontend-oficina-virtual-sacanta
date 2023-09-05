@@ -125,7 +125,7 @@ export default {
   /* color: var(--text-color); */
   margin: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   /* width: 100%; */
 }
 body {

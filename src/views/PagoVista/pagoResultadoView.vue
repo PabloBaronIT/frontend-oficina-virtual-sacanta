@@ -7,12 +7,25 @@
     <div v-else class="container">
       <h1>{{ this.message }} <br /></h1>
       <h2>Gracias por utilizar la oficina virtual de Sacanta</h2>
-      <div class="constancia">
-        <h1>Nombre de tramite</h1>
-        <p>valor de $100</p>
-        <p>Numero de operacion:{{}}</p>
-        <h4>Pepe Pepito cuil: 27322213552</h4>
-        <p>fecha: 01/09/2023</p>
+      <div
+        class="constancia"
+        v-if="this.dataPayment != null"
+        id="constanciaPago"
+      >
+        <n5>
+          {{ this.message }}
+        </n5>
+        <h4>Nombre del trámite: {{ this.dataPayment?.procedure.title }}</h4>
+        <p>Valor abonado:$ {{ this.dataPayment?.procedure.price }}</p>
+        <p>Numero de operación:{{ this.dataPayment.payment[0]?.payment_id }}</p>
+        <h4>
+          {{ this.dataPayment.user.firstname }}
+          {{ this.dataPayment.user.lastname }} {{ this.dataPayment.user.cuil }}
+        </h4>
+        <p>Fecha: {{ this.fecha }}</p>
+        <button type="button" @click="download" class="btn btn-primary">
+          Descargar
+        </button>
       </div>
       <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
       <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
@@ -25,6 +38,7 @@ import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
+import jsPDF from "jspdf";
 
 export default {
   name: "Pago-exitoso",
@@ -44,6 +58,8 @@ export default {
       loading: false,
       user: "",
       cidiCookie: "",
+      dataPayment: null,
+      fecha: "",
     };
   },
   computed: {
@@ -80,24 +96,29 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.message = response.data.message;
+          this.dataPayment = response.data.ProcedureData;
+          this.fecha =
+            new Date(response.data.actual_date).toLocaleDateString() || "";
+
           this.loading = false;
         })
         .catch((error) => {
           console.log(error);
-          // this.message = error.response.data.message;
-          // this.loading = false;
-          // if (error.response.status === 500) {
-          //   if (error.response.data.message === "Token de usuario expirado") {
-          //     setToken();
-          //     this.setPayment();
-          //   }
-          //   if (
-          //     error.response.data.message === "Token de representante expirado"
-          //   ) {
-          //     setTokenRelations();
-          //     this.setPayment();
-          //   }
-          // }
+          this.message = error.response.data.message;
+          this.dataPayment = null;
+          this.loading = false;
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.setPayment();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.setPayment();
+            }
+          }
         });
     },
     dispatchLogin() {
@@ -180,6 +201,41 @@ export default {
           }
         });
     },
+    download() {
+      // window.print();
+      var doc = new jsPDF("p", "pt", "A4");
+      doc.setFontSize(20);
+      doc.setTextColor(0, 128, 0);
+      let imagenA =
+        "https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true";
+      doc.addImage(imagenA, "JPEG", 50, 30, 60, 60);
+      doc.text(20, 30, "Constacia de pago.");
+      doc.setFontSize(15);
+
+      doc.setTextColor(0, 0, 0);
+      doc.text(
+        20,
+        60,
+        `Tramite: ${this.dataPayment?.procedure.title}, Id: ${this.dataPayment?.procedure.id}`,
+        {
+          lineHeightFactor: 2,
+        }
+      );
+      doc.text(20, 80, `Valor abonado: ${this.dataPayment?.procedure.price}`);
+
+      doc.text(
+        20,
+        100,
+        `Cuil: ${this.dataPayment?.user.cuil}, nombre: ${this.dataPayment?.user.firstname} ${this.dataPayment?.user.lastname}`
+      );
+      doc.text(
+        20,
+        120,
+        `Numero de Operación: ${this.dataPayment.payment[0]?.payment_id}`
+      );
+      doc.text(20, 140, `Fechad de emisión: ${this.fecha}`);
+      doc.save("orde.pdf");
+    },
   },
 };
 </script>
@@ -191,9 +247,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  height: auto;
 }
 .constancia {
-  width: 50vw;
+  width: 60vw;
   display: block;
   margin: auto;
   background: rgb(255, 255, 255);

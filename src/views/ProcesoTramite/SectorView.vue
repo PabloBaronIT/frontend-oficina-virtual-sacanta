@@ -27,7 +27,7 @@ export default {
 <style scoped>
 .sector-container {
   width: 100%;
-  height: auto;
+  height: 100vh;
 
   display: flex;
   background: var(--grey-bk);

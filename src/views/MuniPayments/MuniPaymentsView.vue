@@ -3,11 +3,36 @@
   <div class="containerTramites">
     <div class="filtro-top">
       <h1>Registro de pagos</h1>
+      <p>
+        Ingrese cuil del usuario que desea buscar informacion de pagos
+        efectuado.
+      </p>
       <form class="d-flex">
         <input
           @keyup="this.validar()"
           type="search"
           placeholder="Ingrese CUIL del vecino"
+          v-model="this.search"
+          maxlength="11"
+        />
+        <button
+          class="btn btn-outline-success"
+          type="button"
+          @click.prevent="this.searchValue"
+          :disabled="this.disabledBoton"
+        >
+          Buscar
+        </button>
+      </form>
+      <p>
+        Ingrese el numero de operacion para buscar detalles del un pago en
+        particular.
+      </p>
+      <form class="d-flex">
+        <input
+          @keyup="this.validar()"
+          type="search"
+          placeholder="Ingrese Número de operación"
           v-model="this.search"
           maxlength="11"
         />
@@ -65,7 +90,7 @@
       <span class="sr-only"></span>
     </div>
     <div v-if="this.error">
-      <h1>No se encontraron trámites con los filtros especificados</h1>
+      <h1>No se encontraron pagos registrados</h1>
     </div>
 
     <div class="nav">
@@ -195,6 +220,9 @@ export default {
   width: 94vw;
   position: relative;
 } */
+p {
+  margin-top: 2rem;
+}
 .containerTramites {
   width: 90%;
 
@@ -210,9 +238,11 @@ export default {
   width: 100%;
   color: var(--text-color);
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   background: var(grey);
-  height: 3rem;
+  height: auto;
+  text-align: left;
 }
 th,
 tr {
