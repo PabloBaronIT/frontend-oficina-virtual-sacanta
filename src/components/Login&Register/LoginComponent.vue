@@ -84,6 +84,7 @@ export default {
 
   data() {
     return {
+      face: null,
       cuil: null,
       password: "",
       validacion: false,
@@ -192,7 +193,6 @@ export default {
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
     async logInWithFacebook() {
-      let dataUser = null;
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
 
@@ -208,11 +208,15 @@ export default {
               "GET",
               { fields: "id,name, email" },
               async (response) => {
-                // console.log(response);
+                let dataUser = null;
+                console.log(response);
                 dataUser = {
                   name: response.name.split(" "),
                   email: response.email,
                 };
+                this.face = dataUser;
+                console.log(this.face, "soy el face");
+                // return dataUser;
               }
             );
             // console.log("otro afuera");
@@ -222,9 +226,6 @@ export default {
         },
         { scope: "public_profile,email" }
       );
-      if (dataUser) {
-        console.log("holaaa");
-      }
     },
     async getLogFace(userData) {
       console.log("estoy en getlogface");
