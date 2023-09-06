@@ -216,7 +216,7 @@ export default {
       doc.text(
         20,
         60,
-        `Tramite: ${this.dataPayment?.procedure.title}, Id: ${this.dataPayment?.procedure.id}`,
+        `Tramite: ${this.dataPayment?.procedure.title}, Id: ${this.dataPayment?.id}`,
         {
           lineHeightFactor: 2,
         }

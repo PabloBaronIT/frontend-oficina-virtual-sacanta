@@ -26,15 +26,13 @@
         @keyup="this.validar()"
       />
       <p style="color: red">{{ this.msj }}</p>
-      <div class="botones">
-        <input
-          @click="login()"
-          class="btn btn-primary"
-          type="button"
-          value="Ingresar"
-          :disabled="this.disabled"
-        />
-      </div>
+      <input
+        @click="login()"
+        class="btn btn-primary"
+        type="button"
+        value="Ingresar"
+        :disabled="this.disabled"
+      />
     </form>
     <div v-if="this.loading" class="spinner-border loading" role="status">
       <span class="sr-only"></span>
@@ -225,14 +223,7 @@ form {
   background: #fff;
   width: 40vw;
 }
-/* .botones {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 10rem;
-  width: 100%;
-  margin-top: 5rem;
-} */
+
 .boton {
   width: 100%;
 }

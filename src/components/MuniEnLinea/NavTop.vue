@@ -72,7 +72,9 @@
         />
       </router-link>
       <div style="display: flex; flex-direction: row; padding-top: 2vh">
-        <div class="botonNotificacion"><i class="bi bi-bell"></i></div>
+        <router-link :to="`/notificaciones`">
+          <div class="botonNotificacion"><i class="bi bi-bell"></i></div>
+        </router-link>
         <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
       </div>
     </div>

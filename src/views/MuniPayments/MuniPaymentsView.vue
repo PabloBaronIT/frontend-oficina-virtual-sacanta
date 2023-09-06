@@ -3,7 +3,7 @@
   <div class="containerTramites">
     <div class="filtro-top">
       <h1>Registro de pagos</h1>
-      <p>
+      <!-- <p>
         Ingrese cuil del usuario que desea buscar informacion de pagos
         efectuado.
       </p>
@@ -23,23 +23,22 @@
         >
           Buscar
         </button>
-      </form>
+      </form> -->
       <p>
         Ingrese el numero de operacion para buscar detalles del un pago en
         particular.
       </p>
       <form class="d-flex">
         <input
-          @keyup="this.validar()"
-          type="search"
+          type="text"
           placeholder="Ingrese Número de operación"
           v-model="this.search"
-          maxlength="11"
+          maxlength="16"
         />
         <button
           class="btn btn-outline-success"
           type="button"
-          @click.prevent="this.searchValue"
+          @click.prevent="this.searchTramite"
           :disabled="this.disabledBoton"
         >
           Buscar
@@ -47,39 +46,37 @@
       </form>
     </div>
 
-    <table class="table table-striped" v-if="this.payments">
+    <table class="table table-striped" v-if="this.payment">
       <tr>
-        <th>Id Pago</th>
+        <th>Consepto</th>
         <th>Monto</th>
 
-        <th>Trámite</th>
-        <th>Id tramite</th>
-        <th>Fecha</th>
-        <th>Nombre</th>
-        <th>cuil</th>
+        <th>Estado</th>
+        <th>Resultado</th>
+        <th>Fecha Operación</th>
+        <th>Tarjeta</th>
+        <th>Tipo Operación</th>
       </tr>
-      <tr v-for="item in this.payments" :key="item.id">
+      <tr>
         <td>
-          {{ item.id }}
+          {{ this.payment.Concept }}
         </td>
         <td>
-          {{ item.amount }}
+          {{ this.payment.Price }}
         </td>
         <td>
-          {{ item.procedureHistory.procedure.title }}
+          {{ this.payment.Status }}
         </td>
         <td>
-          {{ item.procedureHistory.id }}
+          {{ this.payment.SuccessMessage }}
         </td>
         <td>
-          {{ new Date(item.created_at).toLocaleDateString() }}
+          {{ new Date(this.payment.OperationDate).toLocaleDateString() }}
         </td>
-        <td>{{ item.user.firstname }} {{ item.user.lastname }}</td>
+        <td>{{ this.payment.Rendicion.Cuotas }}</td>
         <td>
-          {{ item.user.cuil }}
+          {{ this.payment.Rendicion.Tarjeta }}
         </td>
-
-        <!-- <td>{{ item.userMuni.firstname }}{{ item.userMuni.lastname }}</td> -->
       </tr>
     </table>
     <div
@@ -101,9 +98,9 @@
         alt=""
         v-if="this.pagina > 1"
       />
-      <div class="pagNum">
+      <!-- <div class="pagNum">
         {{ this.pagina }}
-      </div>
+      </div> -->
 
       <img
         @click="nextPag"
@@ -124,7 +121,7 @@ import { BASE_URL } from "@/env";
 export default {
   data() {
     return {
-      payments: null,
+      payment: null,
       pagina: 1,
       search: "",
       disabledBoton: false,
@@ -134,8 +131,8 @@ export default {
   },
   created() {
     //se obtienen todos los tramites
-    this.getPayments();
-    this.loading = true;
+    // this.getPayments();
+    // this.loading = true;
   },
   methods: {
     nextPag() {
@@ -205,6 +202,33 @@ export default {
             if (error.response.data.message === "Token de usuario expirado") {
               setTokenMuni();
               this.searchValue();
+            }
+          }
+        });
+    },
+    searchTramite() {
+      console.log(this.search);
+      // this.loading = true;
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("http://localhost:4040/check-payment/" + this.search)
+        .then((response) => {
+          this.payment = response.data;
+
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setTokenMuni();
+              this.searchTramite();
             }
           }
         });

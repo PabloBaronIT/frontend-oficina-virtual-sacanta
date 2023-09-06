@@ -1,5 +1,5 @@
 <template>
-  <main v-if="setPermission">
+  <main v-if="setPermission" class="sector-container">
     <div class="top">
       <h1>Mis trámites</h1>
     </div>
@@ -27,6 +27,13 @@ export default {
 </script>
 
 <style scoped>
+.sector-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--grey-bk);
+}
 .top {
   text-align: left;
   margin-left: 3rem;

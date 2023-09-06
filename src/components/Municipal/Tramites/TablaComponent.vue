@@ -503,6 +503,7 @@ export default {
       doc.text(20, 100, `Teléfono: ${this.pdf.user.phoneNumber}`);
       doc.text(20, 130, `Vencimiento del trámite: ${this.pdf.deadlineDays}`);
       doc.text(20, 150, `Dirección: ${this.pdf.location}`);
+      doc.text(20, 170, `Detalle de Dirección: ${this.pdf.locationDetails}`);
 
       doc.save("orde.pdf");
     },

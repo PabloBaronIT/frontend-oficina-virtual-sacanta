@@ -133,8 +133,8 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  padding-top: 5px;
-  padding-left: 12px;
+  padding-top: 6px;
+  padding-left: 11px;
   cursor: pointer;
 }
 .vistaValues a {

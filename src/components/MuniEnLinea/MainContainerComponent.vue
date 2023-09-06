@@ -31,8 +31,14 @@
     <!--VISTA  DE TRAMITES -->
     <div class="containerTabs">
       <div class="row row-cols-2">
-        <div class="col-6 text-center">
-          <h4>Trámites Administrativos</h4>
+        <div
+          class="col-6 text-center"
+          @mouseover="this.setClass"
+          @mouseout="this.NotSetClass"
+        >
+          <h4 :class="{ activeHover: hoverCategorias }">
+            Trámites Administrativos
+          </h4>
           <div class="gridcontainer">
             <div v-for="sector in categorias" :key="sector.Id">
               <router-link
@@ -53,8 +59,14 @@
             </div>
           </div>
         </div>
-        <div class="col-6 text-center">
-          <h4>Servicios, reclamos y consultas</h4>
+        <div
+          class="col-6 text-center"
+          @mouseover="this.setServisClass"
+          @mouseout="this.NotServisClass"
+        >
+          <h4 :class="{ activeHover: hoverServicios }">
+            Servicios, reclamos y consultas
+          </h4>
           <div class="gridcontainer">
             <div v-for="sector in servicios" :key="sector.Id">
               <router-link
@@ -112,10 +124,10 @@
         Si tu gestion es para Rentas o Afip, también te facilitamos el acceso.
       </h5>
       <div class="items">
-        <h1>RENTAS</h1>
-        <h1>AFIP</h1>
-        <h1>ANSES</h1>
-        <h1>DNRPA</h1>
+        <img src="./../../../images/Rectangle.png" alt="" />
+        <img src="./../../../images/Afip.png" alt="" />
+        <img src="./../../../images/Anses.png" alt="" />
+        <img src="./../../../images/DNRPA.png" alt="" />
       </div>
     </div>
   </div>
@@ -136,6 +148,8 @@ export default {
     return {
       categorias: [],
       servicios: null,
+      hoverCategorias: false,
+      hoverServicios: false,
     };
   },
 
@@ -157,6 +171,19 @@ export default {
   },
   computed: {},
   methods: {
+    setClass() {
+      console.log("hola");
+      this.hoverCategorias = true;
+    },
+    NotSetClass() {
+      this.hoverCategorias = false;
+    },
+    setServisClass() {
+      this.hoverServicios = true;
+    },
+    NotServisClass() {
+      this.hoverServicios = false;
+    },
     // initializeAmoForms() {
     //   !(function (a, m, o, c, r, m) {
     //     (a[o + c] = a[o + c] || {
@@ -311,9 +338,10 @@ h1 {
   }
 }
 
-/* img {
-  width: 8px;
-} */
+img {
+  width: 8vw;
+  height: 5vh;
+}
 
 /* .header {
   margin: 10px 0;
@@ -404,7 +432,11 @@ h1 {
 .containerTabs h4 {
   margin-bottom: 2rem;
 }
-.containerTabs h4:hover {
+/* .containerTabs h4:hover {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 0, 0, 0.856);
+} */
+.activeHover {
   text-decoration: underline;
   text-decoration-color: rgba(255, 0, 0, 0.856);
 }
@@ -436,9 +468,12 @@ h1 {
   margin-bottom: 20vh;
 }
 .items {
+  width: 50vw;
+  margin: auto;
+  margin-top: 3vh;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
 }
 @media (max-width: 1000px) {
   .flex-container {
