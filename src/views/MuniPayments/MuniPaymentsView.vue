@@ -1,5 +1,4 @@
 <template>
-  <!-- <div class="containerGeneral"> -->
   <div class="containerTramites">
     <div class="filtro-top">
       <h1>Registro de pagos</h1>
@@ -28,12 +27,13 @@
         Ingrese el numero de operacion para buscar detalles del un pago en
         particular.
       </p>
-      <form class="d-flex">
+      <form class="d-flex" style="width: 50vw; justify-content: space-around">
         <input
           type="text"
           placeholder="Ingrese Número de operación"
           v-model="this.search"
           maxlength="16"
+          style="width: 30vw"
         />
         <button
           class="btn btn-outline-success"
@@ -48,7 +48,7 @@
 
     <table class="table table-striped" v-if="this.payment">
       <tr>
-        <th>Consepto</th>
+        <th>Concepto</th>
         <th>Monto</th>
 
         <th>Estado</th>
@@ -111,7 +111,6 @@
       />
     </div>
   </div>
-  <!-- </div> -->
 </template>
 <script>
 import axios from "axios";
@@ -151,61 +150,61 @@ export default {
         this.disabledBoton = true;
       }
     },
-    getPayments() {
-      const apiClient = axios.create({
-        baseURL: BASE_URL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .get(`/registered-payments?page= ${this.pagina}`)
-        .then((response) => {
-          this.payments = response.data.RegisteredPayments;
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.error = true;
-          if (error.response.status === 500) {
-            if (error.response.data.message === "Token de usuario expirado") {
-              setTokenMuni();
-              this.getPayments();
-            }
-          }
-        });
-    },
-    searchValue() {
-      console.log(this.search);
-      this.loading = true;
-      this.payments = "";
-      const apiClient = axios.create({
-        baseURL: BASE_URL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .post(`/registered-payment?page=${this.pagina}`, {
-          user_cuil: this.search,
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.payments = response.data.RegisteredPayment;
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 500) {
-            if (error.response.data.message === "Token de usuario expirado") {
-              setTokenMuni();
-              this.searchValue();
-            }
-          }
-        });
-    },
+    // getPayments() {
+    //   const apiClient = axios.create({
+    //     baseURL: BASE_URL,
+    //     withCredentials: false,
+    //     headers: {
+    //       "auth-header": localStorage.getItem("token"),
+    //     },
+    //   });
+    //   apiClient
+    //     .get(`/registered-payments?page= ${this.pagina}`)
+    //     .then((response) => {
+    //       this.payments = response.data.RegisteredPayments;
+    //       this.loading = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       this.error = true;
+    //       if (error.response.status === 500) {
+    //         if (error.response.data.message === "Token de usuario expirado") {
+    //           setTokenMuni();
+    //           this.getPayments();
+    //         }
+    //       }
+    //     });
+    // },
+    // searchValue() {
+    //   console.log(this.search);
+    //   this.loading = true;
+    //   this.payment = "";
+    //   const apiClient = axios.create({
+    //     baseURL: BASE_URL,
+    //     withCredentials: false,
+    //     headers: {
+    //       "auth-header": localStorage.getItem("token"),
+    //     },
+    //   });
+    //   apiClient
+    //     .post(`/registered-payment?page=${this.pagina}`, {
+    //       user_cuil: this.search,
+    //     })
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       this.payments = response.data.RegisteredPayment;
+    //       this.loading = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       if (error.response.status === 500) {
+    //         if (error.response.data.message === "Token de usuario expirado") {
+    //           setTokenMuni();
+    //           this.searchValue();
+    //         }
+    //       }
+    //     });
+    // },
     searchTramite() {
       console.log(this.search);
       // this.loading = true;
@@ -220,7 +219,7 @@ export default {
         .get("http://localhost:4040/check-payment/" + this.search)
         .then((response) => {
           this.payment = response.data;
-
+          this.search = "";
           console.log(response.data);
         })
         .catch((error) => {
@@ -238,12 +237,6 @@ export default {
 </script>
 
 <style scoped>
-/* .containerGeneral {
-  display: flex;
-  flex-direction: row;
-  width: 94vw;
-  position: relative;
-} */
 p {
   margin-top: 2rem;
 }
@@ -289,4 +282,7 @@ table {
   margin: 0 2px;
   font-size: 20px;
 }
+/* form {
+  font-size: 25px;
+} */
 </style>

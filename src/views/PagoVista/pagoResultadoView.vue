@@ -46,9 +46,9 @@ export default {
     this.IdResultado = this.$route.query.IdResultado;
     this.IdReferenciaOperacion = this.$route.query.IdReferenciaOperacion;
     this.loading = true;
-    this.setPayment();
-    this.getMyProfile();
     this.dispatchLoginPermission();
+    this.getMyProfile();
+    this.setPayment();
   },
   data() {
     return {
