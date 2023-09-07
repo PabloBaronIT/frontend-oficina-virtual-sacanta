@@ -46,7 +46,7 @@
       </form>
     </div>
 
-    <table class="table table-striped" v-if="this.payment">
+    <table class="table table-striped">
       <tr>
         <th>Concepto</th>
         <th>Monto</th>
@@ -57,7 +57,7 @@
         <th>Tarjeta</th>
         <th>Tipo Operación</th>
       </tr>
-      <tr>
+      <tr v-if="this.payment">
         <td>
           {{ this.payment.Concept }}
         </td>

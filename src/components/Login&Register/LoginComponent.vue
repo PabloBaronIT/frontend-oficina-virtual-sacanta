@@ -33,33 +33,33 @@
           label="Contraseña"
           placeholder="clave"
         />
-        <div class="botones">
-          <button type="button" class="btn btn-outline-secondary" @click="log">
-            Ingresar
-          </button>
-          <button type="button" class="btn btn-outline-secondary">
-            <router-link to="/crear-cuenta"> Crear cuenta </router-link>
-          </button>
-          <button class="btn btn-outline-secondary boton">
-            <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
-            <div class="representaCD">
-              <!-- <p class="nombreCD">iniciar sesion</p> -->
-              <a
-                href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
-                class="nombreCD"
-                >iniciar sesion</a
-              >
-            </div>
-          </button>
-          <GoogleLogin :callback="callback" prompt />
-          <button class="button face" @click="logInWithFacebook">
-            <i class="bi bi-facebook" style="font-size: 25px"></i>
-            Continuar con Facebook
-          </button>
-        </div>
+        <p class="error">{{ this.msj }}</p>
       </FormKit>
 
-      <p class="error">{{ this.msj }}</p>
+      <div class="botones">
+        <button type="button" class="btn btn-outline-secondary" @click="log">
+          Ingresar
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+          <router-link to="/crear-cuenta"> Crear cuenta </router-link>
+        </button>
+        <button class="btn btn-outline-secondary boton">
+          <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
+          <div class="representaCD">
+            <!-- <p class="nombreCD">iniciar sesion</p> -->
+            <a
+              href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
+              class="nombreCD"
+              >iniciar sesion</a
+            >
+          </div>
+        </button>
+        <GoogleLogin :callback="callback" prompt style="margin: auto" />
+        <button class="button face" @click="logInWithFacebook">
+          <i class="bi bi-facebook" style="font-size: 25px"></i>
+          Continuar con Facebook
+        </button>
+      </div>
     </form>
     <div v-if="this.loading" class="spinner-border loading" role="status">
       <span class="sr-only"></span>
@@ -101,7 +101,7 @@ export default {
         event.preventDefault();
         this.loading = true;
         let userData = decodeCredential(response.credential);
-        console.log("Handle the response", userData);
+        console.log("respuesta de google", userData);
         const apiClient = axios.create({
           baseURL: BASE_URL,
           withCredentials: false,
@@ -138,14 +138,14 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error);
+            this.loading = false;
+            this.msj = error.response.data.message;
+
+            console.log(error.data);
           });
       },
 
       datafacebook: "",
-      // redirecFace: async function () {
-      //   console.log("hola desde redirectFace");
-      // },
     };
   },
 
@@ -283,7 +283,10 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
+          this.loading = false;
+          this.msj = error.response.data.message;
+
+          console.log(error.data);
         });
     },
     async initFacebook() {
@@ -325,6 +328,7 @@ export default {
     //LOGIN COMUN
     log() {
       this.loading = true;
+      let asd = { cuil: this.cuil, password: this.password };
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -333,7 +337,7 @@ export default {
         },
       });
       apiClient
-        .post("/auth/signin", { cuil: this.cuil, password: this.password })
+        .post("/auth/signin", asd)
 
         .then((response) => {
           console.log(response.data);
@@ -348,9 +352,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.validacion = false;
-          this.msj = "Usuario incorrecto";
           this.loading = false;
+          this.validacion = false;
+          this.msj = error.response.data.message;
         });
 
       // this.$router.push("munienlinea");
@@ -572,8 +576,9 @@ img {
   flex-direction: column;
   justify-content: space-between;
   height: 12rem;
-  width: 100%;
-  margin-top: 5rem;
+  width: 45%;
+  margin: auto;
+  margin-top: 1rem;
 }
 .boton {
   width: 100%;
@@ -590,6 +595,8 @@ a {
 
 .error {
   color: red;
+  font-size: 13px;
+  width: 200px;
 }
 
 .log-btn {
@@ -609,6 +616,7 @@ a {
   z-index: 50;
   display: flex;
   margin: 10px;
+  margin-top: 2rem;
   flex-flow: column wrap;
   justify-content: space-around;
   align-items: center;

@@ -26,7 +26,12 @@
 
       <!-- <input class="cancel" type="button" value="Cancelar" @click="cancel" /> -->
     </div>
-    <div class="alert alert-success" role="alert" v-if="this.modal">
+    <div
+      class="alert alert-success"
+      role="alert"
+      v-if="this.modal"
+      style="word-wrap: break-word"
+    >
       Abra el siguiente link en el navegador Google Chrome para realizar su pago
       <a href=""> {{ this.link }}</a>
     </div>
@@ -51,7 +56,8 @@ export default {
     // );
 
     let sUsrAg = navigator.userAgent;
-    //console.log(sUsrAg);
+
+    console.log(sUsrAg);
 
     if (sUsrAg.indexOf("Chrome") > -1) {
       this.browser = "Google Chrome";
