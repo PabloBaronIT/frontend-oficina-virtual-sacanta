@@ -150,10 +150,22 @@ export default {
       servicios: null,
       hoverCategorias: false,
       hoverServicios: false,
+      browser: null,
     };
   },
 
   created() {
+    let sUsrAg = navigator.userAgent;
+
+    console.log(sUsrAg);
+
+    if (sUsrAg.indexOf("Chrome") > -1) {
+      this.browser = "Google Chrome";
+      console.log(this.browser);
+    } else {
+      this.browser = "desconocido";
+      console.log(this.browser);
+    }
     // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
     // Trae imagenes, id y titulo de categoria
     const script = document.createElement("script");
@@ -172,7 +184,7 @@ export default {
   computed: {},
   methods: {
     setClass() {
-      console.log("hola");
+      // console.log("hola");
       this.hoverCategorias = true;
     },
     NotSetClass() {
@@ -337,11 +349,11 @@ h1 {
     transform: scale(1);
   }
 }
-
+/* 
 img {
   width: 8vw;
   height: 5vh;
-}
+} */
 
 /* .header {
   margin: 10px 0;
@@ -474,6 +486,13 @@ img {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+@media (max-width: 1200px) {
+  .cuadradospan {
+    font-weight: 400;
+    font-size: 18px;
+    padding-top: 1vh;
+  }
 }
 @media (max-width: 1000px) {
   .flex-container {

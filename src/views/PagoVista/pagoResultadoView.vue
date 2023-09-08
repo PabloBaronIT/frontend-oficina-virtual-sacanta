@@ -234,7 +234,7 @@ export default {
         `Numero de Operación: ${this.dataPayment.payment[0]?.payment_id}`
       );
       doc.text(20, 140, `Fechad de emisión: ${this.fecha}`);
-      doc.save("orde.pdf");
+      doc.save("Costancia de pago.pdf");
     },
   },
 };

@@ -30,7 +30,7 @@
             Mi cuenta
           </router-link> -->
           <h4>
-            Hola
+            Hola{{ this.num }}
             <strong>
               {{ $store.state.user.firstname }}
             </strong>
@@ -73,7 +73,10 @@
       </router-link>
       <div style="display: flex; flex-direction: row; padding-top: 2vh">
         <router-link :to="`/notificaciones`">
-          <div class="botonNotificacion"><i class="bi bi-bell"></i></div>
+          <div class="botonNotificacion">
+            <i class="bi bi-bell"> </i>
+            <p v-if="this.notificationNew">msj</p>
+          </div>
         </router-link>
         <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
       </div>
@@ -189,7 +192,6 @@ import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { PASSWORD_HEADER, BASE_URL } from "@/env";
 import { googleLogout } from "vue3-google-login";
-
 export default {
   name: "NavTopVue",
   data() {
@@ -204,11 +206,18 @@ export default {
       user: "",
       representante: "",
       avatar: this.$store.state.user?.avatar,
+      lengtNotifications: 0,
+      notificationNew: false,
       // ||
       // "https://res.cloudinary.com/ddko88otf/image/upload/v1692727232/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv_t3fopl.jpg",
     };
   },
+
   created() {
+    // setInterval(() => {
+    //   this.getNotifications();
+    // }, 20000);
+
     this.role = this.$store.state.user?.role;
     this.getMyProfile();
     let idRepresentante = localStorage.getItem("idRepresentante") || null;
@@ -216,7 +225,16 @@ export default {
       this.getRepresentante(idRepresentante);
     }
   },
-  watch: {},
+  watch: {
+    lengtNotifications(newValue, olValue) {
+      // if (newValue > olValue) {
+      //   this.notificationNew = true;
+      // }
+      if (newValue > olValue) {
+        this.notificationNew = true;
+      }
+    },
+  },
 
   methods: {
     dispatchLogin() {
@@ -293,6 +311,37 @@ export default {
           }
         });
     },
+    getNotifications() {
+      // this.num = this.num + 1;
+
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get("/communications/my-communications")
+        .then((response) => {
+          console.log(response.data);
+          this.lengtNotifications = response.data?.Communications?.length || 0;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.lengtNotifications = 0;
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token vencido") {
+              setToken();
+              this.getNotifications();
+            }
+          }
+          if (error.response.status === 401) {
+            this.$router.push("micuenta-update");
+          }
+        });
+    },
+
     getRepresentante(id) {
       const apiClient = axios.create({
         baseURL: BASE_URL,
@@ -523,6 +572,12 @@ button {
   margin-left: 2.6vw;
 }
 
+@media (max-width: 1200px) {
+  .muniEnlinea {
+    /* justify-content: space-around; */
+    width: 25vw;
+  }
+}
 @media (max-width: 1000px) {
   button {
     display: flex;
