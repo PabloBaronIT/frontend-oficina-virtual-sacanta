@@ -73,12 +73,40 @@
       </router-link>
       <div style="display: flex; flex-direction: row; padding-top: 2vh">
         <router-link :to="`/notificaciones`">
-          <div class="botonNotificacion">
+          <div class="botonNotificacion" @mouseover="this.SentNotificacion">
+            <div v-if="this.notificationNew" class="alertaNoti">*</div>
             <i class="bi bi-bell"> </i>
-            <p v-if="this.notificationNew">msj</p>
           </div>
         </router-link>
         <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
+      </div>
+      <div
+        v-if="this.modalNotificacion && this.notificacion != null"
+        class="modalNotifiacion"
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          "
+        >
+          <h5>{{ this.notificacion.subject }}</h5>
+          <p
+            @click="
+              () => {
+                (this.modalNotifiacion = false),
+                  (this.notificacion = null),
+                  (this.notificationNew = false);
+              }
+            "
+          >
+            X
+          </p>
+        </div>
+        <p>
+          {{ this.notificacion.message }}
+        </p>
       </div>
     </div>
 
@@ -208,15 +236,17 @@ export default {
       avatar: this.$store.state.user?.avatar,
       lengtNotifications: 0,
       notificationNew: false,
+      notificacion: null,
+      modalNotificacion: false,
       // ||
       // "https://res.cloudinary.com/ddko88otf/image/upload/v1692727232/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv_t3fopl.jpg",
     };
   },
 
   created() {
-    // setInterval(() => {
-    //   this.getNotifications();
-    // }, 20000);
+    setInterval(() => {
+      this.getNotifications();
+    }, 60000 * 2); //cada 3 minutos pregunta a la api
 
     this.role = this.$store.state.user?.role;
     this.getMyProfile();
@@ -237,6 +267,12 @@ export default {
   },
 
   methods: {
+    SentNotificacion() {
+      console.log("hola notifiacion");
+      if (this.notificacion != null) {
+        this.modalNotificacion = true;
+      }
+    },
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
@@ -312,8 +348,6 @@ export default {
         });
     },
     getNotifications() {
-      // this.num = this.num + 1;
-
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -325,7 +359,18 @@ export default {
         .get("/communications/my-communications")
         .then((response) => {
           console.log(response.data);
-          this.lengtNotifications = response.data?.Communications?.length || 0;
+          if (
+            this.lengtNotifications != response.data?.Communications?.length
+          ) {
+            this.lengtNotifications = response.data?.Communications?.length;
+            this.notificacion = response.data.Communications[0];
+            console.log("llego la novedad");
+            // this.notificationNew = true;
+          } else {
+            console.log("sigue igual");
+            this.notificationNew = false;
+          }
+          // console.log(this.lengtNotifications, "soy la cantidad de notifi");
         })
         .catch((error) => {
           console.log(error);
@@ -486,6 +531,7 @@ export default {
   height: 7.6vh;
 }
 .botonNotificacion {
+  position: relative;
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -509,6 +555,7 @@ export default {
   text-align: center;
 }
 .muniEnlinea {
+  position: relative;
   display: flex;
   flex-direction: row;
   width: 22vw;
@@ -570,6 +617,28 @@ button {
   height: 9vh;
   position: relative;
   margin-left: 2.6vw;
+}
+.modalNotifiacion {
+  position: absolute;
+  right: 3rem;
+  top: 3rem;
+  background: rgba(255, 255, 255, 0.932);
+  height: 25vh;
+  width: 30vw;
+  z-index: 15;
+  padding: 1rem;
+}
+.alertaNoti {
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  background: green;
+  z-index: 17;
+  right: 10px;
+  top: -10px;
+  font-size: 13px;
+  text-align: center;
 }
 
 @media (max-width: 1200px) {
