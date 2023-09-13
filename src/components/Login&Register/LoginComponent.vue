@@ -1,11 +1,12 @@
 <template>
   <div class="login-container">
+    <div class="manto"></div>
     <div class="boxIzquierdo">
       <div class="boxIzquierdoTop"></div>
       <div
         style="
           position: absolute;
-          top: 5vh;
+          top: 3vh;
           left: 2vw;
           width: 60%;
           display: flex;
@@ -15,7 +16,7 @@
       >
         <div style="margin: auto">
           <svg
-            width="263"
+            width="200"
             height="67"
             viewBox="0 0 263 67"
             fill="none"
@@ -132,26 +133,59 @@
       <img src="./../../assets/HombreLogin.svg" alt="" class="hombreLogin" />
 
       <div class="boxIzquierdoBotton"></div>
-      <div class="internoBoxderecho">
-        <h1>BIENVENIDO</h1>
-        <h3>
+      <div class="internoIzquierdo">
+        <h3>BIENVENIDO</h3>
+        <h5>
           <strong>Estás en el acceso a la oficina Virtual Municipal.</strong>
-        </h3>
-        <h4>
+        </h5>
+        <p>
           Presenta aqui todos tus trámites y gestiones de manera rapida y
           simple, sin horarios y de desde el lugar que vos elijas.
-        </h4>
+        </p>
       </div>
     </div>
-    <div class="boxDerecho">
+    <!---------------->
+    <div style="position: absolute; right: 2vw">
+      <div class="boxDerecho"></div>
       <div class="internoBox">
-        <h1><strong>Ingresá con</strong></h1>
+        <h4 style="opacity: 1"><strong>Ingresá con</strong></h4>
         <button class="btn btn-outline-secondary botonCidi">
           <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
             ><img src="./../../../images/logo_ciudig28.png" alt="imagin cidi"
           /></a>
         </button>
-        <h4>Accedé a todos los trámites y servicios</h4>
+        <p>Accedé a todos los trámites y servicios</p>
+        <div class="linea"></div>
+        <p>También podés acceder sin usuario de CIDI</p>
+        <div class="botonServicios">
+          <svg
+            width="45"
+            height="64"
+            viewBox="0 0 64 64"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="svgCirculo"
+          >
+            <g id="Group">
+              <path
+                id="Vector"
+                d="M47.8518 47.8196C56.537 39.1344 56.537 25.053 47.8518 16.3678C39.1666 7.6826 25.0851 7.68255 16.4 16.3677C7.71479 25.0529 7.71484 39.1344 16.4 47.8196C25.0852 56.5047 39.1666 56.5047 47.8518 47.8196Z"
+                fill="#008938"
+                stroke="#008938"
+                stroke-width="0.4168"
+                stroke-miterlimit="10"
+              />
+              <path
+                id="Vector_2"
+                d="M25.75 28.96C25.53 28.45 25.1 27.26 25.16 25.71C25.19 25.1 25.3 23.14 26.73 21.4C28.72 18.98 31.65 18.92 32.08 18.91C32.54 18.91 35.31 18.94 37.33 21.2C38.91 22.97 39.05 25.02 39.1 25.77C39.14 26.43 39.19 27.72 38.51 29.15C38 30.21 37.3 30.89 36.86 31.26C37.34 31.52 38.01 31.92 38.71 32.53C39.41 33.15 40.57 34.36 41.26 36.19C41.68 37.3 41.74 38.15 41.85 39.68C41.94 41.04 41.98 42.94 41.7 45.25C35.29 45.25 28.88 45.25 22.46 45.25C22.3 42.83 22.36 40.85 22.46 39.43C22.58 37.8 22.72 37.17 22.89 36.63C23.54 34.59 24.75 33.28 25.27 32.77C26.02 32.03 26.7601 31.55 27.3001 31.25C26.8701 30.83 26.22 30.07 25.75 28.96Z"
+                stroke="#EDEDED"
+                stroke-width="0.955"
+                stroke-miterlimit="10"
+              />
+            </g>
+          </svg>
+          <p>Accede con servicios limitados</p>
+        </div>
       </div>
     </div>
     <!-- <form v-if="!this.loading && !this.datafacebook">
@@ -767,13 +801,20 @@ a {
   width: 200px;
   z-index: 1;
 }
-
+.manto {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  opacity: 0.2;
+}
 .login-container {
   width: 100vw;
   height: 100vh;
   background-image: url("../../assets/FondoMuni.png");
-
   background-repeat: no-repeat;
+  background-size: cover;
   /* z-index: 50; */
   display: flex;
   flex-direction: row;
@@ -781,21 +822,21 @@ a {
   /* margin-top: 2rem; */
   /* flex-flow: column wrap; */
   /* justify-content: space-around; */
-  align-items: center;
-  z-index: -15;
+  /* align-items: center; */
+  /* z-index: -15; */
   /* opacity: 0.8; */
 }
 .boxIzquierdo {
   position: relative;
   width: 47vw;
-  height: 50vh;
+  height: 62vh;
   border-radius: 10px 10px 0px 0px;
   position: absolute;
   left: 9vw;
   top: 24vh;
 }
 .boxIzquierdoTop {
-  height: 17vh;
+  height: 18vh;
   width: 100%;
   background: white;
   opacity: 0.8;
@@ -809,60 +850,98 @@ a {
 }
 .hombreLogin {
   position: absolute;
-  right: 2vw;
-  top: 5vh;
+  width: 13vw;
+  height: 26vh;
+  right: 1vw;
+  top: 6.5vh;
+  z-index: 15;
 }
 .boxIzquierdoBotton {
-  height: 32vh;
+  height: 43vh;
   width: 47vw;
   /* top: 3vh; */
   border-radius: 20px 20px 0px 0px;
   background-color: black;
-  opacity: 0.5;
+  opacity: 0.6;
   z-index: 1;
   position: absolute;
   bottom: 0;
 }
-h1,
-h2,
+
 h3,
-h4 {
+h4,
+h5,
+p {
   color: white;
 }
 h3 {
   font-size: 25px;
-  margin-bottom: 15px;
 }
-h4 {
+h3 {
+  font-weight: 600;
+}
+p {
   font-weight: 100;
 }
 .internoBox {
   /* padding: 2vw; */
-  position: absolute;
-  z-index: 30;
-  padding-top: 7vh;
-  padding-left: 2vw;
-}
-.internoBoxderecho {
+  right: 9vw;
+  top: 24vh;
+  height: 50vh;
+  width: 27vw;
   position: absolute;
   z-index: 25;
   padding-top: 7vh;
-  padding-left: 2vw;
+  /* padding-left: 2vw; */
+  text-align: center;
+}
+.internoIzquierdo {
+  position: absolute;
+  z-index: 25;
+  padding-top: 12vh;
+  padding-left: 3vw;
+  padding-right: 2vw;
 }
 .boxDerecho {
-  height: 50vh;
+  height: 62vh;
   width: 27vw;
   border-radius: 0px 20px 0px 0px;
   background: black;
-  opacity: 0.5;
+  opacity: 0.6;
   z-index: 1;
   position: absolute;
   right: 9vw;
   top: 24vh;
   text-align: center;
 }
-
-/* 
+.linea {
+  background: white;
+  height: 1px;
+  width: 22.5vw;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+.botonServicios {
+  position: relative;
+  height: 7vh;
+  width: 16vw;
+  background: white;
+  border-radius: 10px;
+  margin: auto;
+  padding-top: 2vh;
+  padding-right: 1vw;
+  text-align: right;
+}
+.botonServicios p {
+  color: #000;
+  font-size: 12px;
+}
+.svgCirculo {
+  position: absolute;
+  margin-top: -3.5vh;
+  left: 0;
+}
+/*
 form {
   width: 40vw;
   box-shadow: 0px 0px 10px #333;
@@ -880,7 +959,7 @@ form {
 /* form input {
   margin: 20px;
 } */
-/* 
+/*
 form img {
   margin-bottom: 15%;
 } */
