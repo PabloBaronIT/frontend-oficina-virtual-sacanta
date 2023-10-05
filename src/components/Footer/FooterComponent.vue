@@ -1,7 +1,7 @@
 <template>
   <footer class="general">
     <div class="linea"></div>
-    <h6>
+    <h6 style="margin-right: 2rem; margin-top: 2rem">
       Municipalida de Sacanta - 25 de Mayo 292, Sacanta, Cordoba - CP X5945 -
       TEL. 03533 15-41-7923- munienlinea@sacanta.com
     </h6>
@@ -16,10 +16,14 @@ export default {
 
 <style scoped>
 .general {
-  width: 85vw;
-  /* height: 10vh; */
-  margin-left: 15vw;
-  text-align: center;
+  /* position: fixed; */
+  z-index: 15;
+  height: 8vh;
+  background-color: white;
+  width: 81vw;
+  bottom: 0;
+  right: 0;
+  text-align: right;
 }
 .linea {
   height: 5px;
@@ -36,14 +40,17 @@ export default {
 }
 h6 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 400;
   color: #858585;
 }
 
 @media (max-width: 800px) {
   .general {
-    width: 100vw;
-    margin-left: 0;
+    position: absolute;
+    width: 84vw;
+    z-index: 20;
+    /* width: 100vw; */
+    /* margin-left: 0; */
   }
   h6 {
     font-size: 15px;

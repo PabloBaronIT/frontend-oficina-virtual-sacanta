@@ -2,7 +2,7 @@
   <div class="asd">
     <!--logo muni-->
     <img
-      src="@/assets/LogoSacantaHorizontal.svg"
+      src="./../../../images/logo-muni.svg"
       alt="Sacanta"
       class="imagenlogo"
     />
@@ -67,7 +67,7 @@
       <router-link to="/munienlinea">
         <img
           class="logo scale-up-center"
-          src="@/assets/MuniEnLinea.svg"
+          src="./../../../images/MuniEnLinea.svg"
           alt=""
         />
       </router-link>
@@ -244,9 +244,9 @@ export default {
   },
 
   created() {
-    setInterval(() => {
-      this.getNotifications();
-    }, 60000 * 2); //cada 3 minutos pregunta a la api
+    // setInterval(() => {
+    //   this.getNotifications();
+    // }, 60000 * 2); //cada 3 minutos pregunta a la api
 
     this.role = this.$store.state.user?.role;
     this.getMyProfile();
@@ -494,7 +494,8 @@ export default {
 
 <style scoped>
 .asd {
-  position: relative;
+  position: fixed;
+  z-index: 15;
   height: 14vh;
   background-color: white;
   width: 100%;
@@ -535,7 +536,14 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  background: #ec6249;
+  background-image: linear-gradient(
+    to right,
+    #ffcc03,
+    #ffa800,
+    #fb8200,
+    #f3590d,
+    #e52320
+  );
   margin-right: 23px;
   font-size: 30px;
   color: whitesmoke;
@@ -548,7 +556,15 @@ export default {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  background: red;
+  /* background: red; */
+  background-image: linear-gradient(
+    to right,
+    #ffcc03,
+    #ffa800,
+    #fb8200,
+    #f3590d,
+    #e52320
+  );
   margin-right: 23px;
   font-size: 30px;
   color: whitesmoke;

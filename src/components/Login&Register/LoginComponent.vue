@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="manto"></div>
-    <div class="boxIzquierdo">
+    <div class="boxIzquierdo" v-if="modalFormulario">
       <div class="boxIzquierdoTop"></div>
       <div
         style="
@@ -128,24 +128,22 @@
             />
           </svg>
         </div>
-        <img src="@/assets/MuniEnLinea.svg" alt="" class="logo" />
+        <img src="./../../../images/MuniEnLinea.svg" alt="" class="logo" />
       </div>
       <img src="./../../assets/HombreLogin.svg" alt="" class="hombreLogin" />
 
       <div class="boxIzquierdoBotton"></div>
       <div class="internoIzquierdo">
-        <h3>BIENVENIDO</h3>
-        <h5>
-          <strong>Estás en el acceso a la oficina Virtual Municipal.</strong>
-        </h5>
-        <p>
+        <h2><strong>BIENVENIDO</strong></h2>
+        <h3>Estás en el acceso a la oficina Virtual Municipal.</h3>
+        <h3 style="font-weight: lighter; font-size: x-large; margin-top: 1rem">
           Presenta aqui todos tus trámites y gestiones de manera rapida y
           simple, sin horarios y de desde el lugar que vos elijas.
-        </p>
+        </h3>
       </div>
     </div>
     <!---------------->
-    <div style="position: absolute; right: 2vw">
+    <div style="position: absolute; right: 2vw" v-if="modalFormulario">
       <div class="boxDerecho"></div>
       <div class="internoBox">
         <h4 style="opacity: 1"><strong>Ingresá con</strong></h4>
@@ -154,13 +152,16 @@
             ><img src="./../../../images/logo_ciudig28.png" alt="imagin cidi"
           /></a>
         </button>
-        <p>Accedé a todos los trámites y servicios</p>
+        <h5>Accedé a todos los trámites y servicios</h5>
         <div class="linea"></div>
-        <p>También podés acceder sin usuario de CIDI</p>
-        <div class="botonServicios">
+        <h5>También podés acceder sin usuario de CIDI</h5>
+        <div
+          class="botonServicios"
+          @click="() => (this.modalFormulario = false)"
+        >
           <svg
-            width="45"
-            height="64"
+            width="62"
+            height="62"
             viewBox="0 0 64 64"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -184,75 +185,79 @@
               />
             </g>
           </svg>
-          <p>Accede con servicios limitados</p>
+          <p>Accedé con servicios limitados</p>
         </div>
       </div>
     </div>
-    <!-- <form v-if="!this.loading && !this.datafacebook">
-      <img
+    <!-- MODAL DE FACE-GOOGLE-USUARIO Y CONTRASEÑA -->
+    <div class="modalFormulario" v-else>
+      <div @click="() => (this.modalFormulario = true)">x</div>
+      <form>
+        <!-- <img
         class="w-50"
         src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
         alt=""
-      />
+      /> -->
 
-      <FormKit
-        type="form"
-        id="registration-example"
-        :actions="false"
-        incomplete-message="Aun no has completado todos los campos."
-      >
         <FormKit
-          v-model="cuil"
-          type="number"
-          name="cuil"
-          label="CUIL"
-          placeholder="cuil"
-          validation="required|length:11,11|number"
-          :validation-messages="{
-            required: 'Ingresa el CUIL sin simbolos ni espacios',
-            number: 'Ingresar solo nùmeros',
-            length: 'El CUIL debe tener 11 caracteres',
-          }"
-        />
-        <FormKit
-          v-model="password"
-          type="password"
-          name="password"
-          label="Contraseña"
-          placeholder="clave"
-        />
-        <p class="error">{{ this.msj }}</p>
-      </FormKit>
+          type="form"
+          id="registration-example"
+          :actions="false"
+          incomplete-message="Aun no has completado todos los campos."
+        >
+          <FormKit
+            v-model="cuil"
+            type="number"
+            name="cuil"
+            label="CUIL"
+            placeholder="cuil"
+            validation="required|length:11,11|number"
+            :validation-messages="{
+              required: 'Ingresa el CUIL sin simbolos ni espacios',
+              number: 'Ingresar solo nùmeros',
+              length: 'El CUIL debe tener 11 caracteres',
+            }"
+          />
+          <FormKit
+            v-model="password"
+            type="password"
+            name="password"
+            label="Contraseña"
+            placeholder="clave"
+          />
+          <p class="error">{{ this.msj }}</p>
+        </FormKit>
 
-      <div class="botones">
-        <button type="button" class="btn btn-outline-secondary" @click="log">
-          Ingresar
-        </button>
-        <button type="button" class="btn btn-outline-secondary">
-          <router-link to="/crear-cuenta"> Crear cuenta </router-link>
-        </button>
-        <button class="btn btn-outline-secondary boton">
-          <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
-          <div class="representaCD">
-            <a
-              href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
-              class="nombreCD"
-              >iniciar sesion</a
-            >
-          </div>
-        </button>
-        <GoogleLogin :callback="callback" prompt style="width: 100%" />
-        <button class="button face" @click="logInWithFacebook">
-          <i class="bi bi-facebook" style="font-size: 25px"></i>
-          Continuar con Facebook
-        </button>
-      </div>
-    </form> -->
-
-    <div v-if="this.loading" class="spinner-border loading" role="status">
-      <span class="sr-only"></span>
+        <div class="botones">
+          <button type="button" class="btn btn-outline-secondary" @click="log">
+            Ingresar
+          </button>
+          <button type="button" class="btn btn-outline-secondary">
+            <router-link to="/crear-cuenta"> Crear cuenta </router-link>
+          </button>
+          <button class="btn btn-outline-secondary boton">
+            <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
+            <div class="representaCD">
+              <a
+                href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
+                class="nombreCD"
+                >iniciar sesion</a
+              >
+            </div>
+          </button>
+          <GoogleLogin :callback="callback" prompt style="width: 100%" />
+          <button class="button face" @click="logInWithFacebook">
+            <i class="bi bi-facebook" style="font-size: 25px"></i>
+            Continuar con Facebook
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+
+  <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div> -->
 </template>
 
 <script>
@@ -334,6 +339,7 @@ export default {
       },
 
       datafacebook: "",
+      modalFormulario: true,
     };
   },
 
@@ -804,20 +810,22 @@ a {
 .manto {
   position: absolute;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 140vw;
+  height: 130vh;
   background: white;
   opacity: 0.2;
+  margin-top: -14vh;
 }
 .login-container {
-  width: 100vw;
-  height: 100vh;
+  width: 140vw;
+  height: 130vh;
   background-image: url("../../assets/FondoMuni.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: auto;
   /* z-index: 50; */
   display: flex;
   flex-direction: row;
+  margin-top: -14vh;
   /* margin: 10px; */
   /* margin-top: 2rem; */
   /* flex-flow: column wrap; */
@@ -832,8 +840,8 @@ a {
   height: 62vh;
   border-radius: 10px 10px 0px 0px;
   position: absolute;
-  left: 9vw;
-  top: 24vh;
+  top: 10vh;
+  margin-left: 176px;
 }
 .boxIzquierdoTop {
   height: 18vh;
@@ -919,7 +927,8 @@ p {
   height: 1px;
   width: 22.5vw;
   margin: auto;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 .botonServicios {
   position: relative;
@@ -929,16 +938,16 @@ p {
   border-radius: 10px;
   margin: auto;
   padding-top: 2vh;
-  padding-right: 1vw;
+  padding-right: 1.2vw;
   text-align: right;
 }
 .botonServicios p {
   color: #000;
-  font-size: 12px;
+  /* font-size: 15px; */
 }
 .svgCirculo {
   position: absolute;
-  margin-top: -3.5vh;
+  margin-top: -1.8vh;
   left: 0;
 }
 /*
@@ -963,6 +972,15 @@ form {
 form img {
   margin-bottom: 15%;
 } */
+.modalFormulario {
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  background-color: white;
+  top: 20vh;
+  right: 25vw;
+  z-index: 17;
+}
 .face {
   background: #5890ff;
   color: white;

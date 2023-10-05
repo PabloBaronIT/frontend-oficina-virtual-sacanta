@@ -5,7 +5,7 @@
         type="text"
         class="search"
         v-model="this.value"
-        placeholder="Escribí algo relacionado(ej.acta de nacimiento), o elegí en los grupos de abajo"
+        placeholder="Escribinos algo relacionado o elegí alguna opción de abajo"
         @keyup="this.searchValue"
       />
 
@@ -93,20 +93,24 @@ export default {
 .container {
   width: 100%;
   margin-bottom: 4rem;
+  margin-top: -15px;
 }
 .containerSearch {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
+  width: 54vw;
+  position: relative;
+  /* display: flex; */
+  /* flex-direction: row; */
   /* margin-top: 4rem; */
 }
 .search {
-  width: 50vw;
+  width: 54vw;
   position: relative;
   margin-left: 4vw;
   height: 55px;
   border-color: transparent;
   padding-left: 1rem;
+  border-radius: 0px 20px;
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
 }
 .vistaValues {
   width: 50vw;
@@ -119,17 +123,14 @@ export default {
   border-bottom: solid 1px grey;
 }
 .circuloVerde {
-  color: white;
-  font-size: 25px;
+  position: absolute;
+  z-index: 15;
+  right: -3rem;
+  top: 0.2rem;
+  color: green;
+  font-size: 28px;
   margin-left: 2rem;
-  background-image: linear-gradient(
-    to right,
-    #399943,
-    #4ea242,
-    #62aa40,
-    #75b23f,
-    #88ba3e
-  );
+  /* color: linear-gradient(to right, #399943, #4ea242, #62aa40, #75b23f, #88ba3e); */
   height: 50px;
   width: 50px;
   border-radius: 50%;

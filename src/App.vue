@@ -19,17 +19,18 @@
         this.setPermission
       "
     />
-
-    <router-view />
+    <div class="claseB">
+      <router-view />
+      <FooterComponentVue
+        v-if="
+          this.role != 'MUNI_ROLE' &&
+          // this.role != undefined &&
+          // this.role != null &&
+          this.setPermission
+        "
+      />
+    </div>
   </div>
-  <FooterComponentVue
-    v-if="
-      this.role != 'MUNI_ROLE' &&
-      // this.role != undefined &&
-      // this.role != null &&
-      this.setPermission
-    "
-  />
 </template>
 
 <script>
@@ -42,6 +43,12 @@ export default {
     return {
       role: "",
       cuil: "",
+      ancho: "",
+      margin: "",
+      posision: "",
+      derecha: "",
+      asd: this.$route.fullPath,
+      notLogin: false,
     };
   },
   created() {
@@ -49,15 +56,54 @@ export default {
     //   this.role = event.detail.storage;
     // });
     this.role = localStorage.getItem("role") || null;
+
+    // if (asd != "/login") {
+    //   // this.ancho = 100;
+    //   // this.margin = 0;
+    //   this.ancho = 81.2;
+    //   this.margin = 14;
+    //   this.posision = "absolute";
+    //   this.derecha = 0;
+    // } else if (asd === "/login" || asd === "/") {
+    //   this.ancho = 100;
+    //   this.margin = 0;
+    //   // this.ancho = 81.2;
+    //   // this.margin = 14;
+    //   this.posision = "relative";
+    //   this.derecha = 0;
+    // }
+
+    // console.log(this.login);
   },
   watch: {
     $route() {
       this.role = localStorage.getItem("role");
     },
+    // asd(newValue) {
+    //   if (newValue != "/login") {
+    //     this.ancho = 81.2;
+    //     this.margin = 0;
+    //     this.posision = "relative";
+    //     this.derecha = 0;
+    //   } else {
+    //     this.ancho = 100;
+    //     this.margin = 14;
+    //     this.posision = "absolute";
+    //     this.derecha = 0;
+    //   }
+    // },
   },
   computed: {
     setPermission() {
       if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    setClass() {
+      // console.log(this.asd);
+      if (this.asd === "/login" || this.asd !== "/") {
         return true;
       } else {
         return false;
@@ -119,7 +165,7 @@ export default {
   user-select: none;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Source Sans 3", sans-serif;
   /* -moz-osx-font-smoothing: grayscale; */
   /* text-align: center; */
   /* color: var(--text-color); */
@@ -131,14 +177,17 @@ export default {
 body {
   overflow-y: auto;
 }
-
+p {
+  color: #9b9a9a;
+}
 /* ACTUALIZADO */
 h1 {
   color: #008838;
-  /* font-size: px; */
-  font-weight: 100;
-  font-style: normal;
-  line-height: normal;
+  font-size: xx-large;
+}
+h2 {
+  color: white;
+  font-weight: 500;
 }
 h3 {
   color: #808081;
@@ -146,8 +195,8 @@ h3 {
 }
 
 h4 {
-  color: #128d44;
-  font-weight: 200;
+  color: #019939;
+  font-weight: 900;
   /* font-size: 25px; */
 }
 h5 {
@@ -156,32 +205,28 @@ h5 {
   font-weight: 700;
   line-height: normal;
 }
-/* h6 {
-  color: #808081;
+h6 {
+  color: white;
   font-size: 24px;
   font-weight: 200;
   line-height: normal;
-} */
+}
 /* ---------------------------- */
-
-h2 {
-  color: #128d44;
-  font-weight: 500;
-}
-
-.fontB {
-  font-weight: bold;
-}
-.fontL {
-  font-weight: 300;
-}
-.tituloPrincipal {
-  font-size: 50px;
-  margin-bottom: 4rem;
-}
 </style>
 
 <style scoped>
+.claseA {
+  width: 100vw;
+  position: relative;
+  right: 0;
+  margin-top: 0;
+}
+.claseB {
+  width: 81.2vw;
+  position: absolute;
+  right: 0;
+  margin-top: 14vh;
+}
 .main-container {
   display: flex;
   background: var(--fondo);
@@ -190,7 +235,12 @@ h2 {
   position: fixed;
   width: 100vw;
 }
-
+.login {
+  position: absolute;
+  width: 81.2vw;
+  margin-top: 14vh;
+  right: 0;
+}
 @media (max-width: 1000px) {
   #app {
     width: 100vw;
