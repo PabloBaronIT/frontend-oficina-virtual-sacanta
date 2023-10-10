@@ -67,7 +67,7 @@
       <router-link to="/munienlinea">
         <img
           class="logo scale-up-center"
-          src="./../../../images/MuniEnLinea.svg"
+          src="./../../assets/images/MuniEnLinea.svg"
           alt=""
         />
       </router-link>
