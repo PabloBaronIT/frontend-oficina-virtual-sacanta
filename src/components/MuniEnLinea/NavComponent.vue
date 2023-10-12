@@ -77,6 +77,9 @@ export default {
 </script>
 
 <style scoped>
+.estes h3 {
+  font-size: 900;
+}
 .scale-up-center {
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
@@ -199,7 +202,7 @@ h4 {
 }
 
 .bn3:first-child {
-  background-color: var(--red);
+  /* background-color: var(--red); */
 }
 
 .bn3 {
@@ -221,14 +224,8 @@ h4 {
   width: 13.5vw;
   border: 0.16em solid rgb(255, 255, 255);
   text-align: center;
-  background-image: linear-gradient(
-    to right,
-    #038638,
-    #389533,
-    #5aa32d,
-    #7bb026,
-    #9cbd1d
-  );
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+
   border-top-right-radius: 20px;
   transition: all 0.2s;
   border-style: none;
