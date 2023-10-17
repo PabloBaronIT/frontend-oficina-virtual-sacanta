@@ -5,7 +5,7 @@ export default createStore({
     loggedIn: false,
     token: localStorage.getItem("token"),
     procedure: [],
-    user: {},
+    user: "",
     CidiCookie: null,
     representante: null,
   },

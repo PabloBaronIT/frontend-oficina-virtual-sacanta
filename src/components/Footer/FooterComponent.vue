@@ -29,7 +29,7 @@ export default {
   /* position: fixed; */
   z-index: 15;
   height: 8vh;
-  background-color: white;
+  background-color: #f5f5f5;
   width: 81vw;
   bottom: 0;
   right: 0;

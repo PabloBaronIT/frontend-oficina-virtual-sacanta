@@ -1,55 +1,36 @@
 <template>
-  <div class="asd">
+  <div class="nav-container">
     <!--logo muni-->
     <img
-      src="./../../../images/logo-muni.svg"
+      src="./../../assets/images/logo-muni.svg"
       alt="Sacanta"
       class="imagenlogo"
     />
 
     <!--mi cuenta-->
     <div class="usuario">
-      <!-- <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="86"
-        height="86"
-        fill="currentColor"
-        class="bi bi-person-circle scale-up-center"
-        viewBox="0 0 16 16"
-      >
-        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-        <path
-          fill-rule="evenodd"
-          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-        />
-      </svg> -->
-      <img :src="this.avatar" alt="imagen" v-if="this.avatar" />
+      <div class="circuloAvatar">
+        <img :src="this.avatar" alt="imagen" v-if="this.avatar" />
+      </div>
       <div class="usuario-details" v-if="this.$store.state.user">
         <div>
-          <!-- <router-link v-show="permission" :to="`/micuenta`">
-            Mi cuenta
-          </router-link> -->
           <h4>
             Hola{{ this.num }}
             <strong>
               {{ $store.state.user.firstname }}
             </strong>
           </h4>
-          <h6>
+          <h4>
             <span>CUIL: {{ $store.state.user.cuil }} </span>
-          </h6>
+          </h4>
+          <router-link v-show="permission" :to="`/micuenta`">
+            Mi cuenta
+          </router-link>
           <!-- <img
             class="svg"
             src="@/assets/comunicacion.svg"
             alt="comunicaciones"
           />-->
-        </div>
-        <div>
-          <p>
-            <!-- {{ $store.state.user.firstname }} {{ $store.state.user.lastname }} -->
-            <!-- <br />
-            <span>CUIL: {{ $store.state.user.cuil }} </span> -->
-          </p>
         </div>
 
         <div>
@@ -74,13 +55,12 @@
       <div style="display: flex; flex-direction: row; padding-top: 2vh">
         <router-link :to="`/notificaciones`">
           <div class="botonNotificacion" @mouseover="this.SentNotificacion">
-            <div v-if="this.notificationNew" class="alertaNoti">*</div>
             <i class="bi bi-bell"> </i>
           </div>
         </router-link>
         <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
       </div>
-      <div
+      <!-- <div
         v-if="this.modalNotificacion && this.notificacion != null"
         class="modalNotifiacion"
       >
@@ -107,7 +87,7 @@
         <p>
           {{ this.notificacion.message }}
         </p>
-      </div>
+      </div> -->
     </div>
 
     <!-- <button
@@ -493,7 +473,8 @@ export default {
 </script>
 
 <style scoped>
-.asd {
+/* CSS NUEVO */
+.nav-container {
   position: fixed;
   z-index: 15;
   height: 14vh;
@@ -504,32 +485,42 @@ export default {
   padding-top: 1rem;
   padding-left: 0;
 }
-.body-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column wrap;
+.imagenlogo {
+  width: 11vw;
+  height: 9vh;
+  position: relative;
+  margin-left: 2.6vw;
 }
-.bn3 {
-  background: var(--blue);
-  display: inline-block;
-  padding: 5px;
-  margin: 8px 5px;
-  border: 0.16em solid rgb(255, 255, 255);
-  border-radius: 2em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  color: #2d2d2d;
-  text-align: center;
-  transition: all 0.2s;
-  width: 100%;
+.usuario {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: left;
+  margin-left: 6vw;
+}
+.circuloAvatar {
+  width: 5.5vw;
+  height: 11vh;
+  background-image: linear-gradient(90deg, #e52320 0%, #ffcc03 100%);
+  border-radius: 50%;
+  padding-top: 0.3rem;
+  padding-left: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+.usuario img {
+  width: 5vw;
+  height: 10vh;
 }
 
-.logo {
-  width: 9vw;
-  height: 7.6vh;
+.usuario-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+  text-align: left;
+  font-size: 20px;
+  color: #128d44;
+  width: 360px;
 }
 .botonNotificacion {
   position: relative;
@@ -570,6 +561,10 @@ export default {
   color: whitesmoke;
   text-align: center;
 }
+.logo {
+  width: 9vw;
+  height: 7.6vh;
+}
 .muniEnlinea {
   position: relative;
   display: flex;
@@ -579,84 +574,15 @@ export default {
   position: absolute;
   right: 5vw;
 }
-/* .svg {
-  max-width: 30px;
-} */
-.usuario {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: left;
-  margin-left: 6vw;
-}
-/* .usuario svg {
-  width: 94px;
-} */
-
-.usuario-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 20px;
-  text-align: left;
-  font-size: 20px;
-  color: #128d44;
-  width: 360px;
-}
-/* .usuario-details a {
+a {
   text-decoration: none;
-  color: red;
-  font-size: 20px;
-  font-weight: bold;
-} */
-
-.usuario img {
-  width: 5vw;
-  height: 10vh;
-}
-
-button {
-  border: none;
-  background: none;
-  display: none;
-}
-
-.svg:hover {
-  max-width: 45px;
+  color: #128d44;
 }
 .nameRepresntative {
   cursor: pointer;
   color: #2c5777;
 }
-.imagenlogo {
-  width: 11vw;
-  height: 9vh;
-  position: relative;
-  margin-left: 2.6vw;
-}
-.modalNotifiacion {
-  position: absolute;
-  right: 3rem;
-  top: 3rem;
-  background: rgba(255, 255, 255, 0.932);
-  height: 25vh;
-  width: 30vw;
-  z-index: 15;
-  padding: 1rem;
-}
-.alertaNoti {
-  border-radius: 50%;
-  height: 15px;
-  width: 15px;
-  position: absolute;
-  background: green;
-  z-index: 17;
-  right: 10px;
-  top: -10px;
-  font-size: 13px;
-  text-align: center;
-}
-
+/* ------------------------------------------------------------ */
 @media (max-width: 1200px) {
   .muniEnlinea {
     /* justify-content: space-around; */

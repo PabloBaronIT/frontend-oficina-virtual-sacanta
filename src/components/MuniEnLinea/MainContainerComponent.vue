@@ -4,7 +4,7 @@
     <div class="row">
       <h5 class="fecha">
         <i class="bi bi-calendar4-week" style="margin-right: 8px"></i
-        ><strong>Viernes 19 de Agosto</strong>
+        ><strong>{{ new Date().toLocaleDateString() }}</strong>
       </h5>
     </div>
     <div class="row">
@@ -303,6 +303,35 @@ export default {
 </script>
 
 <style scoped>
+/* CSS NUEVO */
+.fecha {
+  letter-spacing: 0px;
+  position: absolute;
+  text-align: right;
+  padding-top: 2vh;
+  padding-right: 3.5vw;
+}
+.containerTabs {
+  width: 95%;
+  margin: auto;
+}
+.containerTabs h4 {
+  margin-bottom: 2rem;
+}
+.gridcontainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin: auto;
+  grid-auto-rows: minmax(100px, auto);
+}
+.otrosTramites {
+  margin-top: 10vh;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 .gestiones {
   background: white;
   height: 4.5vh;
@@ -316,6 +345,8 @@ export default {
 }
 .gestiones h4 {
   margin-top: 0.5rem;
+  font-weight: 400;
+  color: #9b9a9a;
 }
 .botonGestiones {
   height: 4.5vh;
@@ -337,6 +368,16 @@ export default {
   font-size: 22px;
   margin-left: 1vw;
 }
+
+.accesos {
+  text-align: center;
+  margin-top: 5vh;
+  padding-bottom: 5vh;
+}
+.accesos h4 {
+  font-weight: 400;
+  color: #9b9a9a;
+}
 h1 {
   margin-top: 4vh;
   margin-left: 4vw;
@@ -344,82 +385,7 @@ h1 {
 }
 h4 {
   font-weight: 700;
-  color: #9b9a9a;
-  font-weight: 400;
-}
-.fecha {
-  letter-spacing: 0px;
-  position: absolute;
-  /* right: 5vw; */
-  text-align: right;
-  padding-top: 2vh;
-  padding-right: 3.5vw;
-  /* background: rebeccapurple; */
-}
-.top {
-  position: relative;
-  text-align: left;
-  padding-left: 3rem;
-  padding-top: 2rem;
-  width: 75vw;
-  height: 9rem;
-  background: var(--grey);
-  margin: auto;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  border-radius: 0px 30px 0px 0px;
-  color: white;
-}
-.top img {
-  position: absolute;
-  right: 3rem;
-  top: -2rem;
-  width: 200px;
-  height: 200px;
-}
-.scale-up-center {
-  -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
-    both;
-  animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-@-webkit-keyframes scale-up-center {
-  0% {
-    -webkit-transform: scale(0.6);
-    transform: scale(0.6);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-@keyframes scale-up-center {
-  0% {
-    -webkit-transform: scale(0.6);
-    transform: scale(0.6);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-.flex-container {
-  width: 100%;
-  height: auto;
-  /*background: var(--fondo);*/
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-}
-.gridcontainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-  margin: auto;
-  grid-auto-rows: minmax(100px, auto);
+  color: #019939;
 }
 .card img {
   object-fit: cover;
@@ -443,51 +409,14 @@ h4 {
   text-align: left;
   padding: 1rem;
   margin: auto;
+  border: 4px solid transparent;
 }
-
-/* .card:hover {
-  box-shadow: 5px 5px 20px #444;
-} */
-.containerTabs {
-  width: 95%;
-  margin: auto;
+.card:hover {
+  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
 }
-.butonNav {
-  width: 330px;
-  color: var(--green);
-}
-.centerTabs {
-  width: 90%;
-  margin: auto;
-}
-
-.containerTabs h4 {
-  margin-bottom: 2rem;
-}
-
 .activeHover {
   text-decoration: underline;
   text-decoration-color: rgba(255, 0, 0, 0.856);
-}
-.cuadradospan {
-  background: white;
-  height: 6vh;
-  width: 14vw;
-  text-align: center;
-  padding-top: 1.5vh;
-  font-weight: 700;
-}
-.otrosTramites {
-  margin-top: 10vh;
-  height: 20vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-.accesos {
-  text-align: center;
-  margin-top: 5vh;
-  padding-bottom: 5vh;
 }
 .items {
   width: 50vw;
@@ -503,6 +432,36 @@ h4 {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   padding: 10px 9vw 5px 9vw;
 }
+/*---------------------------------------------------------------- */
+
+/* 
+.scale-up-center {
+  -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
+    both;
+  animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+} */
+
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.6);
+    transform: scale(0.6);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.6);
+    transform: scale(0.6);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 1200px) {
   .cuadradospan {
     font-weight: 400;

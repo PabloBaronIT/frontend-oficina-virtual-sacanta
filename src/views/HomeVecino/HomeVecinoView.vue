@@ -42,7 +42,7 @@ export default {
 main {
   width: 100%;
   height: 100%;
-  background: var(--grey-bk);
+  background-color: #f5f5f5;
 }
 /* @media (max-width: 1000px) {
   .main {

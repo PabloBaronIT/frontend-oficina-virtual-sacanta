@@ -1,17 +1,12 @@
 <template>
-  <div class="sector-container" v-if="setPermission">
-    <Sector />
+  <div class="sector-container">
+    <IntroFormularioComponent />
   </div>
 </template>
-
 <script>
-import Sector from "../../components/MuniEnLinea/SectorComponent.vue";
-
+import IntroFormularioComponent from "@/components/Tramites/Proceso/IntroFormularioComponent.vue";
 export default {
-  name: "SectorView",
-  components: {
-    Sector,
-  },
+  name: "IntroFormulario",
   computed: {
     setPermission() {
       if (this.$store.state.loggedIn === true) {
@@ -21,9 +16,11 @@ export default {
       }
     },
   },
+  components: {
+    IntroFormularioComponent,
+  },
 };
 </script>
-
 <style scoped>
 .sector-container {
   width: 100%;

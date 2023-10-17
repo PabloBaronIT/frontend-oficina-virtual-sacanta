@@ -151,10 +151,6 @@ import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
 import { decodeCredential } from "vue3-google-login";
-// import { resolve } from "chart.js/dist/helpers/helpers.options";
-//Duracion e sesiones de usuario (charlar con patricio)
-//Recordar sesion mediante cookies => Ver libreria js-cookie
-//
 
 export default {
   name: "LoginComponent",
@@ -679,6 +675,7 @@ p {
   font-weight: 400;
   font-style: normal;
   line-height: normal;
+  color: white;
 }
 .internoBox {
   height: 50vh;
@@ -738,142 +735,6 @@ p {
   height: 45px;
   text-align: center;
 }
-/* .modal-open .container-fluid,
-.modal-open .container {
-  -webkit-filter: blur(2px);
-  -moz-filter: blur(2px);
-  -o-filter: blur(2px);
-  -ms-filter: blur(2px);
-  filter: blur(2px);
-} */
-/*--------------------------------------------------------------------------  */
-.representaCD {
-  line-height: 17px;
-  font-size: 11px;
-  color: #000;
-  float: left;
-  margin-top: 4px;
-  margin-left: 8px;
-  padding-left: 8px;
-  border-left: 1px solid #e4b254;
-}
-
-.representaCD img {
-  padding: 0 0 0 0;
-  margin: 0 3px 0 2px;
-  float: none;
-  vertical-align: top;
-}
-.botonCidi img {
-  /* padding: 0 0 0 0; */
-  /* margin: 0 6px 0 0; */
-  /* float: left; */
-  height: 80%;
-  width: 90%;
-}
-/* .nombreCD {
-  line-height: 17px;
-  font-size: 12px;
-  color: #000;
-  float: left;
-  margin-top: 6px;
-} */
-
-.botonCidi {
-  width: 14vw;
-  height: 9vh;
-  background: white;
-  border-radius: 20px;
-  margin-bottom: 3vh;
-}
-/* h1 {
-  color: var(--red);
-  font-weight: bold;
-} */
-a {
-  text-decoration: none;
-  color: var(--text-color);
-}
-
-.error {
-  color: red;
-  font-size: 13px;
-  width: 200px;
-}
-
-.log-btn {
-  background: var(--red);
-}
-
-.deco {
-  text-align: center;
-  width: 200px;
-  z-index: 1;
-}
-
-.boxIzquierdoTop {
-  height: 18vh;
-  width: 100%;
-  background: white;
-  opacity: 0.8;
-  border-radius: 20px 20px 0px 0px;
-}
-
-.hombreLogin {
-  position: absolute;
-  width: 13vw;
-  height: 26vh;
-  right: 1vw;
-  top: 6.5vh;
-  z-index: 15;
-}
-.boxIzquierdoBotton {
-  height: 43vh;
-  width: 47vw;
-  /* top: 3vh; */
-  border-radius: 20px 20px 0px 0px;
-  background-color: black;
-  opacity: 0.6;
-  z-index: 1;
-  position: absolute;
-  bottom: 0;
-}
-
-h3,
-h4,
-h5,
-p {
-  color: white;
-}
-h3 {
-  font-size: 25px;
-}
-h3 {
-  font-weight: 600;
-}
-p {
-  font-weight: 100;
-}
-
-.internoIzquierdo {
-  position: absolute;
-  z-index: 25;
-  padding-top: 12vh;
-  padding-left: 3vw;
-  padding-right: 2vw;
-}
-.boxDerecho {
-  height: 62vh;
-  width: 27vw;
-  border-radius: 0px 20px 0px 0px;
-  background: black;
-  opacity: 0.6;
-  z-index: 1;
-  position: absolute;
-  right: 9vw;
-  top: 24vh;
-  text-align: center;
-}
 .linea {
   background: white;
   height: 1px;
@@ -882,30 +743,27 @@ p {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+.error {
+  color: red;
+  font-size: 13px;
+  width: 200px;
+}
+.botonCidi {
+  width: 14vw;
+  height: 9vh;
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 3vh;
+}
 
-/*
-form {
-  width: 40vw;
-  box-shadow: 0px 0px 10px #333;
-  display: flex;
-  align-items: center;
-  justify-content: baseline;
-  flex-flow: column wrap;
-  position: relative;
-  padding: 2rem;
-  z-index: 1;
-  background: #ffffff9a;
-  border-radius: 1rem;
-} */
-
-/* form input {
-  margin: 20px;
-} */
-/*
-form img {
-  margin-bottom: 15%;
-} */
-
+.botonCidi img {
+  /* padding: 0 0 0 0; */
+  /* margin: 0 6px 0 0; */
+  /* float: left; */
+  height: 80%;
+  width: 90%;
+}
+/*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {
   .deco {
     display: none;
@@ -916,44 +774,3 @@ form img {
   }
 }
 </style>
-<!--
-
-
- created() {
-    //LOGUIN A TRAVES DE CIDI!
-     let variableCidi = this.$route.query ? this.$route.query.cidi : null; //SE TOMA LA QUERY STRING DE CIDI
-    let cookieCidi = document.cookie?.split(";"); //SI EXISTE UNA COOKIE SE LEE
-    let element = null;
-    let asd = null;
-    //buscar cookie y tomar su valor
-    if (cookieCidi) {
-      for (let i = 0; i < cookieCidi.length; i++) {
-        if (cookieCidi[i].includes("cidiHash")) {
-          element = cookieCidi[i];
-        }
-      }
-      asd = element?.split("=");
-    }
-    //SI VIENE POR URL LA HAS COOKIE CON ESE DATO SE LLAMA LA API DE CIDI PARA OBTENER SUS DATOS
-    if (variableCidi) {
-      console.log(variableCidi, "hasCokkieCidi");
-      //SE TOMA LA QUERY
-      //let cidi = this.$route.query?.cidi;
-      document.cookie = `cidiHash= ${variableCidi};max-age=120`; //se define una cookie
-
-      this.logCidi(variableCidi);
-      variableCidi = null;
-    }
-    //SI YA INGRESO ANTERIORMENTE SE BUSCA LA COOKIE CON EL VALOR CIDIHAS PARA VOLVER A LLAMAR LA API DE CIDI PARA OBTENRE SU REPRESENTADO
-    else if (!variableCidi && asd) {
-      console.log(asd, "cookie");
-      this.logCidi(asd[1]);
-    } else {
-      console.log("no hay query string ni cookie");
-    }
-
-    localStorage.clear();
-  },
-
-
--->

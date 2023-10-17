@@ -135,14 +135,14 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
-    --fondo: linear-gradient(
+    /* --fondo: linear-gradient(
       to bottom,
       #dcdddf,
       #e4e5e6,
       #ececed,
       #f4f4f5,
       #fcfcfc
-    );
+    ); */
   }
 }
 
@@ -215,12 +215,6 @@ h6 {
 </style>
 
 <style scoped>
-.claseA {
-  width: 100vw;
-  position: relative;
-  right: 0;
-  margin-top: 0;
-}
 .claseB {
   width: 81.2vw;
   position: absolute;
@@ -229,7 +223,6 @@ h6 {
 }
 .main-container {
   display: flex;
-  background: var(--fondo);
 }
 .fixed {
   position: fixed;
