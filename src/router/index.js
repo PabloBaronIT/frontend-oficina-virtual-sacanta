@@ -51,7 +51,7 @@ const routes = [
   },
   //vista previa a tramite
   {
-    path: "/formulario/:formularioTitle",
+    path: "/formulario/:sectorTitle/:formularioTitle",
     name: "introFormulario",
     component: () => import("@/views/ProcesoTramite/IntroFormularioView.vue"),
     meta: { requiresAuth: true },

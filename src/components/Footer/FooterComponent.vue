@@ -54,7 +54,7 @@ h6 {
   color: #858585;
 }
 .grupoRedes {
-  margin-left: 2rem;
+  margin-left: 3.5vw;
   width: 9vw;
   display: flex;
   flex-direction: row;

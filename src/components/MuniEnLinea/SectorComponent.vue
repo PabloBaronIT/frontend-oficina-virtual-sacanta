@@ -36,7 +36,7 @@
         <!-- <div class="divTitle"> -->
         <router-link
           v-if="tramite.level.level <= this.nivel"
-          :to="`/formulario/${tramite.title}`"
+          :to="`/formulario/${this.$route.params.sectorTitle}/${tramite.title}?sectorId= ${this.sectorId}`"
         >
           <h5>
             {{ tramite.title }}
@@ -62,8 +62,8 @@
             <a>Iniciar Trámite</a>
           </div> -->
         <!-- </div> -->
-        <!--MODAL DE NIVEL 2 DE CIDI-->
 
+        <!--MODAL DE NIVEL 2 DE CIDI-->
         <div
           v-if="modalNivel === true && this.id == tramite.id"
           class="modalEstado"
@@ -155,12 +155,14 @@ export default {
       modal: false,
       modalNivel: false,
       nivel: localStorage.getItem("nivel"),
+      sectorId: "",
     };
   },
   created() {
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
     //console.log(this.$route.params);
     this.GetProcedure();
+    this.sectorId = this.$route.params.sectorId;
   },
 
   methods: {
@@ -234,7 +236,7 @@ export default {
   letter-spacing: 0px;
   position: absolute;
   text-align: right;
-  padding-top: 2vh;
+  padding-top: 3vh;
   padding-right: 3.5vw;
 }
 .tituloPrincipal {
@@ -258,7 +260,6 @@ export default {
 .cardTramites {
   position: relative;
   background: var(--grey-bk);
-  font-weight: bold;
   border: none;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   width: 15vw;
@@ -274,8 +275,19 @@ export default {
   cursor: pointer;
   border: 4px solid transparent;
 }
+.cardTramites a {
+  text-decoration: none;
+  color: #9b9a9a;
+}
+h5 {
+  font-size: 24px;
+  font-weight: 700;
+}
 .cardTramites:hover {
   border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
+}
+h5:hover {
+  color: #019939;
 }
 .tramites {
   display: grid;
@@ -316,46 +328,30 @@ export default {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 2rem;
+  text-align: center;
 }
 .modal-content a {
   text-decoration: none;
-  color: var(--green);
-}
-.modal-content a:hover {
-  color: #2c6331;
+  color: #4b4a49;
 }
 .linkCidi {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
 }
-.tramites a {
-  /*color: var(--blue);*/
-  /*font-size: 0.9em;*/
-  text-decoration: none;
-  color: white;
-  font-size: 20px;
-}
-.tramites a:hover {
-  transition: all 0.3s ease-in-out;
-  color: black;
-  /*color: var(--red);
-  font-size: 0.9em;
-  text-decoration: none;*/
-}
-
 .tramites input:hover {
   background: var(--blue);
   color: var(--red);
 }
 .volver {
   position: absolute;
-  bottom: 20px;
+  bottom: 13vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  left: 3.5vw;
 }
 .volver h4 {
   margin-left: 14px;

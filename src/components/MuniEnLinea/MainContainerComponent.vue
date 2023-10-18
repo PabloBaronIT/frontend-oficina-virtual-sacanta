@@ -308,7 +308,7 @@ export default {
   letter-spacing: 0px;
   position: absolute;
   text-align: right;
-  padding-top: 2vh;
+  padding-top: 3vh;
   padding-right: 3.5vw;
 }
 .containerTabs {
