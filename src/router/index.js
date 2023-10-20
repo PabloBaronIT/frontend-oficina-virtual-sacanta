@@ -49,16 +49,8 @@ const routes = [
     name: "pago-resultado",
     component: () => import("@/views/PagoVista/pagoResultadoView.vue"),
   },
-  //vista previa a tramite
   {
-    path: "/formulario/:sectorTitle/:formularioTitle",
-    name: "introFormulario",
-    component: () => import("@/views/ProcesoTramite/IntroFormularioView.vue"),
-    meta: { requiresAuth: true },
-  },
-  //-------------//
-  {
-    path: "/formulario/:formularioTitle/:formularioId",
+    path: "/formulario/cuestionario/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },

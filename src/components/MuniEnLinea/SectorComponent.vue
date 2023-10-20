@@ -36,7 +36,7 @@
         <!-- <div class="divTitle"> -->
         <router-link
           v-if="tramite.level.level <= this.nivel"
-          :to="`/formulario/${this.$route.params.sectorTitle}/${tramite.title}?sectorId= ${this.sectorId}`"
+          :to="`/formulario/cuestionario/${tramite.title}/${tramite.id}?sectorTitle=${this.$route.params.sectorTitle}&sectorId=${this.$route.params.sectorId}`"
         >
           <h5>
             {{ tramite.title }}
