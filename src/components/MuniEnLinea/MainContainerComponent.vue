@@ -409,10 +409,11 @@ h4 {
   text-align: left;
   padding: 1rem;
   margin: auto;
-  border: 4px solid transparent;
+  /* border: 4px solid transparent; */
 }
 .card:hover {
-  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
+  border-top-right-radius: 20px;
+  border: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
 }
 .activeHover {
   text-decoration: underline;

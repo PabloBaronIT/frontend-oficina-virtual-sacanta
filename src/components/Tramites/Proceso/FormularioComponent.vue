@@ -5,7 +5,7 @@
     </div>
     <!-- <div> -->
     <div class="topquestion" v-if="this.preguntas">
-      <h5 style="color: #019939; font-weight: 900; font-size: 24px">
+      <h5>
         {{ this.preguntas[this.paso].question.title }}
       </h5>
     </div>
@@ -57,6 +57,7 @@
             cols="30"
             rows="10"
             style="width: 27vw; margin-left: 1rem"
+            v-model="this.textInput"
           ></textarea>
 
           <!-- <textarea
@@ -69,7 +70,7 @@
           v-if="item.title !== `Indique la ubicación` && item.type === 'number'"
           class="tipoTexto"
         >
-          <label class="option-text">{{ item.title }}</label
+          <!-- <label class="option-text">{{ item.title }}</label -->
           ><br />
           <label for=""> {{ item.description }}</label>
 
@@ -243,7 +244,11 @@
 
         <h4>Volver atrásssss</h4>
       </div>
-      <div style="display: flex; flex-direction: row" @click="preNext()">
+      <div
+        style="display: flex; flex-direction: row"
+        @click="preNext()"
+        v-if="this.paso + 1 < this.preguntas.length"
+      >
         <h4>Siguiente</h4>
 
         <!-- <router-link
@@ -397,6 +402,7 @@ export default {
     // procedure.userId = localStorage.getItem("id");
     this.loading = true;
     this.setLoading();
+    console.log(this.preguntas.length, "cantidad de preguntas");
     this.sectorTitle = this.$route.query.sector;
     this.formularioTitle = this.$route.params.formularioTitle;
     console.log(this.nivel, "soy el nivel");
@@ -415,7 +421,10 @@ export default {
     },
 
     preNext() {
-      this.textInput = this.calle + this.numero + this.entrecalles;
+      if (this.calle != "") {
+        this.textInput =
+          this.calle + " " + this.numero + " " + this.entrecalles;
+      }
       if (
         this.selected == "" &&
         this.textInput == "" &&
@@ -538,7 +547,7 @@ export default {
         optionTitle = this.textInput;
         optionTitle2 = this.coordenadas;
         choice = 0;
-        let choice2 = 1;
+        // let choice2 = 1;
         q = {
           question: this.preguntas[this.paso].question.id,
           question_option_history: [
@@ -549,7 +558,7 @@ export default {
             },
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice2].id,
+                this.preguntas[this.paso].questionOption[choice].id,
               answer: optionTitle2,
             },
           ],
@@ -575,6 +584,9 @@ export default {
       //console.log(this.procedure.questions, "RESPUESTAS");
       this.selected = "";
       choice = 0;
+      this.calle = "";
+      this.numero = "";
+      this.entrecalles = "";
       this.textInput = "";
       this.coordenadas = "";
       this.validation = true;
@@ -664,9 +676,15 @@ export default {
       }
     },
     back() {
-      this.paso--;
-      this.outProcedure();
-      this.preguntas.pop();
+      if (this.paso === 0) {
+        this.$router.push(
+          `/sector/${this.$route.query.sectorTitle}/${this.$route.query.sectorId}`
+        );
+      } else {
+        this.paso = this.paso - 1;
+        this.outProcedure();
+        this.preguntas.pop();
+      }
     },
     cancel() {
       this.$router.replace({ path: "/munienlinea" });
@@ -692,6 +710,11 @@ export default {
 
 <style scoped>
 /* CSS NUEVO */
+h5 {
+  color: #019939;
+  font-weight: 900;
+  font-size: 24px;
+}
 .volver {
   position: absolute;
   width: 100%;
@@ -718,23 +741,22 @@ export default {
   border-radius: 10px;
   margin-top: 1rem;
 }
+.tipoMap label {
+  padding-top: 1rem;
+}
 .questions {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
-  /* background-color: white; */
   padding-left: 1rem;
   width: 50vw;
   margin: auto;
 }
 
 .topquestion {
-  /* background-color: white; */
   padding-left: 3rem;
   padding-top: 1rem;
   margin: auto;
-  /* margin-bottom: 1rem; */
-  /* border-radius: 40px 40px 0px 0px; */
   height: 5rem;
   width: 50vw;
 }
@@ -763,8 +785,6 @@ export default {
   font-size: 27px;
   font-weight: 700;
 }
-/* ---------- */
-
 .tipoRadio {
   display: flex;
   flex-direction: row;
@@ -775,6 +795,16 @@ export default {
   margin-top: 22px;
   margin-right: 15px;
 }
+.botonSubmit {
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  margin-left: 1rem;
+  border-style: none;
+}
+/* ---------- */
 
 .file-container {
   border: 1px solid var(--grey);
@@ -805,15 +835,7 @@ export default {
 .fileup {
   margin: auto;
 }
-.botonSubmit {
-  width: 100px;
-  height: 45px;
-  background-color: var(--green);
-  border-radius: 20px 20px 0px 0px;
-  color: white;
-  margin-left: 1rem;
-  border-style: none;
-}
+
 .cargado {
   text-align: center;
 }
