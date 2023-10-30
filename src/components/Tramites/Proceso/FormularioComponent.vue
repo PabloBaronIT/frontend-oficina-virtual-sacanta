@@ -246,7 +246,12 @@
       </div>
       <div
         style="display: flex; flex-direction: row"
-        @click="preNext()"
+        @click="
+          () => {
+            this.progreso();
+            this.preNext();
+          }
+        "
         v-if="this.paso + 1 < this.preguntas.length"
       >
         <h4>Siguiente</h4>
@@ -367,6 +372,8 @@ export default {
     dispatchProcedure: Function,
     setProcedure: Function,
     outProcedure: Function,
+    progreso: Function,
+    retroPogreso: Function,
   },
   components: {
     MapaLocationComponentVue,
@@ -683,7 +690,8 @@ export default {
       } else {
         this.paso = this.paso - 1;
         this.outProcedure();
-        this.preguntas.pop();
+        this.respuestas.pop();
+        this.retroPogreso();
       }
     },
     cancel() {

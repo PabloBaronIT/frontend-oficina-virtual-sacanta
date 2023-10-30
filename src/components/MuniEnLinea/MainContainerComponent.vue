@@ -2,12 +2,6 @@
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <div>
     <div class="row">
-      <h5 class="fecha">
-        <i class="bi bi-calendar4-week" style="margin-right: 8px"></i
-        ><strong>{{ new Date().toLocaleDateString() }}</strong>
-      </h5>
-    </div>
-    <div class="row">
       <h1 style="margin-top: 7vh; font-size: 50px">
         ¿Qué gestión querés realizar?
       </h1>
@@ -304,13 +298,6 @@ export default {
 
 <style scoped>
 /* CSS NUEVO */
-.fecha {
-  letter-spacing: 0px;
-  position: absolute;
-  text-align: right;
-  padding-top: 3vh;
-  padding-right: 3.5vw;
-}
 .containerTabs {
   width: 95%;
   margin: auto;
@@ -409,11 +396,11 @@ h4 {
   text-align: left;
   padding: 1rem;
   margin: auto;
-  /* border: 4px solid transparent; */
+  border: 4px solid transparent;
 }
 .card:hover {
   border-top-right-radius: 20px;
-  border: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
+  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
 }
 .activeHover {
   text-decoration: underline;
@@ -435,7 +422,7 @@ h4 {
 }
 /*---------------------------------------------------------------- */
 
-/* 
+/*
 .scale-up-center {
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;

@@ -87,7 +87,7 @@ export default {
   flex-direction: column;
   width: 18vw;
   height: 100vh;
-  background-color: linear-gradient(0deg, #fff 0%, #d9d9d9 100%);
+  /* background-color: linear-gradient(0deg, #fff 0%, #d9d9d9 100%); */
   background-image: url("./../../assets/images/circuloFondoNav.svg");
   opacity: 0.8;
   background-repeat: repeat;

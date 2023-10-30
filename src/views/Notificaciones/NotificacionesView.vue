@@ -1,7 +1,7 @@
 <template>
   <div class="sector-container" v-if="setPermission">
-    <div class="top">
-      <h1>Mis Comunicaciones</h1>
+    <div class="row">
+      <h1 style="margin-top: 7vh; font-size: 50px">Notificaciones</h1>
     </div>
     <!-- LISTADO DE COMUNICACIONES -->
 
@@ -161,11 +161,10 @@ export default {
 </script>
 
 <style scoped>
-.top {
-  text-align: left;
-  margin-left: 3rem;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+h1 {
+  margin-top: 4vh;
+  margin-left: 4vw;
+  margin-bottom: 4vh;
 }
 .top h1 {
   text-align: left;
@@ -175,7 +174,9 @@ export default {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--grey-bk);
+  background-color: #f5f5f5;
+
+  /* background: var(--grey-bk); */
 }
 .loading {
   margin: auto;

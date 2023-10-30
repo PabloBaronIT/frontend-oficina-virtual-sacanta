@@ -1,13 +1,7 @@
 <template>
   <div v-if="setPermission" class="sector-container">
     <div class="row">
-      <h5 class="fecha">
-        <i class="bi bi-calendar4-week" style="margin-right: 8px"></i
-        ><strong>{{ new Date().toLocaleDateString() }}</strong>
-      </h5>
-    </div>
-    <div class="row" style="margin-left: 4vw; margin-top: 7vw">
-      <h5 style="margin-left: 2vw">{{ this.sectorTitle }}</h5>
+      <h5 style="margin-left: 6vw; margin-top: 7vh">{{ this.sectorTitle }}</h5>
       <h1 class="tituloPrincipal">
         {{ this.titulo }}
         <h4 style="color: #4b4a49; font-weight: 100; margin-top: 1rem">
@@ -18,6 +12,18 @@
       </h1>
     </div>
     <!-- RECUADRO DE INICIO -->
+
+    <div class="progress-container">
+      <div class="progress" id="progress"></div>
+      <div class="circle active">1</div>
+      <div v-for="(item, index) in this.preguntas" :key="index" class="circle">
+        {{ index + 2 }}
+      </div>
+      <!-- <div class="circle active">1</div>
+      <div class="circle">2</div>
+      <div class="circle">3</div>
+      <div class="circle">4</div> -->
+    </div>
     <div class="row" v-if="this.inicio == true">
       <div class="recuadro row">
         <h5 style="color: #019939; font-weight: 900; font-size: 24px">
@@ -30,6 +36,7 @@
       </div>
     </div>
     <!-- ------- -->
+
     <div class="row" v-else style="margin-top: 8vh">
       <FormularioComponent
         :questionProp="this.preguntas"
@@ -37,6 +44,8 @@
         :dispatchProcedure="this.dispatchProcedure"
         :setProcedure="this.setProcedure"
         :outProcedure="this.outProcedure"
+        :progreso="this.progreso"
+        :retroPogreso="this.retroPogreso"
       />
     </div>
 
@@ -93,7 +102,11 @@
 
       <div
         style="display: flex; flex-direction: row"
-        @click="() => (this.inicio = false)"
+        @click="
+          () => {
+            (this.inicio = false), this.progreso();
+          }
+        "
       >
         <h4>Iniciar trámite</h4>
 
@@ -180,6 +193,8 @@ export default {
       inicio: true,
       descripcion: "",
       titulo: "",
+      currentActive: 0,
+
       // procedure: {
       //   title: "",
       //   procedureId: "",
@@ -254,6 +269,43 @@ export default {
           }
         });
     },
+    progreso() {
+      this.currentActive++;
+      if (this.currentActive > this.preguntas.length) {
+        this.currentActive = this.preguntas.length;
+      }
+
+      this.update();
+    },
+    retroPogreso() {
+      this.currentActive--;
+      this.removeClass();
+    },
+    removeClass() {
+      const circles = document.querySelectorAll(".circle");
+      const progress = document.getElementById("progress");
+      circles[this.currentActive + 1].classList.remove("active");
+      const actives = document.querySelectorAll(".active");
+
+      progress.style.width =
+        ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+    },
+    update() {
+      const circles = document.querySelectorAll(".circle");
+      const progress = document.getElementById("progress");
+
+      circles[this.currentActive].classList.add("active");
+      // circles.forEach((circle, idx) => {
+      //   console.log(idx, "soy el index");
+      //   if (idx < this.currentActive) {
+      //     circle.classList.add("active");
+      //   }
+      // });
+      const actives = document.querySelectorAll(".active");
+
+      progress.style.width =
+        ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+    },
   },
   computed: {
     setPermission() {
@@ -268,13 +320,63 @@ export default {
 </script>
 
 <style scoped>
-.fecha {
-  letter-spacing: 0px;
-  position: absolute;
-  text-align: right;
-  padding-top: 3vh;
-  padding-right: 3.5vw;
+/*  */
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  /* margin-bottom: 30px; */
+  min-width: 10vw;
+  width: 10vw;
+  margin: auto;
+  margin-top: 2rem;
+  z-index: 2;
 }
+
+/* .progress-container::before {
+  content: "";
+  background-color: var(--line-border-empty);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 100%;
+  z-index: -1;
+} */
+
+.progress {
+  background-color: green;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0%;
+  z-index: -1;
+  transition: 0.4s ease;
+}
+
+.circle {
+  background-color: #d9d9d9;
+  color: #4b4a49;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--line-border-empty);
+  transition: 0.4s ease;
+}
+
+.circle.active {
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+  color: #fff;
+}
+
+/*  */
 .sector-container {
   width: 100%;
   min-height: 100vh;
@@ -299,6 +401,8 @@ export default {
   font-weight: 900;
   padding-left: 3rem;
   font-size: 50px;
+  /* margin-top: 7vh; */
+  margin-left: 4vw;
 }
 h5 {
   color: #4b4a49;

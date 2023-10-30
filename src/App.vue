@@ -20,6 +20,14 @@
       "
     />
     <div class="claseB">
+      <FechaComponent
+        v-if="
+          this.role != 'MUNI_ROLE' &&
+          // this.role != undefined &&
+          // this.role != null &&
+          this.setPermission
+        "
+      />
       <router-view />
       <FooterComponentVue
         v-if="
@@ -38,6 +46,7 @@ import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
 import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 import FooterComponentVue from "@/components/Footer/FooterComponent.vue";
+import FechaComponent from "@/components/Fecha/FechaComponent.vue";
 export default {
   data() {
     return {
@@ -115,6 +124,7 @@ export default {
     NavTopVue,
     NavMunicipalesComponentVue,
     FooterComponentVue,
+    FechaComponent,
   },
 };
 </script>

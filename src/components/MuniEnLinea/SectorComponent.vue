@@ -2,12 +2,6 @@
   <div>
     <!-- Mostrar los tramites
      correspondientes al sector seleccionado -->
-    <div class="row">
-      <h5 class="fecha">
-        <i class="bi bi-calendar4-week" style="margin-right: 8px"></i
-        ><strong>{{ new Date().toLocaleDateString() }}</strong>
-      </h5>
-    </div>
     <div style="display: flex; flex-direction: row; font-size: 50px">
       <img
         :src="this.tramitesApi[0]?.category?.description"
@@ -232,13 +226,6 @@ export default {
 
 <style scoped>
 /* CSS NUEVO */
-.fecha {
-  letter-spacing: 0px;
-  position: absolute;
-  text-align: right;
-  padding-top: 3vh;
-  padding-right: 3.5vw;
-}
 .tituloPrincipal {
   color: #4b4a49;
   font-weight: 900;

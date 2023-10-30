@@ -1,7 +1,7 @@
 <template>
   <main v-if="setPermission" class="sector-container">
-    <div class="top">
-      <h1>Mis trámites</h1>
+    <div class="row">
+      <h1 style="margin-top: 7vh; font-size: 50px">Mis trámites</h1>
     </div>
     <Tabla color="var(--green)" />
   </main>
@@ -27,17 +27,17 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 4vh;
+  margin-left: 4vw;
+  margin-bottom: 4vh;
+}
 .sector-container {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--grey-bk);
-}
-.top {
-  text-align: left;
-  margin-left: 3rem;
-  margin-top: 2rem;
+  background-color: #f5f5f5;
 }
 .menu {
   width: 100%;
