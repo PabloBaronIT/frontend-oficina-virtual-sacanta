@@ -54,9 +54,7 @@
         <h1>INGRESÁ CON</h1>
         <button class="btn btn-outline-secondary botonCidi">
           <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
-            ><img
-              src="./../../../public/img/logo_ciudig28.png"
-              alt="imagen cidi"
+            ><img src="./../../../public/img/LogoCidi.png" alt="imagen cidi"
           /></a>
         </button>
         <p>Accedé a todos los trámites y servicios</p>
@@ -68,8 +66,8 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="56"
-            height="56"
+            width="50"
+            height="50"
             viewBox="0 0 56 56"
             fill="none"
             class="svgCirculo"
@@ -623,11 +621,11 @@ export default {
 }
 .boxDerechoMujer {
   background-color: #5890ff;
-  width: 77vw;
-  height: 100vh;
+  width: 65vw;
+  height: 120vh;
   background-image: url("../../../public/img/fondoLogin.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: auto;
   background-position: center;
   position: absolute;
   right: 0;
@@ -635,8 +633,8 @@ export default {
 }
 
 .boxIzquierdo {
-  width: 40vw;
-  height: 95vh;
+  width: 50vw;
+  height: 115vh;
   border-radius: 0px 0px 30px 0px;
   position: absolute;
   top: -14vh;
@@ -678,38 +676,38 @@ p {
   color: white;
 }
 .internoBox {
-  height: 50vh;
-  width: 60%;
+  /* height: 30%;
+  width: 60%; */
   margin: auto;
   padding-top: 7vh;
   text-align: center;
 }
 .botonServicios {
   position: relative;
-  height: 7vh;
-  width: 16vw;
+  height: 7.5vh;
+  width: 18vw;
   background: white;
   border-radius: 10px;
   margin: auto;
-  padding-top: 1.5vh;
+  padding-top: 1vh;
   padding-right: 1.2vw;
   text-align: right;
   cursor: pointer;
 }
 .botonServicios p {
   color: #000;
-  font-size: 15px;
+  font-size: 13px;
   margin-top: 0.5rem;
 }
 .svgCirculo {
   position: absolute;
-  margin-top: -0.8vh;
-  left: 1vw;
+  margin-top: -1vh;
+  left: 0.3vw;
 }
 .modalFormulario {
   position: absolute;
-  width: 50%;
-  height: 30%;
+  width: 50vw;
+  height: 75vh;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.5);
   top: 15vh;
@@ -749,8 +747,8 @@ p {
   width: 200px;
 }
 .botonCidi {
-  width: 14vw;
-  height: 9vh;
+  width: 20vw;
+  height: 12vh;
   background: white;
   border-radius: 20px;
   margin-bottom: 3vh;

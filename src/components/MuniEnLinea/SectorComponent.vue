@@ -229,13 +229,12 @@ export default {
 .tituloPrincipal {
   color: #4b4a49;
   font-weight: 900;
-  padding-left: 3rem;
   font-size: 50px;
   margin-top: 7vh;
 }
 .imagenSector {
-  width: 4vw;
-  height: 6vh;
+  width: 5vw;
+  height: 7vh;
   margin-top: 7vh;
   margin-left: 4vw;
 }
@@ -333,12 +332,12 @@ h5:hover {
 }
 .volver {
   position: absolute;
-  bottom: 13vh;
+  bottom: 20vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  left: 3.5vw;
+  left: 4vw;
 }
 .volver h4 {
   margin-left: 14px;

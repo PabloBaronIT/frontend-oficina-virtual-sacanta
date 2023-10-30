@@ -10,9 +10,8 @@
         <i class="bi bi-envelope-fill redes"></i>
       </div>
       <h6 style="margin-right: 2rem; margin-top: 1rem">
-        <strong>Municipalida de Sacanta</strong>
-        | 25 de Mayo 292, Sacanta, Cordoba - CP X5945 - TEL. 03533 15-41-7923-
-        munienlinea@sacanta.com
+        <strong>Municipalida de Sacanta | </strong>
+        25 de Mayo 292, Sacanta, Cordoba | CP X5945 | TEL.: 03533 15 417923
       </h6>
     </div>
   </footer>
@@ -28,7 +27,7 @@ export default {
 .general {
   /* position: fixed; */
   z-index: 15;
-  height: 8vh;
+  height: 13vh;
   background-color: #f5f5f5;
   width: 81vw;
   bottom: 0;
@@ -54,8 +53,8 @@ h6 {
   color: #858585;
 }
 .grupoRedes {
-  margin-left: 3.5vw;
-  width: 9vw;
+  margin-left: 3vw;
+  width: 12vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -72,7 +71,7 @@ h6 {
   );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  font-size: 43px;
+  font-size: 40px;
 }
 
 @media (max-width: 800px) {

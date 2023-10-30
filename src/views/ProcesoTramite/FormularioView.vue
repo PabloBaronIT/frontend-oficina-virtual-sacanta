@@ -4,11 +4,11 @@
       <h5 style="margin-left: 6vw; margin-top: 7vh">{{ this.sectorTitle }}</h5>
       <h1 class="tituloPrincipal">
         {{ this.titulo }}
-        <h4 style="color: #4b4a49; font-weight: 100; margin-top: 1rem">
+        <h5>
           Ingrese aquí su solicitud en caso de requerir del servicio de <br />
           limpieza en algún lugar en particular <br />
-          //{{ this.descripcion }}//
-        </h4>
+          <!-- //{{ this.descripcion }}// -->
+        </h5>
       </h1>
     </div>
     <!-- RECUADRO DE INICIO -->
@@ -386,15 +386,15 @@ export default {
 }
 .recuadro {
   background: #fff;
-  width: 51%;
-  height: 21vh;
+  width: 51vw;
+  height: 25vh;
   /* margin-left: 25%; */
   margin: auto;
   text-align: center;
   padding: 4%;
-  margin-top: 12vh;
+  margin-top: 5vh;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
-  border-radius: 0px 20px 0px 0px;
+  border-radius: 0px 20px 0px 20px;
 }
 .tituloPrincipal {
   color: #4b4a49;
@@ -406,6 +406,7 @@ export default {
 }
 h5 {
   color: #4b4a49;
+  font-weight: 400;
 }
 .volver {
   position: absolute;

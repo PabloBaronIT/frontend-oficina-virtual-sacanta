@@ -20,11 +20,11 @@
               {{ $store.state.user.firstname }}
             </strong>
           </h4>
-          <h4>
+          <h5>
             <span>CUIL: {{ $store.state.user.cuil }} </span>
-          </h4>
+          </h5>
           <router-link v-show="permission" :to="`/micuenta`">
-            Mi cuenta
+            <p style="margin-top: -11px">Mi cuenta</p>
           </router-link>
           <!-- <img
             class="svg"
@@ -477,7 +477,7 @@ export default {
 .nav-container {
   position: fixed;
   z-index: 15;
-  height: 14vh;
+  height: 15vh;
   background-color: white;
   width: 100%;
   display: flex;
@@ -486,8 +486,8 @@ export default {
   padding-left: 0;
 }
 .imagenlogo {
-  width: 11vw;
-  height: 9vh;
+  width: 12vw;
+  height: 10vh;
   position: relative;
   margin-left: 2.6vw;
 }
@@ -522,6 +522,7 @@ export default {
   color: #128d44;
   width: 360px;
 }
+
 .botonNotificacion {
   position: relative;
   height: 50px;

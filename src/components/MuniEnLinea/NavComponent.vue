@@ -5,19 +5,19 @@
     <div class="tusGestiones">
       <h3 class="tus"><strong>Tus</strong></h3>
       <h1 style="margin-top: 20px" class="tituloDegrade">gestiones</h1>
-      <h3 class="estes tituloDegrade"><strong>donde estés</strong></h3>
+      <h3 class="estes tituloDegrade">donde estés</h3>
     </div>
 
     <div class="navUser">
       <router-link v-show="setPermission" :to="`/munienlinea`" class="bn3">
-        <h4>Inicio</h4>
+        <h5>Inicio</h5>
       </router-link>
       <router-link v-show="setPermission" :to="`/tramites`" class="bn3">
-        <h4>Presentadas</h4>
+        <h5>Presentadas</h5>
       </router-link>
 
       <router-link v-show="setPermission" :to="`/notificaciones`" class="bn3">
-        <h4>Notificaciones</h4>
+        <h5>Notificaciones</h5>
       </router-link>
     </div>
     <router-link
@@ -25,7 +25,7 @@
       :to="`/notificaciones`"
       class="inpuestos"
     >
-      <h4>Impuestos <br />Municipales</h4>
+      <h5>Impuestos <br />Municipales</h5>
       <i class="bi bi-eye-fill" style="color: white; font-size: 35px"></i>
     </router-link>
 
@@ -116,7 +116,7 @@ export default {
   position: absolute;
   font-weight: 900;
   left: 2.5vw;
-  top: 6vh;
+  top: 9vh;
 
   /* bottom: 1.5vh; */
 }
@@ -148,7 +148,7 @@ export default {
   position: relative;
   top: 5vh;
   width: 13.5vw;
-  height: 7vh;
+  height: 10vh;
   border-top-right-radius: 20px;
   left: 2vw;
   background-image: linear-gradient(
@@ -173,9 +173,10 @@ nav a {
   color: white;
   font-size: 15px;
 }
-h4 {
+h5 {
   color: white;
   font-weight: 700;
+  /* font-size: 25px; */
 }
 a {
   text-decoration: none;

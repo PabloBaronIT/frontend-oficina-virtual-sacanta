@@ -9,10 +9,6 @@
         {{ this.preguntas[this.paso].question.title }}
       </h5>
     </div>
-    <!-- <div class="modalReclamo" v-if="this.modalReclamo">
-        <h3>Su reclamo ha sido enviado! gracias por confiar en nosotros!</h3>
-        <p @click="setModal">cerrar</p>
-      </div> -->
     <form action="" style="margin-bottom: 17vh">
       <!--DETALLES DE OPCIONES-->
       <div
@@ -50,7 +46,7 @@
         >
           <!-- <label class="option-text">{{ item.title }}</label -->
           <!-- ><br /> -->
-          <label for=""> {{ item.description }}</label>
+          <label for=""> {{ item.title }}</label>
           <textarea
             name=""
             id=""
@@ -99,7 +95,7 @@
               :type="item.type"
               v-model="this.calle"
             />
-            <label>Numero</label>
+            <label>Nro.</label>
             <input
               class="form-control text-number-input"
               :type="item.type"
@@ -328,8 +324,8 @@
       <input
         class="botonSubmit"
         type="button"
-        value="Submitt"
-        @click="submitt"
+        value="Enviar"
+        @click="this.submitt"
       />
       <!-- <input
         v-if="this.paso + 1 == this.preguntas.length"
@@ -751,6 +747,8 @@ h5 {
 }
 .tipoMap label {
   padding-top: 1rem;
+  margin-left: 1rem;
+  font-weight: 700;
 }
 .questions {
   display: flex;
@@ -853,6 +851,7 @@ h5 {
   align-items: center;
   width: 100%;
   justify-content: center;
+  margin-bottom: 10rem;
 }
 
 .btn-div {
