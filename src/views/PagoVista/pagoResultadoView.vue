@@ -27,7 +27,11 @@
           Descargar
         </button>
       </div>
-      <img src="@/assets/logoSacanta.svg" alt="Sacanta" class="imagenlogo" />
+      <img
+        src="@/assets/images/logo-muni.svg"
+        alt="Sacanta"
+        class="imagenlogo"
+      />
       <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
     </div>
   </div>

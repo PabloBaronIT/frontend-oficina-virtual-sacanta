@@ -1,8 +1,11 @@
 <template>
   <div class="sector-container" v-if="setPermission">
-    <div class="row">
-      <h1 style="margin-top: 7vh; font-size: 50px">Notificaciones</h1>
-    </div>
+    <h1 class="tituloPrincipal">
+      Notificaciones
+      <h4 style="color: #4b4a49; font-weight: 100">
+        Échale un vistazo a tus notifiaciones hasta la fecha.
+      </h4>
+    </h1>
     <!-- LISTADO DE COMUNICACIONES -->
 
     <CardNotificacionComponentVue
@@ -161,14 +164,14 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  margin-top: 4vh;
+.tituloPrincipal {
+  color: #4b4a49;
+  font-weight: 900;
+  font-size: 50px;
+  margin-top: 7vh;
   margin-left: 4vw;
-  margin-bottom: 4vh;
 }
-.top h1 {
-  text-align: left;
-}
+
 .sector-container {
   width: 100%;
   height: 100vh;

@@ -1,11 +1,13 @@
 <template>
   <div class="nav-container">
     <!--logo muni-->
-    <img
-      src="./../../assets/images/logo-muni.svg"
-      alt="Sacanta"
-      class="imagenlogo"
-    />
+    <router-link :to="`/munienlinea`">
+      <img
+        src="./../../assets/images/logo-muni.svg"
+        alt="Sacanta"
+        class="imagenlogo"
+      />
+    </router-link>
 
     <!--mi cuenta-->
     <div class="usuario">
@@ -500,12 +502,13 @@ export default {
 }
 .circuloAvatar {
   width: 5.5vw;
-  height: 11vh;
+  height: 11.1vh;
   background-image: linear-gradient(90deg, #e52320 0%, #ffcc03 100%);
   border-radius: 50%;
-  padding-top: 0.3rem;
-  padding-left: 0.3rem;
-  padding-bottom: 0.3rem;
+  align-content: center;
+  padding-top: 0.2rem;
+  padding-left: 0.2rem;
+  padding-bottom: 0.2rem;
 }
 .usuario img {
   width: 5vw;

@@ -77,14 +77,39 @@ h6 {
 @media (max-width: 800px) {
   .general {
     position: absolute;
-    width: 84vw;
+    width: 100vw;
     z-index: 20;
     /* width: 100vw; */
     /* margin-left: 0; */
   }
   h6 {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 200;
+  }
+  .redes {
+    font-size: 25px;
+  }
+  .grupoRedes {
+    width: 15vw;
+  }
+}
+@media (max-width: 600px) {
+  .general {
+    position: absolute;
+    width: 100vw;
+    z-index: 20;
+    /* width: 100vw; */
+    /* margin-left: 0; */
+  }
+  h6 {
+    font-size: 10px;
+    font-weight: 200;
+  }
+  .redes {
+    font-size: 20px;
+  }
+  .grupoRedes {
+    width: 20vw;
   }
 }
 </style>

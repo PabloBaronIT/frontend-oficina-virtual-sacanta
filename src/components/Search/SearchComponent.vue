@@ -9,7 +9,7 @@
         @keyup="this.searchValue"
       />
 
-      <span class="circuloVerde"> <i class="bi bi-search"></i></span>
+      <img src="./../../assets/images/Search.svg" alt="" class="circuloVerde" />
     </div>
     <div
       v-if="this.values"
@@ -124,17 +124,13 @@ export default {
 }
 .circuloVerde {
   position: absolute;
-  z-index: 15;
-  right: -3rem;
+  /* z-index: 15; */
+  right: -2rem;
   top: 0.2rem;
-  color: green;
-  font-size: 28px;
   margin-left: 2rem;
-  /* color: linear-gradient(to right, #399943, #4ea242, #62aa40, #75b23f, #88ba3e); */
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  padding-top: 6px;
   padding-left: 11px;
   cursor: pointer;
 }
@@ -150,6 +146,27 @@ export default {
   }
   .container {
     width: 90%;
+  }
+  .containerSearch {
+    width: 90%;
+    position: relative;
+  }
+  .circuloVerde {
+    right: 10vw;
+  }
+}
+@media (max-width: 600px) {
+  .search {
+    width: 100%;
+    margin-left: 0;
+  }
+  .container {
+    width: 95%;
+    margin-left: 4%;
+  }
+  .containerSearch {
+    width: 95%;
+    position: relative;
   }
 }
 </style>

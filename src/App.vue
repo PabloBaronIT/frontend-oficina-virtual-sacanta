@@ -244,8 +244,11 @@ h6 {
   margin-top: 14vh;
   right: 0;
 }
-@media (max-width: 1000px) {
+@media (max-width: 800px) {
   #app {
+    width: 100vw;
+  }
+  .claseB {
     width: 100vw;
   }
 }
