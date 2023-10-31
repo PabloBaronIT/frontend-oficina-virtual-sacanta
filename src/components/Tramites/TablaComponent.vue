@@ -1,39 +1,90 @@
 <template>
   <div class="tabla-container">
+    <SearchPresentadasComponent />
     <div
       style="
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        background: gray;
-        color: aliceblue;
+        background: white;
+        /* color: aliceblue; */
         padding: 0.5rem;
       "
     >
-      <p>Titulo</p>
+      <!-- <p>Titulo</p>
       <P>ID</P>
       <P>Asunto</P>
       <p>Estado</p>
       <p>Más</p>
-      <p>Historial</p>
+      <p>Historial</p> -->
+      <p>N Gestión</p>
+      <p>Fecha</p>
+      <p>Título</p>
+      <p>{{ this.pagina }}</p>
+      <p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="27"
+          height="27"
+          viewBox="0 0 26 26"
+          fill="none"
+        >
+          <path
+            d="M17.0625 8.9375H19.0938C19.6325 8.9375 20.1491 9.15151 20.5301 9.53244C20.911 9.91337 21.125 10.43 21.125 10.9688V21.5312C21.125 22.07 20.911 22.5866 20.5301 22.9676C20.1491 23.3485 19.6325 23.5625 19.0938 23.5625H6.90625C6.36753 23.5625 5.85087 23.3485 5.46994 22.9676C5.08901 22.5866 4.875 22.07 4.875 21.5312V10.9688C4.875 10.43 5.08901 9.91337 5.46994 9.53244C5.85087 9.15151 6.36753 8.9375 6.90625 8.9375H8.9375"
+            stroke="#019939"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M8.9375 13.8125L13 17.875L17.0625 13.8125M13 2.4375V17.0625"
+            stroke="#019939"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </p>
     </div>
     <div v-for="(item, index) in this.activos" :key="index">
       <div class="encabezado">
-        <p>{{ item.titulo }}</p>
+        <!-- <p>{{ item.titulo }}</p> -->
         <p>{{ item.id }}</p>
-        <p>{{ item.categoria }}</p>
         <p>{{ item.estado }}</p>
-        <p
+        <p>{{ item.categoria }}</p>
+        <!-- <p
           style="cursor: pointer; text-decoration: underline"
           @click="verTramite(item.id)"
         >
           Ver Tramite
-        </p>
+        </p> -->
         <p
           @click="this.open(item.id)"
           style="cursor: pointer; text-decoration: underline"
         >
           ver
+          <!-- <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+          >
+            <path
+              d="M17.0625 8.9375H19.0938C19.6325 8.9375 20.1491 9.15151 20.5301 9.53244C20.911 9.91337 21.125 10.43 21.125 10.9688V21.5312C21.125 22.07 20.911 22.5866 20.5301 22.9676C20.1491 23.3485 19.6325 23.5625 19.0938 23.5625H6.90625C6.36753 23.5625 5.85087 23.3485 5.46994 22.9676C5.08901 22.5866 4.875 22.07 4.875 21.5312V10.9688C4.875 10.43 5.08901 9.91337 5.46994 9.53244C5.85087 9.15151 6.36753 8.9375 6.90625 8.9375H8.9375"
+              stroke="#019939"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M8.9375 13.8125L13 17.875L17.0625 13.8125M13 2.4375V17.0625"
+              stroke="#019939"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg> -->
         </p>
       </div>
 
@@ -451,11 +502,11 @@
         />
       </div>
 
-      <div v-if="this.msj == ''" class="cant">
+      <!-- <div v-if="this.msj == ''" class="cant">
         <p>
           Cantidad total de tramites: <b>{{ this.activos.length }}</b>
         </p>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -463,6 +514,7 @@
 <script>
 // import dbService from "@/services/dbService";
 import axios from "axios";
+import SearchPresentadasComponent from "@/components/SearchPresentadas/SearchPresentadasComponent.vue";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
@@ -503,6 +555,9 @@ export default {
       modalPDF: false,
       content: "",
     };
+  },
+  components: {
+    SearchPresentadasComponent,
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
@@ -1010,6 +1065,28 @@ export default {
 </script>
 
 <style scoped>
+/* CSS NUEVO */
+.tabla-container {
+  width: 70vw;
+  height: auto;
+  margin: auto;
+  margin-top: 5vh;
+  justify-content: flex-start;
+  margin-left: 4vw;
+}
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 10px;
+  background: white;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+.encabezado p {
+  width: 20%;
+}
+/* ------------------------------------------------------ */
 .modal-top {
   display: flex;
   width: 100%;
@@ -1137,30 +1214,7 @@ input:hover {
   height: 10px;
 }
 /* TABLA DE TRAMITES */
-.tabla-container {
-  width: 80vw;
-  height: auto;
-  margin: auto;
-  margin-top: 5vh;
-  /* display: flex;
-  flex-flow: column;
-  align-items: center; */
-  justify-content: flex-start;
-  /* position: relative; */
-  /* margin-left: 2rem; */
-}
-.encabezado {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  padding: 10px;
-  background: #66666656;
-  border-bottom: 1px solid black;
-  text-align: center;
-}
-.encabezado p {
-  width: 20%;
-}
+
 .open {
   max-height: 250px;
   text-align: left;

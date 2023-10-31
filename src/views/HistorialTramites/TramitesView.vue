@@ -1,8 +1,14 @@
 <template>
   <main v-if="setPermission" class="sector-container">
-    <div class="row">
+    <!-- <div class="row">
       <h1 style="margin-top: 7vh; font-size: 50px">Mis trámites</h1>
-    </div>
+    </div> -->
+    <h1 class="tituloPrincipal">
+      Presentadas
+      <h4 style="color: #4b4a49; font-weight: 100; margin-top: 1rem">
+        Gestiones presentadas hasta la fecha.
+      </h4>
+    </h1>
     <Tabla color="var(--green)" />
   </main>
 </template>
@@ -27,11 +33,18 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+.tituloPrincipal {
+  color: #4b4a49;
+  font-weight: 900;
+  font-size: 50px;
+  margin-top: 7vh;
+  margin-left: 4vw;
+}
+/* h1 {
   margin-top: 4vh;
   margin-left: 4vw;
   margin-bottom: 4vh;
-}
+} */
 .sector-container {
   width: 100%;
   height: 100vh;

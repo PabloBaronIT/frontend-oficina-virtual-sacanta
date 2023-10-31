@@ -66,8 +66,8 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="50"
-            height="50"
+            width="52"
+            height="52"
             viewBox="0 0 56 56"
             fill="none"
             class="svgCirculo"
@@ -620,12 +620,11 @@ export default {
   height: 100vh;
 }
 .boxDerechoMujer {
-  background-color: #5890ff;
   width: 65vw;
   height: 120vh;
   background-image: url("../../../public/img/fondoLogin.png");
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
   background-position: center;
   position: absolute;
   right: 0;
@@ -696,13 +695,13 @@ p {
 }
 .botonServicios p {
   color: #000;
-  font-size: 13px;
+  font-size: 18px;
   margin-top: 0.5rem;
 }
 .svgCirculo {
   position: absolute;
-  margin-top: -1vh;
-  left: 0.3vw;
+  margin-top: -0.2vh;
+  left: 0.4vw;
 }
 .modalFormulario {
   position: absolute;
