@@ -7,8 +7,20 @@
       </h4>
     </h1>
     <!-- LISTADO DE COMUNICACIONES -->
-
-    <CardNotificacionComponentVue
+    <div
+      style="
+        box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+        border-top-right-radius: 20px;
+      "
+    >
+      <div class="divTitulos">
+        <p>FECHA</p>
+        <p>SERVICIO</p>
+        <p>ASUNTO</p>
+        <p>ESTADO</p>
+      </div>
+    </div>
+    <!-- <CardNotificacionComponentVue
       :dato="communication"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
@@ -16,7 +28,7 @@
       v-for="(communication, index) in communications"
       :key="index"
       @click="setComunicacion(index)"
-    />
+    /> -->
     <div
       :v-if="this.message && this.loading === false"
       style="text-align: center"
@@ -82,14 +94,14 @@
 </template>
 
 <script>
-import CardNotificacionComponentVue from "../../components/Notificaciones/CardNotificacionComponent.vue";
+// import CardNotificacionComponentVue from "../../components/Notificaciones/CardNotificacionComponent.vue";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import { BASE_URL } from "@/env";
 
 export default {
   components: {
-    CardNotificacionComponentVue,
+    // CardNotificacionComponentVue,
   },
 
   data() {
@@ -164,6 +176,7 @@ export default {
 </script>
 
 <style scoped>
+/* CSS NUEVO */
 .tituloPrincipal {
   color: #4b4a49;
   font-weight: 900;
@@ -171,7 +184,21 @@ export default {
   margin-top: 7vh;
   margin-left: 4vw;
 }
-
+.divTitulos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: white;
+  padding: 1vw;
+  border-bottom: 1px solid #9b9a9a;
+  text-align: left;
+  border-radius: 0px 20px 0px 0px;
+}
+.divTitulos p {
+  color: #4b4a49;
+  font-weight: 600;
+  font-size: 16px;
+}
 .sector-container {
   width: 100%;
   height: 100vh;
@@ -181,6 +208,8 @@ export default {
 
   /* background: var(--grey-bk); */
 }
+/* ------------------------------------------------ */
+
 .loading {
   margin: auto;
 }
