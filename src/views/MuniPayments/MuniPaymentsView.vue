@@ -94,7 +94,7 @@
       <img
         class="svg"
         @click="backTramites"
-        src="@/assets/previous.svg"
+        src="./../../assets/images/previous.svg"
         alt=""
         v-if="this.pagina > 1"
       />
@@ -105,7 +105,7 @@
       <img
         @click="nextPag"
         class="svg"
-        src="@/assets/next.svg"
+        src="./../../assets/images/next.svg"
         alt=""
         v-if="this.payments?.length > 10"
       />

@@ -6,20 +6,76 @@
         Échale un vistazo a tus notifiaciones hasta la fecha.
       </h4>
     </h1>
-    <!-- LISTADO DE COMUNICACIONES -->
-    <div
-      style="
-        box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
-        border-top-right-radius: 20px;
-      "
-    >
-      <div class="divTitulos">
-        <p>FECHA</p>
-        <p>SERVICIO</p>
-        <p>ASUNTO</p>
-        <p>ESTADO</p>
+    <!-- BUSCADOR -->
+    <div class="row" style="margin-top: 3vh; margin-bottom: 6vh">
+      <SearchNotificaciones />
+    </div>
+    <!-- ENCABEZADO DE NOTIFICACIONES -->
+    <div class="encabezado">
+      <div class="iconos">
+        <i class="bi bi-square"></i>
+        <i class="bi bi-filter"></i>
+        <i class="bi bi-envelope-open"></i>
+        <i class="bi bi-share-fill"></i>
+      </div>
+      <div class="contador">
+        <p>Elemento por pagina: 10</p>
+        <div class="nav">
+          <img
+            class="svg"
+            @click="backTramites"
+            src="./../../assets/images/previous.svg"
+            alt=""
+          />
+          <!-- <div class="pagNum">
+        {{ this.pagina }}
+      </div> -->
+
+          <img
+            @click="nextPag"
+            class="svg"
+            src="./../../assets/images/next.svg"
+            alt=""
+          />
+        </div>
       </div>
     </div>
+    <div class="linea"></div>
+    <div class="subencabezado">
+      <h5>
+        <i class="bi bi-bell" style="margin-right: 1vw"></i>Notificaciones
+      </h5>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="18"
+        viewBox="0 0 20 18"
+        fill="none"
+        style="margin-right: -1vw"
+      >
+        <path
+          d="M6.25687 9C7.72727 9 8.91926 7.86672 8.91926 6.46875C8.91926 5.07078 7.72727 3.9375 6.25687 3.9375C4.78647 3.9375 3.59448 5.07078 3.59448 6.46875C3.59448 7.86672 4.78647 9 6.25687 9Z"
+          fill="#019939"
+        />
+        <path
+          d="M9.28891 10.4062C8.24762 9.90352 7.09835 9.70312 6.25674 9.70312C4.60828 9.70312 1.22778 10.6643 1.22778 12.5859V14.0625H6.77443V13.4975C6.77443 12.8296 7.07025 12.1598 7.58794 11.6016C8.00098 11.1558 8.57931 10.742 9.28891 10.4062Z"
+          fill="#019939"
+        />
+        <path
+          d="M13.2087 10.125C11.2833 10.125 7.44019 11.2556 7.44019 13.5V15.1875H18.9772V13.5C18.9772 11.2556 15.1341 10.125 13.2087 10.125Z"
+          fill="#019939"
+        />
+        <path
+          d="M13.2086 9C15.0058 9 16.4627 7.61488 16.4627 5.90625C16.4627 4.19762 15.0058 2.8125 13.2086 2.8125C11.4115 2.8125 9.95459 4.19762 9.95459 5.90625C9.95459 7.61488 11.4115 9 13.2086 9Z"
+          fill="#019939"
+        />
+      </svg>
+      <h5>Compartidas conmigo</h5>
+      <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
+    </div>
+    <TablaNotificacionesComponent :communications="this.communications" />
+    <!-- LISTADO DE COMUNICACIONES -->
+
     <!-- <CardNotificacionComponentVue
       :dato="communication"
       data-bs-toggle="modal"
@@ -85,16 +141,25 @@
         </div>
       </div>
     </div>
-    <div class="loading">
+    <div class="volver">
+      <router-link to="/munienlinea">
+        <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+      </router-link>
+
+      <h4>Volver al Incio</h4>
+    </div>
+    <!-- <div class="loading">
       <div v-if="this.loading" class="spinner-border loading" role="status">
         <span class="sr-only"></span>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 // import CardNotificacionComponentVue from "../../components/Notificaciones/CardNotificacionComponent.vue";
+import SearchNotificaciones from "@/components/SearchNotificaciones/SearchNotificaciones.vue";
+import TablaNotificacionesComponent from "@/components/Notificaciones/TablaNotificacionesComponent.vue";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import { BASE_URL } from "@/env";
@@ -102,6 +167,8 @@ import { BASE_URL } from "@/env";
 export default {
   components: {
     // CardNotificacionComponentVue,
+    SearchNotificaciones,
+    TablaNotificacionesComponent,
   },
 
   data() {
@@ -182,7 +249,7 @@ export default {
   font-weight: 900;
   font-size: 50px;
   margin-top: 7vh;
-  margin-left: 4vw;
+  /* margin-left: 4vw; */
 }
 .divTitulos {
   display: flex;
@@ -201,19 +268,110 @@ export default {
 }
 .sector-container {
   width: 100%;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
+  padding-left: 4vw;
+  padding-bottom: 120px;
 
   /* background: var(--grey-bk); */
 }
-/* ------------------------------------------------ */
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 73vw;
+  padding: 16px 8px;
+  align-items: center;
+}
+.subencabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 37vw;
 
-.loading {
-  margin: auto;
+  padding: 16px 8px;
+}
+.iconos {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 10vw;
+}
+.nav {
+  align-self: flex-start;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: center; */
+  /* width: 8vw; */
+}
+.svg {
+  max-width: 10px;
+  margin-left: 1rem;
+}
+.contador {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.linea {
+  width: 73vw;
+  height: 1px;
+  background: #4b4a49;
 }
 h5 {
-  color: var(--green);
+  font-weight: 700;
+  color: #019939;
+}
+
+.volver {
+  position: absolute;
+  bottom: 20vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  left: 4vw;
+}
+.volver h4 {
+  margin-left: 14px;
+  color: #808081;
+  font-weight: 100;
+  margin-top: 1.5vh;
+}
+/* ------------------------------------------------ */
+@media (max-width: 1200px) {
+  .subencabezado {
+    width: 75vw;
+  }
+}
+@media (max-width: 800px) {
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 45px;
+  }
+  .encabezado {
+    width: 95vw;
+  }
+  .iconos {
+    width: 25vw;
+  }
+  .linea {
+    width: 95vw;
+  }
+  .subencabezado {
+    width: 95vw;
+  }
+}
+@media (max-width: 600px) {
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 30px;
+  }
+}
+.loading {
+  margin: auto;
 }
 </style>

@@ -1114,7 +1114,7 @@ export default {
 .containerGeneral {
   display: flex;
   flex-direction: row;
-  width: 94vw;
+  width: 75vw;
   position: relative;
 }
 .containerTramites {

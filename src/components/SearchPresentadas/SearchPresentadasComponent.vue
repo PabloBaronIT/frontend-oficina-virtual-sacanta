@@ -46,6 +46,7 @@ input {
   /* height: 36px; */
   margin-right: 1vw;
   border: none;
+  padding-left: 1rem;
 }
 input[name="titulo"] {
   width: 33vw;

@@ -25,7 +25,7 @@
           <img
             class="svg"
             @click="backTramites"
-            src="@/assets/previous.svg"
+            src="./../../assets/images/previous.svg"
             alt=""
             v-if="this.pagina > 1"
           />
@@ -33,7 +33,7 @@
           <img
             @click="nextPag"
             class="svg"
-            src="@/assets/next.svg"
+            src="./../../assets/images/next.svg"
             alt=""
             v-if="this.l > 5"
           />
@@ -1148,8 +1148,8 @@ export default {
   margin-left: 2rem;
 }
 .svg {
-  max-width: 20px;
-  margin-left: 3rem;
+  max-width: 10px;
+  margin-left: 1rem;
 }
 .pagNum {
   margin: 0 2px;
@@ -1157,6 +1157,8 @@ export default {
 }
 .nav {
   align-self: flex-start;
+
+  padding-top: 0.5rem;
 }
 .volver {
   position: absolute;

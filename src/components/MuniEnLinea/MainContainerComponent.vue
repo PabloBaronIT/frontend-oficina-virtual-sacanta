@@ -18,9 +18,9 @@
           @mouseover="this.setClass"
           @mouseout="this.NotSetClass"
         >
-          <h4 :class="{ activeHover: hoverCategorias }">
+          <h5 :class="{ activeHover: hoverCategorias }">
             Trámites Administrativos
-          </h4>
+          </h5>
           <div class="gridcontainer">
             <div v-for="sector in categorias" :key="sector.Id">
               <router-link
@@ -46,7 +46,7 @@
           @mouseover="this.setServisClass"
           @mouseout="this.NotServisClass"
         >
-          <h4 :class="{ activeHover: hoverServicios }">Servicios y reclamos</h4>
+          <h5 :class="{ activeHover: hoverServicios }">Servicios y reclamos</h5>
           <div class="gridcontainer">
             <div v-for="sector in servicios" :key="sector.Id">
               <router-link
@@ -285,7 +285,7 @@ export default {
   width: 95%;
   margin: auto;
 }
-.containerTabs h4 {
+.containerTabs h5 {
   margin-bottom: 2rem;
 }
 .gridcontainer {
@@ -350,7 +350,7 @@ h1 {
   margin-left: 4vw;
   margin-bottom: 4vh;
 }
-h4 {
+h5 {
   font-weight: 700;
   color: #019939;
 }

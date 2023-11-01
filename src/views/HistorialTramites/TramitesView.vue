@@ -85,7 +85,7 @@ main {
     font-size: 45px;
   }
 }
-@media (max-width: 800px) {
+@media (max-width: 600px) {
   .tituloPrincipal {
     font-weight: 700;
     font-size: 30px;
