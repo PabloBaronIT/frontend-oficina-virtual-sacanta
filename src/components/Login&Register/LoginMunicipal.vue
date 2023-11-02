@@ -26,15 +26,13 @@
         @keyup="this.validar()"
       />
       <p style="color: red">{{ this.msj }}</p>
-      <div class="botones">
-        <input
-          @click="login()"
-          class="btn btn-primary"
-          type="button"
-          value="Ingresar"
-          :disabled="this.disabled"
-        />
-      </div>
+      <input
+        @click="login()"
+        class="btn btn-primary"
+        type="button"
+        value="Ingresar"
+        :disabled="this.disabled"
+      />
     </form>
     <div v-if="this.loading" class="spinner-border loading" role="status">
       <span class="sr-only"></span>
@@ -45,7 +43,7 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
-import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 export default {
   data() {
     return {
@@ -100,6 +98,7 @@ export default {
             localStorage.setItem("refreshToken", refreshToken);
 
             this.getMyProfile();
+            this.$router.push("/municipales");
           }
         })
         .catch((error) => {
@@ -145,12 +144,12 @@ export default {
     },
 
     getMyProfile() {
+      console.log("estoy en la funcion");
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient
@@ -184,7 +183,7 @@ export default {
             "role",
             response.data.MuniProfile.muni.role
           );
-          this.$router.push("/municipales");
+          // this.$router.push("/municipales");
         })
         .catch((error) => {
           console.log(error);
@@ -224,14 +223,7 @@ form {
   background: #fff;
   width: 40vw;
 }
-/* .botones {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 10rem;
-  width: 100%;
-  margin-top: 5rem;
-} */
+
 .boton {
   width: 100%;
 }

@@ -19,8 +19,25 @@
         this.setPermission
       "
     />
-
-    <router-view />
+    <div class="claseB">
+      <FechaComponent
+        v-if="
+          this.role != 'MUNI_ROLE' &&
+          // this.role != undefined &&
+          // this.role != null &&
+          this.setPermission
+        "
+      />
+      <router-view />
+      <FooterComponentVue
+        v-if="
+          this.role != 'MUNI_ROLE' &&
+          // this.role != undefined &&
+          // this.role != null &&
+          this.setPermission
+        "
+      />
+    </div>
   </div>
 </template>
 
@@ -28,11 +45,19 @@
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
 import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
+import FooterComponentVue from "@/components/Footer/FooterComponent.vue";
+import FechaComponent from "@/components/Fecha/FechaComponent.vue";
 export default {
   data() {
     return {
       role: "",
       cuil: "",
+      ancho: "",
+      margin: "",
+      posision: "",
+      derecha: "",
+      asd: this.$route.fullPath,
+      notLogin: false,
     };
   },
   created() {
@@ -40,15 +65,54 @@ export default {
     //   this.role = event.detail.storage;
     // });
     this.role = localStorage.getItem("role") || null;
+
+    // if (asd != "/login") {
+    //   // this.ancho = 100;
+    //   // this.margin = 0;
+    //   this.ancho = 81.2;
+    //   this.margin = 14;
+    //   this.posision = "absolute";
+    //   this.derecha = 0;
+    // } else if (asd === "/login" || asd === "/") {
+    //   this.ancho = 100;
+    //   this.margin = 0;
+    //   // this.ancho = 81.2;
+    //   // this.margin = 14;
+    //   this.posision = "relative";
+    //   this.derecha = 0;
+    // }
+
+    // console.log(this.login);
   },
   watch: {
     $route() {
       this.role = localStorage.getItem("role");
     },
+    // asd(newValue) {
+    //   if (newValue != "/login") {
+    //     this.ancho = 81.2;
+    //     this.margin = 0;
+    //     this.posision = "relative";
+    //     this.derecha = 0;
+    //   } else {
+    //     this.ancho = 100;
+    //     this.margin = 14;
+    //     this.posision = "absolute";
+    //     this.derecha = 0;
+    //   }
+    // },
   },
   computed: {
     setPermission() {
       if (this.$store.state.loggedIn === true) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    setClass() {
+      // console.log(this.asd);
+      if (this.asd === "/login" || this.asd !== "/") {
         return true;
       } else {
         return false;
@@ -59,6 +123,8 @@ export default {
     NavComponent,
     NavTopVue,
     NavMunicipalesComponentVue,
+    FooterComponentVue,
+    FechaComponent,
   },
 };
 </script>
@@ -79,14 +145,14 @@ export default {
     --grey-bk: #ebebeb;
     --grey: rgba(70, 70, 70, 0.459);
     --white: #fff;
-    --fondo: linear-gradient(
+    /* --fondo: linear-gradient(
       to bottom,
       #dcdddf,
       #e4e5e6,
       #ececed,
       #f4f4f5,
       #fcfcfc
-    );
+    ); */
   }
 }
 
@@ -109,61 +175,80 @@ export default {
   user-select: none;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  font-family: "Roboto", sans-serif;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Source Sans 3", sans-serif;
+  /* -moz-osx-font-smoothing: grayscale; */
   /* text-align: center; */
-  color: var(--text-color);
+  /* color: var(--text-color); */
   margin: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   /* width: 100%; */
 }
 body {
   overflow-y: auto;
 }
+p {
+  color: #9b9a9a;
+}
+/* ACTUALIZADO */
 h1 {
-  color: #128d44;
-
-  font-size: 35px;
-  font-weight: 100;
+  color: #008838;
+  font-size: xx-large;
 }
 h2 {
-  color: #128d44;
+  color: white;
   font-weight: 500;
 }
 h3 {
-  color: #128d44;
-  font-weight: 100;
+  color: #808081;
+  font-weight: 200;
 }
+
 h4 {
-  color: #128d44;
-  font-weight: 300;
+  color: #019939;
+  font-weight: 900;
+  /* font-size: 25px; */
 }
-.fontB {
-  font-weight: bold;
+h5 {
+  color: #808081;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: normal;
 }
-.fontL {
-  font-weight: 300;
+h6 {
+  color: white;
+  font-size: 24px;
+  font-weight: 200;
+  line-height: normal;
 }
-.tituloPrincipal {
-  font-size: 50px;
-  margin-bottom: 4rem;
-}
+/* ---------------------------- */
 </style>
 
 <style scoped>
+.claseB {
+  width: 81.2vw;
+  position: absolute;
+  right: 0;
+  margin-top: 14vh;
+}
 .main-container {
   display: flex;
-  background: var(--fondo);
-  margin-bottom: 2rem;
 }
 .fixed {
   position: fixed;
   width: 100vw;
 }
-
-@media (max-width: 1000px) {
+.login {
+  position: absolute;
+  width: 81.2vw;
+  margin-top: 14vh;
+  right: 0;
+}
+@media (max-width: 800px) {
   #app {
+    width: 100vw;
+  }
+  .claseB {
     width: 100vw;
   }
 }

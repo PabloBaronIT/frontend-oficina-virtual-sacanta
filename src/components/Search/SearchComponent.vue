@@ -5,34 +5,16 @@
         type="text"
         class="search"
         v-model="this.value"
-        placeholder="Escribí algo relacionado(ej.acta de nacimiento), o elegí en los grupos de abajo"
+        placeholder="Escribinos algo relacionado o elegí alguna opción de abajo"
         @keyup="this.searchValue"
       />
 
-      <span
-        style="
-          color: white;
-          font-size: 25px;
-          margin-left: 2rem;
-          background-image: linear-gradient(
-            to right,
-            #399943,
-            #4ea242,
-            #62aa40,
-            #75b23f,
-            #88ba3e
-          );
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
-          padding-top: 0.4rem;
-          cursor: pointer;
-        "
-      >
-        <i class="bi bi-search"></i
-      ></span>
+      <img src="./../../assets/images/Search.svg" alt="" class="circuloVerde" />
     </div>
-    <div v-if="this.values" style="position: absolute; z-index: 15; width: 83%">
+    <div
+      v-if="this.values"
+      style="position: absolute; z-index: 15; width: 50vw"
+    >
       <div class="vistaValues" v-for="item in this.values" :key="item.id">
         <router-link :to="`/formulario/${item.title}/${item.id}`">
           <a>{{ item.title }}</a>
@@ -109,36 +91,82 @@ export default {
 
 <style scoped>
 .container {
-  width: 100vw;
+  width: 100%;
   margin-bottom: 4rem;
+  margin-top: -15px;
 }
 .containerSearch {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  margin-top: 4rem;
+  width: 54vw;
+  position: relative;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* margin-top: 4rem; */
 }
 .search {
-  width: 70%;
+  width: 54vw;
   position: relative;
-  margin-left: 3rem;
+  margin-left: 4vw;
   height: 55px;
   border-color: transparent;
   padding-left: 1rem;
+  border-radius: 0px 20px;
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
 }
 .vistaValues {
-  width: 70%;
+  width: 50vw;
   background: white;
   text-align: left;
-  margin-left: 3rem;
+  margin-left: 5vw;
   height: 45px;
   padding-left: 1rem;
   z-index: 15;
   border-bottom: solid 1px grey;
 }
+.circuloVerde {
+  position: absolute;
+  /* z-index: 15; */
+  right: -2rem;
+  top: 0.2rem;
+  margin-left: 2rem;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  padding-left: 11px;
+  cursor: pointer;
+}
 .vistaValues a {
   cursor: pointer;
   text-decoration: none;
   color: black;
+}
+@media (max-width: 800px) {
+  .search {
+    width: 90%;
+    margin-left: 0;
+  }
+  .container {
+    width: 90%;
+  }
+  .containerSearch {
+    width: 90%;
+    position: relative;
+  }
+  .circuloVerde {
+    right: 10vw;
+  }
+}
+@media (max-width: 600px) {
+  .search {
+    width: 100%;
+    margin-left: 0;
+  }
+  .container {
+    width: 95%;
+    margin-left: 4%;
+  }
+  .containerSearch {
+    width: 95%;
+    position: relative;
+  }
 }
 </style>

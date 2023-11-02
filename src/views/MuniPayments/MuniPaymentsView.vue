@@ -1,8 +1,11 @@
 <template>
-  <!-- <div class="containerGeneral"> -->
   <div class="containerTramites">
     <div class="filtro-top">
       <h1>Registro de pagos</h1>
+      <!-- <p>
+        Ingrese cuil del usuario que desea buscar informacion de pagos
+        efectuado.
+      </p>
       <form class="d-flex">
         <input
           @keyup="this.validar()"
@@ -19,42 +22,61 @@
         >
           Buscar
         </button>
+      </form> -->
+      <p>
+        Ingrese el numero de operacion para buscar detalles del un pago en
+        particular.
+      </p>
+      <form class="d-flex" style="width: 50vw; justify-content: space-around">
+        <input
+          type="text"
+          placeholder="Ingrese Número de operación"
+          v-model="this.search"
+          maxlength="16"
+          style="width: 30vw"
+        />
+        <button
+          class="btn btn-outline-success"
+          type="button"
+          @click.prevent="this.searchTramite"
+          :disabled="this.disabledBoton"
+        >
+          Buscar
+        </button>
       </form>
     </div>
 
-    <table class="table table-striped" v-if="this.payments">
+    <table class="table table-striped">
       <tr>
-        <th>Id Pago</th>
+        <th>Concepto</th>
         <th>Monto</th>
 
-        <th>Trámite</th>
-        <th>Id tramite</th>
-        <th>Fecha</th>
-        <th>Nombre</th>
-        <th>cuil</th>
+        <th>Estado</th>
+        <th>Resultado</th>
+        <th>Fecha Operación</th>
+        <th>Tarjeta</th>
+        <th>Tipo Operación</th>
       </tr>
-      <tr v-for="item in this.payments" :key="item.id">
+      <tr v-if="this.payment">
         <td>
-          {{ item.id }}
+          {{ this.payment.Concept }}
         </td>
         <td>
-          {{ item.amount }}
+          {{ this.payment.Price }}
         </td>
         <td>
-          {{ item.procedureHistory.procedure.title }}
+          {{ this.payment.Status }}
         </td>
         <td>
-          {{ item.procedureHistory.id }}
+          {{ this.payment.SuccessMessage }}
         </td>
         <td>
-          {{ new Date(item.created_at).toLocaleDateString() }}
+          {{ new Date(this.payment.OperationDate).toLocaleDateString() }}
         </td>
-        <td>{{ item.user.firstname }} {{ item.user.lastname }}</td>
+        <td>{{ this.payment.Rendicion.Cuotas }}</td>
         <td>
-          {{ item.user.cuil }}
+          {{ this.payment.Rendicion.Tarjeta }}
         </td>
-
-        <!-- <td>{{ item.userMuni.firstname }}{{ item.userMuni.lastname }}</td> -->
       </tr>
     </table>
     <div
@@ -65,31 +87,30 @@
       <span class="sr-only"></span>
     </div>
     <div v-if="this.error">
-      <h1>No se encontraron trámites con los filtros especificados</h1>
+      <h1>No se encontraron pagos registrados</h1>
     </div>
 
     <div class="nav">
       <img
         class="svg"
         @click="backTramites"
-        src="@/assets/previous.svg"
+        src="./../../assets/images/previous.svg"
         alt=""
         v-if="this.pagina > 1"
       />
-      <div class="pagNum">
+      <!-- <div class="pagNum">
         {{ this.pagina }}
-      </div>
+      </div> -->
 
       <img
         @click="nextPag"
         class="svg"
-        src="@/assets/next.svg"
+        src="./../../assets/images/next.svg"
         alt=""
         v-if="this.payments?.length > 10"
       />
     </div>
   </div>
-  <!-- </div> -->
 </template>
 <script>
 import axios from "axios";
@@ -99,7 +120,7 @@ import { BASE_URL } from "@/env";
 export default {
   data() {
     return {
-      payments: null,
+      payment: null,
       pagina: 1,
       search: "",
       disabledBoton: false,
@@ -109,8 +130,8 @@ export default {
   },
   created() {
     //se obtienen todos los tramites
-    this.getPayments();
-    this.loading = true;
+    // this.getPayments();
+    // this.loading = true;
   },
   methods: {
     nextPag() {
@@ -129,35 +150,64 @@ export default {
         this.disabledBoton = true;
       }
     },
-    getPayments() {
-      const apiClient = axios.create({
-        baseURL: BASE_URL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .get(`/registered-payments?page= ${this.pagina}`)
-        .then((response) => {
-          this.payments = response.data.RegisteredPayments;
-          this.loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.error = true;
-          if (error.response.status === 500) {
-            if (error.response.data.message === "Token de usuario expirado") {
-              setTokenMuni();
-              this.getPayments();
-            }
-          }
-        });
-    },
-    searchValue() {
+    // getPayments() {
+    //   const apiClient = axios.create({
+    //     baseURL: BASE_URL,
+    //     withCredentials: false,
+    //     headers: {
+    //       "auth-header": localStorage.getItem("token"),
+    //     },
+    //   });
+    //   apiClient
+    //     .get(`/registered-payments?page= ${this.pagina}`)
+    //     .then((response) => {
+    //       this.payments = response.data.RegisteredPayments;
+    //       this.loading = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       this.error = true;
+    //       if (error.response.status === 500) {
+    //         if (error.response.data.message === "Token de usuario expirado") {
+    //           setTokenMuni();
+    //           this.getPayments();
+    //         }
+    //       }
+    //     });
+    // },
+    // searchValue() {
+    //   console.log(this.search);
+    //   this.loading = true;
+    //   this.payment = "";
+    //   const apiClient = axios.create({
+    //     baseURL: BASE_URL,
+    //     withCredentials: false,
+    //     headers: {
+    //       "auth-header": localStorage.getItem("token"),
+    //     },
+    //   });
+    //   apiClient
+    //     .post(`/registered-payment?page=${this.pagina}`, {
+    //       user_cuil: this.search,
+    //     })
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       this.payments = response.data.RegisteredPayment;
+    //       this.loading = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       if (error.response.status === 500) {
+    //         if (error.response.data.message === "Token de usuario expirado") {
+    //           setTokenMuni();
+    //           this.searchValue();
+    //         }
+    //       }
+    //     });
+    // },
+    searchTramite() {
       console.log(this.search);
-      this.loading = true;
-      this.payments = "";
+      // this.loading = true;
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -166,20 +216,18 @@ export default {
         },
       });
       apiClient
-        .post(`/registered-payment?page=${this.pagina}`, {
-          user_cuil: this.search,
-        })
+        .get("http://localhost:4040/check-payment/" + this.search)
         .then((response) => {
+          this.payment = response.data;
+          this.search = "";
           console.log(response.data);
-          this.payments = response.data.RegisteredPayment;
-          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setTokenMuni();
-              this.searchValue();
+              this.searchTramite();
             }
           }
         });
@@ -189,12 +237,9 @@ export default {
 </script>
 
 <style scoped>
-/* .containerGeneral {
-  display: flex;
-  flex-direction: row;
-  width: 94vw;
-  position: relative;
-} */
+p {
+  margin-top: 2rem;
+}
 .containerTramites {
   width: 90%;
 
@@ -210,9 +255,11 @@ export default {
   width: 100%;
   color: var(--text-color);
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   background: var(grey);
-  height: 3rem;
+  height: auto;
+  text-align: left;
 }
 th,
 tr {
@@ -235,4 +282,7 @@ table {
   margin: 0 2px;
   font-size: 20px;
 }
+/* form {
+  font-size: 25px;
+} */
 </style>

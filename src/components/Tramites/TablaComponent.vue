@@ -1,79 +1,107 @@
 <template>
   <div class="tabla-container">
+    <div style="margin-bottom: 3vh">
+      <SearchPresentadasComponent />
+    </div>
+
     <div
       style="
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        background: gray;
-        color: aliceblue;
-        padding: 0.5rem;
+        box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+        border-top-right-radius: 20px;
       "
     >
-      <p>Titulo</p>
-      <P>ID</P>
-      <P>asunto</P>
-      <p>Estado</p>
-      <p>Más</p>
-      <p>Historial</p>
-    </div>
-    <div v-for="(item, index) in this.activos" :key="index">
-      <div class="encabezado">
-        <p>{{ item.titulo }}</p>
-        <p>{{ item.id }}</p>
-        <p>{{ item.categoria }}</p>
-        <p>{{ item.estado }}</p>
-        <p
-          style="cursor: pointer; text-decoration: underline"
-          @click="verTramite(item.id)"
-        >
-          Ver Tramite
-        </p>
-        <p
-          @click="this.open(item.id)"
-          style="cursor: pointer; text-decoration: underline"
-        >
-          ver
+      <div class="divTitulos">
+        <p>N° GESTIÓN</p>
+        <p>FECHA</p>
+        <p>TÍTULO</p>
+        <!-- <p>{{ this.pagina }}</p> -->
+        <div class="nav">
+          <div class="pagNum">{{ this.pagina }} de 1</div>
+          <img
+            class="svg"
+            @click="backTramites"
+            src="./../../assets/images/previous.svg"
+            alt=""
+            v-if="this.pagina > 1"
+          />
+
+          <img
+            @click="nextPag"
+            class="svg"
+            src="./../../assets/images/next.svg"
+            alt=""
+            v-if="this.l > 5"
+          />
+        </div>
+        <p>
+          <img src="./../../assets/images/Descargar.svg" alt="" srcset="" />
         </p>
       </div>
+      <div v-for="(item, index) in this.activos" :key="index">
+        <div class="encabezado">
+          <!-- <p>{{ item.titulo }}</p> -->
+          <p @click="verTramite(item.id)" style="cursor: pointer">
+            {{ item.id }}
+          </p>
+          <p @click="verTramite(item.id)" style="cursor: pointer">
+            {{ item.estado }}
+          </p>
+          <p @click="verTramite(item.id)" style="cursor: pointer">
+            {{ item.categoria }}
+          </p>
+          <p></p>
+          <p
+            @click="this.open(item.id)"
+            style="cursor: pointer; text-decoration: underline"
+          >
+            <img src="./../../assets/images/Descargar.svg" alt="" />
+          </p>
+        </div>
 
-      <div :class="item.open ? `open` : `noOpen`">
-        <p>Historial del tramite {{ item.id }}:</p>
-        <p>
-          Fecha de presentación:
-          {{ new Date(this.presentacionTramite).toLocaleDateString() }}
+        <div :class="item.open ? `open` : `noOpen`">
+          <p>Historial del tramite {{ item.id }}:</p>
+          <p>
+            Fecha de presentación:
+            {{ new Date(this.presentacionTramite).toLocaleDateString() }}
 
-          <i class="bi bi-arrow-down-square" @click="createPDFsubmitt(item.id)">
-          </i>
-        </p>
-        <p v-if="this.inicioTramite">
-          Fecha de Inicio:
-          {{ new Date(this.inicioTramite).toLocaleDateString() }}
-        </p>
-        <div v-if="this.requerimientoTramite">
-          <p v-for="element in this.requerimientoTramite" :key="element.id">
-            Fecha de Requerimiento/s:
+            <!-- <i class="bi bi-arrow-down-square" @click="createPDFsubmitt(item.id)">
+          </i> -->
+            <img
+              src="./../../assets/images/Descargar.svg"
+              alt=""
+              @click="createPDFsubmitt(item.id)"
+            />
+          </p>
+          <p v-if="this.inicioTramite">
+            Fecha de Inicio:
+            {{ new Date(this.inicioTramite).toLocaleDateString() }}
+          </p>
+          <div v-if="this.requerimientoTramite">
+            <p v-for="element in this.requerimientoTramite" :key="element.id">
+              Fecha de Requerimiento/s:
 
-            {{ new Date(element.created_at).toLocaleDateString() }} -
+              {{ new Date(element.created_at).toLocaleDateString() }} -
+              <i
+                class="bi bi-arrow-down-square"
+                @click="createPDFrequirement(item.id, element.id)"
+              >
+              </i>
+            </p>
+          </div>
+
+          <p v-if="this.finalizacionTramite">
+            Fecha de Finalización:
+            {{ new Date(this.finalizacionTramite).toLocaleDateString() }}
             <i
               class="bi bi-arrow-down-square"
-              @click="createPDFrequirement(item.id, element.id)"
+              @click="createPDFfinalized(item.id)"
             >
             </i>
           </p>
         </div>
-
-        <p v-if="this.finalizacionTramite">
-          Fecha de Finalización:
-          {{ new Date(this.finalizacionTramite).toLocaleDateString() }}
-          <i
-            class="bi bi-arrow-down-square"
-            @click="createPDFfinalized(item.id)"
-          >
-          </i>
-        </p>
       </div>
     </div>
+
     <!-- <table v-if="!this.loading"> -->
 
     <!-- <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
@@ -143,7 +171,7 @@
     <div class="modalRespuesta">
       <div v-if="this.modalresponse === true" class="modal-content">
         <div class="modal-top">
-          <h3 v-if="!this.message">Enviar respuesta</h3>
+          <h5 v-if="!this.message">Respuesta:</h5>
           <p>Nº Tramite: {{ this.idTramite }}</p>
           <img
             @click="CloseModalRespuesta($event)"
@@ -429,40 +457,27 @@
 
       <h2 v-if="this.msj !== ''" class="sinTramites">{{ this.msj }}</h2>
     </div>
-    <div class="filtro-filas">
-      <div class="nav">
-        <img
-          class="svg"
-          @click="backTramites"
-          src="@/assets/previous.svg"
-          alt=""
-          v-if="this.pagina > 1"
-        />
-        <div class="pagNum">
-          {{ this.pagina }}
-        </div>
+    <div class="volver">
+      <router-link to="/munienlinea">
+        <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+      </router-link>
 
-        <img
-          @click="nextPag"
-          class="svg"
-          src="@/assets/next.svg"
-          alt=""
-          v-if="this.l > 5"
-        />
-      </div>
-
-      <div v-if="this.msj == ''" class="cant">
-        <p>
-          Cantidad total de tramites: <b>{{ this.activos.length }}</b>
-        </p>
-      </div>
+      <h4>Volver al Incio</h4>
     </div>
+    <!-- <div class="volver">
+      <router-link to="/munienlinea">
+        <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+      </router-link>
+
+      <h4>Volver al Incio</h4>
+    </div> -->
   </div>
 </template>
 
 <script>
 // import dbService from "@/services/dbService";
 import axios from "axios";
+import SearchPresentadasComponent from "@/components/SearchPresentadas/SearchPresentadasComponent.vue";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
@@ -503,6 +518,9 @@ export default {
       modalPDF: false,
       content: "",
     };
+  },
+  components: {
+    SearchPresentadasComponent,
   },
   created() {
     //Pedir solamente los que vengan desde una prop del status
@@ -1010,12 +1028,42 @@ export default {
 </script>
 
 <style scoped>
-.modal-top {
+/* CSS NUEVO */
+.tabla-container {
+  width: 70vw;
+  height: auto;
+  /* margin: auto; */
+  margin-top: 5vh;
+  justify-content: flex-start;
+  margin-left: 4vw;
+  margin-bottom: 120px;
+}
+.divTitulos {
   display: flex;
-  width: 100%;
-  text-align: left;
+  flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  background: white;
+  padding: 1vw;
+  border-bottom: 1px solid #9b9a9a;
+  text-align: left;
+  border-radius: 0px 20px 0px 0px;
+}
+.divTitulos p {
+  color: #4b4a49;
+  font-weight: 600;
+  font-size: 16px;
+}
+.encabezado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1vw;
+  background: white;
+  border-bottom: 1px solid #9b9a9a;
+}
+.encabezado p {
+  font-weight: 400;
+  color: #4b4a49;
 }
 .grafico-container {
   display: flex;
@@ -1027,13 +1075,11 @@ export default {
   top: 20%;
   left: 0;
   right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   width: 500px; /* Need a specific value to work */
   height: auto;
   padding: 1rem;
   border-radius: 10px;
-  /* padding: 5px; */
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(20px);
@@ -1049,6 +1095,14 @@ export default {
   width: 50vw;
   height: 60vh;
 }
+.modal-top {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  text-align: left;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 .data-container {
   display: flex;
   flex-flow: column wrap;
@@ -1058,6 +1112,80 @@ export default {
 
   text-align: left;
 }
+.requerimiento {
+  border: solid 1px red;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.botonSubmit {
+  margin: auto;
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  border-style: none;
+  margin-top: 1rem;
+}
+.divDocumentos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  background: rgba(128, 128, 128, 0.473);
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.divDocumentos a {
+  margin-left: 2rem;
+}
+.svg {
+  max-width: 10px;
+  margin-left: 1rem;
+}
+.pagNum {
+  margin: 0 2px;
+  font-size: 15px;
+}
+.nav {
+  align-self: flex-start;
+
+  padding-top: 0.5rem;
+}
+.volver {
+  position: absolute;
+  bottom: 20vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  left: 4vw;
+}
+.volver h4 {
+  margin-left: 14px;
+  color: #808081;
+  font-weight: 100;
+  margin-top: 1.5vh;
+}
+
+.open {
+  max-height: 250px;
+  text-align: left;
+  padding: 1rem;
+}
+.noOpen {
+  max-height: 0;
+  overflow: hidden;
+}
+
+/* .encabezado p {
+  width: 40%;
+} */
+/* ----------------------------------------------------------------------------------- */
+
 .file-intro {
   display: flex;
   flex-flow: column wrap;
@@ -1074,10 +1202,6 @@ export default {
   text-align: center;
   padding-top: 2rem;
 }
-.pagNum {
-  margin: 0 2px;
-  font-size: 20px;
-}
 
 .loader {
   margin: 10px;
@@ -1090,15 +1214,6 @@ export default {
 .cant {
   display: flex;
   margin: 0;
-}
-
-.nav {
-  align-self: flex-start;
-}
-
-.svg {
-  max-width: 20px;
-  margin-left: 3rem;
 }
 
 input[type="checkbox"] {
@@ -1136,37 +1251,6 @@ input:hover {
   height: 10px;
 }
 /* TABLA DE TRAMITES */
-.tabla-container {
-  width: 80vw;
-  height: auto;
-  margin: auto;
-  /* display: flex;
-  flex-flow: column;
-  align-items: center; */
-  justify-content: flex-start;
-  /* position: relative; */
-  /* margin-left: 2rem; */
-}
-.encabezado {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px;
-  background: #66666656;
-  border-bottom: 1px solid black;
-}
-.encabezado p {
-  width: 20%;
-}
-.open {
-  max-height: 250px;
-  text-align: left;
-  padding: 1rem;
-}
-.noOpen {
-  max-height: 0;
-  overflow: hidden;
-}
 
 /*  */
 .file-container2 {
@@ -1184,10 +1268,10 @@ input:hover {
 table {
   width: 100%;
 }
-img {
+/* img {
   height: 25px;
   width: 25px;
-}
+} */
 
 th,
 td {
@@ -1232,19 +1316,18 @@ td {
   top: 20%;
   left: 0;
   right: 0;
-  margin-left: 25%;
+  margin-left: 35vw;
   margin-right: auto;
   height: auto;
-  width: 600px; /* Need a specific value to work */
+  width: 650px; /* Need a specific value to work */
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgb(255, 255, 255);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* backdrop-filter: blur(20px); */
+  /* -webkit-backdrop-filter: blur(20px); */
+  /* border: 1px solid rgba(255, 255, 255, 0.18); */
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* border: 1px solid rgba(255, 255, 255, 0.18); */
   right: 15rem;
 }
 .modal-content {
@@ -1285,16 +1368,6 @@ span {
   flex-direction: column;
   align-items: center;
 }
-.botonSubmit {
-  margin: auto;
-  width: 100px;
-  height: 45px;
-  background-color: var(--green);
-  border-radius: 20px 20px 0px 0px;
-  color: white;
-  border-style: none;
-  margin-top: 1rem;
-}
 
 .response {
   display: flex;
@@ -1313,36 +1386,18 @@ span {
 h3 {
   text-align: left;
 }
-.divDocumentos {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  background: rgba(128, 128, 128, 0.473);
-  align-items: center;
-  margin-top: 2rem;
-}
 
-.divDocumentos a {
-  margin-left: 2rem;
-}
-/* @media (max-width: 1000px) {
-  table {
-    width: 90%;
+@media (max-width: 800px) {
+  .tabla-container {
+    width: 95%;
   }
-} */
+}
 @media (max-width: 480px) {
   .media {
     display: none;
   }
 }
-.requerimiento {
-  border: solid 1px red;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+
 .bi {
   font-size: 1.5rem;
   color: black;

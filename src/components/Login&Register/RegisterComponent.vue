@@ -254,6 +254,7 @@ export default {
           }, 2000);
         })
         .catch(function (error) {
+          console.log(error.response);
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();

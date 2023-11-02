@@ -1,34 +1,33 @@
 <template>
   <!-- Sidebar -->
-  <div class="nav-container">
-    <nav
-      v-if="this.role !== 'MUNI_ROLE'"
-      id="sidebarMenu"
-      class="btn-container scale-up-center"
+  <div class="nav-container" v-if="this.role !== 'MUNI_ROLE'" id="sidebarMenu">
+    <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
+    <div class="tusGestiones">
+      <h3 class="tus"><strong>Tus</strong></h3>
+      <h1 style="margin-top: 20px" class="tituloDegrade">gestiones</h1>
+      <h3 class="estes tituloDegrade">donde estés</h3>
+    </div>
+
+    <div class="navUser">
+      <router-link v-show="setPermission" :to="`/munienlinea`" class="bn3">
+        <h5>Inicio</h5>
+      </router-link>
+      <router-link v-show="setPermission" :to="`/tramites`" class="bn3">
+        <h5>Presentadas</h5>
+      </router-link>
+
+      <router-link v-show="setPermission" :to="`/notificaciones`" class="bn3">
+        <h5>Notificaciones</h5>
+      </router-link>
+    </div>
+    <router-link
+      v-show="setPermission"
+      :to="`/notificaciones`"
+      class="inpuestos"
     >
-      <!--el los usuarios que tienen representados ,el linck de inicio no se muestra hasta que seleccionar a quien representar-->
-
-      <div class="navUser">
-        <router-link v-show="setPermission" :to="`/munienlinea`" class="bn3">
-          Inicio
-        </router-link>
-        <router-link v-show="setPermission" :to="`/tramites`" class="bn3">
-          Mis tramites
-        </router-link>
-
-        <!--este link solo se puede acceder en el propio perfil , no como representante-->
-
-        <router-link v-show="setPermission" :to="`/notificaciones`" class="bn3">
-          Mis Comunicaciones
-        </router-link>
-        <input
-          @click="logOf"
-          class="bn3 close"
-          type="button"
-          value="Cerrar Sesion"
-        />
-      </div>
-    </nav>
+      <h5>Impuestos <br />Municipales</h5>
+      <i class="bi bi-eye-fill" style="color: white; font-size: 35px"></i>
+    </router-link>
 
     <!-- nav del mmunicipal -->
     <nav v-if="this.role == 'MUNI_ROLE'" id="sidebarMenu" class="btn-container">
@@ -42,7 +41,6 @@
 </template>
 
 <script>
-import { googleLogout } from "vue3-google-login";
 export default {
   name: "NavComponent",
   data() {
@@ -74,48 +72,122 @@ export default {
     },
   },
 
-  methods: {
-    logOf() {
-      localStorage.clear();
-      this.dispatchOutLogin();
-      location.reload();
-      this.$router.push("login");
-      googleLogout();
-      document.cookie = "cidi=; max-age=0";
-      window.dispatchEvent(
-        new CustomEvent("token-localstorage-changed", {
-          detail: {
-            storage: localStorage.getItem("token"),
-          },
-        })
-      );
-    },
-    dispatchOutLogin() {
-      this.$store.dispatch("mockOutAction");
-    },
-  },
+  methods: {},
 };
 </script>
 
 <style scoped>
-.scale-up-center {
+/* CSS NUEVO */
+.nav-container {
+  color: var(--text-color);
+  position: fixed;
+  /* z-index: 15; */
+  margin-top: 14vh;
+  display: flex;
+  flex-direction: column;
+  width: 18vw;
+  height: 100vh;
+  /* background-color: linear-gradient(0deg, #fff 0%, #d9d9d9 100%); */
+  background-image: url("./../../assets/images/circuloFondoNav.svg");
+  opacity: 0.8;
+  background-repeat: repeat;
+  background-position: inherit;
+}
+.tusGestiones {
+  position: relative;
+  top: 8vh;
+  height: 15vh;
+  width: 100%;
+  padding-left: 1.5vw;
+}
+.tus {
+  position: absolute;
+  left: 2.5vw;
+  font-weight: 900;
+  color: #038638;
+}
+.tituloDegrade {
+  background: linear-gradient(277deg, #ffcc03 -14.38%, #019939 55.14%);
+
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+.estes {
+  position: absolute;
+  font-weight: 900;
+  left: 2.5vw;
+  top: 9vh;
+
+  /* bottom: 1.5vh; */
+}
+.estes h3 {
+  font-size: 900;
+}
+.navUser {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 14vh;
+  align-items: center;
+}
+.bn3 {
+  height: 5vh;
+  width: 13.5vw;
+  border: 0.16em solid rgb(255, 255, 255);
+  text-align: center;
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+
+  border-top-right-radius: 20px;
+  transition: all 0.2s;
+  border-style: none;
+  color: white;
+  margin-bottom: 2.5vh;
+  padding-top: 1vh;
+}
+.inpuestos {
+  position: relative;
+  top: 5vh;
+  width: 13.5vw;
+  height: 10vh;
+  border-top-right-radius: 20px;
+  left: 2vw;
+  background-image: linear-gradient(
+    to right,
+    #ffcc03,
+    #ffa800,
+    #fb8200,
+    #f3590d,
+    #e52320
+  );
+  padding-left: 1vw;
+  padding-top: 1vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+nav {
+  padding: 15px;
+}
+
+nav a {
+  color: white;
+  font-size: 15px;
+}
+h5 {
+  color: white;
+  font-weight: 700;
+  /* font-size: 25px; */
+}
+a {
+  text-decoration: none;
+}
+/* ----------------------------------------------- */
+
+/* .scale-up-center {
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
   animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
-
-/* ----------------------------------------------
- * Generated by Animista on 2023-2-10 16:35:20
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation scale-up-center
- * ----------------------------------------
- */
 @-webkit-keyframes scale-up-center {
   0% {
     -webkit-transform: scale(0.6);
@@ -135,17 +207,17 @@ export default {
     -webkit-transform: scale(1);
     transform: scale(1);
   }
-}
+} */
 
-.svg {
+/* .svg {
   max-width: 25px;
   margin-left: 10px;
   animation-name: comunicacion;
   animation-duration: 1s;
   animation-iteration-count: infinite;
-}
+} */
 
-@keyframes comunicacion {
+/* @keyframes comunicacion {
   0% {
     transform: rotate(0deg);
   }
@@ -155,152 +227,25 @@ export default {
   50% {
     transform: rotate(-10deg);
   }
-}
+} */
 
-nav {
-  padding: 15px;
-}
-
-nav a {
-  color: white;
-  font-size: 15px;
-}
-
-.nav-container {
-  color: var(--text-color);
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-  width: 17vw;
-  padding: 0;
-  height: 100vh;
-  background-image: linear-gradient(0deg, #fff 0%, #d9d9d9 100%);
-}
-.navUser {
-  display: flex;
-  flex-direction: column;
-  margin-top: 6rem;
-}
-
-.bn3:first-child {
-  background-color: var(--red);
-}
-
-.bn3 {
-  /*background: var(--blue);
-  display: inline-block;
-  padding: 5px;
-  margin: 0 0.1em 0.1em 0;
-  border: 0.16em solid rgb(255, 255, 255);
-  border-radius: 2em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  color: #2d2d2d;
-  text-align: center;
-  transition: all 0.2s;
-  width: 100%;*/
-  height: 3rem;
-  width: 11rem;
-  border: 0.16em solid rgb(255, 255, 255);
-  text-align: center;
-  background-image: linear-gradient(
-    to right,
-    #399943,
-    #4ea242,
-    #62aa40,
-    #75b23f,
-    #88ba3e
-  );
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  padding-top: 0.8rem;
-  margin-top: 1rem;
-  transition: all 0.2s;
-  border-style: none;
-}
 .close {
   color: rgba(255, 0, 0, 0.542);
   font-weight: bold;
 }
 
-.bn3:hover {
-  background-color: rgb(63, 119, 192);
-  color: black;
-}
-
-.bn3:focus {
-  background-color: #88ba3e;
-}
-
 /* CSS */
-a {
-  text-decoration: none;
-}
-.usuario {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: left;
-  width: 300px;
-}
 
-.logo {
-  width: 70%;
-  margin: 10% 0;
+@media (max-width: 1200px) {
+  h6 {
+    font-size: 13px;
+  }
 }
-
-.usuario-img {
-  width: 80px;
+@media (max-width: 1000px) {
+  h6 {
+    font-size: 13px;
+  }
 }
-
-.usuario-details {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  flex-flow: column wrap;
-  padding-left: 20px;
-  text-align: left;
-}
-
-/* CSS */
-.nav-btn {
-  background-color: #e1ecf4;
-  border-radius: 3px;
-  border: 1px solid #7aa7c7;
-  box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
-  color: #39739d;
-  cursor: pointer;
-  outline: none;
-  width: 100%;
-  margin-bottom: 10px;
-  border-radius: 15px;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-}
-
-.nav-btn:hover,
-.nav-btn:focus {
-  background-color: var(--yellow);
-  color: #2c5777;
-}
-
-.nav-btn:focus {
-  box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
-}
-
-.nav-btn:active {
-  background-color: #a0c7e4;
-  box-shadow: none;
-  color: #2c5777;
-}
-
 @media (max-width: 800px) {
   .nav-container {
     display: none;

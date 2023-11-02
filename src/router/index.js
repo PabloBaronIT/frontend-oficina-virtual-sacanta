@@ -48,11 +48,9 @@ const routes = [
     path: "/pago-resultado",
     name: "pago-resultado",
     component: () => import("@/views/PagoVista/pagoResultadoView.vue"),
-    meta: { requiresAuth: true },
   },
-
   {
-    path: "/formulario/:formularioTitle/:formularioId",
+    path: "/formulario/cuestionario/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },

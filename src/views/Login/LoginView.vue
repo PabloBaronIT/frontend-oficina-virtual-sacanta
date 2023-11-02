@@ -1,9 +1,7 @@
 <template>
   <div class="form-container">
-    <div>
-      <LoginComponent />
-      <LoginMunicipal />
-    </div>
+    <LoginComponent />
+    <LoginMunicipal />
   </div>
 </template>
 
@@ -36,6 +34,7 @@ export default {
   width: 100vw;
   margin-left: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
