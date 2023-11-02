@@ -73,7 +73,9 @@
       <h5>Compartidas conmigo</h5>
       <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
     </div>
-    <TablaNotificacionesComponent :communications="this.communications" />
+    <div style="margin-bottom: 6vh">
+      <TablaNotificacionesComponent :communications="this.communications" />
+    </div>
     <!-- LISTADO DE COMUNICACIONES -->
 
     <!-- <CardNotificacionComponentVue

@@ -22,11 +22,9 @@
               {{ $store.state.user.firstname }}
             </strong>
           </h4>
-          <h5>
-            <span>CUIL: {{ $store.state.user.cuil }} </span>
-          </h5>
+          <h5>CUIL: {{ $store.state.user.cuil }}</h5>
           <router-link v-show="permission" :to="`/micuenta`">
-            <p style="margin-top: -11px">Mi cuenta</p>
+            <p style="margin-top: -11px; font-size: 15px">Mi cuenta</p>
           </router-link>
           <!-- <img
             class="svg"
@@ -585,6 +583,10 @@ a {
 .nameRepresntative {
   cursor: pointer;
   color: #2c5777;
+}
+h5,
+p {
+  color: #e52320;
 }
 /* ------------------------------------------------------------ */
 @media (max-width: 1200px) {

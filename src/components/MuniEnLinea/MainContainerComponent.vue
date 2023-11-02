@@ -18,9 +18,10 @@
           @mouseover="this.setClass"
           @mouseout="this.NotSetClass"
         >
-          <h5 :class="{ activeHover: hoverCategorias }">
-            Trámites Administrativos
-          </h5>
+          <div class="tabs">
+            <h5>Trámites administrativos</h5>
+            <div :class="{ activeHover: hoverCategorias }"></div>
+          </div>
           <div class="gridcontainer">
             <div v-for="sector in categorias" :key="sector.Id">
               <router-link
@@ -46,7 +47,11 @@
           @mouseover="this.setServisClass"
           @mouseout="this.NotServisClass"
         >
-          <h5 :class="{ activeHover: hoverServicios }">Servicios y reclamos</h5>
+          <div class="tabs">
+            <h5>Servicios y reclamos</h5>
+            <div :class="{ activeHover: hoverServicios }"></div>
+          </div>
+
           <div class="gridcontainer">
             <div v-for="sector in servicios" :key="sector.Id">
               <router-link
@@ -382,9 +387,18 @@ h5 {
   border-top-right-radius: 20px;
   border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
 }
+.tabs {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .activeHover {
-  text-decoration: underline;
-  text-decoration-color: rgba(255, 0, 0, 0.856);
+  position: absolute;
+  width: 4vw;
+  height: 2px;
+  background: linear-gradient(90deg, #ffcc03 -6.36%, #e52320 100%);
 }
 .items {
   width: 70vw;

@@ -3,6 +3,7 @@
     <div style="margin-bottom: 3vh">
       <SearchPresentadasComponent />
     </div>
+
     <div
       style="
         box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
@@ -10,12 +11,6 @@
       "
     >
       <div class="divTitulos">
-        <!-- <p>Titulo</p>
-      <P>ID</P>
-      <P>Asunto</P>
-      <p>Estado</p>
-      <p>Más</p>
-      <p>Historial</p> -->
         <p>N° GESTIÓN</p>
         <p>FECHA</p>
         <p>TÍTULO</p>
