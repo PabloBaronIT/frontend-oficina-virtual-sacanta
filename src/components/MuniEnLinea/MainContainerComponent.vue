@@ -358,6 +358,7 @@ h1 {
 h5 {
   font-weight: 700;
   color: #019939;
+  font-size: 18px;
 }
 .card img {
   object-fit: cover;
