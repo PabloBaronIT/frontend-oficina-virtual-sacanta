@@ -45,10 +45,10 @@
       </div>
       <div class="bienvenida">
         <h1>¡BIENVENIDO!</h1>
-        <p>
+        <h3>
           Presentá aquí todos tus trámites y gestiones de manera rápida <br />
           y simple, sin horarios y desde el lugar que vos elijas.
-        </p>
+        </h3>
       </div>
       <div class="internoBox">
         <h1>INGRESÁ CON</h1>
@@ -57,9 +57,9 @@
             ><img src="./../../../public/img/LogoCidi.png" alt="imagen cidi"
           /></a>
         </button>
-        <p>Accedé a todos los trámites y servicios</p>
+        <h3>Accedé a todos los trámites y servicios</h3>
         <div class="linea"></div>
-        <p>También podés acceder sin usuario de CIDI</p>
+        <h3>También podés acceder sin usuario de CIDI</h3>
         <div
           class="botonServicios"
           @click="() => (this.modalFormulario = true)"
@@ -77,7 +77,7 @@
               fill="#019939"
             />
           </svg>
-          <p>Accedé con servicios limitados</p>
+          <h5>Accedé con servicios limitados</h5>
         </div>
       </div>
     </div>
@@ -684,7 +684,7 @@ p {
 .botonServicios {
   position: relative;
   height: 7.5vh;
-  width: 18vw;
+  width: 20vw;
   background: white;
   border-radius: 10px;
   margin: auto;
@@ -693,15 +693,15 @@ p {
   text-align: right;
   cursor: pointer;
 }
-.botonServicios p {
+.botonServicios h5 {
   color: #000;
-  font-size: 18px;
-  margin-top: 0.5rem;
+  font-size: 20px;
+  margin-top: 1rem;
 }
 .svgCirculo {
   position: absolute;
   margin-top: -0.2vh;
-  left: 0.4vw;
+  left: 1vw;
 }
 .modalFormulario {
   position: absolute;
@@ -759,6 +759,9 @@ p {
   /* float: left; */
   height: 80%;
   width: 90%;
+}
+h3 {
+  color: white;
 }
 /*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {

@@ -29,14 +29,16 @@
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <div>
-                  <img :src="sector.description" alt="imagen" />
-                  <!-- <i class="bi bi-emoji-sunglasses"></i> -->
-                </div>
-                <div style="margin-left: 15px">
-                  <h5 style="text-decoration: none">
-                    <strong> {{ sector.title }}</strong>
-                  </h5>
+                <div class="card-body">
+                  <div>
+                    <img :src="sector.description" alt="imagen" />
+                    <!-- <i class="bi bi-emoji-sunglasses"></i> -->
+                  </div>
+                  <div style="margin-left: 15px">
+                    <h5 style="text-decoration: none">
+                      <strong> {{ sector.title }}</strong>
+                    </h5>
+                  </div>
                 </div>
               </router-link>
             </div>
@@ -59,14 +61,16 @@
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <div>
-                  <img :src="sector.description" alt="imagen" />
-                  <!-- <i class="bi bi-emoji-sunglasses"></i> -->
-                </div>
-                <div style="margin-left: 15px">
-                  <h5 style="text-decoration: none">
-                    <strong> {{ sector.title }}</strong>
-                  </h5>
+                <div class="card-body">
+                  <div>
+                    <img :src="sector.description" alt="imagen" />
+                    <!-- <i class="bi bi-emoji-sunglasses"></i> -->
+                  </div>
+                  <div style="margin-left: 15px">
+                    <h5 style="text-decoration: none">
+                      <strong> {{ sector.title }}</strong>
+                    </h5>
+                  </div>
                 </div>
               </router-link>
             </div>
@@ -373,21 +377,30 @@ h5 {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   width: 85%;
   height: 14.5vh;
+  border-radius: 0px 20px 0px 0px;
+  background-color: white;
+  text-align: left;
+  padding: 0.3rem;
+  margin: auto;
+  /* border: 4px solid transparent; */
+}
+.card-body {
+  background: white;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border-radius: 0px 20px 0px 0px;
-  background-color: white;
-  text-align: left;
-  padding: 1rem;
-  margin: auto;
-  border: 4px solid transparent;
+  border-radius: 0px 19px 0px 0px;
+  height: 100%;
+  width: 100%;
 }
 .card:hover {
-  border-top-right-radius: 20px;
-  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
+  background: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%);
+  /* position: relative; */
 }
+/* .card:hover {
+  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
+} */
 .tabs {
   position: relative;
   display: flex;
