@@ -35,7 +35,7 @@
                     <!-- <i class="bi bi-emoji-sunglasses"></i> -->
                   </div>
                   <div style="margin-left: 15px">
-                    <h5 style="text-decoration: none">
+                    <h5>
                       <strong> {{ sector.title }}</strong>
                     </h5>
                   </div>
@@ -364,43 +364,47 @@ h5 {
   color: #019939;
   font-size: 18px;
 }
-.card img {
-  object-fit: cover;
-  width: 100%;
-  min-height: 20px;
+.card-body img {
+  /* object-fit: cover; */
+  width: 90%;
+  min-height: 25px;
+  margin-bottom: 0;
 }
 
 .card {
   background: var(--grey-bk);
   font-weight: bold;
-  border: none;
+  /* border: none; */
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
-  width: 85%;
+  width: 90%;
   height: 14.5vh;
   border-radius: 0px 20px 0px 0px;
   background-color: white;
   text-align: left;
   padding: 0.3rem;
   margin: auto;
-  /* border: 4px solid transparent; */
+}
+.card h5 {
+  font-size: 17px;
+  color: #9b9a9a;
 }
 .card-body {
   background: white;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
   border-radius: 0px 19px 0px 0px;
   height: 100%;
   width: 100%;
 }
 .card:hover {
   background: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%);
+  /* width: 110%; */
   /* position: relative; */
 }
-/* .card:hover {
-  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
-} */
+.card h5:hover {
+  color: #019939;
+}
+
 .tabs {
   position: relative;
   display: flex;

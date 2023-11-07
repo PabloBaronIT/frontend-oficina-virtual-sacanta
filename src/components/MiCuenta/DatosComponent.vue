@@ -4,7 +4,7 @@
     <div class="Box-contenedor">
       <div class="boxIzquierdo">
         <div class="cuadro"></div>
-        <h5>PABLO BARON</h5>
+        <h5>{{ this.name }} {{ this.lastname }}</h5>
         <div
           style="
             height: 30%;
@@ -17,15 +17,52 @@
             <i class="bi bi-calendar4-week" style="margin-right: 8px"></i
             >11/10/1980</span
           >
-          <span>123456</span>
-          <span>3564306657</span>
+          <span>
+            <i class="bi bi-person-vcard-fill" style="margin-right: 8px"></i
+            >{{ this.cuil }}</span
+          >
+          <span>
+            <i class="bi bi-phone" style="margin-right: 8px"></i
+            >{{ this.phoneNumber }}</span
+          >
         </div>
       </div>
       <div class="boxDerecho">
-        <h5>Informacion personal</h5>
+        <h5>
+          Informacion personal
+          <i
+            class="bi bi-pencil-fill"
+            style="font-size: 12px; color: #019939; margin-left: 1rem"
+          ></i>
+        </h5>
+        <div class="datos-container">
+          <div class="titulos">
+            <label for="">Email</label>
+            <input type="text" name="" id="" :value="this.email" />
+          </div>
+          <div class="titulos">
+            <label for="">Celular</label>
+            <input type="text" name="" id="" :value="this.phoneNumber" />
+          </div>
+
+          <div class="titulos">
+            <label for="">Calle</label>
+            <input type="text" name="" id="" :value="this.adress" />
+          </div>
+          <div class="titulos">
+            <label for="">CP</label>
+            <input type="text" name="" id="" :value="this.postCode" />
+          </div>
+        </div>
       </div>
     </div>
+    <div class="volver">
+      <router-link to="/munienlinea">
+        <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+      </router-link>
 
+      <h4>Volver al Incio</h4>
+    </div>
     <!-- <div class="datos-container">
       <p>
         Nombre completo:
@@ -72,6 +109,7 @@ export default {
       fecha_creacion: "",
       city: "",
       phoneNumber: "",
+      postCode: "",
     };
   },
   created() {
@@ -111,6 +149,7 @@ export default {
           this.phoneNumber = res.user.phoneNumber;
           this.nivel = res.user.level.level;
           this.fecha_creacion = res.user.created_at;
+          this.postCode = res.user.postCode;
         })
         .catch((error) => {
           if (error.response.status === 500) {
@@ -154,11 +193,12 @@ export default {
 }
 .boxDerecho {
   width: 54vw;
-  height: 25vh;
+  height: 30vh;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   background: #fff;
   padding: 16px 20px 18px 18px;
   border-radius: 0px 20px 0px 0px;
+  position: relative;
 }
 .Box-contenedor {
   display: flex;
@@ -175,7 +215,43 @@ h5 {
   background: #d9d9d9;
   margin-bottom: 2vh;
 }
-
+.volver {
+  position: absolute;
+  bottom: 20vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  left: 4vw;
+}
+.volver h4 {
+  margin-left: 14px;
+  color: #808081;
+  font-weight: 100;
+  margin-top: 1.5vh;
+}
+.datos-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* text-align: center; */
+  width: 100%;
+  position: relative;
+  /* height: 100%; */
+}
+input {
+  border: none;
+  border-bottom: 1px solid black;
+  width: 70%;
+  font-size: 20px;
+}
+label {
+  font-size: 13px;
+}
+.titulos {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
 /*  */
 /* .container {
   display: flex;
@@ -183,15 +259,6 @@ h5 {
   width: 100vw;
   align-items: center;
   justify-content: center;
-} */
-
-/* .datos-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  text-align: center;
-  width: 100%;
-  border: 1px solid var(--grey);
-  border-radius: 10px;
 } */
 
 p {

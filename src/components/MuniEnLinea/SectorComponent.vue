@@ -28,15 +28,17 @@
         <!-- <div class="divTitleImag"> -->
         <!-- <img src="@/assets/tramite-logo.svg" :alt="tramite.id" /> -->
         <!-- <div class="divTitle"> -->
-        <router-link
-          v-if="tramite.level.level <= this.nivel"
-          :to="`/formulario/cuestionario/${tramite.title}/${tramite.id}?sectorTitle=${this.$route.params.sectorTitle}&sectorId=${this.$route.params.sectorId}`"
-        >
-          <h5>
-            {{ tramite.title }}
-          </h5>
-        </router-link>
-        <div v-else @click="ModalNivel(tramite.id)">
+        <div v-if="tramite.level.level <= this.nivel" class="card-body">
+          <router-link
+            :to="`/formulario/cuestionario/${tramite.title}/${tramite.id}?sectorTitle=${this.$route.params.sectorTitle}&sectorId=${this.$route.params.sectorId}`"
+          >
+            <h5>
+              {{ tramite.title }}
+            </h5>
+          </router-link>
+        </div>
+
+        <div v-else @click="ModalNivel(tramite.id)" class="card-body">
           <h5>
             {{ tramite.title }}
           </h5>
@@ -194,9 +196,9 @@ export default {
   margin-top: 7vh;
 }
 .imagenSector {
-  width: 5vw;
+  width: 6vw;
   height: 7vh;
-  margin-top: 7vh;
+  margin-top: 8vh;
   margin-left: 4vw;
 }
 .sinTramites {
@@ -207,20 +209,28 @@ export default {
 .cardTramites {
   position: relative;
   background: var(--grey-bk);
-  border: none;
+
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
-  width: 15vw;
+  min-width: 100%;
   height: 14.5vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
   border-radius: 0px 20px 0px 0px;
-  background-color: white;
-  text-align: left;
-  padding: 1rem;
+  background: white;
+  padding: 0.3rem;
+  margin: auto;
   cursor: pointer;
-  border: 4px solid transparent;
+}
+.cardTramites h5 {
+  font-size: 17px;
+  color: #9b9a9a;
+}
+.card-body {
+  background: white;
+  border-radius: 0px 19px 0px 0px;
+  min-height: 100%;
+  min-width: 100%;
+  text-align: left;
+  padding-top: 2rem;
+  padding: 1rem;
 }
 .cardTramites a {
   text-decoration: none;
@@ -231,9 +241,9 @@ h5 {
   font-weight: 700;
 }
 .cardTramites:hover {
-  border-image: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%) 1;
+  background: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%);
 }
-h5:hover {
+.cardTramites h5:hover {
   color: #019939;
 }
 .tramites {
@@ -242,8 +252,9 @@ h5:hover {
   gap: 3vw;
   margin-top: 6vh;
   margin-bottom: 200px;
-  margin-left: 3vw;
-  /* grid-auto-rows: minmax(100px, auto); */
+  padding-left: 3vw;
+  width: 100%;
+  /* grid-auto-rows: minmax(100%, auto); */
 }
 .modalEstado {
   display: flex;
