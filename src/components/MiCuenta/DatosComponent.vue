@@ -41,17 +41,16 @@
             <input type="text" name="" id="" :value="this.email" />
           </div>
           <div class="titulos">
-            <label for="">Celular</label>
-            <input type="text" name="" id="" :value="this.phoneNumber" />
-          </div>
-
-          <div class="titulos">
             <label for="">Calle</label>
             <input type="text" name="" id="" :value="this.adress" />
           </div>
           <div class="titulos">
             <label for="">CP</label>
             <input type="text" name="" id="" :value="this.postCode" />
+          </div>
+          <div class="titulos">
+            <label for="">Ciudad</label>
+            <input type="text" name="" id="" :value="this.city" />
           </div>
         </div>
       </div>
@@ -233,10 +232,10 @@ h5 {
 .datos-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* text-align: center; */
-  width: 100%;
+  width: 80%;
   position: relative;
-  /* height: 100%; */
+  margin: auto;
+  margin-top: 2vh;
 }
 input {
   border: none;
