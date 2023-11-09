@@ -135,11 +135,30 @@
         Si tu gestion es para Rentas o Afip, también te facilitamos el acceso:
       </h5>
       <div class="items">
-        <img src="./../../assets/images/Rentas.svg" alt="" />
-        <img src="./../../assets/images/Afip.svg" />
-        <img src="./../../assets/images/Anses.svg" alt="" />
-
-        <img src="./../../assets/images/DNRPA.svg" alt="" />
+        <a
+          href="https://www.rentascordoba.gob.ar/inicio/"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/Rentas.svg" alt=""
+        /></a>
+        <a
+          href="https://www.afip.gob.ar/landing/default.asp"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/Afip.svg"
+        /></a>
+        <a
+          href="https://www.anses.gob.ar/"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/Anses.svg" alt=""
+        /></a>
+        <a
+          href="https://www.dnrpa.gov.ar/portal_dnrpa/"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/DNRPA.svg" alt=""
+        /></a>
       </div>
     </div>
   </div>
@@ -350,7 +369,7 @@ export default {
   margin-top: 5vh;
   padding-bottom: 5vh;
 }
-.accesos h4 {
+.accesos h5 {
   font-weight: 400;
   color: #9b9a9a;
 }

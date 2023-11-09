@@ -50,17 +50,17 @@
       </div>
       <!-- FILTROS -->
       <div v-if="this.modalFiltros">
-        <FiltrosComponent
+        <!-- <FiltrosComponent
           :functionFiltros="this.getFiltro"
           :setModalFiltros="this.setModalFiltros"
-        />
+        /> -->
       </div>
       <!-- VISTA EN TABLA DE TODOS LOS TRAMITES -->
       <div v-if="this.vista" class="containerTramites">
-        <TablaFiltrosComponent
+        <!-- <TablaFiltrosComponent
           :history="this.history"
           :message="this.message"
-        />
+        /> -->
       </div>
       <!-- CONTENEDOR DE TODOS LOS TRAMITES -->
       <div class="container-medio" v-else>
@@ -117,7 +117,7 @@
               <img
                 @click="Modal()"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
@@ -292,11 +292,11 @@
               <img
                 @click="CloseTarea()"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
-            <CreateTasksComponentVue :id="this.selectedTramite" />
+            <!-- <CreateTasksComponentVue :id="this.selectedTramite" /> -->
           </div>
         </div>
 
@@ -311,18 +311,18 @@
               <img
                 @click="this.modalComunicacion = false"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
 
-            <ModalCreateRYCComponentVue
+            <!-- <ModalCreateRYCComponentVue
               :submitFunction="this.submitComunicacion"
               :datosEnviados="this.datosEnviados"
               :documents="true"
               :submitCidi="this.submitCidi"
               :level="this.level"
-            />
+            /> -->
           </div>
         </div>
         <!-- MODAL PARA HACER UN REQUERIMIETO AL TRAMITE-->
@@ -336,14 +336,14 @@
               <img
                 @click="this.modalRequerimiento = false"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
-            <ModalCreateRYCComponentVue
+            <!-- <ModalCreateRYCComponentVue
               :submitFunction="this.submitRequerimiento"
               :datosEnviados="this.datosEnviados"
-            />
+            /> -->
           </div>
         </div>
         <!-- MODAL PARA FINALIZAR EL TRAMITE -->
@@ -360,17 +360,17 @@
               <img
                 @click="this.modalComunicacionFinal = false"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
 
-            <ModalCreateRYCComponentVue
+            <!-- <ModalCreateRYCComponentVue
               :submitFunction="this.submitComunicationFinalized"
               :datosEnviados="this.datosEnviados"
               :documents="true"
               :finalized="true"
-            />
+            /> -->
           </div>
         </div>
         <div class="modalRespuesta">
@@ -380,7 +380,7 @@
               <img
                 @click="() => (this.messageBuscar = false)"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
@@ -395,7 +395,7 @@
               <img
                 @click="this.modalPdf = false"
                 class="svg"
-                src="@/assets/close.svg"
+                src="@/assets/images/close.svg"
                 alt=""
               />
             </div>
@@ -422,11 +422,11 @@
 <script>
 import axios from "axios";
 import setTokenMuni from "@/middlewares/setTokenMuni";
-import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
-import ModalCreateRYCComponentVue from "../Requerimientos/ModalCreateRYCComponentVue.vue";
+// import CreateTasksComponentVue from "../Tareas/CreateTasksComponent.vue";
+// import ModalCreateRYCComponentVue from "../Requerimientos/ModalCreateRYCComponentVue.vue";
 import CardComponentVue from "../CardComponent.vue";
-import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
-import FiltrosComponent from "../Filtros/FiltrosComponent.vue";
+// import TablaFiltrosComponent from "../Filtros/TablaFiltrosComponent.vue";
+// import FiltrosComponent from "../Filtros/FiltrosComponent.vue";
 import { BASE_URL } from "@/env";
 import jsPDF from "jspdf";
 
@@ -435,11 +435,11 @@ export default {
     color: String,
   },
   components: {
-    CreateTasksComponentVue,
-    ModalCreateRYCComponentVue,
+    // CreateTasksComponentVue,
+    // ModalCreateRYCComponentVue,
     CardComponentVue,
-    TablaFiltrosComponent,
-    FiltrosComponent,
+    // TablaFiltrosComponent,
+    // FiltrosComponent,
   },
   data() {
     return {

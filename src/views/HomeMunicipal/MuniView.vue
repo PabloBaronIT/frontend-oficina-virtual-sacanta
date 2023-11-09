@@ -46,7 +46,7 @@
           aria-labelledby="home-tab"
           tabindex="0"
         >
-          <MyTasksComponentVue />
+          <!-- <MyTasksComponentVue /> -->
         </div>
         <div
           class="tab-pane fade"
@@ -55,7 +55,7 @@
           aria-labelledby="profile-tab"
           tabindex="0"
         >
-          <MySentTasksComponentVue />
+          <!-- <MySentTasksComponentVue /> -->
         </div>
       </div>
     </section>
@@ -68,11 +68,11 @@
 
 <script>
 import Tabla from "@/components/Municipal/Tramites/TablaComponent.vue";
-import ModalGraficoComponent from "@/components/Municipal/Tramites/ModalGraficoComponent.vue";
+// import ModalGraficoComponent from "@/components/Municipal/Tramites/ModalGraficoComponent.vue";
 // import GraficoComponent from "@/components/Municipal/GraficoComponent.vue";
-import BarComponent from "@/components/Municipal/Tramites/BarComponent.vue";
-import MyTasksComponentVue from "@/components/Municipal/Tareas/MyTasksComponent.vue";
-import MySentTasksComponentVue from "@/components/Municipal/Tareas/MySentTasksComponent.vue";
+// import BarComponent from "@/components/Municipal/Tramites/BarComponent.vue";
+// import MyTasksComponentVue from "@/components/Municipal/Tareas/MyTasksComponent.vue";
+// import MySentTasksComponentVue from "@/components/Municipal/Tareas/MySentTasksComponent.vue";
 export default {
   name: "MuniView",
   data() {
@@ -83,12 +83,12 @@ export default {
     // };
   },
   components: {
-    ModalGraficoComponent,
+    // ModalGraficoComponent,
     Tabla,
     // GraficoComponent,
-    BarComponent,
-    MyTasksComponentVue,
-    MySentTasksComponentVue,
+    // BarComponent,
+    // MyTasksComponentVue,
+    // MySentTasksComponentVue,
   },
   // methods: {
   //   refresh() {

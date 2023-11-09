@@ -37,7 +37,7 @@
     </div>
     <!-- ------- -->
 
-    <div class="row" v-else style="margin-top: 8vh">
+    <div class="row" v-else style="margin-top: 5vh">
       <FormularioComponent
         :questionProp="this.preguntas"
         :nivel="this.nivel"

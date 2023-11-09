@@ -7,9 +7,9 @@
       this.setPermission
     "
   />
-  <NavMunicipalesComponentVue
+  <!-- <NavMunicipalesComponentVue
     v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
-  />
+  /> -->
   <div class="main-container">
     <NavComponent
       v-if="
@@ -44,7 +44,7 @@
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
-import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
+// import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 import FooterComponentVue from "@/components/Footer/FooterComponent.vue";
 import FechaComponent from "@/components/Fecha/FechaComponent.vue";
 export default {
@@ -122,7 +122,7 @@ export default {
   components: {
     NavComponent,
     NavTopVue,
-    NavMunicipalesComponentVue,
+    // NavMunicipalesComponentVue,
     FooterComponentVue,
     FechaComponent,
   },

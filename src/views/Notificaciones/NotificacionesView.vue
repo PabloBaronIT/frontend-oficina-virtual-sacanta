@@ -304,13 +304,15 @@ export default {
 }
 .nav {
   align-self: flex-start;
+  margin-top: 1vh;
   /* display: flex;
+  
   flex-direction: row;
   justify-content: center; */
   /* width: 8vw; */
 }
 .svg {
-  max-width: 10px;
+  max-width: 15px;
   margin-left: 1rem;
 }
 .contador {

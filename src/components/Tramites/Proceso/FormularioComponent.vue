@@ -9,7 +9,7 @@
         {{ this.preguntas[this.paso].question.title }}
       </h5>
     </div>
-    <form action="" style="margin-bottom: 17vh">
+    <form action="" style="margin-bottom: 20vh">
       <!--DETALLES DE OPCIONES-->
       <div
         :v-if="
@@ -65,13 +65,16 @@
         <div
           v-if="item.title !== `Indique la ubicación` && item.type === 'number'"
           class="tipoTexto"
+          style="align-items: center"
         >
           <!-- <label class="option-text">{{ item.title }}</label -->
-          ><br />
-          <label for=""> {{ item.description }}</label>
-
+          <br />
+          <label for="">
+            {{ item.description }}
+          </label>
           <input
             class="form-control text-number-input"
+            style="width: 27vw"
             :type="item.type"
             v-model="this.textInput"
           />
@@ -128,12 +131,13 @@
 
         <div v-if="item.type == 'file'" class="file-container">
           <div v-if="!asd" class="file-intro">
-            <img
+            <!-- <img
               src="@/assets/tramite-logo.svg"
               alt=""
               id="img-preview"
               class="imgFile"
-            />
+            /> -->
+            <i class="bi bi-upload" style="font-size: 35px"></i>
 
             <hr />
             <input
@@ -145,10 +149,10 @@
             />
 
             <!--INPUT PARA SUBIR EL ARCHIVO-->
-            <div class="fileup">
+            <div>
               <input
                 v-if="this.fileSelect"
-                class="m-2 btn btn-secondary"
+                class="m-2 btn btnColor"
                 type="button"
                 value="Subir archivo"
                 @click="postFile()"
@@ -623,6 +627,10 @@ export default {
 
 <style scoped>
 /* CSS NUEVO */
+.btnColor {
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+  color: white;
+}
 h5 {
   color: #019939;
   font-weight: 900;
@@ -664,10 +672,11 @@ h5 {
 .questions {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 8vh;
   padding-left: 1rem;
   width: 50vw;
   margin: auto;
+  /* background: white; */
 }
 
 .topquestion {
@@ -685,10 +694,13 @@ h5 {
 }
 
 .tipoTexto input[type="number"] {
-  width: 40%;
+  /* width: 40%; */
   margin-left: 1rem;
+  height: 3rem;
+
   border-radius: 10px;
   margin-top: 1rem;
+  border: none;
 }
 .tipoTexto input[type="text"] {
   width: 40%;
@@ -725,31 +737,30 @@ h5 {
 
 .file-container {
   border: 1px solid var(--grey);
-  padding: 20px;
+  padding: 1rem;
   border-radius: 5px;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
-  width: 50%;
+  width: 75%;
   margin: auto;
   margin-bottom: 2rem;
 }
 
 .file-intro {
   display: flex;
-  flex-flow: column wrap;
+  /* flex-flow: column wrap; */
+  width: 100%;
   justify-content: center;
 }
 
 .file-intro input[type="file"] {
   margin: auto;
+  margin-left: 1rem;
 }
 .imgFile {
   height: 4rem;
   width: 4rem;
-  margin: auto;
-}
-.fileup {
   margin: auto;
 }
 
@@ -774,7 +785,7 @@ h5 {
   padding-right: 2rem;
 }
 .option-text {
-  font-size: 1.1em;
+  font-size: 1.3em;
 }
 .modalReclamo {
   position: absolute;

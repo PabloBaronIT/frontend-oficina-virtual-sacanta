@@ -8,6 +8,7 @@
       style="
         box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
         border-top-right-radius: 20px;
+        margin-bottom: 6vh;
       "
     >
       <div class="divTitulos">
@@ -34,7 +35,7 @@
           />
         </div>
         <p>
-          <img src="./../../assets/images/Descargar.svg" alt="" srcset="" />
+          <img src="./../../assets/images/DescargaColor.svg" alt="" srcset="" />
         </p>
       </div>
       <div v-for="(item, index) in this.activos" :key="index">
@@ -52,7 +53,11 @@
           <p></p>
           <p
             @click="this.open(item.id)"
-            style="cursor: pointer; text-decoration: underline"
+            style="
+              cursor: pointer;
+              text-decoration: underline;
+              padding-right: 2.5vw;
+            "
           >
             <img src="./../../assets/images/Descargar.svg" alt="" />
           </p>
@@ -176,7 +181,7 @@
           <img
             @click="CloseModalRespuesta($event)"
             class="svg"
-            src="@/assets/close.svg"
+            src="@/assets/images/close.svg"
             alt=""
           />
         </div>
@@ -256,7 +261,7 @@
         <img
           @click="this.modalVista = false"
           class="svg"
-          src="@/assets/close.svg"
+          src="@/assets/images/close.svg"
           alt=""
         />
       </div>
@@ -270,6 +275,16 @@
 
           Estado:{{ this.selectTramite.procedure.status.status }}
         </p>
+        <div>
+          <h5>Ultima comunicación de su trámite:</h5>
+          <p>
+            {{
+              this.selectTramite.procedure.communication[
+                this.selectTramite.procedure.communication.length - 1
+              ].message
+            }}
+          </p>
+        </div>
         <!-- SI EXISTE REQUERIMIENTO ACTIVO SE PUEDE VER Y CONTESTAR -->
         <div
           v-if="
@@ -1143,7 +1158,7 @@ export default {
   margin-left: 2rem;
 }
 .svg {
-  max-width: 10px;
+  max-width: 15px;
   margin-left: 1rem;
 }
 .pagNum {
