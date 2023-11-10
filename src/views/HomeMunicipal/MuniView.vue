@@ -1,6 +1,6 @@
 <template>
   <article>
-    <ModalGraficoComponent v-if="token" />
+    <!-- <ModalGraficoComponent v-if="token" /> -->
     <!-- SECCION DE VISTAS DE TRAMITES -->
     <section>
       <Tabla />

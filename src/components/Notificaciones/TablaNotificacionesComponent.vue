@@ -14,6 +14,7 @@
           v-for="(item, index) in this.comunicaciones"
           :key="index"
           @click="this.verComunicacion(item.id)"
+          style="cursor: pointer"
         >
           <td>{{ new Date(item.created_at).toLocaleDateString() }}</td>
           <td>OFICINA VIRTUAL</td>

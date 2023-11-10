@@ -2,10 +2,10 @@
   <div class="main" v-if="setPermission">
     <div class="container">
       <div class="prueba-container l" v-if="!modal">
-        <div class="spinner-grow text-primary" role="status">
+        <div class="spinner-grow text-success" role="status">
           <span class="sr-only"></span>
         </div>
-        <div class="spinner-grow text-secondary" role="status">
+        <div class="spinner-grow text-success" role="status">
           <span class="sr-only"></span>
         </div>
         <div class="spinner-grow text-success" role="status">

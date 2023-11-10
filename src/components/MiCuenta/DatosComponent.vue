@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="!this.loading">
     <h1 class="tituloPrincipal">Tus datos</h1>
     <div class="Box-contenedor">
       <div class="boxIzquierdo">
@@ -89,6 +89,17 @@
       </p>
     </div> -->
   </div>
+  <div class="prueba-container l" v-else>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -109,10 +120,14 @@ export default {
       city: "",
       phoneNumber: "",
       postCode: "",
+      loading: true,
     };
   },
   created() {
-    this.getMyProfile();
+    // this.getMyProfile();
+    setTimeout(() => {
+      this.getMyProfile();
+    }, 1000);
   },
   computed: {
     fecha() {
@@ -149,6 +164,7 @@ export default {
           this.nivel = res.user.level.level;
           this.fecha_creacion = res.user.created_at;
           this.postCode = res.user.postCode;
+          this.loading = false;
         })
         .catch((error) => {
           if (error.response.status === 500) {
@@ -275,5 +291,17 @@ p {
 .datos-container img:hover {
   max-width: 22px;
   fill: var(--red);
+}
+.prueba-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 84vw;
+}
+
+.l {
+  flex-direction: row;
 }
 </style>

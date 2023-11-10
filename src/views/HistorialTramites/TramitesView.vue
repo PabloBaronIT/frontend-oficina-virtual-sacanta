@@ -1,5 +1,5 @@
 <template>
-  <main v-if="setPermission" class="sector-container">
+  <main v-if="setPermission && !this.loading" class="sector-container">
     <!-- <div class="row">
       <h1 style="margin-top: 7vh; font-size: 50px">Mis trámites</h1>
     </div> -->
@@ -11,6 +11,17 @@
     </h1>
     <Tabla color="var(--green)" />
   </main>
+  <div class="prueba-container l" v-else>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -19,6 +30,16 @@ export default {
   name: "TramitesView",
   components: {
     Tabla,
+  },
+  data() {
+    return {
+      loading: true,
+    };
+  },
+  created() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
   },
   computed: {
     setPermission() {
@@ -39,6 +60,19 @@ export default {
   font-size: 50px;
   margin-top: 7vh;
   margin-left: 4vw;
+}
+.prueba-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 84vw;
+  background-color: #f5f5f5;
+}
+
+.l {
+  flex-direction: row;
 }
 /* h1 {
   margin-top: 4vh;

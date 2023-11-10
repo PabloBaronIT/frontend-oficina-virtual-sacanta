@@ -1,5 +1,5 @@
 <template>
-  <div class="sector-container" v-if="setPermission">
+  <div class="sector-container" v-if="setPermission && !this.loading">
     <h1 class="tituloPrincipal">
       Notificaciones
       <h4 style="color: #4b4a49; font-weight: 100">
@@ -150,11 +150,17 @@
 
       <h4>Volver al Incio</h4>
     </div>
-    <!-- <div class="loading">
-      <div v-if="this.loading" class="spinner-border loading" role="status">
-        <span class="sr-only"></span>
-      </div>
-    </div> -->
+  </div>
+  <div class="prueba-container l" v-else>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
   </div>
 </template>
 
@@ -177,14 +183,16 @@ export default {
     return {
       communications: [],
       //cidiCookie: "",
-      loading: false,
+      loading: true,
       selectCommunication: null,
       message: null,
     };
   },
   created() {
     //this.cidiCookie = this.$store.state.CidiCookie;
-    this.getCommunication();
+    setTimeout(() => {
+      this.getCommunication();
+    }, 1000);
   },
   computed: {
     setPermission() {
@@ -219,6 +227,7 @@ export default {
 
             this.communications.push(element);
           }
+          this.loading = false;
         })
         .catch((error) => {
           if (error.response.status === 404) {
@@ -344,6 +353,19 @@ h5 {
   color: #808081;
   font-weight: 100;
   margin-top: 1.5vh;
+}
+.prueba-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 84vw;
+  background-color: #f5f5f5;
+}
+
+.l {
+  flex-direction: row;
 }
 /* ------------------------------------------------ */
 @media (max-width: 1200px) {

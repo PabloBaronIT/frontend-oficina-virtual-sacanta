@@ -1,6 +1,6 @@
 <template>
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
-  <div>
+  <div v-if="!loading">
     <div class="row">
       <h1 style="margin-top: 7vh; font-size: 50px">
         ¿Qué gestión querés realizar?
@@ -162,6 +162,17 @@
       </div>
     </div>
   </div>
+  <div class="prueba-container l" v-else>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -182,6 +193,7 @@ export default {
       hoverCategorias: false,
       hoverServicios: false,
       browser: null,
+      loading: true,
     };
   },
 
@@ -210,7 +222,9 @@ export default {
       this.initializeAmoForms();
       console.log;
     };
-    this.getCategories();
+    setTimeout(() => {
+      this.getCategories();
+    }, 1000);
   },
   computed: {},
   methods: {
@@ -267,6 +281,7 @@ export default {
           this.categorias = response.data.Categories.Procedures;
 
           this.servicios = response.data.Categories.Services;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
@@ -450,6 +465,18 @@ h5 {
   border-radius: 0px 20px 0px 20px;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   padding: 10px 9vw 5px 9vw;
+}
+.prueba-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 84vw;
+}
+
+.l {
+  flex-direction: row;
 }
 /*---------------------------------------------------------------- */
 
