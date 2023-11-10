@@ -131,13 +131,13 @@
 
         <div v-if="item.type == 'file'" class="file-container">
           <div v-if="!asd" class="file-intro">
-            <!-- <img
-              src="@/assets/tramite-logo.svg"
+            <img
               alt=""
               id="img-preview"
               class="imgFile"
-            /> -->
-            <i class="bi bi-upload" style="font-size: 35px"></i>
+              v-if="this.fileSelect"
+            />
+            <i class="bi bi-upload" style="font-size: 35px" v-else></i>
 
             <hr />
             <input

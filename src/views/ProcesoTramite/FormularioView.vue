@@ -370,5 +370,16 @@ h5 {
     font-weight: 700;
     font-size: 40px;
   }
+  .recuadro {
+    height: 45vh;
+  }
+}
+@media (max-width: 1200px) {
+  .recuadro {
+    height: 40vh;
+  }
+  .recuadro h5 {
+    font-size: 15px;
+  }
 }
 </style>
