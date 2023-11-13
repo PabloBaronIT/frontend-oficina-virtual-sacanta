@@ -3,14 +3,8 @@
     <div style="margin-bottom: 3vh">
       <SearchPresentadasComponent />
     </div>
-
-    <div
-      style="
-        box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
-        border-top-right-radius: 20px;
-        margin-bottom: 6vh;
-      "
-    >
+    <!-- TABLA DE TRAMITES -->
+    <div class="modalTramite">
       <div class="divTitulos">
         <p>N° GESTIÓN</p>
         <p>FECHA</p>
@@ -201,13 +195,11 @@
           <div class="file-container2">
             <div v-if="!asd" class="file-intro">
               <img
-                v-if="!this.messageResponse"
-                src="@/assets/tramite-logo.svg"
                 alt=""
                 id="img-preview"
                 class="imgFile"
+                src="@/assets/images/upload.svg"
               />
-
               <hr />
               <input
                 accept=".jpg, .jpeg, .png, .webp"
@@ -231,7 +223,7 @@
 
             <div v-else class="cargado">
               <img
-                src="@/assets/red-check-mark-icon.svg"
+                src="@/assets/images/red-check-mark-icon.svg"
                 alt=""
                 id="img-preview"
                 class="imgFile"
@@ -248,7 +240,7 @@
             v-if="this.respuestaA || this.respuestaB"
           />
         </div>
-        <p v-if="message" class="enviado">{{ this.message }}</p>
+        <h3 v-if="message" class="enviado">{{ this.message }}</h3>
       </div>
     </div>
 
@@ -499,7 +491,7 @@ import { BASE_URL } from "@/env";
 import jsPDF from "jspdf";
 export default {
   props: {
-    color: String,
+    setLoading: Function,
   },
 
   data() {
@@ -662,7 +654,7 @@ export default {
           this.length = response.data.MyProcedures.length;
 
           //this.cantTramites();
-          this.loading = false;
+          this.setLoading();
         })
         .catch((error) => {
           console.log(error);
@@ -732,6 +724,7 @@ export default {
       this.modalresponse = false;
       this.respuestaA = "";
       this.respuestaB = "";
+      this.file = "";
     },
 
     selectFile($event) {
@@ -740,7 +733,7 @@ export default {
       this.file = $event.target.files[0];
       const objectURL = URL.createObjectURL(this.file);
       imgPreview.src = objectURL;
-      console.log(this.file, "soy el archivo");
+      console.log(this.file, "soy el archivo", objectURL);
     },
     postFile: async function () {
       let CLOUDINARY_UPLOAD_PRESET = "lylceews";
@@ -755,9 +748,9 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          this.respuestaB.push({ file: data.secure_url });
+          // console.log(data);
           console.log(data.secure_url, "secure_url");
-          console.log(data);
+          this.respuestaB.push({ file: data.secure_url });
           //this.preNext();
           this.fileSelect = null;
           this.asd = true;
@@ -1047,11 +1040,15 @@ export default {
 .tabla-container {
   width: 70vw;
   height: auto;
-  /* margin: auto; */
   margin-top: 5vh;
   justify-content: flex-start;
   margin-left: 4vw;
   margin-bottom: 120px;
+}
+.modalTramite {
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+  border-top-right-radius: 20px;
+  margin-bottom: 6vh;
 }
 .divTitulos {
   display: flex;
@@ -1195,17 +1192,63 @@ export default {
   max-height: 0;
   overflow: hidden;
 }
-
-/* .encabezado p {
-  width: 40%;
-} */
-/* ----------------------------------------------------------------------------------- */
-
+.modalRespuesta {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  position: absolute;
+  top: 20%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: auto;
+  width: 500px; /* Need a specific value to work */
+  border-radius: 10px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 10px;
+  right: 15rem;
+}
+.response {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.response textarea {
+  width: 100%;
+}
+.file-container2 {
+  border: 1px solid var(--grey);
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  margin-top: 2rem;
+}
 .file-intro {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
 }
+.imgFile {
+  height: 4rem;
+  width: 4rem;
+  margin: auto;
+}
+.cargado {
+  text-align: center;
+}
+/* .encabezado p {
+  width: 40%;
+} */
+/* ----------------------------------------------------------------------------------- */
+
 .fila-tabala {
   display: flex;
   flex-direction: column;
@@ -1268,21 +1311,10 @@ input:hover {
 /* TABLA DE TRAMITES */
 
 /*  */
-.file-container2 {
-  border: 1px solid var(--grey);
-  padding: 20px;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  width: 100%;
-  margin: auto;
-  margin-top: 2rem;
-}
 
-table {
+/* table {
   width: 100%;
-}
+} */
 /* img {
   height: 25px;
   width: 25px;
@@ -1321,30 +1353,7 @@ td {
   flex-direction: column;
   border: 1px solid gray;
 }
-.modalRespuesta {
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-  position: absolute;
-  top: 20%;
-  left: 0;
-  right: 0;
-  margin-left: 35vw;
-  margin-right: auto;
-  height: auto;
-  width: 650px; /* Need a specific value to work */
-  border-radius: 10px;
-  background: rgb(255, 255, 255);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  /* backdrop-filter: blur(20px); */
-  /* -webkit-backdrop-filter: blur(20px); */
-  /* border: 1px solid rgba(255, 255, 255, 0.18); */
-  border-radius: 10px;
-  /* border: 1px solid rgba(255, 255, 255, 0.18); */
-  right: 15rem;
-}
+
 .modal-content {
   min-height: 300px;
   width: 100%;
@@ -1370,11 +1379,7 @@ span {
 .fileup {
   margin: auto;
 }
-.imgFile {
-  height: 4rem;
-  width: 4rem;
-  margin: auto;
-}
+
 /* .fecha {
   margin-top: 3rem;
 } */
@@ -1384,15 +1389,6 @@ span {
   align-items: center;
 }
 
-.response {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.response textarea {
-  width: 100%;
-}
 .enviado {
   color: green;
   font-size: 25px;

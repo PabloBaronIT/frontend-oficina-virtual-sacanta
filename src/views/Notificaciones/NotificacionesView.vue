@@ -190,9 +190,9 @@ export default {
   },
   created() {
     //this.cidiCookie = this.$store.state.CidiCookie;
-    setTimeout(() => {
-      this.getCommunication();
-    }, 1000);
+    // setTimeout(() => {
+    this.getCommunication();
+    // }, 1000);
   },
   computed: {
     setPermission() {

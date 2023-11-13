@@ -9,7 +9,7 @@
         Gestiones presentadas hasta la fecha.
       </h4>
     </h1>
-    <Tabla color="var(--green)" />
+    <Tabla :setLoading="this.setLoading" />
   </main>
   <div class="prueba-container l" v-else>
     <div class="spinner-grow text-success" role="status">
@@ -37,9 +37,9 @@ export default {
     };
   },
   created() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    // setTimeout(() => {
+    this.loading = false;
+    // }, 1000);
   },
   computed: {
     setPermission() {
@@ -48,6 +48,11 @@ export default {
       } else {
         return false;
       }
+    },
+  },
+  methods: {
+    setLoading() {
+      this.loading = false;
     },
   },
 };

@@ -19,11 +19,12 @@
           <td>{{ new Date(item.created_at).toLocaleDateString() }}</td>
           <td>OFICINA VIRTUAL</td>
           <td>{{ item.subject }}</td>
-          <td>Leida</td>
+          <td v-if="item.leido === false" style="color: red">Sin leer</td>
+          <td v-else>Leido</td>
         </tr>
       </tbody>
     </table>
-
+    <!-- MODAL PARA VER UNA COMUNICACION -->
     <div v-if="this.comunicacion" class="grafico-container">
       <!-- <p>{{ new Date(item.created_at).toLocaleDateString() }}</p>
       <p>Oficina Virtual</p>
@@ -52,21 +53,32 @@
 export default {
   data() {
     return {
-      comunicaciones: null,
+      comunicaciones: [],
       comunicacion: null,
+      leida: false,
     };
   },
   props: {
     communications: Array,
   },
   created() {
-    this.comunicaciones = this.communications;
+    // this.comunicaciones = this.communications;
+    this.getComunicaciones();
   },
   methods: {
     verComunicacion(id) {
       this.comunicacion = this.communications.filter((item) => {
         return item.id === id;
       });
+      this.comunicacion[0].leido = true;
+    },
+    getComunicaciones() {
+      for (let index = 0; index < this.communications.length; index++) {
+        const element = this.communications[index];
+        element.leido = false;
+        this.comunicaciones.push(element);
+      }
+      console.log(this.comunicaciones, "soy las comunicaciones");
     },
   },
 };

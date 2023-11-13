@@ -222,9 +222,9 @@ export default {
       this.initializeAmoForms();
       console.log;
     };
-    setTimeout(() => {
-      this.getCategories();
-    }, 1000);
+    // setTimeout(() => {
+    this.getCategories();
+    // }, 1000);
   },
   computed: {},
   methods: {

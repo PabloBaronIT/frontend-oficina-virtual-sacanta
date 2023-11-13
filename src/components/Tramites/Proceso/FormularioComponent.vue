@@ -161,7 +161,7 @@
           </div>
           <div v-else class="cargado">
             <img
-              src="@/assets/red-check-mark-icon.svg"
+              src="@/assets/images/red-check-mark-icon.svg"
               alt=""
               id="img-preview"
               class="imgFile"
