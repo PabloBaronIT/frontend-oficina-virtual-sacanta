@@ -79,31 +79,6 @@ const routes = [
     component: () => import("@/views/ResetView.vue"),
     meta: { requiresAuth: false },
   },
-  {
-    path: "/municipales",
-    name: "municipales",
-    component: () => import("@/views/HomeMunicipal/MuniView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/municipales/creacion-usuario",
-    name: "createUserMuni",
-    component: () => import("@/views/CreateUser/CreateUserMuniView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/municipales/pagos",
-    name: "municipales-pagos",
-    component: () => import("@/views/MuniPayments/MuniPaymentsView.vue"),
-    meta: { requiresAuth: true },
-  },
-
-  {
-    path: "/municipales/assign-password",
-    name: "asign-password",
-    component: () => import("@/views/AsignarPassword/AsignarPasswordView.vue"),
-    meta: { requiresAuth: true },
-  },
 ];
 
 const router = createRouter({
