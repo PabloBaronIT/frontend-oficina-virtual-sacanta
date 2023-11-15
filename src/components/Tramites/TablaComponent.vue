@@ -487,7 +487,7 @@ import axios from "axios";
 import SearchPresentadasComponent from "@/components/SearchPresentadas/SearchPresentadasComponent.vue";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL } from "@/env";
+import { BASE_URL, CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL } from "@/env";
 import jsPDF from "jspdf";
 export default {
   props: {
@@ -736,9 +736,9 @@ export default {
       console.log(this.file, "soy el archivo", objectURL);
     },
     postFile: async function () {
-      let CLOUDINARY_UPLOAD_PRESET = "lylceews";
-      let CLOUDINARY_URL =
-        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
+      // let CLOUDINARY_UPLOAD_PRESET = "lylceews";
+      // let CLOUDINARY_URL =
+      //   "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);

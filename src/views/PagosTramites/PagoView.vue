@@ -196,7 +196,7 @@ export default {
 .main {
   width: 90vw;
   height: 100vh;
-  background-color: var(--grey-bk);
+  background-color: #f5f5f5;
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   display: flex;

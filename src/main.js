@@ -10,7 +10,7 @@ import vue3GoogleLogin from "vue3-google-login";
 import Vue3Geolocation from "vue3-geolocation";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 import { plugin, defaultConfig } from "@formkit/vue";
-import { GOOGLE_CLIENT_ID } from "./env";
+import { GOOGLE_CLIENT_ID, KEY_MAP } from "./env";
 import "bootstrap/dist/css/bootstrap.css";
 import "@formkit/themes/genesis";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -22,7 +22,7 @@ createApp(App)
   .use(Vue3Geolocation)
   .use(VueGoogleMaps, {
     load: {
-      key: "AIzaSyCsrNj3q6jmjiavruiFIQIIR-xhWrDb6sQ",
+      key: KEY_MAP,
       autobindAllEvents: true,
       libraries: "places",
     },
