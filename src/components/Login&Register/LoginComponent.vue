@@ -1,69 +1,145 @@
 <template>
-  <div class="login-container">
-    <form v-if="!this.loading">
-      <img
-        class="w-50"
-        src="https://github.com/PabloBaronIT/frontend-oficina-virtual/blob/main/src/assets/muni-en-linea-logo.png?raw=true"
-        alt=""
-      />
-
-      <FormKit
-        type="form"
-        id="registration-example"
-        :actions="false"
-        incomplete-message="Aun no has completado todos los campos."
+  <div class="contenedor">
+    <div class="boxDerechoMujer"></div>
+    <!-- <div class="boxIzquierdo" v-if="modalFormulario">
+      <div class="boxIzquierdoTop"></div>
+      <div
+        style="
+          position: absolute;
+          top: 3vh;
+          left: 2vw;
+          width: 60%;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        "
       >
-        <FormKit
-          v-model="cuil"
-          type="number"
-          name="cuil"
-          label="CUIL"
-          placeholder="cuil"
-          validation="required|length:11,11|number"
-          :validation-messages="{
-            required: 'Ingresa el CUIL sin simbolos ni espacios',
-            number: 'Ingresar solo nùmeros',
-            length: 'El CUIL debe tener 11 caracteres',
-          }"
-        />
-        <FormKit
-          v-model="password"
-          type="password"
-          name="password"
-          label="Contraseña"
-          placeholder="clave"
-        />
-        <div class="botones">
-          <button type="button" class="btn btn-outline-secondary" @click="log">
-            Ingresar
-          </button>
-          <button type="button" class="btn btn-outline-secondary">
-            <router-link to="/crear-cuenta"> Crear cuenta </router-link>
-          </button>
-          <button class="btn btn-outline-secondary boton">
-            <img src="./../../../images/logo_ciudig28.png" alt="imagin cidi" />
-            <div class="representaCD">
-              <!-- <p class="nombreCD">iniciar sesion</p> -->
-              <a
-                href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
-                class="nombreCD"
-                >iniciar sesion</a
-              >
-            </div>
-          </button>
-          <GoogleLogin :callback="callback" prompt />
-          <button class="button" @click="logInWithFacebook">
-            Login with Facebook
-          </button>
-        </div>
-      </FormKit>
+        <div style="margin: auto"></div>
+        <img src="./../../../images/MuniEnLinea.svg" alt="" class="logo" />
+      </div>
+      <img src="./../../assets/HombreLogin.svg" alt="" class="hombreLogin" />
 
-      <p class="error">{{ this.msj }}</p>
-    </form>
-    <div v-if="this.loading" class="spinner-border loading" role="status">
-      <span class="sr-only"></span>
+      <div class="boxIzquierdoBotton"></div>
+      <div class="internoIzquierdo">
+        <h2><strong>BIENVENIDO</strong></h2>
+        <h3>Estás en el acceso a la oficina Virtual Municipal.</h3>
+        <h3 style="font-weight: lighter; font-size: x-large; margin-top: 1rem">
+          Presenta aqui todos tus trámites y gestiones de manera rapida y
+          simple, sin horarios y de desde el lugar que vos elijas.
+        </h3>
+      </div>
+    </div> -->
+    <!---------------->
+    <div class="boxIzquierdo">
+      <div class="logosMuni">
+        <img
+          src="./../../assets/images/LogoEnLineaBlanco.svg"
+          alt="logoMuni"
+          class="logo"
+        />
+        <img
+          src="./../../assets/images/LogoMuniBlanco.svg"
+          alt=""
+          class="logo"
+        />
+      </div>
+      <div class="bienvenida">
+        <h1>¡BIENVENIDO!</h1>
+        <p>
+          Presentá aquí todos tus trámites y gestiones de manera rápida <br />
+          y simple, sin horarios y desde el lugar que vos elijas.
+        </p>
+      </div>
+      <div class="internoBox">
+        <h1>INGRESÁ CON</h1>
+        <button class="btn btn-outline-secondary botonCidi">
+          <a href="https://cidi.test.cba.gov.ar/Cuenta/Login?app=551"
+            ><img src="./../../../public/img/LogoCidi.png" alt="imagen cidi"
+          /></a>
+        </button>
+        <h5>Accedé a todos los trámites y servicios</h5>
+        <div class="linea"></div>
+        <h5>También podés acceder sin usuario de CIDI</h5>
+        <div
+          class="botonServicios"
+          @click="() => (this.modalFormulario = true)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="52"
+            height="52"
+            viewBox="0 0 56 56"
+            fill="none"
+            class="svgCirculo"
+          >
+            <path
+              d="M27.7567 5.32361C15.3213 5.32361 5.2041 15.4408 5.2041 27.8762C5.2041 40.3116 15.3213 50.4288 27.7567 50.4288C40.1921 50.4288 50.3093 40.3116 50.3093 27.8762C50.3093 15.4408 40.1921 5.32361 27.7567 5.32361ZM22.3116 17.9899C23.6853 16.5338 25.6185 15.7325 27.7567 15.7325C29.8949 15.7325 31.8107 16.5392 33.1899 18.0029C34.5875 19.4862 35.2674 21.4791 35.1069 23.6216C34.786 27.8762 31.4898 31.3458 27.7567 31.3458C24.0236 31.3458 20.7209 27.8762 20.4065 23.6205C20.2471 21.4606 20.9259 19.4613 22.3116 17.9899ZM27.7567 46.9592C25.2092 46.9609 22.6873 46.451 20.3405 45.4598C17.9938 44.4685 15.87 43.0162 14.095 41.1888C15.1116 39.7391 16.4068 38.5065 17.9051 37.563C20.6689 35.7913 24.1667 34.8155 27.7567 34.8155C31.3467 34.8155 34.8445 35.7913 37.605 37.563C39.1046 38.506 40.401 39.7387 41.4184 41.1888C39.6436 43.0163 37.5198 44.4689 35.173 45.4601C32.8262 46.4513 30.3042 46.9611 27.7567 46.9592Z"
+              fill="#019939"
+            />
+          </svg>
+          <p>Accedé con servicios limitados</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL DE FACE-GOOGLE-USUARIO Y CONTRASEÑA -->
+    <div class="modalFormulario" v-if="this.modalFormulario">
+      <div
+        @click="() => (this.modalFormulario = false)"
+        style="font-size: 30px; position: absolute; right: 2rem"
+      >
+        x
+      </div>
+      <form style="width: 50%; margin: auto">
+        <FormKit
+          type="form"
+          id="registration-example"
+          :actions="false"
+          incomplete-message="Aun no has completado todos los campos."
+        >
+          <FormKit
+            v-model="cuil"
+            type="number"
+            name="cuil"
+            label="CUIL"
+            placeholder="cuil"
+            validation="required|length:11,11|number"
+            :validation-messages="{
+              required: 'Ingresa el CUIL sin simbolos ni espacios',
+              number: 'Ingresar solo nùmeros',
+              length: 'El CUIL debe tener 11 caracteres',
+            }"
+          />
+          <FormKit
+            v-model="password"
+            type="password"
+            name="password"
+            label="Contraseña"
+            placeholder="clave"
+          />
+          <p class="error">{{ this.msj }}</p>
+        </FormKit>
+      </form>
+
+      <div class="botones">
+        <button type="button" class="btn btn-outline-secondary" @click="log">
+          Ingresar
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+          <router-link to="/crear-cuenta"> Crear cuenta </router-link>
+        </button>
+        <GoogleLogin :callback="callback" prompt />
+        <button class="button face" @click="logInWithFacebook">
+          <i class="bi bi-facebook" style="font-size: 25px"></i>
+          Continuar con Facebook
+        </button>
+      </div>
     </div>
   </div>
+
+  <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
+      <span class="sr-only"></span>
+    </div> -->
 </template>
 
 <script>
@@ -73,16 +149,13 @@ import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import { BASE_URL } from "@/env";
 import { decodeCredential } from "vue3-google-login";
-// import { resolve } from "chart.js/dist/helpers/helpers.options";
-//Duracion e sesiones de usuario (charlar con patricio)
-//Recordar sesion mediante cookies => Ver libreria js-cookie
-//
 
 export default {
   name: "LoginComponent",
 
   data() {
     return {
+      face: null,
       cuil: null,
       password: "",
       validacion: false,
@@ -99,7 +172,7 @@ export default {
         event.preventDefault();
         this.loading = true;
         let userData = decodeCredential(response.credential);
-        console.log("Handle the response", userData);
+        console.log("respuesta de google", userData);
         const apiClient = axios.create({
           baseURL: BASE_URL,
           withCredentials: false,
@@ -136,9 +209,15 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error);
+            this.loading = false;
+            this.msj = error.response.data.message;
+
+            console.log(error.data);
           });
       },
+
+      datafacebook: "",
+      modalFormulario: false,
     };
   },
 
@@ -188,22 +267,99 @@ export default {
       }
     },
   },
+  watch: {
+    datafacebook(newValue) {
+      if (newValue) {
+        this.getLogFace(newValue);
+      }
+    },
+  },
   methods: {
     //LOGIN CON  GOOGLE O FACEBOOCK
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
-      window.FB.login(function (response) {
-        console.log(response);
-        if (response.status == "connected") {
-          window.FB.api("/me?fields=email,name", (response) => {
-            console.log(response);
-          });
-          // Now you can redirect the user or do an AJAX request to
-          // a PHP script that grabs the signed request from the cookie.
-        }
+
+      window.FB.login(
+        (response) => {
+          // console.log(response);
+
+          if (response.status == "connected") {
+            // window.FB.api("/me?fields=email,name", (response) => {
+            //   console.log(response);
+            // });
+            window.FB.api(
+              "/me",
+              "GET",
+              { fields: "id,name, email" },
+              (response) => {
+                console.log(response);
+                this.datafacebook = {
+                  name: response.name.split(" "),
+                  email: response.email,
+                };
+                console.log(
+                  this.datafacebook,
+                  "soy los datos de face en un estado"
+                );
+                // await this.getLogFace(this.datafacebook);
+                // dataUser = {
+                //   name: response.name.split(" "),
+                //   email: response.email,
+                // };
+              }
+            );
+            // console.log("otro afuera");
+            // Now you can redirect the user or do an AJAX request to
+            // a PHP script that grabs the signed request from the cookie.
+          }
+        },
+        { scope: "public_profile,email" }
+      );
+    },
+    getLogFace(userData) {
+      console.log("estoy en getlogface");
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        // headers: {
+        //   "auth-header": localStorage.getItem("token"),
+        // },
       });
-      return false;
+      apiClient
+        .post("/auth/signIn-providers", {
+          firstname: userData.name[0],
+          lastname: userData.name[1],
+          email: userData.email,
+        })
+        .then((response) => {
+          console.log(response.data);
+
+          let tokenApi = response.data.accessToken;
+          let refreshToken = response.data.refreshToken; //REFRESH TOKEN
+          let redirect = response.data["redirectURL"];
+          localStorage.setItem("token", tokenApi);
+          localStorage.setItem("refreshToken", refreshToken);
+          this.getMyProfile();
+          if (redirect) {
+            //console.log("usted debe rellenar su cuil");
+            this.loading = false;
+
+            this.$router.push("micuenta-update");
+          } else {
+            // this.loading = true;
+            // this.getMyProfile();
+            this.loading = false;
+
+            this.$router.push("munienlinea");
+          }
+        })
+        .catch((error) => {
+          this.loading = false;
+          this.msj = error.response.data.message;
+
+          console.log(error.data);
+        });
     },
     async initFacebook() {
       window.fbAsyncInit = function () {
@@ -244,6 +400,7 @@ export default {
     //LOGIN COMUN
     log() {
       this.loading = true;
+      let asd = { cuil: this.cuil, password: this.password };
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -252,7 +409,7 @@ export default {
         },
       });
       apiClient
-        .post("/auth/signin", { cuil: this.cuil, password: this.password })
+        .post("/auth/signin", asd)
 
         .then((response) => {
           console.log(response.data);
@@ -267,9 +424,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.validacion = false;
-          this.msj = "Usuario incorrecto";
           this.loading = false;
+          this.validacion = false;
+          this.msj = error.response.data.message;
         });
 
       // this.$router.push("munienlinea");
@@ -457,104 +614,157 @@ export default {
 </script>
 
 <style scoped>
-.representaCD {
-  line-height: 17px;
-  font-size: 11px;
-  color: #000;
-  float: left;
-  margin-top: 4px;
-  margin-left: 8px;
-  padding-left: 8px;
-  border-left: 1px solid #e4b254;
+/* CSS NUEVO*/
+.contenedor {
+  width: 100vw;
+  height: 100vh;
+}
+.boxDerechoMujer {
+  width: 65vw;
+  height: 120vh;
+  background-image: url("../../../public/img/fondoLogin.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  right: 0;
+  margin-top: -14vh;
 }
 
-.representaCD img {
-  padding: 0 0 0 0;
-  margin: 0 3px 0 2px;
-  float: none;
-  vertical-align: top;
+.boxIzquierdo {
+  width: 50vw;
+  height: 115vh;
+  border-radius: 0px 0px 30px 0px;
+  position: absolute;
+  top: -14vh;
+  left: -18vw;
+  background: linear-gradient(
+    158deg,
+    #019939 0%,
+    #ffcc03 58.89%,
+    #e52320 103.81%
+  );
+  backdrop-filter: blur(17.5px);
 }
-img {
-  padding: 0 0 0 0;
-  /* margin: 0 6px 0 0; */
-  float: left;
+.logosMuni {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 4vh;
 }
-.nombreCD {
-  line-height: 17px;
-  font-size: 12px;
+.logo {
+  width: 23vw;
+  height: 8vh;
+}
+.bienvenida {
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  margin-top: 8vh;
+}
+h1 {
+  color: white;
+  font-weight: 700;
+  font-size: 40px;
+}
+p {
+  font-size: 22px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+  color: white;
+}
+.internoBox {
+  /* height: 30%;
+  width: 60%; */
+  margin: auto;
+  padding-top: 7vh;
+  text-align: center;
+}
+.botonServicios {
+  position: relative;
+  height: 7.5vh;
+  width: 20vw;
+  background: white;
+  border-radius: 10px;
+  margin: auto;
+  padding-top: 1vh;
+  padding-right: 1.2vw;
+  text-align: right;
+  cursor: pointer;
+}
+.botonServicios p {
   color: #000;
-  float: left;
-  margin-top: 6px;
+  font-size: 15px;
+  margin-top: 0.5rem;
+}
+.svgCirculo {
+  position: absolute;
+  margin-top: -1.2vh;
+  left: 0.5vw;
+}
+.modalFormulario {
+  position: absolute;
+  width: 50vw;
+  height: 75vh;
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.5);
+  top: 15vh;
+  right: 30vw;
+  z-index: 1;
+  font-size: 20px;
+  padding: 2rem;
 }
 .botones {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 12rem;
-  width: 100%;
-  margin-top: 5rem;
+  width: 50%;
+  margin: auto;
+  margin-top: 1rem;
 }
-.boton {
-  width: 100%;
-  height: 3rem;
+.face {
+  background: #5890ff;
+  color: white;
+  border-radius: 5px;
+  border-color: transparent;
+  height: 45px;
+  text-align: center;
 }
-h1 {
-  color: var(--red);
-  font-weight: bold;
+.linea {
+  background: white;
+  height: 1px;
+  width: 22.5vw;
+  margin: auto;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
-a {
-  text-decoration: none;
-  color: var(--text-color);
-}
-
 .error {
   color: red;
-}
-
-.log-btn {
-  background: var(--red);
-}
-
-.deco {
-  text-align: center;
+  font-size: 13px;
   width: 200px;
-  z-index: 1;
+}
+.botonCidi {
+  width: 20vw;
+  height: 12vh;
+  background: white;
+  border-radius: 20px;
+  margin-bottom: 3vh;
 }
 
-.login-container {
-  width: 100vw;
-  height: 100vh;
-  --background-image: url("https://entemunicipioscba.org/wp-content/uploads/2018/09/munisacanta.jpg");
-  z-index: 50;
-  display: flex;
-  margin: 10px;
-  flex-flow: column wrap;
-  justify-content: space-around;
-  align-items: center;
+.botonCidi img {
+  /* padding: 0 0 0 0; */
+  /* margin: 0 6px 0 0; */
+  /* float: left; */
+  height: 80%;
+  width: 90%;
 }
-
-form {
-  width: 40vw;
-  box-shadow: 0px 0px 10px #333;
-  display: flex;
-  align-items: center;
-  justify-content: baseline;
-  flex-flow: column wrap;
-  position: relative;
-  padding: 2rem;
-  z-index: 1;
-  background: #ffffff9a;
-  border-radius: 1rem;
+h5 {
+  color: white;
+  font-size: 24px;
 }
-
-form input {
-  margin: 20px;
-}
-
-form img {
-  margin-bottom: 15%;
-}
-
+/*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {
   .deco {
     display: none;
@@ -565,44 +775,3 @@ form img {
   }
 }
 </style>
-<!--
-
-
- created() {
-    //LOGUIN A TRAVES DE CIDI!
-     let variableCidi = this.$route.query ? this.$route.query.cidi : null; //SE TOMA LA QUERY STRING DE CIDI
-    let cookieCidi = document.cookie?.split(";"); //SI EXISTE UNA COOKIE SE LEE
-    let element = null;
-    let asd = null;
-    //buscar cookie y tomar su valor
-    if (cookieCidi) {
-      for (let i = 0; i < cookieCidi.length; i++) {
-        if (cookieCidi[i].includes("cidiHash")) {
-          element = cookieCidi[i];
-        }
-      }
-      asd = element?.split("=");
-    }
-    //SI VIENE POR URL LA HAS COOKIE CON ESE DATO SE LLAMA LA API DE CIDI PARA OBTENER SUS DATOS
-    if (variableCidi) {
-      console.log(variableCidi, "hasCokkieCidi");
-      //SE TOMA LA QUERY
-      //let cidi = this.$route.query?.cidi;
-      document.cookie = `cidiHash= ${variableCidi};max-age=120`; //se define una cookie
-
-      this.logCidi(variableCidi);
-      variableCidi = null;
-    }
-    //SI YA INGRESO ANTERIORMENTE SE BUSCA LA COOKIE CON EL VALOR CIDIHAS PARA VOLVER A LLAMAR LA API DE CIDI PARA OBTENRE SU REPRESENTADO
-    else if (!variableCidi && asd) {
-      console.log(asd, "cookie");
-      this.logCidi(asd[1]);
-    } else {
-      console.log("no hay query string ni cookie");
-    }
-
-    localStorage.clear();
-  },
-
-
--->

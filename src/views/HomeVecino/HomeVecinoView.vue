@@ -41,8 +41,8 @@ export default {
 <style scoped>
 main {
   width: 100%;
-  height: auto;
-  background: var(--grey-bk);
+  height: 100%;
+  background-color: #f5f5f5;
 }
 /* @media (max-width: 1000px) {
   .main {

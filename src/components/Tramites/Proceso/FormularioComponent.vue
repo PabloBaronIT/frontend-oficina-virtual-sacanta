@@ -1,20 +1,15 @@
 <template>
-  <div class="container">
+  <div>
     <div v-if="this.loading" class="spinner-border" role="status">
       <span></span>
     </div>
     <!-- <div> -->
     <div class="topquestion" v-if="this.preguntas">
-      <h3>
+      <h5>
         {{ this.preguntas[this.paso].question.title }}
-      </h3>
-      <p>Completar las preguntas</p>
+      </h5>
     </div>
-    <!-- <div class="modalReclamo" v-if="this.modalReclamo">
-        <h3>Su reclamo ha sido enviado! gracias por confiar en nosotros!</h3>
-        <p @click="setModal">cerrar</p>
-      </div> -->
-    <form action="">
+    <form action="" style="margin-bottom: 20vh">
       <!--DETALLES DE OPCIONES-->
       <div
         :v-if="
@@ -46,43 +41,89 @@
 
         <!-- INPUT TIPO TEXTO -->
         <div
-          v-if="item.title !== `Indique la ubicación:` && item.type === 'text'"
+          v-if="item.title !== `Indique la ubicación` && item.type === 'text'"
           class="tipoTexto"
         >
-          <label class="option-text">{{ item.title }}</label
-          ><br />
-          <label for=""> {{ item.description }}</label>
+          <!-- <label class="option-text">{{ item.title }}</label -->
+          <!-- ><br /> -->
+          <label for=""> {{ item.title }}</label>
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            style="width: 27vw; margin-left: 1rem"
+            v-model="this.textInput"
+          ></textarea>
 
-          <input
+          <!-- <textarea
             class="form-control text-number-input"
             :type="item.type"
             v-model="this.textInput"
-          />
+          /> -->
         </div>
         <div
-          v-if="
-            item.title !== `Indique la ubicación:` && item.type === 'number'
-          "
+          v-if="item.title !== `Indique la ubicación` && item.type === 'number'"
           class="tipoTexto"
+          style="align-items: center"
         >
-          <label class="option-text">{{ item.title }}</label
-          ><br />
-          <label for=""> {{ item.description }}</label>
-
+          <!-- <label class="option-text">{{ item.title }}</label -->
+          <br />
+          <label for="">
+            {{ item.description }}
+          </label>
           <input
             class="form-control text-number-input"
+            style="width: 27vw"
             :type="item.type"
             v-model="this.textInput"
           />
         </div>
         <!-- PARA VER MAPA Y PODER ESCRIBIR DIRECCION -->
         <div
-          v-if="item.type == 'text' && item.title == `Indique la ubicación:`"
+          v-if="item.type == 'text' && item.title == `Indique la ubicación`"
           class="tipoMap"
         >
-          <label>{{ item.title }}</label
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <label>Calle</label>
+            <input
+              class="form-control text-number-input"
+              :type="item.type"
+              v-model="this.calle"
+            />
+            <label>Nro.</label>
+            <input
+              class="form-control text-number-input"
+              :type="item.type"
+              v-model="this.numero"
+            />
+          </div>
+          <div
+            style="
+              margin-bottom: 4vh;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            "
+          >
+            <label>Entre calles</label>
+            <input
+              class="form-control text-number-input"
+              :type="item.type"
+              v-model="this.entrecalles"
+            />
+          </div>
+
+          <!-- <label>{{ item.title }}</label
           ><br />
-          <label for=""> {{ item.description }}</label>
+          <label for=""> {{ item.description }}</label> -->
           <MapaLocationComponentVue :setTextInput="this.setTextInput" />
         </div>
 
@@ -91,11 +132,12 @@
         <div v-if="item.type == 'file'" class="file-container">
           <div v-if="!asd" class="file-intro">
             <img
-              src="@/assets/tramite-logo.svg"
               alt=""
               id="img-preview"
               class="imgFile"
+              v-if="this.fileSelect"
             />
+            <i class="bi bi-upload" style="font-size: 35px" v-else></i>
 
             <hr />
             <input
@@ -107,10 +149,10 @@
             />
 
             <!--INPUT PARA SUBIR EL ARCHIVO-->
-            <div class="fileup">
+            <div>
               <input
                 v-if="this.fileSelect"
-                class="m-2 btn btn-secondary"
+                class="m-2 btn btnColor"
                 type="button"
                 value="Subir archivo"
                 @click="postFile()"
@@ -119,7 +161,7 @@
           </div>
           <div v-else class="cargado">
             <img
-              src="@/assets/red-check-mark-icon.svg"
+              src="@/assets/images/red-check-mark-icon.svg"
               alt=""
               id="img-preview"
               class="imgFile"
@@ -133,7 +175,7 @@
         Debe seleccionar una opcion para continuar
       </p>
     </form>
-    <div class="btn-div">
+    <!-- <div class="btn-div">
       <input
         class="boton"
         v-if="this.paso + 1 < this.preguntas.length"
@@ -151,6 +193,24 @@
       />
 
       <input class="boton" type="button" value="Cancelar" @click="cancel()" />
+    </div> -->
+    <div class="volver">
+      <div style="display: flex; flex-direction: row" @click="back()">
+        <img src="./../../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+        <h4>Volver atrás</h4>
+      </div>
+      <div
+        style="display: flex; flex-direction: row"
+        @click="
+          () => {
+            this.preNext();
+          }
+        "
+        v-if="this.paso + 1 < this.preguntas.length"
+      >
+        <h4>Siguiente</h4>
+        <img src="./../../../assets/images/FlechaDerecha.svg" alt="imagen" />
+      </div>
     </div>
     <div
       class="alert alert-success text-center"
@@ -169,13 +229,12 @@
         {{ this.mensaje }}
       </p>
     </div>
-    <div v-if="this.paso + 1 == this.preguntas.length" class="btn-submit">
+    <div v-if="this.paso + 1 === this.preguntas.length" class="btn-submit">
       <input
-        v-if="this.paso + 1 == this.preguntas.length"
         class="botonSubmit"
         type="button"
-        value="Submitt"
-        @click="submitt"
+        value="Enviar"
+        @click="this.submitt"
       />
       <!-- <input
         v-if="this.paso + 1 == this.preguntas.length"
@@ -218,6 +277,8 @@ export default {
     dispatchProcedure: Function,
     setProcedure: Function,
     outProcedure: Function,
+    progreso: Function,
+    retroPogreso: Function,
   },
   components: {
     MapaLocationComponentVue,
@@ -241,6 +302,11 @@ export default {
       respuestas: [],
       servicio: false,
       mensaje: null,
+      sectorTitle: "",
+      formularioTitle: "",
+      calle: "",
+      numero: "",
+      entrecalles: "",
     };
   },
   created() {
@@ -248,6 +314,9 @@ export default {
     // procedure.userId = localStorage.getItem("id");
     this.loading = true;
     this.setLoading();
+    console.log(this.preguntas.length, "cantidad de preguntas");
+    this.sectorTitle = this.$route.query.sector;
+    this.formularioTitle = this.$route.params.formularioTitle;
     console.log(this.nivel, "soy el nivel");
   },
   methods: {
@@ -264,6 +333,10 @@ export default {
     },
 
     preNext() {
+      if (this.calle != "") {
+        this.textInput =
+          this.calle + " " + this.numero + " " + this.entrecalles;
+      }
       if (
         this.selected == "" &&
         this.textInput == "" &&
@@ -276,24 +349,28 @@ export default {
         this.coordenadas == ""
       ) {
         this.next();
+        this.progreso();
       } else if (
         this.selected == "" &&
         this.textInput != "" &&
         this.coordenadas == ""
       ) {
         this.next();
+        this.progreso();
       } else if (
         this.selected == "" &&
         this.textInput == "" &&
         this.coordenadas != ""
       ) {
         this.next();
+        this.progreso();
       } else if (
         this.selected == "" &&
         this.textInput != "" &&
         this.coordenadas != ""
       ) {
         this.next();
+        this.progreso();
       }
       this.asd = false;
     },
@@ -386,7 +463,7 @@ export default {
         optionTitle = this.textInput;
         optionTitle2 = this.coordenadas;
         choice = 0;
-        let choice2 = 1;
+        // let choice2 = 1;
         q = {
           question: this.preguntas[this.paso].question.id,
           question_option_history: [
@@ -397,7 +474,7 @@ export default {
             },
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice2].id,
+                this.preguntas[this.paso].questionOption[choice].id,
               answer: optionTitle2,
             },
           ],
@@ -423,6 +500,9 @@ export default {
       //console.log(this.procedure.questions, "RESPUESTAS");
       this.selected = "";
       choice = 0;
+      this.calle = "";
+      this.numero = "";
+      this.entrecalles = "";
       this.textInput = "";
       this.coordenadas = "";
       this.validation = true;
@@ -512,9 +592,16 @@ export default {
       }
     },
     back() {
-      this.paso--;
-      this.outProcedure();
-      this.preguntas.pop();
+      if (this.paso === 0) {
+        this.$router.push(
+          `/sector/${this.$route.query.sectorTitle}/${this.$route.query.sectorId}`
+        );
+      } else {
+        this.paso = this.paso - 1;
+        this.outProcedure();
+        this.respuestas.pop();
+        this.retroPogreso();
+      }
     },
     cancel() {
       this.$router.replace({ path: "/munienlinea" });
@@ -539,35 +626,94 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  text-align: left;
+/* CSS NUEVO */
+.btnColor {
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+  color: white;
+}
+h5 {
+  color: #019939;
+  font-weight: 900;
+  font-size: 24px;
+}
+.volver {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3.5%;
+  bottom: 0;
+}
+
+.volver h4 {
+  /* margin-left: 14px; */
+  color: #808081;
+  font-weight: 100;
+  margin-top: 2.5vh;
+
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+.tipoMap {
+  padding: 1rem;
+}
+.tipoMap input {
+  width: 20vw;
+  margin-left: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+.tipoMap label {
+  padding-top: 1rem;
+  margin-left: 1rem;
+  font-weight: 700;
 }
 .questions {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
-  background-color: white;
+  margin-bottom: 8vh;
   padding-left: 1rem;
-}
-.topquestion {
-  background-color: white;
-  padding-left: 3rem;
-  padding-top: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 40px 40px 0px 0px;
-  height: 8rem;
-  width: 100%;
-}
-.boton {
-  width: 100px;
-  height: 45px;
-  background-color: gray;
-  border-radius: 20px 20px 0px 0px;
-  color: white;
-  margin-left: 1rem;
-  border-style: none;
+  width: 50vw;
+  margin: auto;
+  /* background: white; */
 }
 
+.topquestion {
+  padding-left: 3rem;
+  padding-top: 1rem;
+  margin: auto;
+  height: 5rem;
+  width: 50vw;
+}
+.tipoTexto {
+  height: 7rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.tipoTexto input[type="number"] {
+  /* width: 40%; */
+  margin-left: 1rem;
+  height: 3rem;
+
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: none;
+}
+.tipoTexto input[type="text"] {
+  width: 40%;
+  margin-left: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+.error {
+  color: var(--red);
+  text-align: center;
+  font-size: 27px;
+  font-weight: 700;
+}
 .tipoRadio {
   display: flex;
   flex-direction: row;
@@ -578,48 +724,6 @@ export default {
   margin-top: 22px;
   margin-right: 15px;
 }
-.tipoTexto {
-  height: 7rem;
-  padding: 1rem;
-}
-.tipoMap {
-  padding: 1rem;
-}
-.tipoTexto input[type="number"] {
-  width: 40%;
-}
-.tipoTexto input[type="text"] {
-  width: 40%;
-}
-.file-container {
-  border: 1px solid var(--grey);
-  padding: 20px;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  width: 50%;
-  margin: auto;
-  margin-bottom: 2rem;
-}
-
-.file-intro {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-}
-
-.file-intro input[type="file"] {
-  margin: auto;
-}
-.imgFile {
-  height: 4rem;
-  width: 4rem;
-  margin: auto;
-}
-.fileup {
-  margin: auto;
-}
 .botonSubmit {
   width: 100px;
   height: 45px;
@@ -629,6 +733,37 @@ export default {
   margin-left: 1rem;
   border-style: none;
 }
+/* ---------- */
+
+.file-container {
+  border: 1px solid var(--grey);
+  padding: 1rem;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 75%;
+  margin: auto;
+  margin-bottom: 2rem;
+}
+
+.file-intro {
+  display: flex;
+  /* flex-flow: column wrap; */
+  width: 100%;
+  justify-content: center;
+}
+
+.file-intro input[type="file"] {
+  margin: auto;
+  margin-left: 1rem;
+}
+.imgFile {
+  height: 4rem;
+  width: 4rem;
+  margin: auto;
+}
+
 .cargado {
   text-align: center;
 }
@@ -638,10 +773,9 @@ export default {
   align-items: center;
   width: 100%;
   justify-content: center;
+  margin-bottom: 10rem;
 }
-.error {
-  color: var(--red);
-}
+
 .btn-div {
   display: flex;
   flex-direction: row;
@@ -651,7 +785,7 @@ export default {
   padding-right: 2rem;
 }
 .option-text {
-  font-size: 1.1em;
+  font-size: 1.3em;
 }
 .modalReclamo {
   position: absolute;

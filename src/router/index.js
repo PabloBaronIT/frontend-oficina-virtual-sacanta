@@ -48,11 +48,9 @@ const routes = [
     path: "/pago-resultado",
     name: "pago-resultado",
     component: () => import("@/views/PagoVista/pagoResultadoView.vue"),
-    meta: { requiresAuth: true },
   },
-
   {
-    path: "/formulario/:formularioTitle/:formularioId",
+    path: "/formulario/cuestionario/:formularioTitle/:formularioId",
     name: "formulario",
     component: () => import("@/views/ProcesoTramite/FormularioView.vue"),
     meta: { requiresAuth: true },
@@ -80,31 +78,6 @@ const routes = [
     name: "reset-password",
     component: () => import("@/views/ResetView.vue"),
     meta: { requiresAuth: false },
-  },
-  {
-    path: "/municipales",
-    name: "municipales",
-    component: () => import("@/views/HomeMunicipal/MuniView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/municipales/creacion-usuario",
-    name: "createUserMuni",
-    component: () => import("@/views/CreateUser/CreateUserMuniView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: "/municipales/pagos",
-    name: "municipales-pagos",
-    component: () => import("@/views/MuniPayments/MuniPaymentsView.vue"),
-    meta: { requiresAuth: true },
-  },
-
-  {
-    path: "/municipales/assign-password",
-    name: "asign-password",
-    component: () => import("@/views/AsignarPassword/AsignarPasswordView.vue"),
-    meta: { requiresAuth: true },
   },
 ];
 

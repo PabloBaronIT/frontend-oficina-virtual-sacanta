@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="containerA">
     <!-- <div class="img">
       <img src="@/assets/mastercard.svg" alt="" />
       <img src="@/assets/visa.svg" alt="" />
@@ -26,7 +26,12 @@
 
       <!-- <input class="cancel" type="button" value="Cancelar" @click="cancel" /> -->
     </div>
-    <div class="alert alert-success" role="alert" v-if="this.modal">
+    <div
+      class="alert alert-success"
+      role="alert"
+      v-if="this.modal"
+      style="word-wrap: break-word"
+    >
       Abra el siguiente link en el navegador Google Chrome para realizar su pago
       <a href=""> {{ this.link }}</a>
     </div>
@@ -51,7 +56,8 @@ export default {
     // );
 
     let sUsrAg = navigator.userAgent;
-    //console.log(sUsrAg);
+
+    console.log(sUsrAg);
 
     if (sUsrAg.indexOf("Chrome") > -1) {
       this.browser = "Google Chrome";
@@ -137,17 +143,23 @@ export default {
   max-width: 100px;
 }
 
-.container {
+.containerA {
   border: 1px solid var(--green);
   padding: 0;
-  display: flex;
-  flex-flow: row wrap;
+  /* display: flex; */
+  /* flex-flow: row wrap; */
+  /* flex-direction: row; */
   height: 150px;
+  width: 50vw;
 }
 
 .text {
   width: 70%;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .img {

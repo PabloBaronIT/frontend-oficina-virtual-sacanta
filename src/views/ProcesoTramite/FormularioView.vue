@@ -1,19 +1,78 @@
 <template>
-  <div class="main-container" v-if="setPermission">
-    <div class="header">
-      <h2 class="tituloPrincipal">
-        {{ this.$route.params.formularioTitle }}
-      </h2>
+  <div v-if="setPermission" class="sector-container">
+    <div class="row">
+      <h5 style="margin-left: 6vw; margin-top: 7vh">{{ this.sectorTitle }}</h5>
+      <h1 class="tituloPrincipal">
+        {{ this.titulo }}
+        <h5>
+          Ingrese aquí su solicitud en caso de requerir del servicio de <br />
+          limpieza en algún lugar en particular <br />
+          <!-- //{{ this.descripcion }}// -->
+        </h5>
+      </h1>
+    </div>
+    <!-- RECUADRO DE INICIO -->
+
+    <div class="progress-container">
+      <div class="progress" id="progress"></div>
+      <div class="circle active">1</div>
+      <div v-for="(item, index) in this.preguntas" :key="index" class="circle">
+        {{ index + 2 }}
+      </div>
+      <!-- <div class="circle active">1</div>
+      <div class="circle">2</div>
+      <div class="circle">3</div>
+      <div class="circle">4</div> -->
+    </div>
+    <div class="row" v-if="this.inicio == true">
+      <div class="recuadro row">
+        <h5 style="color: #019939; font-weight: 900; font-size: 24px">
+          Para iniciar con esta gestión vas a necesitar contar con:
+        </h5>
+        <h5>. Ubicación exacta del lugar donde se requiere el servicio.</h5>
+        <h5>
+          . Una descripción de la situación y fotografías, si dispone de ellas.
+        </h5>
+      </div>
+    </div>
+    <!-- ------- -->
+
+    <div class="row" v-else style="margin-top: 5vh">
+      <FormularioComponent
+        :questionProp="this.preguntas"
+        :nivel="this.nivel"
+        :dispatchProcedure="this.dispatchProcedure"
+        :setProcedure="this.setProcedure"
+        :outProcedure="this.outProcedure"
+        :progreso="this.progreso"
+        :retroPogreso="this.retroPogreso"
+      />
     </div>
 
-    <FormularioComponent
-      :questionProp="this.preguntas"
-      :nivel="this.nivel"
-      :dispatchProcedure="this.dispatchProcedure"
-      :setProcedure="this.setProcedure"
-      :outProcedure="this.outProcedure"
-      v-if="this.preguntas"
-    />
+    <!-- BOTONESSSSSSS -->
+    <div class="volver" v-if="this.inicio">
+      <div style="display: flex; flex-direction: row">
+        <router-link
+          :to="`/sector/${this.sectorTitle}/${this.$route.query.sectorId}`"
+        >
+          <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+        </router-link>
+
+        <h4>Volver atrás</h4>
+      </div>
+
+      <div
+        style="display: flex; flex-direction: row"
+        @click="
+          () => {
+            (this.inicio = false), this.progreso();
+          }
+        "
+      >
+        <h4>Iniciar trámite</h4>
+        <img src="./../../assets/images/FlechaDerecha.svg" alt="imagen" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,6 +95,8 @@ var procedure = {
   questions: [],
   fecha: new Date().toLocaleDateString(),
   precio: "",
+  sectorTitle: "",
+  // formularioTitle: "",
 };
 export default {
   data() {
@@ -45,6 +106,11 @@ export default {
       // length: null,
       preguntas: "",
       nivel: "",
+      inicio: true,
+      descripcion: "",
+      titulo: "",
+      currentActive: 0,
+
       // procedure: {
       //   title: "",
       //   procedureId: "",
@@ -57,6 +123,8 @@ export default {
   },
   created() {
     // Get a los templates de procedures para enviarlos por pro a formulario componente
+    this.sectorTitle = this.$route.query.sectorTitle;
+    // this.formularioTitle = this.$route.params.formularioTitle;
     this.getTemplate();
     procedure.questions = [];
   },
@@ -88,12 +156,14 @@ export default {
           console.log(response.data);
           this.preguntas = response.data.Template.questionProcedure;
           this.nivel = response.data.Template.level.level;
+          this.descripcion = response.data.Template.description;
           procedure.procedureId = response.data.Template.id;
           // parseInt(r.id);
           // console.log(this.procedureId, "soy el procedureId");
 
           procedure.title = response.data.Template.title;
           procedure.precio = response.data.Template.price;
+          this.titulo = response.data.Template.title;
           // this.length = r.question.length;
         })
         .catch((error) => {
@@ -115,6 +185,43 @@ export default {
           }
         });
     },
+    progreso() {
+      this.currentActive++;
+      if (this.currentActive > this.preguntas.length) {
+        this.currentActive = this.preguntas.length;
+      }
+
+      this.update();
+    },
+    retroPogreso() {
+      this.currentActive--;
+      this.removeClass();
+    },
+    removeClass() {
+      const circles = document.querySelectorAll(".circle");
+      const progress = document.getElementById("progress");
+      circles[this.currentActive + 1].classList.remove("active");
+      const actives = document.querySelectorAll(".active");
+
+      progress.style.width =
+        ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+    },
+    update() {
+      const circles = document.querySelectorAll(".circle");
+      const progress = document.getElementById("progress");
+
+      circles[this.currentActive].classList.add("active");
+      // circles.forEach((circle, idx) => {
+      //   console.log(idx, "soy el index");
+      //   if (idx < this.currentActive) {
+      //     circle.classList.add("active");
+      //   }
+      // });
+      const actives = document.querySelectorAll(".active");
+
+      progress.style.width =
+        ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+    },
   },
   computed: {
     setPermission() {
@@ -129,23 +236,126 @@ export default {
 </script>
 
 <style scoped>
-.header {
-  text-align: left;
-  padding-left: 5rem;
+/*  */
+
+.progress-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  /* margin-bottom: 30px; */
+  min-width: 10vw;
+  width: 10vw;
+  margin: auto;
+  margin-top: 2rem;
+  z-index: 2;
 }
 
-.main-container {
+/* .progress-container::before {
+  content: "";
+  background-color: var(--line-border-empty);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
   width: 100%;
-  height: auto;
+  z-index: -1;
+} */
+
+.progress {
+  background-color: green;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  width: 0%;
+  z-index: -1;
+  transition: 0.4s ease;
+}
+
+.circle {
+  background-color: #d9d9d9;
+  color: #4b4a49;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--line-border-empty);
+  transition: 0.4s ease;
+}
+
+.circle.active {
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+  color: #fff;
+}
+
+/*  */
+.sector-container {
+  width: 100%;
+  min-height: 100vh;
+  /* display: flex; */
+  background-color: #f5f5f5;
+  position: relative;
+}
+.recuadro {
+  background: #fff;
+  width: 51vw;
+  height: 25vh;
+  /* margin-left: 25%; */
+  margin: auto;
+  text-align: center;
+  padding: 4%;
+  margin-top: 5vh;
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 0px 20px 0px 20px;
+}
+.tituloPrincipal {
+  color: #4b4a49;
+  font-weight: 900;
+  padding-left: 3rem;
+  font-size: 50px;
+  /* margin-top: 7vh; */
+  margin-left: 4vw;
+}
+h5 {
+  color: #4b4a49;
+  font-weight: 400;
+}
+.volver {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 3.5%;
+  bottom: 0;
+}
+
+.volver h4 {
+  /* margin-left: 14px; */
+  color: #808081;
+  font-weight: 100;
+  margin-top: 2.5vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+/* .header {
+  text-align: left;
+} */
+
+/* .main-container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: rgb(235, 235, 235);
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
   justify-content: center;
-}
+} */
 
-.options-container {
+/* .options-container {
   width: 500px;
   padding: 0px 5px;
   border-top: 1px solid var(--red);
@@ -154,5 +364,22 @@ export default {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+} */
+@media (max-width: 800px) {
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 40px;
+  }
+  .recuadro {
+    height: 45vh;
+  }
+}
+@media (max-width: 1200px) {
+  .recuadro {
+    height: 40vh;
+  }
+  .recuadro h5 {
+    font-size: 15px;
+  }
 }
 </style>

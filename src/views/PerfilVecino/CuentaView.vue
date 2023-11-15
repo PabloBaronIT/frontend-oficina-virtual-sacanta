@@ -22,7 +22,7 @@ export default {
 
 <style scoped>
 .cuenta-container {
-  position: relative;
+  /* position: relative;
   width: 100%;
   height: 100vh;
 
@@ -32,6 +32,12 @@ export default {
   background: rgb(235, 235, 235);
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
-  padding: 30px;
+  padding: 30px; */
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
 }
 </style>

@@ -1,12 +1,20 @@
 <template>
-  <div class="sector-component">
+  <div>
     <!-- Mostrar los tramites
      correspondientes al sector seleccionado -->
-    <header>
+    <div style="display: flex; flex-direction: row; font-size: 50px">
+      <img
+        :src="this.tramitesApi[0]?.category?.description"
+        alt="imagen"
+        class="imagenSector"
+      />
       <h1 class="tituloPrincipal">
         {{ this.$route.params.sectorTitle }}
+        <h4 style="color: #4b4a49; font-weight: 100; margin-top: 1rem">
+          Por favor, elige aqui el tipo de solicitud que queres realizar.
+        </h4>
       </h1>
-    </header>
+    </div>
 
     <div v-if="msj" class="sinTramites">
       <h2>No hay trámites para esta categoría por el momento</h2>
@@ -17,44 +25,41 @@
         :key="tramite.id"
         class="cardTramites"
       >
-        <div class="divTitleImag">
-          <img src="@/assets/tramite-logo.svg" :alt="tramite.id" />
-          <div class="divTitle">
-            <h2 class="fontB">
-              {{ tramite.title }}
-            </h2>
-            <h3 class="mouse" @click="verRequisitos(tramite.id)">
-              Ver Requisitos
-            </h3>
-          </div>
-          <div
-            v-if="this.modal === true && this.id == tramite.id"
-            :id="key"
-            class="modalDescription"
+        <!-- <div class="divTitleImag"> -->
+        <!-- <img src="@/assets/tramite-logo.svg" :alt="tramite.id" /> -->
+        <!-- <div class="divTitle"> -->
+        <div v-if="tramite.level.level <= this.nivel" class="card-body">
+          <router-link
+            :to="`/formulario/cuestionario/${tramite.title}/${tramite.id}?sectorTitle=${this.$route.params.sectorTitle}&sectorId=${this.$route.params.sectorId}`"
           >
-            <div class="modalTop">
-              <p @click="close">X</p>
-            </div>
-            <h3>{{ tramite.description }}</h3>
-          </div>
+            <h5>
+              {{ tramite.title }}
+            </h5>
+          </router-link>
         </div>
 
-        <div class="footercard">
-          <!--SI TIENE EL NIVEL REQUERIDO PUEDE HACER EL TRAMITE-->
-          <router-link
+        <div v-else @click="ModalNivel(tramite.id)" class="card-body">
+          <h5>
+            {{ tramite.title }}
+          </h5>
+        </div>
+
+        <!-- <div class="footercard"> -->
+        <!--SI TIENE EL NIVEL REQUERIDO PUEDE HACER EL TRAMITE-->
+        <!-- <router-link
             v-if="tramite.level.level <= this.nivel"
             :to="`/formulario/${tramite.title}/${tramite.id}`"
           >
             <a>Iniciar Trámite</a>
-          </router-link>
-          <!--SI NO!TIENE EL NIVEL REQUERIDO NO ! PUEDE HACER EL TRAMITE-->
+          </router-link> -->
+        <!--SI NO!TIENE EL NIVEL REQUERIDO NO ! PUEDE HACER EL TRAMITE-->
 
-          <div v-else @click="ModalNivel(tramite.id)">
+        <!-- <div v-else @click="ModalNivel(tramite.id)">
             <a>Iniciar Trámite</a>
-          </div>
-        </div>
-        <!--MODAL DE NIVEL 2 DE CIDI-->
+          </div> -->
+        <!-- </div> -->
 
+        <!--MODAL DE NIVEL 2 DE CIDI-->
         <div
           v-if="modalNivel === true && this.id == tramite.id"
           class="modalEstado"
@@ -63,7 +68,7 @@
             <div class="modalTop">
               <p @click="closeModalNivel">X</p>
             </div>
-            <h3>Trámite no disponible.</h3>
+            <h5>Trámite no disponible.</h5>
             <p>
               para poder realizar este trámite usted debe tener
               <strong>nivel 2</strong> en Cidi.
@@ -80,6 +85,13 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="volver">
+      <router-link to="/munienlinea">
+        <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
+      </router-link>
+
+      <h4>Volver al Incio</h4>
     </div>
   </div>
 </template>
@@ -100,12 +112,14 @@ export default {
       modal: false,
       modalNivel: false,
       nivel: localStorage.getItem("nivel"),
+      sectorId: "",
     };
   },
   created() {
     // get tramites para la vista sectores con el id de categoria sacado del path con vue router
     //console.log(this.$route.params);
     this.GetProcedure();
+    this.sectorId = this.$route.params.sectorId;
   },
 
   methods: {
@@ -124,6 +138,7 @@ export default {
         )
 
         .then((response) => {
+          console.log(response);
           if (response.status == 200) {
             for (let i = 0; i < response.data.Procedures.length; i++) {
               this.tramitesApi.push(response.data.Procedures[i]);
@@ -173,135 +188,18 @@ export default {
 </script>
 
 <style scoped>
-header {
-  text-align: left;
-  padding-left: 5rem;
+/* CSS NUEVO */
+.tituloPrincipal {
+  color: #4b4a49;
+  font-weight: 900;
+  font-size: 50px;
+  margin-top: 7vh;
 }
-.slide-top {
-  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-/* ----------------------------------------------
- * Generated by Animista on 2023-2-10 16:41:26
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation slide-top
- * ----------------------------------------
- */
-@-webkit-keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(100px);
-    transform: translateY(100px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-@keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(100px);
-    transform: translateY(100px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-.title {
-  color: var(--blue);
-  margin-left: 1rem;
-}
-
-.hover {
-  position: absolute;
-  bottom: 0;
-  font-weight: 100;
-  color: var(--text-color);
-}
-
-.requisitos img {
-  width: 22px;
-  margin: 0 10px;
-}
-
-.sector-component {
-  width: 70vw;
-  height: 100vh;
-  background: var;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  padding: 10px 0;
-}
-
-.descripcion {
-  display: flex;
-}
-
-.tramites {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  /* text-align: center; */
-  width: 90%;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* flex-flow: row wrap; */
-  margin: auto;
-  margin-top: 3rem;
-  gap: 20px;
-  margin-bottom: 3rem;
-}
-.btn-iniciar {
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  background: var(--red);
-  font-size: 0.9em;
-  color: var(--text-color);
-  transition: all 0.5s ease;
-}
-
-.tramites a {
-  /*color: var(--blue);*/
-  /*font-size: 0.9em;*/
-  text-decoration: none;
-  color: white;
-  font-size: 20px;
-}
-.tramites a:hover {
-  transition: all 0.3s ease-in-out;
-  color: black;
-  /*color: var(--red);
-  font-size: 0.9em;
-  text-decoration: none;*/
-}
-
-.tramites input:hover {
-  background: var(--blue);
-  color: var(--red);
-}
-
-img {
-  max-width: 50px;
-}
-
-.card {
-  font-weight: bold;
-  padding: 0px 10px;
-  border: none;
-  box-shadow: 5px 5px 12px #444;
-  width: 220px;
-  height: 220px;
-  margin: 30px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.imagenSector {
+  width: 6vw;
+  height: 7vh;
+  margin-top: 8vh;
+  margin-left: 4vw;
 }
 .sinTramites {
   margin-top: 4rem;
@@ -310,69 +208,53 @@ img {
 }
 .cardTramites {
   position: relative;
-  width: 90%;
-  height: 14rem;
-  background-color: white;
+  background: var(--grey-bk);
+
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+  min-width: 100%;
+  height: 14.5vh;
+  border-radius: 0px 20px 0px 0px;
+  background: white;
+  padding: 0.3rem;
   margin: auto;
-  border-radius: 40px 40px 0px 0px;
-  padding-top: 2rem;
+  cursor: pointer;
 }
-.divTitleImag {
-  display: flex;
-  flex-direction: row;
-  padding-left: 1rem;
+.cardTramites h5 {
+  font-size: 17px;
+  color: #9b9a9a;
 }
-.divTitle {
+.card-body {
+  background: white;
+  border-radius: 0px 19px 0px 0px;
+  min-height: 100%;
+  min-width: 100%;
   text-align: left;
-  margin-left: 2rem;
-  width: 55%;
+  padding-top: 2rem;
+  padding: 1rem;
 }
-.footercard {
-  position: absolute;
-  background-image: linear-gradient(
-    to right,
-    #88ba3e,
-    #75b23f,
-    #62aa40,
-    #4ea242,
-    #399943,
-    #399943,
-    #399943,
-    #399943,
-    #4ea242,
-    #62aa40,
-    #75b23f,
-    #88ba3e
-  );
-  height: 3rem;
+.cardTramites a {
+  text-decoration: none;
+  color: #9b9a9a;
+}
+h5 {
+  font-size: 24px;
+  font-weight: 700;
+}
+.cardTramites:hover {
+  background: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%);
+}
+.cardTramites h5:hover {
+  color: #019939;
+}
+.tramites {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3vw;
+  margin-top: 6vh;
+  margin-bottom: 200px;
+  padding-left: 3vw;
   width: 100%;
-  bottom: 0;
-  padding-top: 0.5rem;
-}
-.mouse {
-  cursor: pointer;
-}
-.mouse:hover {
-  transition: all 0.3s ease-in-out;
-  color: #88ba3e;
-}
-.modalDescription {
-  position: absolute;
-  width: 250px;
-  height: 50px;
-  top: 7rem;
-  left: 4rem;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 20px;
-  text-align: center;
-  padding-top: 0.5rem;
-}
-.modalTop {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  cursor: pointer;
+  /* grid-auto-rows: minmax(100%, auto); */
 }
 .modalEstado {
   display: flex;
@@ -385,7 +267,8 @@ img {
   right: -0.8rem;
   margin-left: auto;
   margin-right: auto;
-  width: 400px; /* Need a specific value to work */
+  width: 300px;
+  height: 30vh;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -403,18 +286,98 @@ img {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 2rem;
+  text-align: center;
 }
 .modal-content a {
   text-decoration: none;
-  color: var(--green);
-}
-.modal-content a:hover {
-  color: #2c6331;
+  color: #4b4a49;
 }
 .linkCidi {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
+}
+.tramites input:hover {
+  background: var(--blue);
+  color: var(--red);
+}
+.volver {
+  position: absolute;
+  bottom: 20vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  left: 4vw;
+}
+.volver h4 {
+  margin-left: 14px;
+  color: #808081;
+  font-weight: 100;
+  margin-top: 1.5vh;
+}
+.modalTop {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+/* ------------------------------------ */
+
+/* img {
+  max-width: 50px;
+} */
+
+@media (max-width: 1000px) {
+  h1 {
+    font-size: 30px;
+  }
+  h4 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 800px) {
+  .tramites {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1vw;
+    margin: auto;
+    margin-left: 3vw;
+    /* grid-auto-rows: minmax(100px, auto); */
+  }
+  .cardTramites {
+    width: 30vw;
+  }
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 45px;
+  }
+}
+@media (max-width: 600px) {
+  .tramites {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1vw;
+    margin: auto;
+    margin-left: 3vw;
+    min-height: 50vh;
+    /* grid-auto-rows: minmax(100px, auto); */
+  }
+  .cardTramites {
+    width: 30vw;
+  }
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 30px;
+  }
 }
 </style>

@@ -1,10 +1,27 @@
 <template>
-  <main v-if="setPermission">
-    <div class="top">
-      <h1>Mis trámites</h1>
-    </div>
-    <Tabla color="var(--green)" />
+  <main v-if="setPermission && !this.loading" class="sector-container">
+    <!-- <div class="row">
+      <h1 style="margin-top: 7vh; font-size: 50px">Mis trámites</h1>
+    </div> -->
+    <h1 class="tituloPrincipal">
+      Presentadas
+      <h4 style="color: #4b4a49; font-weight: 100">
+        Gestiones presentadas hasta la fecha.
+      </h4>
+    </h1>
+    <Tabla :setLoading="this.setLoading" />
   </main>
+  <div class="prueba-container l" v-else>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -13,6 +30,16 @@ export default {
   name: "TramitesView",
   components: {
     Tabla,
+  },
+  data() {
+    return {
+      loading: true,
+    };
+  },
+  created() {
+    // setTimeout(() => {
+    this.loading = false;
+    // }, 1000);
   },
   computed: {
     setPermission() {
@@ -23,14 +50,47 @@ export default {
       }
     },
   },
+  methods: {
+    setLoading() {
+      this.loading = false;
+    },
+  },
 };
 </script>
 
 <style scoped>
-.top {
-  text-align: left;
-  margin-left: 3rem;
-  margin-top: 2rem;
+.tituloPrincipal {
+  color: #4b4a49;
+  font-weight: 900;
+  font-size: 50px;
+  margin-top: 7vh;
+  margin-left: 4vw;
+}
+.prueba-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 84vw;
+  background-color: #f5f5f5;
+}
+
+.l {
+  flex-direction: row;
+}
+/* h1 {
+  margin-top: 4vh;
+  margin-left: 4vw;
+  margin-bottom: 4vh;
+} */
+.sector-container {
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
 }
 .menu {
   width: 100%;
@@ -58,6 +118,16 @@ main {
   .main-container {
     width: 100%;
     height: auto;
+  }
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 45px;
+  }
+}
+@media (max-width: 600px) {
+  .tituloPrincipal {
+    font-weight: 700;
+    font-size: 30px;
   }
 }
 </style>

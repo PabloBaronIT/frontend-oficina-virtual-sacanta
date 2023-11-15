@@ -1,17 +1,17 @@
 <template>
   <main class="flex-container">
     <div class="top">
-      <p>Haz recibido un mensaje</p>
-      <p>
+      <h5>Haz recibido un mensaje</h5>
+      <h5>
         {{ new Date(dato.created_at).toLocaleDateString() }}
-      </p>
+      </h5>
     </div>
     <div
       class="descripcion"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
     >
-      <p>{{ dato.subject }}</p>
+      <h4>{{ dato.subject }}</h4>
 
       <!-- <div class="leido" v-if="dato.LeidoPortal === `S`"><p>Leido</p></div> -->
     </div>
@@ -29,6 +29,11 @@ export default {
 };
 </script>
 <style scoped>
+h5 {
+  color: white;
+  font-weight: 900;
+  font-size: 24px;
+}
 .flex-container {
   width: 90%;
   height: auto;
@@ -51,12 +56,12 @@ export default {
   );
   width: 100%;
   color: white;
-  padding-left: 2rem;
-  height: 3rem;
+  /* padding-left: 2rem; */
+  height: 4rem;
   /* border-top-left-radius: 30px; */
   /* border-top-right-radius: 30px; */
-  padding-top: 0.5rem;
-  padding: 0 1rem;
+  padding: 1rem;
+  /* padding: 0 1rem; */
 
   text-align: left;
   display: flex;

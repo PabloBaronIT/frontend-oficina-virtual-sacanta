@@ -2,14 +2,14 @@
   <div
     style="display: flex; flex-direction: column; justify-content: space-around"
   >
-    <p>Indique la direccion en el mapa:</p>
+    <!-- <p>Indique la direccion en el mapa:</p> -->
 
     <GMapMap
       :center="center"
       ref="myMapRef"
       :zoom="7"
       map-type-id="terrain"
-      style="width: 400px; height: 300px"
+      style="width: 715px; height: 360px; margin: auto"
     >
       <GMapMarker
         :position="this.markerPosition"

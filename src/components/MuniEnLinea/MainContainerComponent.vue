@@ -1,105 +1,177 @@
 <template>
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
-  <div>
-    <!-- <div class="top">
-      <p>
-        <strong>Bienvenido!</strong>
+  <div v-if="!loading">
+    <div class="row">
+      <h1 style="margin-top: 7vh; font-size: 50px">
+        ¿Qué gestión querés realizar?
+      </h1>
+    </div>
+    <div class="row">
+      <SearchComponent />
+    </div>
 
-        a la oficina virtual de la Municipalidad de Sacanta.
-        <br />Presenta aqui todas tus gestiones como si estuvieras en la Muni,
-        pero sin <br />
-        demoras ni esperas y desde la comodidad de tu casa.
-      </p>
-      <img
-        src="https://st2.depositphotos.com/4111759/47706/v/450/depositphotos_477068802-stock-illustration-bearded-young-man-guy-work.jpg"
-        alt="imagen"
-      />
-    </div> -->
-    <SearchComponent />
+    <!--VISTA  DE TRAMITES -->
     <div class="containerTabs">
-      <ul class="nav nav-tabs centerTabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link active butonNav"
-            id="home-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#home-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="home-tab-pane"
-            aria-selected="true"
-          >
-            <h5>Trámites Administrativos</h5>
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link butonNav"
-            id="profile-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#profile-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="profile-tab-pane"
-            aria-selected="false"
-          >
-            <h5>Servicios, reclamos y consultas</h5>
-          </button>
-        </li>
-      </ul>
-      <div class="tab-content" id="myTabContent">
+      <div class="row row-cols-2">
         <div
-          class="tab-pane fade show active"
-          id="home-tab-pane"
-          role="tabpanel"
-          aria-labelledby="home-tab"
-          tabindex="0"
+          class="col-6 text-center"
+          @mouseover="this.setClass"
+          @mouseout="this.NotSetClass"
         >
-          <!-- Cards de categorias linkeados a la vista de sector (tramites de las categorias) -->
-          <div class="card-container">
+          <div class="tabs">
+            <h5>Trámites administrativos</h5>
+            <div :class="{ activeHover: hoverCategorias }"></div>
+          </div>
+          <div class="gridcontainer">
             <div v-for="sector in categorias" :key="sector.Id">
               <router-link
                 :to="`/sector/${sector.title}/${sector.id}`"
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <img :src="sector.description" :alt="sector.title" />
+                <div class="card-body">
+                  <div>
+                    <img :src="sector.description" alt="imagen" />
+                    <!-- <i class="bi bi-emoji-sunglasses"></i> -->
+                  </div>
+                  <div style="margin-left: 15px">
+                    <h5>
+                      <strong> {{ sector.title }}</strong>
+                    </h5>
+                  </div>
+                </div>
               </router-link>
             </div>
           </div>
         </div>
         <div
-          class="tab-pane fade"
-          id="profile-tab-pane"
-          role="tabpanel"
-          aria-labelledby="profile-tab"
-          tabindex="0"
+          class="col-6 text-center"
+          @mouseover="this.setServisClass"
+          @mouseout="this.NotServisClass"
         >
-          <div class="card-container">
+          <div class="tabs">
+            <h5>Servicios y reclamos</h5>
+            <div :class="{ activeHover: hoverServicios }"></div>
+          </div>
+
+          <div class="gridcontainer">
             <div v-for="sector in servicios" :key="sector.Id">
               <router-link
                 :to="`/sector/${sector.title}/${sector.id}`"
                 class="card scale-up-center"
                 style="text-decoration: none; color: #222"
               >
-                <!-- <p>{{ sector.title }}</p> -->
-                <img :src="sector.description" :alt="sector.title" />
+                <div class="card-body">
+                  <div>
+                    <img :src="sector.description" alt="imagen" />
+                    <!-- <i class="bi bi-emoji-sunglasses"></i> -->
+                  </div>
+                  <div style="margin-left: 15px">
+                    <h5 style="text-decoration: none">
+                      <strong> {{ sector.title }}</strong>
+                    </h5>
+                  </div>
+                </div>
               </router-link>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- <main class="flex-container">
-      <div class="header">
-        <h1>Trámites mas frecuentes</h1> 
-        <Busqueda /> 
-       </div>
-       <TramitesFrecuentes /> 
-
-      <div class="header"></div>
-    </main>-->
+    <!-- OTRAS GESTIONES -->
+    <div class="otrosTramites">
+      <div class="gestiones">
+        <h5>Si no encontrás tu gestión o tenés dudas, ingresá aquí</h5>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="25"
+          viewBox="0 0 16 25"
+          fill="none"
+          style="margin-left: 2rem; margin-top: 0.5rem"
+        >
+          <path
+            d="M3 22L13 12.5L3 3"
+            stroke="#019939"
+            stroke-width="5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <button class="botonGestiones"><h5>Otras gestiones</h5></button>
+      </div>
+      <div class="gestiones">
+        <h5>Si necesitás nuestra ayuda, ingresá aquí</h5>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="25"
+          viewBox="0 0 16 25"
+          fill="none"
+          style="margin-left: 2rem; margin-top: 0.5rem"
+        >
+          <path
+            d="M3 22L13 12.5L3 3"
+            stroke="#019939"
+            stroke-width="5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <button class="botonGestiones">
+          <div style="display: flex; flex-direction: row">
+            <i
+              class="bi bi-telephone"
+              style="margin-right: 0.5vw; margin-top: 0.5vh"
+            ></i>
+            <h5>Llámenme</h5>
+          </div>
+        </button>
+      </div>
+    </div>
+    <!-- RENTAS Y AFIP, ETC -->
+    <div class="accesos">
+      <h5>
+        Si tu gestion es para Rentas o Afip, también te facilitamos el acceso:
+      </h5>
+      <div class="items">
+        <a
+          href="https://www.rentascordoba.gob.ar/inicio/"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/Rentas.svg" alt=""
+        /></a>
+        <a
+          href="https://www.afip.gob.ar/landing/default.asp"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/Afip.svg"
+        /></a>
+        <a
+          href="https://www.anses.gob.ar/"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/Anses.svg" alt=""
+        /></a>
+        <a
+          href="https://www.dnrpa.gov.ar/portal_dnrpa/"
+          style="text-decoration: none"
+          target="_blank"
+          ><img src="./../../assets/images/DNRPA.svg" alt=""
+        /></a>
+      </div>
+    </div>
+  </div>
+  <div class="prueba-container l" v-else>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only"></span>
+    </div>
   </div>
 </template>
 
@@ -116,17 +188,84 @@ export default {
   },
   data() {
     return {
-      categorias: null,
+      categorias: [],
       servicios: null,
+      hoverCategorias: false,
+      hoverServicios: false,
+      browser: null,
+      loading: true,
     };
   },
 
   created() {
+    let sUsrAg = navigator.userAgent;
+
+    console.log(sUsrAg);
+
+    if (sUsrAg.indexOf("Chrome") > -1) {
+      this.browser = "Google Chrome";
+      console.log(this.browser);
+    } else {
+      this.browser = "desconocido";
+      console.log(this.browser);
+    }
     // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
     // Trae imagenes, id y titulo de categoria
+    const script = document.createElement("script");
+    script.id = "amoforms_script_1183376";
+    script.async = true;
+    script.charset = "utf-8";
+    script.src =
+      "https://forms.kommo.com/forms/assets/js/amoforms.js?1692267763";
+    document.head.appendChild(script);
+    script.onload = () => {
+      this.initializeAmoForms();
+      console.log;
+    };
+    // setTimeout(() => {
     this.getCategories();
+    // }, 1000);
   },
+  computed: {},
   methods: {
+    setClass() {
+      // console.log("hola");
+      this.hoverCategorias = true;
+    },
+    NotSetClass() {
+      this.hoverCategorias = false;
+    },
+    setServisClass() {
+      this.hoverServicios = true;
+    },
+    NotServisClass() {
+      this.hoverServicios = false;
+    },
+    initializeAmoForms() {
+      !(function (a, m, o, c, r) {
+        (a[o + c] = a[o + c] || {
+          setMeta: function (p) {
+            this.params = (this.params || []).concat([p]);
+          },
+        }),
+          (a[o + r] =
+            a[o + r] ||
+            function (f) {
+              a[o + r].f = (a[o + r].f || []).concat([f]);
+            }),
+          a[o + r]({
+            id: "1183376",
+            hash: "7eb5e7ce44edb738085bbc2bb3a57d24",
+            locale: "es",
+          }),
+          (a[o + m] =
+            a[o + m] ||
+            function (f, k) {
+              a[o + m].f = (a[o + m].f || []).concat([[f, k]]);
+            });
+      })(window, 0, "amo_forms_", "params", "load", "loaded");
+    },
+
     getCategories() {
       const apiClient = axios.create({
         baseURL: BASE_URL,
@@ -140,7 +279,9 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.categorias = response.data.Categories.Procedures;
+
           this.servicios = response.data.Categories.Services;
+          this.loading = false;
         })
         .catch((error) => {
           console.log(error);
@@ -161,50 +302,191 @@ export default {
           }
         });
     },
+    setImagen(title) {
+      let srcImg = "";
+      switch (title) {
+        case "Tasas y Contribuciones":
+          srcImg = "@/assets/tramitesSVG/peso.svg";
+          break;
+        case "Catastro y Obras":
+          srcImg = "@/assets/tramitesSVG/construccion.svg";
+          break;
+
+        default:
+          srcImg = "";
+      }
+      // console.log(srcImg, "soy la imagen");
+      return srcImg;
+    },
   },
 };
 </script>
 
 <style scoped>
-.top {
-  position: relative;
-  text-align: left;
-  padding-left: 3rem;
-  padding-top: 2rem;
-  width: 75vw;
-  height: 9rem;
-  background: var(--grey);
+/* CSS NUEVO */
+.containerTabs {
+  width: 95%;
   margin: auto;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  border-radius: 0px 30px 0px 0px;
+}
+.containerTabs h5 {
+  margin-bottom: 2rem;
+}
+.gridcontainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin: auto;
+  grid-auto-rows: minmax(100px, auto);
+}
+.otrosTramites {
+  margin-top: 10vh;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.gestiones {
+  background: white;
+  height: 6vh;
+  width: auto;
+  margin: auto;
+  border-radius: 0px 20px 0px 20px;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.gestiones h5 {
+  margin-top: 0.5rem;
+  font-weight: 400;
+  color: #9b9a9a;
+}
+.botonGestiones {
+  height: 6vh;
+  width: 11vw;
+  border: 0.16em solid rgb(255, 255, 255);
+  text-align: center;
+  background-image: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%);
+  border-radius: 0px 20px 0px 20px;
+  transition: all 0.2s;
+  border-style: none;
   color: white;
+  font-size: 22px;
+  margin-left: 1vw;
 }
-.top img {
+.botonGestiones h5 {
+  color: white;
+  font-weight: 700;
+}
+
+.accesos {
+  text-align: center;
+  margin-top: 5vh;
+  padding-bottom: 5vh;
+}
+.accesos h5 {
+  font-weight: 400;
+  color: #9b9a9a;
+}
+h1 {
+  margin-top: 4vh;
+  margin-left: 4vw;
+  margin-bottom: 4vh;
+}
+h5 {
+  font-weight: 700;
+  color: #019939;
+  font-size: 18px;
+}
+.card-body img {
+  /* object-fit: cover; */
+  width: 90%;
+  min-height: 25px;
+  margin-bottom: 0;
+}
+
+.card {
+  background: var(--grey-bk);
+  font-weight: bold;
+  /* border: none; */
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+  width: 90%;
+  height: 14.5vh;
+  border-radius: 0px 20px 0px 0px;
+  background-color: white;
+  text-align: left;
+  padding: 0.3rem;
+  margin: auto;
+}
+.card h5 {
+  font-size: 17px;
+  color: #9b9a9a;
+}
+.card-body {
+  background: white;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0px 19px 0px 0px;
+  height: 100%;
+  width: 100%;
+}
+.card:hover {
+  background: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%);
+  /* width: 110%; */
+  /* position: relative; */
+}
+.card h5:hover {
+  color: #019939;
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.activeHover {
   position: absolute;
-  right: 3rem;
-  top: -2rem;
-  width: 200px;
-  height: 200px;
+  width: 4vw;
+  height: 2px;
+  background: linear-gradient(90deg, #ffcc03 -6.36%, #e52320 100%);
 }
+.items {
+  width: 70vw;
+  height: 8vh;
+  margin: auto;
+  margin-top: 3vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background: white;
+  border-radius: 0px 20px 0px 20px;
+  box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px 9vw 5px 9vw;
+}
+.prueba-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 84vw;
+}
+
+.l {
+  flex-direction: row;
+}
+/*---------------------------------------------------------------- */
+
+/*
 .scale-up-center {
   -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
     both;
   animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
+} */
 
-/* ----------------------------------------------
- * Generated by Animista on 2023-2-10 16:35:20
- * Licensed under FreeBSD License.
- * See http://animista.net/license for more info. 
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation scale-up-center
- * ----------------------------------------
- */
 @-webkit-keyframes scale-up-center {
   0% {
     -webkit-transform: scale(0.6);
@@ -226,91 +508,51 @@ export default {
   }
 }
 
-img {
-  width: 8px;
+@media (max-width: 1200px) {
+  .cuadradospan {
+    font-weight: 400;
+    font-size: 18px;
+    padding-top: 1vh;
+  }
 }
-
-/* .header {
-  margin: 10px 0;
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  height: 50px;
-} */
-.imagenConstruccion {
-  width: 150px;
-  height: 150px;
-  margin-top: 2rem;
-}
-.flex-container {
-  width: 100%;
-  height: auto;
-  /*background: var(--fondo);*/
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: row wrap;
-  width: 100%;
-  height: auto;
-}
-
-.card img {
-  border-radius: 50%;
-  object-fit: cover;
-  width: 80%;
-}
-
-.card {
-  background: var(--grey-bk);
-  font-weight: bold;
-  border: none;
-  box-shadow: 5px 5px 15px rgb(137, 137, 137);
-  width: 320px;
-  height: 100px;
-  margin: 15px 15px;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-around;
-  align-items: center;
-  border-radius: 40px 40px 0px 0px;
-  background-color: white;
-}
-
-.card:hover {
-  box-shadow: 5px 5px 20px #444;
-}
-.containerTabs {
-  width: 100%;
-  /*background: var(--grey-bk);*/
-}
-.butonNav {
-  width: 330px;
-  color: var(--green);
-}
-.centerTabs {
-  width: 90%;
-  margin: auto;
-}
-
-/*h1 {
-  color: var(--red);
-
-  font-weight: bold;
-}*/
-
 @media (max-width: 1000px) {
   .flex-container {
     width: 100vw;
     height: auto;
+  }
+  .gridcontainer {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    margin: auto;
+    margin-left: 3vw;
+    grid-auto-rows: minmax(100px, auto);
+  }
+  .fecha {
+    text-align: center;
+    padding-top: 0;
+  }
+  .cuadradospan {
+    font-weight: 400;
+    font-size: 15px;
+    padding-top: 1vh;
+  }
+}
+@media (max-width: 800px) {
+  .otrosTramites {
+    width: 60vw;
+    margin: auto;
+  }
+  .otrosTramites h5 {
+    font-size: 18px;
+  }
+  .cuadradospan {
+    width: 30vw;
+    padding-top: 0.7vh;
+  }
+  h1 {
+    text-align: center;
+    margin-left: 0;
   }
 }
 </style>

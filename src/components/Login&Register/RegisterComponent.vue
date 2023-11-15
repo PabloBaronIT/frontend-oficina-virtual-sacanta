@@ -254,6 +254,7 @@ export default {
           }, 2000);
         })
         .catch(function (error) {
+          console.log(error.response);
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();
@@ -274,10 +275,11 @@ export default {
 
 <style scoped>
 .container {
-  width: 90%;
+  width: 100%;
   background: white;
   padding: 2rem 0px;
   border-radius: 20px;
+  margin-left: -5rem;
 }
 .interno {
   margin: auto;
