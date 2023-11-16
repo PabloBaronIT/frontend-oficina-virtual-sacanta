@@ -35,24 +35,17 @@
       <div v-for="(item, index) in this.activos" :key="index">
         <div class="encabezado">
           <!-- <p>{{ item.titulo }}</p> -->
-          <p @click="verTramite(item.id)" style="cursor: pointer">
+          <p style="cursor: pointer">
             {{ item.id }}
           </p>
-          <p @click="verTramite(item.id)" style="cursor: pointer">
+          <p style="cursor: pointer">
             {{ item.estado }}
           </p>
-          <p @click="verTramite(item.id)" style="cursor: pointer">
+          <p style="cursor: pointer">
             {{ item.categoria }}
           </p>
           <p></p>
-          <p
-            @click="this.open(item.id)"
-            style="
-              cursor: pointer;
-              text-decoration: underline;
-              padding-right: 2.5vw;
-            "
-          >
+          <p @click="this.open(item.id)">
             <img src="./../../assets/images/Descargar.svg" alt="" />
           </p>
         </div>
@@ -284,7 +277,7 @@
           {{ new Date(this.pdfSubmitt?.created_at).toLocaleDateString() }}
         </p>
         <p style="width: 100%">
-          {{ this.pdfSubmitt.communication[0].message }}
+          {{ this.pdfSubmitt.communication[0]?.message }}
         </p>
         <p>
           Usuario Municipal asignado:
