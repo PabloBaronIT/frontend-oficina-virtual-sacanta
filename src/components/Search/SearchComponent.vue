@@ -16,7 +16,7 @@
       style="position: absolute; z-index: 15; width: 50vw"
     >
       <div class="vistaValues" v-for="item in this.values" :key="item.id">
-        <router-link :to="`/formulario/${item.title}/${item.id}`">
+        <router-link :to="`/formulario/cuestionario/${item.title}/${item.id}`">
           <a>{{ item.title }}</a>
         </router-link>
         <!-- <p>
