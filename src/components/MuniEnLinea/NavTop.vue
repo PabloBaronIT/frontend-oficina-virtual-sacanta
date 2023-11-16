@@ -22,25 +22,23 @@
               {{ $store.state.user.firstname }}
             </strong>
           </h4>
-          <h5>CUIL: {{ $store.state.user.cuil }}</h5>
+          <!-- datos del respresentante si lo hay -->
+          <div>
+            <p
+              v-if="this.$store.state.representante"
+              style="font-size: 13px; margin-top: -0.5rem"
+            >
+              Representado por:
+              <strong class="nameRepresntative">
+                {{ $store.state.representante.firstname }}
+                {{ $store.state.representante.lastname }}
+              </strong>
+            </p>
+          </div>
+          <h5 style="margin-top: -1rem">CUIL: {{ $store.state.user.cuil }}</h5>
           <router-link v-show="permission" :to="`/micuenta`">
             <p style="margin-top: -11px; font-size: 15px">Mi cuenta</p>
           </router-link>
-          <!-- <img
-            class="svg"
-            src="@/assets/comunicacion.svg"
-            alt="comunicaciones"
-          />-->
-        </div>
-
-        <div>
-          <p v-if="this.$store.state.representante">
-            Representado por:
-            <strong class="nameRepresntative">
-              {{ $store.state.representante.firstname }}
-              {{ $store.state.representante.lastname }}
-            </strong>
-          </p>
         </div>
       </div>
     </div>
@@ -198,7 +196,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { PASSWORD_HEADER, BASE_URL } from "@/env";
+import { BASE_URL } from "@/env";
 import { googleLogout } from "vue3-google-login";
 export default {
   name: "NavTopVue",
@@ -373,7 +371,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient
@@ -477,7 +476,7 @@ export default {
 .nav-container {
   position: fixed;
   z-index: 15;
-  height: 15vh;
+  height: 17vh;
   background-color: white;
   width: 100%;
   display: flex;
@@ -582,7 +581,7 @@ a {
 }
 .nameRepresntative {
   cursor: pointer;
-  color: #2c5777;
+  color: #128d44;
 }
 h5,
 p {

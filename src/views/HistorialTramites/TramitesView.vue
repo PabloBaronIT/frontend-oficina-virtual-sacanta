@@ -1,8 +1,5 @@
 <template>
   <main v-if="setPermission && !this.loading" class="sector-container">
-    <!-- <div class="row">
-      <h1 style="margin-top: 7vh; font-size: 50px">Mis trámites</h1>
-    </div> -->
     <h1 class="tituloPrincipal">
       Presentadas
       <h4 style="color: #4b4a49; font-weight: 100">

@@ -1,9 +1,19 @@
 <template>
   <div class="container">
-    <div v-if="this.loading" class="spinner-border loading" role="status">
+    <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
       <span class="sr-only"></span>
+    </div> -->
+    <div class="prueba-container l" v-if="this.loading">
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
     </div>
-
     <div v-else class="container">
       <h1>{{ this.message }} <br /></h1>
       <h2>Gracias por utilizar la oficina virtual de Sacanta</h2>
@@ -41,7 +51,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL, PASSWORD_HEADER } from "@/env";
+import { BASE_URL } from "@/env";
 import jsPDF from "jspdf";
 
 export default {
@@ -51,7 +61,7 @@ export default {
     this.IdReferenciaOperacion = this.$route.query.IdReferenciaOperacion;
     this.loading = true;
     this.dispatchLoginPermission();
-    this.getMyProfile();
+    // this.getMyProfile();
     this.setPayment();
   },
   data() {
@@ -91,8 +101,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
-          // "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient
@@ -121,86 +131,6 @@ export default {
             ) {
               setTokenRelations();
               this.setPayment();
-            }
-          }
-        });
-    },
-    dispatchLogin() {
-      this.$store.dispatch("mockLoginAction", this.user);
-    },
-    dispatchCidi() {
-      this.$store.dispatch("mockCidiAction", this.cidiCookie);
-    },
-    dispatchLoginTrue() {
-      this.$store.dispatch("mockPaseAction");
-    },
-    getMyProfile() {
-      const apiClient = axios.create({
-        baseURL: BASE_URL,
-        withCredentials: false,
-        headers: {
-          "auth-header": localStorage.getItem("token"),
-        },
-      });
-      apiClient
-        .get("/oficina/user/profile")
-        .then((response) => {
-          console.log(response.data, "datos de usuariodb");
-          this.user = response.data.UserProfile.user;
-          this.user.cidiCookie = this.cidiCookie;
-          this.dispatchLogin();
-          this.dispatchLoginTrue();
-          window.localStorage.setItem(
-            "role",
-            response.data.UserProfile.user.role || null
-          );
-          window.localStorage.setItem(
-            "name",
-            response.data.UserProfile.user.firstname || null
-          );
-          window.localStorage.setItem(
-            "lastname",
-            response.data.UserProfile.user.lastname || null
-          );
-          window.localStorage.setItem(
-            "cuil",
-            response.data.UserProfile.user.cuil || null
-          );
-          window.localStorage.setItem(
-            "adress",
-            response.data.UserProfile.user.adress || null
-          );
-          window.localStorage.setItem(
-            "email",
-            response.data.UserProfile.user.email || null
-          );
-          window.localStorage.setItem(
-            "id",
-            response.data.UserProfile.user.id || null
-          );
-          window.localStorage.setItem(
-            "fecha-creacion",
-            response.data.UserProfile.user.created_at || null
-          );
-          window.localStorage.setItem(
-            "nivel",
-            response.data.UserProfile.user.level.level || null
-          );
-          // this.loading = false;
-          // this.$router.push("munienlinea");
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 500) {
-            if (error.response.data.message === "Token de usuario expirado") {
-              setToken();
-              this.getMyProfile();
-            }
-            if (
-              error.response.data.message === "Token de representante expirado"
-            ) {
-              setTokenRelations();
-              this.getMyProfile();
             }
           }
         });
@@ -288,5 +218,8 @@ export default {
   width: 100px;
   height: 120px;
   margin-top: 2rem;
+}
+.l {
+  flex-direction: row;
 }
 </style>

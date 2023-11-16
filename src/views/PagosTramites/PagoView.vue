@@ -1,7 +1,7 @@
 <template>
   <div class="main" v-if="setPermission">
     <div class="container">
-      <div class="prueba-container l" v-if="!modal">
+      <div class="prueba-container l" v-if="this.loading">
         <div class="spinner-grow text-success" role="status">
           <span class="sr-only"></span>
         </div>
@@ -12,13 +12,13 @@
           <span class="sr-only"></span>
         </div>
       </div>
-      <div v-show="modal" class="prueba-container" id="elemento">
+      <div class="prueba-container" id="elemento" v-else>
         <h2>Último paso:</h2>
         <p>
           Este tramite es arancelado, una vez que se <br />
           procese el pago podra descargar su comprobante.
         </p>
-        <PagarComponent />
+        <PagarComponent :setLoading="this.setLoading" />
 
         <button
           type="button"
@@ -140,14 +140,14 @@
 </template>
 
 <script>
-import PagarComponent from "@/components/Tramites/PagarComponent.vue";
+import PagarComponent from "@/components/Pagos/PagarComponent.vue";
 import jsPDF from "jspdf";
 
 export default {
   name: "PagoView",
   data() {
     return {
-      modal: false,
+      loading: true,
       comprobante: false,
     };
   },
@@ -162,7 +162,7 @@ export default {
   },
   created() {
     setTimeout(() => {
-      this.modal = true;
+      this.loading = false;
     }, 1000);
   },
   components: { PagarComponent },
@@ -187,6 +187,9 @@ export default {
     },
     verComprobante() {
       this.comprobante = !this.comprobante;
+    },
+    setLoading() {
+      this.loading = !this.loading;
     },
   },
 };

@@ -147,7 +147,7 @@ import axios from "axios";
 import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL, PASSWORD_HEADER } from "@/env";
+import { BASE_URL } from "@/env";
 import { decodeCredential } from "vue3-google-login";
 
 export default {
@@ -402,7 +402,7 @@ export default {
       this.loading = true;
       let asd = { cuil: this.cuil, password: this.password };
       const apiClient = axios.create({
-        baseURL: BASE_URL,
+        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app",
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -426,7 +426,7 @@ export default {
           console.log(error);
           this.loading = false;
           this.validacion = false;
-          this.msj = error.response.data.message;
+          // this.msj = error.response.data.message;
         });
 
       // this.$router.push("munienlinea");
@@ -474,7 +474,7 @@ export default {
               tokenRepresetations.refreshToken
             );
 
-            //se buscan los datos del usuario
+            //se buscan los datos del usuario al que representa
             let payload = dbService.getToken(tokenRepresetations.authToken);
             let idRepresentante = payload.representative;
             localStorage.setItem("idRepresentante", idRepresentante);
@@ -572,8 +572,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
-          // "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient

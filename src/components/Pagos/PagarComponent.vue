@@ -9,9 +9,9 @@
 
     <div class="text">
       <b>{{ this.$store.state.procedure[0].title }}</b>
-      <h2>Tramite arancelado</h2>
+      <h2>Trámite arancelado</h2>
       <p>
-        Este tramite tiene un valor total de ${{
+        Este trámite tiene un valor total de ${{
           this.$store.state.procedure[0].precio
         }}
         <b></b>
@@ -87,8 +87,12 @@ export default {
       browser: "",
     };
   },
+  props: {
+    setLoading: Function,
+  },
   methods: {
     submitPago() {
+      this.setLoading();
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -103,6 +107,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
+          this.setLoading();
           if (this.browser === "Google Chrome") {
             window.location.href = response.data.Url;
           } else {
@@ -176,5 +181,8 @@ export default {
 img {
   max-width: 40px;
   margin: 10px;
+}
+h2 {
+  color: #128d44;
 }
 </style>
