@@ -25,7 +25,7 @@
             class="svg"
             src="./../../assets/images/next.svg"
             alt=""
-            v-if="this.l > 5"
+            v-if="this.l === 10"
           />
         </div>
         <p>
@@ -80,92 +80,36 @@
               Fecha de Requerimiento/s:
 
               {{ new Date(element.created_at).toLocaleDateString() }} -
-              <i
+              <!-- <i
                 class="bi bi-arrow-down-square"
                 @click="createPDFrequirement(item.id, element.id)"
               >
-              </i>
+              </i> -->
+              <img
+                src="./../../assets/images/Descargar.svg"
+                alt=""
+                @click="createPDFrequirement(item.id, element.id)"
+              />
             </p>
           </div>
 
           <p v-if="this.finalizacionTramite">
             Fecha de Finalización:
             {{ new Date(this.finalizacionTramite).toLocaleDateString() }}
-            <i
+            <!-- <i
               class="bi bi-arrow-down-square"
               @click="createPDFfinalized(item.id)"
             >
-            </i>
+            </i> -->
+            <img
+              src="./../../assets/images/Descargar.svg"
+              alt=""
+              @click="createPDFfinalized(item.id)"
+            />
           </p>
         </div>
       </div>
     </div>
-
-    <!-- <table v-if="!this.loading"> -->
-
-    <!-- <tr class="fila-tabla" v-for="(p, key) in this.activos" :key="key">
-        <td @click="verTramite(p.id)">{{ p.titulo || "" }}</td>
-        <td @click="verTramite(p.id)">{{ p.id || "" }}</td>
-        <td class="media" @click="verTramite(p.id)">{{ p.categoria || "" }}</td>
-        <td :class="'estado-fila'" @click="verTramite(p.id)">
-          <p :style="`background: ${p.color}`" @click="verTramite(p.id)">
-            {{ p.estado || "" }}
-          </p>
-        </td>
-        <td>
-          <p><i class="bi bi-arrow-down-square-fill"></i></p>
-        </td>
-        <td>
-          <p v-if="p.comunicaciones >= 1">
-            <a
-              data-bs-toggle="collapse"
-              href="#collapseExample"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseExample"
-              @click="this.getComunicaciones(p.id)"
-            >
-             
-              <i class="bi bi-bell-fill"></i>
-            </a>
-          </p>
-        </td> -->
-
-    <!-- MODAL VISTA COMUNICACIONES-->
-    <!-- <div
-          class="modalComunicacion"
-          id="collapseExample"
-          v-if="this.selectTramite === p.id && this.modalComunicaciones"
-        >
-          <div class="card card-body">
-            <div class="title">
-              <strong>{{ this.comunicaciones.subject || "" }} : </strong>
-
-              {{ this.comunicaciones.message || "" }}
-            </div>
-
-            <span>
-              {{
-                new Date(this.comunicaciones.created_at).toLocaleString() || ""
-              }}
-            </span>
-            <div
-              style="
-                padding-top: 0.3rem;
-                margin-bottom: 1rem;
-                background: rgba(0, 128, 0, 0.075);
-                font-size: 12px;
-              "
-            >
-              <p>
-                Ingrese a la seccion mis Comunicaciones para ver su historial, o
-                al detalle del trámite para mas información.
-              </p>
-            </div>
-          </div>
-        </div> -->
-    <!-- </tr> -->
-
     <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
     <div class="modalRespuesta">
       <div v-if="this.modalresponse === true" class="modal-content">
@@ -437,33 +381,7 @@
         </button>
       </div>
     </div>
-    <!-- </table> -->
-
-    <div class="loader">
-      <div
-        v-if="this.loading == true && this.msj === ''"
-        class="spinner-grow text-secondary"
-        role="status"
-      >
-        <span class="sr-only"></span>
-      </div>
-      <div
-        v-if="this.loading == true && this.msj === ''"
-        class="spinner-grow text-secondary"
-        role="status"
-      >
-        <span class="sr-only"></span>
-      </div>
-      <div
-        v-if="this.loading == true && this.msj === ''"
-        class="spinner-grow text-secondary"
-        role="status"
-      >
-        <span class="sr-only"></span>
-      </div>
-
-      <h2 v-if="this.msj !== ''" class="sinTramites">{{ this.msj }}</h2>
-    </div>
+    <h2 v-if="this.msj !== ''" class="sinTramites">{{ this.msj }}</h2>
     <div class="volver">
       <router-link to="/munienlinea">
         <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
@@ -487,7 +405,7 @@ import axios from "axios";
 import SearchPresentadasComponent from "@/components/SearchPresentadas/SearchPresentadasComponent.vue";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL } from "@/env";
+import { BASE_URL, CLOUDINARY_UPLOAD_PRESET, CLOUDINARY_URL } from "@/env";
 import jsPDF from "jspdf";
 export default {
   props: {
@@ -673,7 +591,11 @@ export default {
           if (error.response.status === 401) {
             this.$router.push("micuenta-update");
           }
-          //this.msj = err.response.data.message;
+          if (error.response.status === 404) {
+            this.msj = "No hay mas trámites que mostrar";
+          }
+          this.setLoading();
+          // this.msj = error.response.data.message;
         });
     },
     getComunicaciones(id) {
@@ -736,9 +658,9 @@ export default {
       console.log(this.file, "soy el archivo", objectURL);
     },
     postFile: async function () {
-      let CLOUDINARY_UPLOAD_PRESET = "lylceews";
-      let CLOUDINARY_URL =
-        "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
+      // let CLOUDINARY_UPLOAD_PRESET = "lylceews";
+      // let CLOUDINARY_URL =
+      //   "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
@@ -1082,7 +1004,7 @@ export default {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  z-index: 15;
+  z-index: 13;
   position: absolute;
   top: 20%;
   left: 0;
@@ -1197,7 +1119,7 @@ export default {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  z-index: 20;
+  z-index: 14;
   position: absolute;
   top: 20%;
   left: 0;
@@ -1247,113 +1169,14 @@ export default {
 /* .encabezado p {
   width: 40%;
 } */
-/* ----------------------------------------------------------------------------------- */
-
-.fila-tabala {
-  display: flex;
-  flex-direction: column;
-}
 .sinTramites {
   position: relative;
   width: 100%;
   height: 150px;
   text-align: center;
   padding-top: 2rem;
+  color: #128d44;
 }
-
-.loader {
-  margin: 10px;
-  width: 100vw;
-}
-.loader div {
-  margin: 10px;
-}
-
-.cant {
-  display: flex;
-  margin: 0;
-}
-
-input[type="checkbox"] {
-  appearance: none;
-  border: 1px solid #666;
-  border-radius: 0.125rem;
-  box-shadow: inset 0 0 0 0.125rem #fff;
-  display: inline-block;
-  height: 1rem;
-  width: 1rem;
-  vertical-align: bottom;
-}
-
-input[type="checkbox"]:checked {
-  background: var(--green);
-}
-
-input:hover {
-  border: 1px solid var(--green);
-}
-
-.filtro-filas {
-  color: var(--text-color);
-  padding: 10px;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--grey);
-  width: 95%;
-  height: 40px;
-}
-
-.filtro-filas input {
-  width: 15%;
-  height: 10px;
-}
-/* TABLA DE TRAMITES */
-
-/*  */
-
-/* table {
-  width: 100%;
-} */
-/* img {
-  height: 25px;
-  width: 25px;
-} */
-
-th,
-td {
-  padding: 8px;
-  border-bottom: 1px solid var(--grey);
-  background: #fff;
-  height: 40px;
-  color: var(--blue);
-  font-size: 0.9em;
-}
-
-.fila-tabla:hover {
-  outline: 1px solid var(--blue);
-  cursor: pointer;
-  user-select: none;
-}
-
-.estado-fila p {
-  background: var(--grey-bk);
-  border-radius: 20px;
-  padding: 3px;
-}
-.modalComunicacion {
-  width: 80%;
-  height: auto;
-  padding: 1rem;
-  position: absolute;
-  right: 8rem;
-  background: var(--grey-bk);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid gray;
-}
-
 .modal-content {
   min-height: 300px;
   width: 100%;
@@ -1370,32 +1193,38 @@ td {
   justify-content: center;
   align-items: flex-start;
 }
-span {
-  font-size: 15px;
-  position: absolute;
-  right: 4px;
-  bottom: 2px;
-}
+
 .fileup {
   margin: auto;
 }
-
-/* .fecha {
-  margin-top: 3rem;
-} */
-.title {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .enviado {
   color: green;
   font-size: 25px;
   margin-left: 2rem;
 }
+
 h3 {
   text-align: left;
+}
+/* ----------------------------------------------------------------------------------- */
+.modalComunicacion {
+  width: 80%;
+  height: auto;
+  padding: 1rem;
+  position: absolute;
+  right: 8rem;
+  background: var(--grey-bk);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+}
+
+span {
+  font-size: 15px;
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
 }
 
 @media (max-width: 800px) {

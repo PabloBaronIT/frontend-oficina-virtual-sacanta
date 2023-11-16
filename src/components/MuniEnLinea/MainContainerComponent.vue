@@ -302,22 +302,6 @@ export default {
           }
         });
     },
-    setImagen(title) {
-      let srcImg = "";
-      switch (title) {
-        case "Tasas y Contribuciones":
-          srcImg = "@/assets/tramitesSVG/peso.svg";
-          break;
-        case "Catastro y Obras":
-          srcImg = "@/assets/tramitesSVG/construccion.svg";
-          break;
-
-        default:
-          srcImg = "";
-      }
-      // console.log(srcImg, "soy la imagen");
-      return srcImg;
-    },
   },
 };
 </script>

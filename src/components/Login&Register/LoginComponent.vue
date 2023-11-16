@@ -402,7 +402,7 @@ export default {
       this.loading = true;
       let asd = { cuil: this.cuil, password: this.password };
       const apiClient = axios.create({
-        baseURL: BASE_URL,
+        baseURL: "https://oficina-virtual-pablo-baron.up.railway.app",
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
@@ -426,7 +426,7 @@ export default {
           console.log(error);
           this.loading = false;
           this.validacion = false;
-          this.msj = error.response.data.message;
+          // this.msj = error.response.data.message;
         });
 
       // this.$router.push("munienlinea");
@@ -474,7 +474,7 @@ export default {
               tokenRepresetations.refreshToken
             );
 
-            //se buscan los datos del usuario
+            //se buscan los datos del usuario al que representa
             let payload = dbService.getToken(tokenRepresetations.authToken);
             let idRepresentante = payload.representative;
             localStorage.setItem("idRepresentante", idRepresentante);
