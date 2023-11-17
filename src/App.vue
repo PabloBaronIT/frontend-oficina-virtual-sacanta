@@ -191,7 +191,7 @@ p {
   color: #9b9a9a;
 }
 /* ACTUALIZADO */
-h1 {
+/* h1 {
   color: #008838;
   font-size: xx-large;
 }
@@ -207,7 +207,6 @@ h3 {
 h4 {
   color: #019939;
   font-weight: 900;
-  /* font-size: 25px; */
 }
 h5 {
   color: #808081;
@@ -220,7 +219,7 @@ h6 {
   font-size: 24px;
   font-weight: 200;
   line-height: normal;
-}
+} */
 /* ---------------------------- */
 </style>
 
@@ -229,7 +228,7 @@ h6 {
   width: 81.2vw;
   position: absolute;
   right: 0;
-  margin-top: 14vh;
+  margin-top: 17vh;
 }
 .main-container {
   display: flex;

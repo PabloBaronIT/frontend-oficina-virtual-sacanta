@@ -35,13 +35,13 @@
       <div v-for="(item, index) in this.activos" :key="index">
         <div class="encabezado">
           <!-- <p>{{ item.titulo }}</p> -->
-          <p style="cursor: pointer">
+          <p style="cursor: pointer" @click="verTramite(item.id)">
             {{ item.id }}
           </p>
-          <p style="cursor: pointer">
+          <p style="cursor: pointer" @click="verTramite(item.id)">
             {{ item.estado }}
           </p>
-          <p style="cursor: pointer">
+          <p style="cursor: pointer" @click="verTramite(item.id)">
             {{ item.categoria }}
           </p>
           <p></p>
