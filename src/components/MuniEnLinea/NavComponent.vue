@@ -183,57 +183,6 @@ a {
 }
 /* ----------------------------------------------- */
 
-/* .scale-up-center {
-  -webkit-animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1)
-    both;
-  animation: scale-up-center 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-@-webkit-keyframes scale-up-center {
-  0% {
-    -webkit-transform: scale(0.6);
-    transform: scale(0.6);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-}
-@keyframes scale-up-center {
-  0% {
-    -webkit-transform: scale(0.6);
-    transform: scale(0.6);
-  }
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-  }
-} */
-
-/* .svg {
-  max-width: 25px;
-  margin-left: 10px;
-  animation-name: comunicacion;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-} */
-
-/* @keyframes comunicacion {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(10deg);
-  }
-  50% {
-    transform: rotate(-10deg);
-  }
-} */
-
-.close {
-  color: rgba(255, 0, 0, 0.542);
-  font-weight: bold;
-}
-
 /* CSS */
 
 @media (max-width: 1200px) {
