@@ -32,25 +32,26 @@
           Informacion personal
           <i
             class="bi bi-pencil-fill"
+            @click="this.setModal"
             style="font-size: 12px; color: #019939; margin-left: 1rem"
           ></i>
         </h5>
         <div class="datos-container">
           <div class="titulos">
             <label for="">Email</label>
-            <input type="text" name="" id="" :value="this.email" />
+            <input type="text" name="" id="" :value="this.email" disabled />
           </div>
           <div class="titulos">
             <label for="">Calle</label>
-            <input type="text" name="" id="" :value="this.adress" />
+            <input type="text" name="" id="" :value="this.adress" disabled />
           </div>
           <div class="titulos">
             <label for="">CP</label>
-            <input type="text" name="" id="" :value="this.postCode" />
+            <input type="text" name="" id="" :value="this.postCode" disabled />
           </div>
           <div class="titulos">
             <label for="">Ciudad</label>
-            <input type="text" name="" id="" :value="this.city" />
+            <input type="text" name="" id="" :value="this.city" disabled />
           </div>
         </div>
       </div>
@@ -61,6 +62,27 @@
       </router-link>
 
       <h4>Volver al Incio</h4>
+    </div>
+    <div class="modalEditar" v-if="this.modal">
+      <div>
+        <i class="bi bi-x-square-fill close" @click="this.setModal"></i>
+      </div>
+      <h4>Edita tus datos:</h4>
+      <div class="datos-container">
+        <div class="titulos">
+          <label for="">Calle</label>
+          <input type="text" name="" id="" :value="this.adress" />
+        </div>
+
+        <div class="titulos">
+          <label for="">CP</label>
+          <input type="text" name="" id="" :value="this.postCode" />
+        </div>
+        <div class="titulos">
+          <label for="">Ciudad</label>
+          <input type="text" name="" id="" :value="this.city" />
+        </div>
+      </div>
     </div>
     <!-- <div class="datos-container">
       <p>
@@ -121,6 +143,7 @@ export default {
       phoneNumber: "",
       postCode: "",
       loading: true,
+      modal: false,
     };
   },
   created() {
@@ -183,6 +206,9 @@ export default {
             this.$router.push("micuenta-update");
           }
         });
+    },
+    setModal() {
+      this.modal = !this.modal;
     },
   },
 };
@@ -257,7 +283,7 @@ input {
   border: none;
   border-bottom: 1px solid black;
   width: 70%;
-  font-size: 20px;
+  font-size: 16px;
 }
 label {
   font-size: 13px;
@@ -303,5 +329,39 @@ p {
 
 .l {
   flex-direction: row;
+}
+.modalEditar {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  position: absolute;
+  top: 20%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 500px; /* Need a specific value to work */
+  height: auto;
+  padding: 1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.close {
+  position: absolute;
+  right: 2rem;
+  top: 0.5rem;
+}
+.internoEditar {
 }
 </style>

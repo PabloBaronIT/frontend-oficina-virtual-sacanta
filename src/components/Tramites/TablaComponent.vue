@@ -109,12 +109,10 @@
         <div class="modal-top">
           <h5 v-if="!this.message">Respuesta:</h5>
           <p>Nº Tramite: {{ this.idTramite }}</p>
-          <img
+          <i
+            class="bi bi-x-square-fill close"
             @click="CloseModalRespuesta($event)"
-            class="svg"
-            src="@/assets/images/close.svg"
-            alt=""
-          />
+          ></i>
         </div>
         <!--RESPUESTA ESCRITA-->
 
@@ -187,12 +185,12 @@
         <h3>
           {{ this.selectTramite.procedure.category.title }}
         </h3>
-        <img
-          @click="this.modalVista = false"
-          class="svg"
-          src="@/assets/images/close.svg"
-          alt=""
-        />
+        <div>
+          <i
+            class="bi bi-x-square-fill close"
+            @click="this.modalVista = false"
+          ></i>
+        </div>
       </div>
       <div class="data-container">
         <div>Tramite n°:{{ this.selectTramite.procedure.id }}</div>
@@ -1069,9 +1067,10 @@ export default {
 .divDocumentos a {
   margin-left: 2rem;
 }
-.svg {
-  max-width: 15px;
-  margin-left: 1rem;
+.close {
+  position: absolute;
+  right: 2rem;
+  top: 0.5rem;
 }
 .pagNum {
   margin: 0 2px;

@@ -30,13 +30,12 @@
       <p>Oficina Virtual</p>
       <p>{{ item.subject }}</p>
       <p>Leida</p> -->
-      <div class="modal-top">
-        <img
+
+      <div>
+        <i
+          class="bi bi-x-square-fill close"
           @click="this.comunicacion = null"
-          class="svg"
-          src="@/assets/images/close.svg"
-          alt=""
-        />
+        ></i>
       </div>
       <div class="d-flex">
         <h5>Asunto: {{ "  " }}</h5>
@@ -144,8 +143,9 @@ export default {
   flex-direction: row;
   align-items: flex-end;
 }
-.svg {
-  max-width: 15px;
-  margin-left: 1rem;
+.close {
+  position: absolute;
+  right: 2rem;
+  top: 0.5rem;
 }
 </style>
