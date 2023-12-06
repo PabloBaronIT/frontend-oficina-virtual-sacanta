@@ -4,7 +4,7 @@
     <div class="Box-contenedor">
       <div class="boxIzquierdo">
         <div class="cuadro"></div>
-        <h5>{{ this.name }} {{ this.lastname }}</h5>
+        <h5>{{ this.datosUser.fisrtname }} {{ this.datosUser.lastname }}</h5>
         <div
           style="
             height: 30%;
@@ -15,15 +15,15 @@
         >
           <span>
             <i class="bi bi-calendar4-week" style="margin-right: 8px"></i
-            >11/10/1980</span
+            >{{ this.fecha }}</span
           >
           <span>
             <i class="bi bi-person-vcard-fill" style="margin-right: 8px"></i
-            >{{ this.cuil }}</span
+            >{{ this.datosUser.cuil }}</span
           >
           <span>
             <i class="bi bi-phone" style="margin-right: 8px"></i
-            >{{ this.phoneNumber }}</span
+            >{{ this.datosUser.phoneNumber }}</span
           >
         </div>
       </div>
@@ -39,19 +39,43 @@
         <div class="datos-container">
           <div class="titulos">
             <label for="">Email</label>
-            <input type="text" name="" id="" :value="this.email" disabled />
+            <input
+              type="text"
+              name=""
+              id=""
+              :value="this.datosUser.email"
+              disabled
+            />
           </div>
           <div class="titulos">
             <label for="">Calle</label>
-            <input type="text" name="" id="" :value="this.adress" disabled />
+            <input
+              type="text"
+              name=""
+              id=""
+              :value="this.datosUser.adress"
+              disabled
+            />
           </div>
           <div class="titulos">
             <label for="">CP</label>
-            <input type="text" name="" id="" :value="this.postCode" disabled />
+            <input
+              type="text"
+              name=""
+              id=""
+              :value="this.datosUser.postCode"
+              disabled
+            />
           </div>
           <div class="titulos">
             <label for="">Ciudad</label>
-            <input type="text" name="" id="" :value="this.city" disabled />
+            <input
+              type="text"
+              name=""
+              id=""
+              :value="this.datosUser.city"
+              disabled
+            />
           </div>
         </div>
       </div>
@@ -63,6 +87,7 @@
 
       <h4>Volver al Incio</h4>
     </div>
+    <!-- MODAL PARA EDITAR DATOS -->
     <div class="modalEditar" v-if="this.modal">
       <div>
         <i class="bi bi-x-square-fill close" @click="this.setModal"></i>
@@ -70,19 +95,41 @@
       <h4>Edita tus datos:</h4>
       <div class="datos-container">
         <div class="titulos">
+          <label for="">Nombre</label>
+          <input type="text" name="" id="" v-model="this.name" />
+        </div>
+        <div class="titulos">
+          <label for="">Apellido</label>
+          <input type="text" name="" id="" v-model="this.lastname" />
+        </div>
+        <div class="titulos">
           <label for="">Calle</label>
-          <input type="text" name="" id="" :value="this.adress" />
+          <input type="text" name="" id="" v-model="this.adress" />
         </div>
 
         <div class="titulos">
           <label for="">CP</label>
-          <input type="text" name="" id="" :value="this.postCode" />
+          <input type="text" name="" id="" v-model="this.postCode" />
         </div>
         <div class="titulos">
           <label for="">Ciudad</label>
-          <input type="text" name="" id="" :value="this.city" />
+          <input type="text" name="" id="" v-model="this.city" />
+        </div>
+        <div class="titulos">
+          <label for="">Teléfono</label>
+          <input type="text" name="" id="" v-model="this.phoneNumber" />
         </div>
       </div>
+      <div class="alert alert-success" role="alert" v-if="this.actualizado">
+        {{ this.message }}
+      </div>
+      <input
+        class="botonSubmit"
+        type="button"
+        v-if="!this.actualizado"
+        value="Guardar"
+        @click="this.registrar"
+      />
     </div>
     <!-- <div class="datos-container">
       <p>
@@ -133,6 +180,7 @@ export default {
   name: "DatosCompnent",
   data() {
     return {
+      datosUser: "",
       name: "",
       lastname: "",
       cuil: "",
@@ -144,6 +192,8 @@ export default {
       postCode: "",
       loading: true,
       modal: false,
+      actualizado: false,
+      message: "",
     };
   },
   created() {
@@ -154,7 +204,7 @@ export default {
   },
   computed: {
     fecha() {
-      let iso = this.fecha_creacion;
+      let iso = this.datosUser.created_at;
       let date = new Date(iso);
       const day = date.getDate();
       const month = date.getMonth() + 1;
@@ -176,17 +226,17 @@ export default {
         .get("/oficina/user/profile")
         .then((response) => {
           console.log(response.data);
-          let res = response.data.UserProfile;
-          this.name = res.user.firstname;
-          this.lastname = res.user.lastname;
-          this.cuil = res.user.cuil;
-          this.email = res.user.email;
-          this.adress = res.user.adress;
-          this.city = res.user.city;
-          this.phoneNumber = res.user.phoneNumber;
-          this.nivel = res.user.level.level;
-          this.fecha_creacion = res.user.created_at;
-          this.postCode = res.user.postCode;
+          this.datosUser = response.data.UserProfile.user;
+          this.name = this.datosUser.firstname;
+          this.lastname = this.datosUser.lastname;
+          this.cuil = this.datosUser.cuil;
+          this.email = this.datosUser.email;
+          this.adress = this.datosUser.adress;
+          this.city = this.datosUser.city;
+          this.phoneNumber = this.datosUser.phoneNumber;
+          this.nivel = this.datosUser.level.level;
+          this.fecha_creacion = this.datosUser.created_at;
+          this.postCode = this.datosUser.postCode;
           this.loading = false;
         })
         .catch((error) => {
@@ -209,6 +259,61 @@ export default {
     },
     setModal() {
       this.modal = !this.modal;
+      this.actualizado = false;
+    },
+    registrar() {
+      let registro = {
+        city: this.city,
+        postCode: this.postCode,
+        adress: this.adress,
+        firstname: this.name,
+        lastname: this.lastname,
+        phoneNumber: this.phoneNumber,
+      };
+
+      console.log(registro);
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .put("/oficina/user", registro)
+        .then((response) => {
+          console.log(response.data);
+
+          this.message = response.data.message;
+          this.actualizado = true;
+          (this.firstname = ""),
+            (this.lastname = ""),
+            (this.telefono = ""),
+            (this.email = ""),
+            (this.cuil = ""),
+            (this.adress = ""),
+            (this.city = ""),
+            (this.postCode = ""),
+            this.getMyProfile();
+          // setTimeout(() => {
+          //   this.$router.push("munienlinea");
+          // }, 2000);
+        })
+        .catch(function (error) {
+          console.log(error);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.registrar();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.registrar();
+            }
+          }
+        });
     },
   },
 };
@@ -274,15 +379,16 @@ h5 {
 .datos-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  width: 80%;
+  width: 90%;
   position: relative;
   margin: auto;
   margin-top: 2vh;
+  align-items: center;
 }
 input {
   border: none;
   border-bottom: 1px solid black;
-  width: 70%;
+  width: 90%;
   font-size: 16px;
 }
 label {
@@ -341,9 +447,9 @@ p {
   left: 0;
   right: 0;
   margin: auto;
-  width: 500px; /* Need a specific value to work */
+  width: 60vw; /* Need a specific value to work */
   height: auto;
-  padding: 1rem;
+  padding: 3rem;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -352,9 +458,6 @@ p {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 
 .close {
@@ -362,6 +465,13 @@ p {
   right: 2rem;
   top: 0.5rem;
 }
-.internoEditar {
+.botonSubmit {
+  width: 100px;
+  height: 45px;
+  background-color: var(--green);
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  border-style: none;
+  margin-top: 5vh;
 }
 </style>

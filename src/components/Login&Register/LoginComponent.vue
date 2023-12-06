@@ -66,9 +66,9 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="52"
-            height="52"
-            viewBox="0 0 56 56"
+            width="40"
+            height="40"
+            viewBox="0 0 50 50"
             fill="none"
             class="svgCirculo"
           >
@@ -701,7 +701,7 @@ p {
 }
 .svgCirculo {
   position: absolute;
-  margin-top: -1.2vh;
+  margin-top: -0.5vh;
   left: 0.5vw;
 }
 .modalFormulario {

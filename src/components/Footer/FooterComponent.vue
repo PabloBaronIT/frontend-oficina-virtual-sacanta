@@ -27,7 +27,7 @@ export default {
 .general {
   /* position: fixed; */
   z-index: 15;
-  height: 13vh;
+  height: 12vh;
   background-color: #f5f5f5;
   width: 81vw;
   bottom: 0;
@@ -54,7 +54,7 @@ h6 {
 }
 .grupoRedes {
   margin-left: 3vw;
-  width: 12vw;
+  width: 11vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -71,7 +71,7 @@ h6 {
   );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  font-size: 40px;
+  font-size: 38px;
 }
 
 @media (max-width: 800px) {

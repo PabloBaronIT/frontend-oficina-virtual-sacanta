@@ -13,10 +13,19 @@
 </template>
 <script>
 export default {
+  created: {},
   data() {
     return {
       busqueda: "",
+      noti: "",
     };
+  },
+
+  props: {
+    comunicaciones: Array,
+  },
+  methods: {
+    searchValue() {},
   },
 };
 </script>
