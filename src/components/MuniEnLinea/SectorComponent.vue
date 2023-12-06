@@ -66,7 +66,7 @@
         >
           <div class="modal-content">
             <div class="modalTop">
-              <p @click="closeModalNivel">X</p>
+              <i class="bi bi-x-square-fill close" @click="closeModalNivel"></i>
             </div>
             <h5>Trámite no disponible.</h5>
             <p>
@@ -322,6 +322,11 @@ h5 {
   top: 5px;
   right: 10px;
   cursor: pointer;
+}
+.close {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
 }
 /* ------------------------------------ */
 

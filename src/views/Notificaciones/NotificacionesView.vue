@@ -8,7 +8,7 @@
     </h1>
     <!-- BUSCADOR -->
     <div class="row" style="margin-top: 3vh; margin-bottom: 6vh">
-      <SearchNotificaciones />
+      <SearchNotificaciones :comunicaciones="this.communications" />
     </div>
     <!-- ENCABEZADO DE NOTIFICACIONES -->
     <div class="encabezado">

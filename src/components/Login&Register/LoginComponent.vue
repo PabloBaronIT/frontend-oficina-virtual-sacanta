@@ -66,9 +66,9 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="52"
-            height="52"
-            viewBox="0 0 56 56"
+            width="40"
+            height="40"
+            viewBox="0 0 50 50"
             fill="none"
             class="svgCirculo"
           >
@@ -84,11 +84,11 @@
 
     <!-- MODAL DE FACE-GOOGLE-USUARIO Y CONTRASEÑA -->
     <div class="modalFormulario" v-if="this.modalFormulario">
-      <div
-        @click="() => (this.modalFormulario = false)"
-        style="font-size: 30px; position: absolute; right: 2rem"
-      >
-        x
+      <div style="font-size: 30px; position: absolute; right: 2rem">
+        <i
+          class="bi bi-x-square-fill close"
+          @click="() => (this.modalFormulario = false)"
+        ></i>
       </div>
       <form style="width: 50%; margin: auto">
         <FormKit
@@ -618,6 +618,7 @@ export default {
 .contenedor {
   width: 100vw;
   height: 100vh;
+  margin-top: -4vh;
 }
 .boxDerechoMujer {
   width: 65vw;
@@ -636,7 +637,7 @@ export default {
   height: 115vh;
   border-radius: 0px 0px 30px 0px;
   position: absolute;
-  top: -14vh;
+  top: -17vh;
   left: -18vw;
   background: linear-gradient(
     158deg,
@@ -700,7 +701,7 @@ p {
 }
 .svgCirculo {
   position: absolute;
-  margin-top: -1.2vh;
+  margin-top: -0.5vh;
   left: 0.5vw;
 }
 .modalFormulario {
@@ -763,6 +764,11 @@ p {
 h5 {
   color: white;
   font-size: 24px;
+}
+.close {
+  position: absolute;
+  right: 2rem;
+  top: 0.5rem;
 }
 /*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {

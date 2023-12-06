@@ -84,14 +84,7 @@
           v-if="item.type == 'text' && item.title == `Indique la ubicación`"
           class="tipoMap"
         >
-          <div
-            style="
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              align-items: center;
-            "
-          >
+          <div class="inputCalle">
             <label>Calle</label>
             <input
               class="form-control text-number-input"
@@ -105,14 +98,7 @@
               v-model="this.numero"
             />
           </div>
-          <div
-            style="
-              margin-bottom: 4vh;
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-            "
-          >
+          <div class="entreCalles">
             <label>Entre calles</label>
             <input
               class="form-control text-number-input"
@@ -224,12 +210,13 @@
     </div>
     <!-- Si esta en el ultimo paso se habilita el submitt -->
     <!--INPUT PARA ENVIAR TODAS LAS RESPUESTAS-->
-    <div v-if="this.mensaje != null">
-      <p>
-        {{ this.mensaje }}
-      </p>
-    </div>
+
     <div v-if="this.paso + 1 === this.preguntas.length" class="btn-submit">
+      <div v-if="this.mensajeTrue">
+        <p>
+          {{ this.mensaje }}
+        </p>
+      </div>
       <input
         class="botonSubmit"
         type="button"
@@ -301,7 +288,8 @@ export default {
       preguntas: null,
       respuestas: [],
       servicio: false,
-      mensaje: null,
+      mensaje: "",
+      mensajeTrue: false,
       sectorTitle: "",
       formularioTitle: "",
       calle: "",
@@ -545,19 +533,24 @@ export default {
           })
           .then((response) => {
             console.log(response);
-            if (response.status == 201) {
+            if (response.status === 201) {
               let idTramite = response.data.procedure_history_id;
-
+              this.textInput = "";
+              // this.mensaje = response.data.message;
+              this.mensajeTrue = true;
               //   //this.submitted = true;
               //this.procedure.questions = [];
+              this.mensaje = "Trámite presentado!";
               if (this.nivel === 2) {
-                this.$router.push(`/pago/${idTramite}`);
+                setTimeout(() => {
+                  this.$router.push(`/pago/${idTramite}`);
+                }, 2000);
               } else {
-                this.textInput = "";
                 alert(
-                  "Su reclamo fue presentado! Gracia por utilizar nuestra Oficina Virtual."
+                  "Su reclamo fue presentado! Gracias por utilizar nuestra Oficina Virtual."
                 );
               }
+              this.$router.push(`/munienlinea`);
               this.dispatchClean();
               this.dispatchProcedure();
               //   //console.log(this.$store.procedure[0]);
@@ -734,6 +727,18 @@ h5 {
   color: white;
   margin-left: 1rem;
   border-style: none;
+}
+.inputCalle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.entreCalles {
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 /* ---------- */
 

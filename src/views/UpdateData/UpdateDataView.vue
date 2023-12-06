@@ -154,8 +154,15 @@
           </div>
         </div>
 
-        <div style="margin-top: 2rem">
+        <div class="submitt">
           <div class="alert alert-success" role="alert" v-if="this.registrado">
+            {{ this.message }}
+          </div>
+          <div
+            class="alert alert-danger"
+            role="alert"
+            v-if="this.message && !this.registrado"
+          >
             {{ this.message }}
           </div>
           <input
@@ -255,7 +262,9 @@ export default {
         avatar: this.avatarSelect,
         phoneNumber: this.telefono,
       };
+
       console.log(registro);
+
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -263,11 +272,11 @@ export default {
           "auth-header": localStorage.getItem("token"),
         },
       });
+
       apiClient
         .put("/oficina/user", registro)
         .then((response) => {
           console.log(response.data);
-
           this.message = response.data.message;
           this.registrado = true;
           (this.firstname = ""),
@@ -283,8 +292,7 @@ export default {
             this.$router.push("munienlinea");
           }, 2000);
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
           if (error.response.status === 500) {
             if (error.response.data.message === "Token de usuario expirado") {
               setToken();
@@ -296,6 +304,9 @@ export default {
               setTokenRelations();
               this.registrar();
             }
+            this.message =
+              "No pudimos registrarte, ya existe una cuenta relacionada a este cuil.";
+            console.log(error);
           }
         });
     },
@@ -418,11 +429,11 @@ export default {
 </script>
 <style scoped>
 .container {
-  width: 75%;
-  background: white;
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  margin-top: 1rem;
+  width: 100%;
+  min-height: 100vh;
+
+  background: #f5f5f5;
+  padding: 5rem 3rem;
   align-items: center;
 }
 
@@ -438,5 +449,14 @@ img {
 }
 img:hover {
   box-shadow: 0px 0px 10px #333;
+}
+.submitt {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
 }
 </style>

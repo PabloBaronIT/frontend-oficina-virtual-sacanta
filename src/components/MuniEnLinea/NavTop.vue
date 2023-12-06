@@ -11,7 +11,7 @@
 
     <!--mi cuenta-->
     <div class="usuario">
-      <div class="circuloAvatar">
+      <div class="circuloAvatar" v-if="this.avatar">
         <img :src="this.avatar" alt="imagen" v-if="this.avatar" />
       </div>
       <div class="usuario-details" v-if="this.$store.state.user">
