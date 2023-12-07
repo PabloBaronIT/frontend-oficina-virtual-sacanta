@@ -7,8 +7,20 @@
       </h4>
     </h1>
     <!-- BUSCADOR -->
-    <div class="row" style="margin-top: 3vh; margin-bottom: 6vh">
-      <SearchNotificaciones :comunicaciones="this.communications" />
+    <div class="contenedor">
+      <input
+        type="text"
+        name="titulo"
+        id=""
+        class="inputTitulo"
+        v-model="this.value"
+        placeholder="INGRESA UNA PALABRA RELACIONADA."
+      />
+      <img
+        src="./../../assets/images/Search.svg"
+        alt=""
+        @click="this.searchValue"
+      />
     </div>
     <!-- ENCABEZADO DE NOTIFICACIONES -->
     <div class="encabezado">
@@ -175,7 +187,7 @@
 
 <script>
 // import CardNotificacionComponentVue from "../../components/Notificaciones/CardNotificacionComponent.vue";
-import SearchNotificaciones from "@/components/SearchNotificaciones/SearchNotificaciones.vue";
+// import SearchNotificacionesComponent from "@/components/SearchNotificaciones/SearchNotificacionesComponent.vue";
 import TablaNotificacionesComponent from "@/components/Notificaciones/TablaNotificacionesComponent.vue";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
@@ -184,7 +196,7 @@ import { BASE_URL } from "@/env";
 export default {
   components: {
     // CardNotificacionComponentVue,
-    SearchNotificaciones,
+    // SearchNotificacionesComponent,
     TablaNotificacionesComponent,
   },
 
@@ -195,6 +207,7 @@ export default {
       loading: true,
       selectCommunication: null,
       message: null,
+      value: "",
     };
   },
   created() {
@@ -257,6 +270,9 @@ export default {
     setComunicacion(index) {
       this.selectCommunication = this.communications[index];
       console.log(this.selectCommunication, "soy la comunicacionw");
+    },
+    searchValue() {
+      console.log(this.value);
     },
   },
 };
@@ -375,6 +391,26 @@ h5 {
 
 .l {
   flex-direction: row;
+}
+.contenedor {
+  display: flex;
+  flex-direction: row;
+  width: 58vw;
+  margin-top: 3vh;
+  margin-bottom: 6vh;
+}
+input {
+  border-radius: 10px;
+  background: #ffff;
+  width: 10vw;
+  height: 6vh;
+  /* height: 36px; */
+  margin-right: 1vw;
+  border: none;
+  padding-left: 1rem;
+}
+input[name="titulo"] {
+  width: 33vw;
 }
 /* ------------------------------------------------ */
 @media (max-width: 1200px) {

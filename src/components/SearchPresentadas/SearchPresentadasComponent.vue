@@ -4,7 +4,7 @@
       type="text"
       name=""
       id=""
-      v-model="gestion"
+      v-model="this.gestion"
       placeholder="Nº GESTIÓN"
     />
     <input type="text" name="" id="" v-model="fecha" placeholder="FECHA" />
@@ -17,17 +17,97 @@
       v-model="titulo"
       placeholder="TITULO"
     />
-    <img src="./../../assets/images/Search.svg" alt="" />
+    <img src="./../../assets/images/Search.svg" alt="" @click="this.search" />
+  </div>
+  <div v-if="this.message">
+    {{ this.message }}
   </div>
 </template>
 <script>
+import axios from "axios";
+import { BASE_URL } from "@/env";
 export default {
   data() {
     return {
       gestion: "",
       fecha: "",
       titulo: "",
+      message: "",
     };
+  },
+  props: {
+    setactivos: Function,
+  },
+  methods: {
+    search() {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .get(`/oficina/procedures/my-procedure/${this.gestion}`)
+        .then((response) => {
+          console.log(response.data.MyProcedure.procedure);
+          let h = response.data.MyProcedure.procedure;
+          // for (let i = 0; i < h.length; i++) {
+          //Procedure
+          let p = {
+            id: null,
+            fecha: null,
+            categoria: "",
+            estado: "",
+            color: "",
+            titulo: "",
+            comunicaciones: null,
+            open: false,
+          };
+
+          let iso = h.updated_at;
+          let date = new Date(iso);
+          const day = date.getDate();
+          const month = date.getMonth() + 1;
+          const year = date.getFullYear();
+
+          //Carga del procedure
+          p.id = h.id;
+          p.fecha = `${day}/${month}/${year}`;
+          p.categoria = h.category.title;
+          p.estado = h.status.status;
+          p.titulo = h.procedure.title;
+          p.comunicaciones = h.communicationCount;
+
+          switch (p.estado) {
+            case "PRESENTADO":
+              p.color = "var(--green)";
+              break;
+            case "EN PROCESO":
+              p.color = "var(--yellow)";
+              break;
+            case "PAUSADO POR REQUERIMIENTO":
+              p.color = "var(--red)";
+              p.requerido = true;
+              break;
+            case "FINALIZADO":
+              p.color = "var(--lblue)";
+              break;
+
+            default:
+              break;
+          }
+          this.gestion = "";
+          this.setactivos(p);
+
+          //console.log(p);
+          // }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.message = error.response.data.message;
+        });
+    },
   },
 };
 </script>
