@@ -40,9 +40,12 @@ export default {
 
 <style scoped>
 main {
-  width: 100%;
-  height: 100%;
+  width: 82%;
+  height: auto;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  top: 14%;
 }
 /* @media (max-width: 1000px) {
   .main {

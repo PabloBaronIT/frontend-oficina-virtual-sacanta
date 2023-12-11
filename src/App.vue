@@ -181,7 +181,7 @@ export default {
   /* color: var(--text-color); */
   margin: 0;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   /* width: 100%; */
 }
 body {
@@ -224,14 +224,18 @@ h6 {
 </style>
 
 <style scoped>
-.claseB {
-  width: 81.2vw;
+/* .claseB {
+  width: 81%;
   position: absolute;
   right: 0;
   margin-top: 17vh;
-}
+  z-index: 5;
+} */
 .main-container {
   display: flex;
+  width: 100vw;
+  height: 100vh;
+  /* position: relative; */
 }
 .fixed {
   position: fixed;
