@@ -1,7 +1,12 @@
 <template>
   <div class="tabla-container">
-    <div style="margin-bottom: 3vh">
-      <SearchPresentadasComponent />
+    <div style="margin-bottom: 3vh; position: relative">
+      <i
+        class="bi bi-arrow-clockwise reset"
+        style="font-size: 28px"
+        @click="this.getMyProcedure"
+      ></i>
+      <SearchPresentadasComponent :setactivos="this.setActivos" />
     </div>
     <!-- TABLA DE TRAMITES -->
     <div class="modalTramite">
@@ -944,19 +949,26 @@ export default {
           }
         });
     },
+    setActivos(dato) {
+      this.activos = [];
+      this.activos.push(dato);
+    },
   },
 };
 </script>
 
 <style scoped>
 /* CSS NUEVO */
+.reset {
+  position: absolute;
+  right: 2rem;
+}
 .tabla-container {
   width: 70vw;
   height: auto;
   margin-top: 5vh;
   justify-content: flex-start;
-  margin-left: 4vw;
-  margin-bottom: 120px;
+  margin-bottom: 10%;
 }
 .modalTramite {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);

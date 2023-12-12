@@ -7,8 +7,20 @@
       </h4>
     </h1>
     <!-- BUSCADOR -->
-    <div class="row" style="margin-top: 3vh; margin-bottom: 6vh">
-      <SearchNotificaciones :comunicaciones="this.communications" />
+    <div class="contenedor">
+      <input
+        type="text"
+        name="titulo"
+        id=""
+        class="inputTitulo"
+        v-model="this.value"
+        placeholder="INGRESA UNA PALABRA RELACIONADA."
+      />
+      <img
+        src="./../../assets/images/Search.svg"
+        alt=""
+        @click="this.searchValue"
+      />
     </div>
     <!-- ENCABEZADO DE NOTIFICACIONES -->
     <div class="encabezado">
@@ -82,7 +94,7 @@
       </div>
       <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
     </div>
-    <div style="margin-bottom: 6vh">
+    <div style="margin-bottom: 10%">
       <TablaNotificacionesComponent :communications="this.communications" />
     </div>
     <!-- LISTADO DE COMUNICACIONES -->
@@ -175,7 +187,7 @@
 
 <script>
 // import CardNotificacionComponentVue from "../../components/Notificaciones/CardNotificacionComponent.vue";
-import SearchNotificaciones from "@/components/SearchNotificaciones/SearchNotificaciones.vue";
+// import SearchNotificacionesComponent from "@/components/SearchNotificaciones/SearchNotificacionesComponent.vue";
 import TablaNotificacionesComponent from "@/components/Notificaciones/TablaNotificacionesComponent.vue";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
@@ -184,7 +196,7 @@ import { BASE_URL } from "@/env";
 export default {
   components: {
     // CardNotificacionComponentVue,
-    SearchNotificaciones,
+    // SearchNotificacionesComponent,
     TablaNotificacionesComponent,
   },
 
@@ -195,6 +207,7 @@ export default {
       loading: true,
       selectCommunication: null,
       message: null,
+      value: "",
     };
   },
   created() {
@@ -258,6 +271,9 @@ export default {
       this.selectCommunication = this.communications[index];
       console.log(this.selectCommunication, "soy la comunicacionw");
     },
+    searchValue() {
+      console.log(this.value);
+    },
   },
 };
 </script>
@@ -266,9 +282,10 @@ export default {
 /* CSS NUEVO */
 .tituloPrincipal {
   color: #4b4a49;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 50px;
-  margin-top: 7vh;
+  margin-top: 4vh;
+  /* margin-top: 7vh; */
   /* margin-left: 4vw; */
 }
 .divTitulos {
@@ -287,14 +304,22 @@ export default {
   font-size: 16px;
 }
 .sector-container {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
-  padding-left: 4vw;
-  padding-bottom: 120px;
+  padding-left: 4%;
+  padding-right: 4%;
+  /* padding-bottom: 120px; */
+
+  width: 82%;
+  /* background-color: #f5f5f5; */
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
 
   /* background: var(--grey-bk); */
 }
@@ -368,13 +393,37 @@ h5 {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 84vw;
+  min-height: 100%;
+  width: 82%;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
 
 .l {
   flex-direction: row;
+}
+.contenedor {
+  display: flex;
+  flex-direction: row;
+  width: 58vw;
+  margin-top: 3vh;
+  margin-bottom: 6vh;
+}
+input {
+  border-radius: 10px;
+  background: #ffff;
+  width: 10vw;
+  height: 6vh;
+  /* height: 36px; */
+  margin-right: 1vw;
+  border: none;
+  padding-left: 1rem;
+}
+input[name="titulo"] {
+  width: 33vw;
 }
 /* ------------------------------------------------ */
 @media (max-width: 1200px) {

@@ -193,13 +193,12 @@ export default {
   color: #4b4a49;
   font-weight: 900;
   font-size: 50px;
-  margin-top: 7vh;
+  margin-top: 4vh;
 }
 .imagenSector {
   width: 6vw;
   height: 7vh;
-  margin-top: 8vh;
-  margin-left: 4vw;
+  margin-top: 4vh;
 }
 .sinTramites {
   margin-top: 4rem;
@@ -212,10 +211,10 @@ export default {
 
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   min-width: 100%;
-  height: 14.5vh;
+  max-height: 90px;
   border-radius: 0px 20px 0px 0px;
   background: white;
-  padding: 0.3rem;
+  padding: 0.2rem;
   margin: auto;
   cursor: pointer;
 }
@@ -226,7 +225,7 @@ export default {
 .card-body {
   background: white;
   border-radius: 0px 19px 0px 0px;
-  min-height: 100%;
+  min-height: 80px;
   min-width: 100%;
   text-align: left;
   padding-top: 2rem;

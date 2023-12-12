@@ -1,7 +1,7 @@
 <template>
-  <div class="sector-container" v-if="setPermission">
+  <main class="sector-container" v-if="setPermission">
     <Sector />
-  </div>
+  </main>
 </template>
 
 <script>
@@ -26,9 +26,19 @@ export default {
 
 <style scoped>
 .sector-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
+  /* width: 100%; */
+  /* height: 100vh; */
+  /* display: flex; */
+  /* background-color: #f5f5f5; */
+
+  width: 82%;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
+
+  padding-left: 4%;
+  padding-right: 4%;
 }
 </style>

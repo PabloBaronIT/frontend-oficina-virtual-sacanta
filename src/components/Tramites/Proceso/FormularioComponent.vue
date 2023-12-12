@@ -9,7 +9,7 @@
         {{ this.preguntas[this.paso].question.title }}
       </h5>
     </div>
-    <form action="" style="margin-bottom: 20vh">
+    <form action="" style="margin-bottom: 5%">
       <!--DETALLES DE OPCIONES-->
       <div
         :v-if="
@@ -633,12 +633,12 @@ h5 {
 }
 .volver {
   position: absolute;
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 3.5%;
-  bottom: 0;
+  bottom: 8%;
 }
 
 .volver h4 {

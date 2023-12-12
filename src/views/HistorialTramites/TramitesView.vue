@@ -1,5 +1,5 @@
 <template>
-  <main v-if="setPermission && !this.loading" class="sector-container">
+  <div class="sector-container" v-if="setPermission && !this.loading">
     <h1 class="tituloPrincipal">
       Presentadas
       <h4 style="color: #4b4a49; font-weight: 100">
@@ -7,7 +7,7 @@
       </h4>
     </h1>
     <Tabla :setLoading="this.setLoading" />
-  </main>
+  </div>
   <div class="prueba-container l" v-else>
     <div class="spinner-grow text-success" role="status">
       <span class="sr-only"></span>
@@ -56,23 +56,63 @@ export default {
 </script>
 
 <style scoped>
+main {
+  /* width: 100%; */
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  padding-left: 4%;
+  padding-right: 4%;
+  /* padding-bottom: 120px; */
+
+  width: 82%;
+  /* background-color: #f5f5f5; */
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
+}
 .tituloPrincipal {
   color: #4b4a49;
   font-weight: 900;
   font-size: 50px;
-  margin-top: 7vh;
-  margin-left: 4vw;
+  margin-top: 4vh;
 }
 .prueba-container {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 84vw;
+  min-height: 100%;
+  width: 82%;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
+.sector-container {
+  /* width: 100%; */
+  height: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  padding-left: 4%;
+  padding-right: 4%;
+  /* padding-bottom: 120px; */
 
+  width: 82%;
+  /* background-color: #f5f5f5; */
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
+
+  /* background: var(--grey-bk); */
+}
 .l {
   flex-direction: row;
 }
@@ -82,9 +122,9 @@ export default {
   margin-bottom: 4vh;
 } */
 .sector-container {
-  width: 100%;
-  height: auto;
-  min-height: 100vh;
+  /* width: 100%; */
+  /* height: auto; */
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
@@ -117,8 +157,10 @@ main {
     height: auto;
   }
   .tituloPrincipal {
+    color: #4b4a49;
+
     font-weight: 700;
-    font-size: 45px;
+    font-size: 50px;
   }
 }
 @media (max-width: 600px) {

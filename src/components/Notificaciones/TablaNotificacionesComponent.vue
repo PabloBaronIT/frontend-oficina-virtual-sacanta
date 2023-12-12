@@ -61,7 +61,7 @@ export default {
     communications: Array,
   },
   created() {
-    // this.comunicaciones = this.communications;
+    //this.comunicaciones = this.communications;
     this.getComunicaciones();
   },
   methods: {

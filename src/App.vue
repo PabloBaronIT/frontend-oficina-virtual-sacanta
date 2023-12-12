@@ -29,15 +29,17 @@
         "
       />
       <router-view />
-      <FooterComponentVue
-        v-if="
-          this.role != 'MUNI_ROLE' &&
-          // this.role != undefined &&
-          // this.role != null &&
-          this.setPermission
-        "
-      />
     </div>
+  </div>
+  <div class="footer">
+    <FooterComponentVue
+      v-if="
+        this.role != 'MUNI_ROLE' &&
+        // this.role != undefined &&
+        // this.role != null &&
+        this.setPermission
+      "
+    />
   </div>
 </template>
 
@@ -181,7 +183,7 @@ export default {
   /* color: var(--text-color); */
   margin: 0;
   width: 100vw;
-  height: 100%;
+  /* height: auto;  */
   /* width: 100%; */
 }
 body {
@@ -225,13 +227,24 @@ h6 {
 
 <style scoped>
 .claseB {
-  width: 81.2vw;
+  width: 100%;
+  /* height: 100%; */
+  /* right: 0; */
+  /* margin-top: 17vh; */
+  /* z-index: 5; */
+}
+.footer {
   position: absolute;
+  width: 100%;
   right: 0;
-  margin-top: 17vh;
+  z-index: 15;
+  bottom: 0;
 }
 .main-container {
   display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
 }
 .fixed {
   position: fixed;

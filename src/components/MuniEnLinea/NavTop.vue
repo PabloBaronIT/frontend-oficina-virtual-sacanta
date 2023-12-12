@@ -525,8 +525,8 @@ export default {
 
 .botonNotificacion {
   position: relative;
-  height: 50px;
-  width: 50px;
+  max-height: 50px;
+  min-width: 50px;
   border-radius: 50%;
   background-image: linear-gradient(
     to right,

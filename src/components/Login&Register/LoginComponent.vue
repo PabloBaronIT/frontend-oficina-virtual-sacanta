@@ -1,35 +1,6 @@
 <template>
   <div class="contenedor">
     <div class="boxDerechoMujer"></div>
-    <!-- <div class="boxIzquierdo" v-if="modalFormulario">
-      <div class="boxIzquierdoTop"></div>
-      <div
-        style="
-          position: absolute;
-          top: 3vh;
-          left: 2vw;
-          width: 60%;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-        "
-      >
-        <div style="margin: auto"></div>
-        <img src="./../../../images/MuniEnLinea.svg" alt="" class="logo" />
-      </div>
-      <img src="./../../assets/HombreLogin.svg" alt="" class="hombreLogin" />
-
-      <div class="boxIzquierdoBotton"></div>
-      <div class="internoIzquierdo">
-        <h2><strong>BIENVENIDO</strong></h2>
-        <h3>Estás en el acceso a la oficina Virtual Municipal.</h3>
-        <h3 style="font-weight: lighter; font-size: x-large; margin-top: 1rem">
-          Presenta aqui todos tus trámites y gestiones de manera rapida y
-          simple, sin horarios y de desde el lugar que vos elijas.
-        </h3>
-      </div>
-    </div> -->
-    <!---------------->
     <div class="boxIzquierdo">
       <div class="logosMuni">
         <img
@@ -84,7 +55,7 @@
 
     <!-- MODAL DE FACE-GOOGLE-USUARIO Y CONTRASEÑA -->
     <div class="modalFormulario" v-if="this.modalFormulario">
-      <div style="font-size: 30px; position: absolute; right: 2rem">
+      <div style="position: absolute; right: 2rem">
         <i
           class="bi bi-x-square-fill close"
           @click="() => (this.modalFormulario = false)"
@@ -616,29 +587,31 @@ export default {
 <style scoped>
 /* CSS NUEVO*/
 .contenedor {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
-  margin-top: -4vh;
+  /* margin-top: -4vh; */
+  background: rebeccapurple;
 }
 .boxDerechoMujer {
-  width: 65vw;
-  height: 120vh;
+  width: 70%;
+  height: 100%;
   background-image: url("../../../public/img/fondoLogin.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   position: absolute;
   right: 0;
-  margin-top: -14vh;
+  /* margin-top: -14vh; */
 }
 
 .boxIzquierdo {
-  width: 50vw;
-  height: 115vh;
+  width: 45%;
+  height: 95%;
   border-radius: 0px 0px 30px 0px;
   position: absolute;
-  top: -17vh;
-  left: -18vw;
+  left: 0;
+  /* top: -17vh;
+  left: -18vw; */
   background: linear-gradient(
     158deg,
     #019939 0%,
@@ -661,31 +634,33 @@ export default {
   text-align: center;
   width: 100%;
   margin: auto;
-  margin-top: 8vh;
+  margin-top: 8%;
 }
 h1 {
   color: white;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 28px;
 }
-p {
-  font-size: 22px;
+.bienvenida p {
+  font-size: 18px;
   font-weight: 400;
   font-style: normal;
   line-height: normal;
   color: white;
 }
 .internoBox {
-  /* height: 30%;
-  width: 60%; */
+  height: auto;
+  width: 100%;
   margin: auto;
-  padding-top: 7vh;
+  /* padding-top: 7%; */
+  margin-top: 5%;
   text-align: center;
 }
+
 .botonServicios {
   position: relative;
   height: 7.5vh;
-  width: 20vw;
+  width: 40%;
   background: white;
   border-radius: 10px;
   margin: auto;
@@ -696,24 +671,24 @@ p {
 }
 .botonServicios p {
   color: #000;
-  font-size: 15px;
+  font-size: 14px;
   margin-top: 0.5rem;
 }
 .svgCirculo {
   position: absolute;
-  margin-top: -0.5vh;
-  left: 0.5vw;
+  margin-top: -2%;
+  left: 2%;
 }
 .modalFormulario {
   position: absolute;
-  width: 50vw;
-  height: 75vh;
+  width: 50%;
+  height: 75%;
   backdrop-filter: blur(10px);
   background-color: rgba(255, 255, 255, 0.5);
-  top: 15vh;
+  top: 15%;
   right: 30vw;
   z-index: 1;
-  font-size: 20px;
+  font-size: 15px;
   padding: 2rem;
 }
 .botones {
@@ -738,8 +713,8 @@ p {
   height: 1px;
   width: 22.5vw;
   margin: auto;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .error {
   color: red;
@@ -747,8 +722,8 @@ p {
   width: 200px;
 }
 .botonCidi {
-  width: 20vw;
-  height: 12vh;
+  width: 30%;
+  height: 10vh;
   background: white;
   border-radius: 20px;
   margin-bottom: 3vh;
@@ -763,7 +738,7 @@ p {
 }
 h5 {
   color: white;
-  font-size: 24px;
+  font-size: 20px;
 }
 .close {
   position: absolute;

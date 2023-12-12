@@ -25,13 +25,12 @@ export default {
 
 <style scoped>
 .general {
-  /* position: fixed; */
-  z-index: 15;
-  height: 12vh;
+  position: relative;
+  /* z-index: 17; */
+  height: 12%;
   background-color: #f5f5f5;
-  width: 81vw;
-  bottom: 0;
-  right: 0;
+  width: 81%;
+  margin-left: 18%;
   text-align: right;
 }
 .linea {
@@ -71,7 +70,7 @@ h6 {
   );
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
-  font-size: 38px;
+  font-size: 40px;
 }
 
 @media (max-width: 800px) {

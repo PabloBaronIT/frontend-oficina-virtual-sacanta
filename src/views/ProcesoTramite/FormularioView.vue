@@ -1,7 +1,7 @@
 <template>
   <div v-if="setPermission" class="sector-container">
     <div class="row">
-      <h5 style="margin-left: 6vw; margin-top: 7vh">{{ this.sectorTitle }}</h5>
+      <h5 style="margin-top: 4vh; margin-left: 4%">{{ this.sectorTitle }}</h5>
       <h1 class="tituloPrincipal">
         {{ this.titulo }}
         <h5>
@@ -294,11 +294,15 @@ export default {
 
 /*  */
 .sector-container {
-  width: 100%;
-  min-height: 100vh;
-  /* display: flex; */
+  width: 82%;
   background-color: #f5f5f5;
-  position: relative;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  /*  */
+  padding-left: 4%;
+  padding-right: 4%;
 }
 .recuadro {
   background: #fff;
@@ -311,14 +315,13 @@ export default {
   margin-top: 5vh;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   border-radius: 0px 20px 0px 20px;
+  margin-bottom: 7%;
 }
 .tituloPrincipal {
   color: #4b4a49;
   font-weight: 900;
   padding-left: 3rem;
   font-size: 50px;
-  /* margin-top: 7vh; */
-  margin-left: 4vw;
 }
 h5 {
   color: #4b4a49;
@@ -326,12 +329,13 @@ h5 {
 }
 .volver {
   position: absolute;
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 3.5%;
-  bottom: 0;
+  /* padding: 3.5%; */
+  bottom: 8%;
+  /* left: 4%; */
 }
 
 .volver h4 {

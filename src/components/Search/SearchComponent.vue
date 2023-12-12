@@ -98,17 +98,16 @@ export default {
   margin-top: -15px;
 }
 .containerSearch {
-  width: 54vw;
+  width: 75%;
   position: relative;
   /* display: flex; */
   /* flex-direction: row; */
   /* margin-top: 4rem; */
 }
 .search {
-  width: 54vw;
+  width: 100%;
   position: relative;
-  margin-left: 4vw;
-  height: 55px;
+  height: 7vh;
   border-color: transparent;
   padding-left: 1rem;
   border-radius: 0px 20px;
@@ -127,13 +126,13 @@ export default {
 .circuloVerde {
   position: absolute;
   /* z-index: 15; */
-  right: -2rem;
-  top: 0.2rem;
-  margin-left: 2rem;
-  height: 50px;
-  width: 50px;
+  right: 2rem;
+  /* top: -0.2rem; */
+  /* margin-left: 2rem; */
+  height: 45px;
+  width: 45px;
   border-radius: 50%;
-  padding-left: 11px;
+  /* padding-left: 11px; */
   cursor: pointer;
 }
 .vistaValues a {
