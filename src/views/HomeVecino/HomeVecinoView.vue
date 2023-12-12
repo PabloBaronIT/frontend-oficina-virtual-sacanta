@@ -41,11 +41,17 @@ export default {
 <style scoped>
 main {
   width: 82%;
-  height: auto;
   background-color: #f5f5f5;
   position: absolute;
   right: 0;
-  top: 14%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  /*  */
+  padding-left: 4%;
+  padding-right: 4%;
+  /* z-index: 5; */
+  /* height: auto; */
+  /* top: 17%; */
 }
 /* @media (max-width: 1000px) {
   .main {

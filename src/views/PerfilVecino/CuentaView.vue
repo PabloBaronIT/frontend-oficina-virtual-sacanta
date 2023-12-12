@@ -33,11 +33,14 @@ export default {
   border-top-left-radius: 30px;
   border-bottom-left-radius: 30px;
   padding: 30px; */
-  width: 100%;
-  height: auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  width: 82%;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 15%;
+  /*  */
+  padding-left: 4%;
+  padding-right: 4%;
 }
 </style>

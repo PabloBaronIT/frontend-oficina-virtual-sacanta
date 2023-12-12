@@ -108,6 +108,9 @@ export default {
   text-align: right;
   padding-top: 3vh;
   padding-right: 3.5vw;
-  z-index: 5;
+  z-index: 10;
+  top: 18vh;
+  font-size: 18px;
+  color: #9b9a9a;
 }
 </style>

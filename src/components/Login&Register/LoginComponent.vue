@@ -37,8 +37,8 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
+            width="40"
+            height="40"
             viewBox="0 0 50 50"
             fill="none"
             class="svgCirculo"
@@ -671,7 +671,7 @@ h1 {
 }
 .botonServicios p {
   color: #000;
-  font-size: 11px;
+  font-size: 14px;
   margin-top: 0.5rem;
 }
 .svgCirculo {

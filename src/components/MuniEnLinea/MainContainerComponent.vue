@@ -2,7 +2,7 @@
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <div v-if="!loading">
     <div class="row">
-      <h1 style="margin-top: 7vh; font-size: 50px">
+      <h1 style="font-size: 50px; color: #019939">
         ¿Qué gestión querés realizar?
       </h1>
     </div>
@@ -309,7 +309,7 @@ export default {
 <style scoped>
 /* CSS NUEVO */
 .containerTabs {
-  width: 95%;
+  width: 100%;
   margin: auto;
 }
 .containerTabs h5 {
@@ -344,6 +344,7 @@ export default {
   margin-top: 0.5rem;
   font-weight: 400;
   color: #9b9a9a;
+  font-size: 20px;
 }
 .botonGestiones {
   height: 6vh;
@@ -371,10 +372,10 @@ export default {
 .accesos h5 {
   font-weight: 400;
   color: #9b9a9a;
+  font-size: 20px;
 }
 h1 {
   margin-top: 4vh;
-  margin-left: 4vw;
   margin-bottom: 4vh;
 }
 h5 {
@@ -394,16 +395,16 @@ h5 {
   font-weight: bold;
   /* border: none; */
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
-  width: 90%;
-  height: 14.5vh;
+  width: 95%;
+  max-height: 90px;
   border-radius: 0px 20px 0px 0px;
   background-color: white;
   text-align: left;
-  padding: 0.3rem;
+  padding: 0.2rem;
   margin: auto;
 }
 .card h5 {
-  font-size: 17px;
+  font-size: 20px;
   color: #9b9a9a;
 }
 .card-body {
@@ -411,8 +412,9 @@ h5 {
   display: flex;
   flex-direction: row;
   border-radius: 0px 19px 0px 0px;
-  height: 100%;
-  width: 100%;
+  max-height: 80px;
+
+  /* width: 100%; */
 }
 .card:hover {
   background: linear-gradient(180deg, #019939 4.26%, #ffcc03 126.04%);
@@ -437,14 +439,14 @@ h5 {
   background: linear-gradient(90deg, #ffcc03 -6.36%, #e52320 100%);
 }
 .items {
-  width: 70vw;
-  height: 8vh;
+  width: 80%;
+  height: 8%;
   margin: auto;
   margin-top: 3vh;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   background: white;
   border-radius: 0px 20px 0px 20px;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);

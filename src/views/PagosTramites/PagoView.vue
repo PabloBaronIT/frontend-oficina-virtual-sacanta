@@ -197,15 +197,19 @@ export default {
 
 <style scoped>
 .main {
-  width: 90vw;
-  height: 100vh;
-  background-color: #f5f5f5;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+
+  width: 82%;
+  background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  /*  */
+  padding-left: 4%;
+  padding-right: 4%;
 }
 .asd {
   word-break: break-all;

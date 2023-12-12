@@ -94,7 +94,7 @@
       </div>
       <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
     </div>
-    <div style="margin-bottom: 6vh">
+    <div style="margin-bottom: 10%">
       <TablaNotificacionesComponent :communications="this.communications" />
     </div>
     <!-- LISTADO DE COMUNICACIONES -->
@@ -282,9 +282,10 @@ export default {
 /* CSS NUEVO */
 .tituloPrincipal {
   color: #4b4a49;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 50px;
-  margin-top: 7vh;
+  margin-top: 4vh;
+  /* margin-top: 7vh; */
   /* margin-left: 4vw; */
 }
 .divTitulos {
@@ -303,14 +304,22 @@ export default {
   font-size: 16px;
 }
 .sector-container {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
-  padding-left: 4vw;
-  padding-bottom: 120px;
+  padding-left: 4%;
+  padding-right: 4%;
+  /* padding-bottom: 120px; */
+
+  width: 82%;
+  /* background-color: #f5f5f5; */
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
 
   /* background: var(--grey-bk); */
 }
@@ -384,9 +393,13 @@ h5 {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 84vw;
+  min-height: 100%;
+  width: 82%;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
 
 .l {

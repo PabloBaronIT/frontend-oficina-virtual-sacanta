@@ -968,8 +968,7 @@ export default {
   height: auto;
   margin-top: 5vh;
   justify-content: flex-start;
-  margin-left: 4vw;
-  margin-bottom: 120px;
+  margin-bottom: 10%;
 }
 .modalTramite {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);

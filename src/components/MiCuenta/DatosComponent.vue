@@ -326,7 +326,6 @@ export default {
   font-weight: 900;
   font-size: 50px;
   margin-top: 7vh;
-  margin-left: 4vw;
 }
 .boxIzquierdo {
   height: 47vh;
@@ -351,6 +350,8 @@ export default {
   flex-direction: row;
   justify-content: center;
   gap: 1.5vw;
+  margin-top: 5%;
+  margin-bottom: 10%;
 }
 h5 {
   font-weight: 900;
@@ -364,11 +365,13 @@ h5 {
 .volver {
   position: absolute;
   bottom: 20vh;
+
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  left: 4vw;
+
+  /* left: 4vw; */
 }
 .volver h4 {
   margin-left: 14px;
