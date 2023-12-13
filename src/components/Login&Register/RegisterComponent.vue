@@ -279,7 +279,6 @@ export default {
   background: white;
   padding: 2rem 0px;
   border-radius: 20px;
-  margin-left: -5rem;
 }
 .interno {
   margin: auto;

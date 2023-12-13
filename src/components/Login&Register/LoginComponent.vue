@@ -93,7 +93,12 @@
       </form>
 
       <div class="botones">
-        <button type="button" class="btn btn-outline-secondary" @click="log">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          @click="log"
+          style="color: #000"
+        >
           Ingresar
         </button>
         <button type="button" class="btn btn-outline-secondary">
@@ -118,7 +123,7 @@ import axios from "axios";
 import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL } from "@/env";
+import { BASE_URL, FACE_ID, PASSWORD_HEADER } from "@/env";
 import { decodeCredential } from "vue3-google-login";
 
 export default {
@@ -335,7 +340,7 @@ export default {
     async initFacebook() {
       window.fbAsyncInit = function () {
         window.FB.init({
-          appId: "1235789680464916", //You will need to change this
+          appId: FACE_ID, //You will need to change this
           cookie: true, // This is important, it's not enabled by default
           version: "v17.0",
         });
@@ -543,8 +548,7 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient
@@ -590,7 +594,6 @@ export default {
   width: 100%;
   height: 100vh;
   /* margin-top: -4vh; */
-  background: rebeccapurple;
 }
 .boxDerechoMujer {
   width: 70%;
@@ -699,6 +702,11 @@ h1 {
   width: 50%;
   margin: auto;
   margin-top: 1rem;
+  color: #000;
+}
+.botones a {
+  text-decoration: none;
+  color: #000;
 }
 .face {
   background: #5890ff;

@@ -9,7 +9,7 @@
   />
   <!-- <NavMunicipalesComponentVue
     v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
-  /> -->
+    /> -->
   <div class="main-container">
     <NavComponent
       v-if="
@@ -29,17 +29,17 @@
         "
       />
       <router-view />
+      <div class="footer">
+        <FooterComponentVue
+          v-if="
+            this.role != 'MUNI_ROLE' &&
+            // this.role != undefined &&
+            // this.role != null &&
+            this.setPermission
+          "
+        />
+      </div>
     </div>
-  </div>
-  <div class="footer">
-    <FooterComponentVue
-      v-if="
-        this.role != 'MUNI_ROLE' &&
-        // this.role != undefined &&
-        // this.role != null &&
-        this.setPermission
-      "
-    />
   </div>
 </template>
 
@@ -234,7 +234,7 @@ h6 {
   /* z-index: 5; */
 }
 .footer {
-  position: absolute;
+  position: fixed;
   width: 100%;
   right: 0;
   z-index: 15;

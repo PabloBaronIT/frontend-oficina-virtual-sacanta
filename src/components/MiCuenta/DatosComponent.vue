@@ -433,7 +433,8 @@ p {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 84vw;
+  width: 84%;
+  margin: auto;
 }
 
 .l {
