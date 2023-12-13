@@ -429,12 +429,22 @@ export default {
 </script>
 <style scoped>
 .container {
-  width: 100%;
+  /* width: 100%;
   min-height: 100vh;
 
   background: #f5f5f5;
   padding: 5rem 3rem;
-  align-items: center;
+  align-items: center; */
+
+  width: 82%;
+  background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 15%;
+  padding-bottom: 10%;
+  /*  */
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 h2 {

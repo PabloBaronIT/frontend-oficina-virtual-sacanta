@@ -29,7 +29,7 @@ export default {
   /* z-index: 17; */
   height: 12%;
   background-color: #f5f5f5;
-  width: 81%;
+  width: 82%;
   margin-left: 18%;
   text-align: right;
 }

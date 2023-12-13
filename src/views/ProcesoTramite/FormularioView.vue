@@ -299,7 +299,7 @@ export default {
   position: absolute;
   right: 0;
   padding-top: 10%;
-  padding-bottom: 10%;
+  padding-bottom: 13%;
   /*  */
   padding-left: 4%;
   padding-right: 4%;
@@ -329,13 +329,15 @@ h5 {
 }
 .volver {
   position: absolute;
-  width: 95%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   /* padding: 3.5%; */
-  bottom: 8%;
-  /* left: 4%; */
+  bottom: 16%;
+  margin: auto;
+  /* right: 4%; */
+  /* left: 10%; */
 }
 
 .volver h4 {

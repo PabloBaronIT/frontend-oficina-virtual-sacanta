@@ -17,9 +17,16 @@ export default {
 </script>
 <style scoped>
 section {
-  width: 100vw;
+  /* width: 100vw;
   height: 100vh;
 
-  padding-top: 2rem;
+  padding-top: 2rem; */
+  text-align: center;
+}
+h1 {
+  /* margin-left: 8%; */
+  margin-top: 4%;
+  font-size: 50px;
+  color: #019939;
 }
 </style>

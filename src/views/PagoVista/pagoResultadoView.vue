@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div>
     <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
       <span class="sr-only"></span>
     </div> -->
-    <div class="prueba-container l" v-if="this.loading">
+    <div class="container l" v-if="this.loading">
       <div class="spinner-grow text-success" role="status">
         <span class="sr-only"></span>
       </div>
@@ -176,14 +176,20 @@ export default {
 
 <style scoped>
 .container {
-  padding-top: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  height: auto;
+  height: 100vh;
+  width: 82%;
   background-color: #f5f5f5;
+  position: absolute;
+  right: 0;
+  padding-top: 15%;
+  padding-bottom: 15%;
+  /*  */
+  /* padding-left: 4%; */
+  /* padding-right: 4%; */
 }
 .constancia {
   width: 60vw;

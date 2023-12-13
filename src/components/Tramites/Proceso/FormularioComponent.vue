@@ -633,7 +633,8 @@ h5 {
 }
 .volver {
   position: absolute;
-  width: 95%;
+  width: 90%;
+  margin: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
