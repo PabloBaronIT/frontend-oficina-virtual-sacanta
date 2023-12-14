@@ -108,11 +108,8 @@
       :key="index"
       @click="setComunicacion(index)"
     /> -->
-    <div
-      :v-if="this.message && this.loading === false"
-      style="text-align: center"
-    >
-      <h3>{{ this.message }}</h3>
+    <div :v-if="this.message && this.loading === false" class="sinTramites">
+      <h2>{{ this.message }}</h2>
     </div>
     <h1></h1>
     <!-- MODAL VISTA DE LA COMUNICACION-->
@@ -305,6 +302,7 @@ export default {
 }
 .sector-container {
   /* width: 100%; */
+  width: 82%;
   height: auto;
   min-height: 100vh;
   display: flex;
@@ -424,6 +422,14 @@ input {
 }
 input[name="titulo"] {
   width: 33vw;
+}
+.sinTramites {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  text-align: center;
+  /* padding-top: 2rem; */
+  color: #128d44;
 }
 /* ------------------------------------------------ */
 @media (max-width: 1200px) {

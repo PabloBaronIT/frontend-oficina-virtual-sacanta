@@ -180,13 +180,14 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
   width: 82%;
   background-color: #f5f5f5;
   position: absolute;
   right: 0;
-  padding-top: 15%;
-  padding-bottom: 15%;
+  margin-top: 8%;
+  padding-bottom: 10%;
+  padding-top: 5%;
   /*  */
   /* padding-left: 4%; */
   /* padding-right: 4%; */

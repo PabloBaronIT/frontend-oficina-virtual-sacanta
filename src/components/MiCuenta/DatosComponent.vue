@@ -33,7 +33,12 @@
           <i
             class="bi bi-pencil-fill"
             @click="this.setModal"
-            style="font-size: 12px; color: #019939; margin-left: 1rem"
+            style="
+              font-size: 12px;
+              color: #019939;
+              margin-left: 1rem;
+              cursor: pointer;
+            "
           ></i>
         </h5>
         <div class="datos-container">
@@ -295,9 +300,9 @@ export default {
             (this.city = ""),
             (this.postCode = ""),
             this.getMyProfile();
-          // setTimeout(() => {
-          //   this.$router.push("munienlinea");
-          // }, 2000);
+          setTimeout(() => {
+            this.modal = false;
+          }, 2000);
         })
         .catch(function (error) {
           console.log(error);

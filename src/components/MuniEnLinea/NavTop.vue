@@ -18,9 +18,7 @@
         <div>
           <h4>
             Hola{{ this.num }}
-            <strong>
-              {{ $store.state.user.firstname }}
-            </strong>
+            <strong> {{ $store.state.user.firstname }}! </strong>
           </h4>
           <!-- datos del respresentante si lo hay -->
           <div>
