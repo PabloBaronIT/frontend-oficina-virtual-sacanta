@@ -230,7 +230,7 @@ export default {
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 60vh;
 }
 
 .l {

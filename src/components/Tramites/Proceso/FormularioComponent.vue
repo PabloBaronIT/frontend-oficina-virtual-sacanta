@@ -549,8 +549,8 @@ export default {
                 alert(
                   "Su reclamo fue presentado! Gracias por utilizar nuestra Oficina Virtual."
                 );
+                this.$router.push(`/munienlinea`);
               }
-              this.$router.push(`/munienlinea`);
               this.dispatchClean();
               this.dispatchProcedure();
               //   //console.log(this.$store.procedure[0]);

@@ -964,7 +964,7 @@ export default {
   right: 2rem;
 }
 .tabla-container {
-  width: 70vw;
+  width: 100%;
   height: auto;
   margin-top: 5vh;
   justify-content: flex-start;
