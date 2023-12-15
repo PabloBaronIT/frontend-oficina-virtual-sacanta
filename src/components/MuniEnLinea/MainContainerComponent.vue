@@ -176,6 +176,13 @@
 </template>
 
 <script>
+window.onbeforeunload = function () {
+  // Aquí puedes realizar acciones antes de que el usuario abandone la página
+  // Por ejemplo, mostrar un mensaje de confirmación
+
+  // Puedes devolver un mensaje personalizado (el navegador puede ignorar este mensaje)
+  return "¿Estás seguro de que quieres abandonar la página?";
+};
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
@@ -404,7 +411,7 @@ h5 {
   margin: auto;
 }
 .card h5 {
-  font-size: 20px;
+  font-size: 18px;
   color: #9b9a9a;
 }
 .card-body {

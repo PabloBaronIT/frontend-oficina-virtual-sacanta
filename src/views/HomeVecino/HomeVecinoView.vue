@@ -53,9 +53,10 @@ main {
   /* height: auto; */
   /* top: 17%; */
 }
-/* @media (max-width: 1000px) {
-  .main {
+@media (max-width: 800px) {
+  main {
     height: auto;
+    width: 100%;
   }
-} */
+}
 </style>

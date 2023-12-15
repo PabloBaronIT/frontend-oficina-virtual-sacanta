@@ -94,7 +94,7 @@
       </div>
       <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
     </div>
-    <div style="margin-bottom: 10%">
+    <div>
       <TablaNotificacionesComponent :communications="this.communications" />
     </div>
     <!-- LISTADO DE COMUNICACIONES -->
@@ -208,10 +208,7 @@ export default {
     };
   },
   created() {
-    //this.cidiCookie = this.$store.state.CidiCookie;
-    // setTimeout(() => {
     this.getCommunication();
-    // }, 1000);
   },
   computed: {
     setPermission() {
@@ -453,6 +450,9 @@ input[name="titulo"] {
   }
   .subencabezado {
     width: 95vw;
+  }
+  .sector-container {
+    width: 100%;
   }
 }
 @media (max-width: 600px) {

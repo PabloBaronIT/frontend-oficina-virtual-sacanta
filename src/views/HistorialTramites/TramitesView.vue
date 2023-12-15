@@ -34,9 +34,7 @@ export default {
     };
   },
   created() {
-    // setTimeout(() => {
     this.loading = false;
-    // }, 1000);
   },
   computed: {
     setPermission() {
@@ -162,11 +160,18 @@ main {
     font-weight: 700;
     font-size: 50px;
   }
+  .sector-container {
+    width: 100%;
+  }
 }
 @media (max-width: 600px) {
   .tituloPrincipal {
     font-weight: 700;
     font-size: 30px;
+  }
+  .main-container {
+    width: 100%;
+    height: auto;
   }
 }
 </style>
