@@ -54,7 +54,9 @@
             <i class="bi bi-bell"> </i>
           </div>
         </router-link>
-        <div class="botonOut" @click="logOf"><i class="bi bi-power"></i></div>
+        <div class="botonOut" @click="this.logOf">
+          <i class="bi bi-power"></i>
+        </div>
       </div>
       <!-- <div
         v-if="this.modalNotificacion && this.notificacion != null"
@@ -194,7 +196,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL } from "@/env";
+import { BASE_URL, PASSWORD_HEADER } from "@/env";
 import { googleLogout } from "vue3-google-login";
 export default {
   name: "NavTopVue",
@@ -369,8 +371,7 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient

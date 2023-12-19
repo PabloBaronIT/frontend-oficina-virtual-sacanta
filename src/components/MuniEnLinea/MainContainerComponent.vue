@@ -176,18 +176,12 @@
 </template>
 
 <script>
-window.onbeforeunload = function () {
-  // Aquí puedes realizar acciones antes de que el usuario abandone la página
-  // Por ejemplo, mostrar un mensaje de confirmación
-
-  // Puedes devolver un mensaje personalizado (el navegador puede ignorar este mensaje)
-  return "¿Estás seguro de que quieres abandonar la página?";
-};
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
 import { BASE_URL } from "@/env";
 import SearchComponent from "../Search/SearchComponent.vue";
+
 export default {
   name: "MainCointainerComponent",
   components: {
@@ -216,27 +210,24 @@ export default {
       this.browser = "desconocido";
       console.log(this.browser);
     }
+
     // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
     // Trae imagenes, id y titulo de categoria
-    const script = document.createElement("script");
-    script.id = "amoforms_script_1183376";
-    script.async = true;
-    script.charset = "utf-8";
-    script.src =
-      "https://forms.kommo.com/forms/assets/js/amoforms.js?1692267763";
-    document.head.appendChild(script);
-    script.onload = () => {
-      this.initializeAmoForms();
-      console.log;
-    };
-    // setTimeout(() => {
+    // const script = document.createElement("script");
+    // script.id = "amoforms_script_1183376";
+    // script.async = true;
+    // script.charset = "utf-8";
+    // script.src =
+    //   "https://forms.kommo.com/forms/assets/js/amoforms.js?1692267763";
+    // document.head.appendChild(script);
+    // script.onload = () => {
+    //   this.initializeAmoForms();
+    //   console.log;
+    // };
     this.getCategories();
-    // }, 1000);
   },
-  computed: {},
   methods: {
     setClass() {
-      // console.log("hola");
       this.hoverCategorias = true;
     },
     NotSetClass() {
@@ -305,6 +296,7 @@ export default {
             }
           }
           if (error.response.status === 401) {
+            console.log(error.response.status);
             this.$router.push("micuenta-update");
           }
         });
@@ -393,7 +385,7 @@ h5 {
 .card-body img {
   /* object-fit: cover; */
   width: 90%;
-  min-height: 25px;
+  max-height: 60px;
   margin-bottom: 0;
 }
 

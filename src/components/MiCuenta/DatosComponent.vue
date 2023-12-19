@@ -136,32 +136,6 @@
         @click="this.registrar"
       />
     </div>
-    <!-- <div class="datos-container">
-      <p>
-        Nombre completo:
-        <b> {{ this.name }} {{ this.lastname }} </b>
-      </p>
-      <p>
-        CUIL: <b>{{ this.cuil }}</b>
-      </p>
-      <p>Contraseña: ********* <img src="@/assets/edit.svg" alt="edit" /></p>
-
-      <p>
-        Email: <b>{{ this.email }}</b>
-      </p>
-      <p>
-        Dirección: <b>{{ this.adress }}</b>
-      </p>
-      <p>
-        Cuenta creada el <b>{{ fecha }}</b>
-      </p>
-      <p>
-        Ciudad: <b>{{ this.city }}</b>
-      </p>
-      <p>
-        Teléfono: <b>{{ this.phoneNumber }}</b>
-      </p>
-    </div> -->
   </div>
   <div class="prueba-container l" v-else>
     <div class="spinner-grow text-success" role="status">

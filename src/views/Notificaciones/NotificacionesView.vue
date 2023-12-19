@@ -246,6 +246,13 @@ export default {
           this.loading = false;
         })
         .catch((error) => {
+          console.log(error);
+
+          if (error.response.status === 401) {
+            console.log(error.response.status, "soy el error 401");
+
+            this.$router.push("micuenta-update");
+          }
           if (error.response.status === 404) {
             this.message = error.response.data.message;
             this.loading = false;
@@ -255,9 +262,6 @@ export default {
               setToken();
               this.getCommunication();
             }
-          }
-          if (error.response.status === 401) {
-            this.$router.push("micuenta-update");
           }
         });
     },

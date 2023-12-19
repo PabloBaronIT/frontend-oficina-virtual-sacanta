@@ -9,23 +9,21 @@
 
 <script>
 import MainContainerComponent from "@/components/MuniEnLinea/MainContainerComponent.vue";
-
+// window.onload = function () {
+//   window.location.hash = "no-back-button";
+//   window.location.hash = "Again-No-back-button";
+//   window.onhashchange.hash = "no-back-button";
+// };
 export default {
   name: "HomeVecinoView",
   components: {
     MainContainerComponent,
   },
-  created() {
-    // this.loading = true;
-    // this.role = localStorage.getItem("role");
-    // this.loading = false;
-  },
+
   data() {
-    return {
-      // role: null,
-      // loading: false,
-    };
+    return {};
   },
+
   computed: {
     setPermission() {
       if (this.$store.state.loggedIn === true) {

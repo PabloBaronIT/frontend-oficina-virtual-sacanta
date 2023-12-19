@@ -59,7 +59,6 @@ h6 {
   justify-content: space-between;
 }
 .redes {
-  /* color: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%); */
   background: linear-gradient(
     to right,
     #ffcc03,
