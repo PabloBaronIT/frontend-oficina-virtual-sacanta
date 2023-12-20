@@ -181,6 +181,7 @@ import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
 import { BASE_URL } from "@/env";
 import SearchComponent from "../Search/SearchComponent.vue";
+import { googleLogout } from "vue3-google-login";
 
 export default {
   name: "MainCointainerComponent",
@@ -225,6 +226,7 @@ export default {
     //   console.log;
     // };
     this.getCategories();
+    window.addEventListener("popstate", this.handleBackButton);
   },
   methods: {
     setClass() {
@@ -300,6 +302,28 @@ export default {
             this.$router.push("micuenta-update");
           }
         });
+    },
+    handleBackButton() {
+      alert("usted esta por salir de nuestra pagina");
+      this.logOf();
+    },
+    logOf() {
+      localStorage.clear();
+      this.dispatchOutLogin();
+      location.reload();
+      this.$router.push("login");
+      googleLogout();
+      document.cookie = "cidi=; max-age=0";
+      // window.dispatchEvent(
+      //   new CustomEvent("token-localstorage-changed", {
+      //     detail: {
+      //       storage: localStorage.getItem("token"),
+      //     },
+      //   })
+      // );
+    },
+    dispatchOutLogin() {
+      this.$store.dispatch("mockOutAction");
     },
   },
 };
