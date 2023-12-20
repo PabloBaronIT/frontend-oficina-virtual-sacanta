@@ -24,7 +24,6 @@ export default {
     this.getMes(this.fecha.getMonth());
     this.getDia(this.fecha.getDay());
     this.fechaCompleta = `${this.nombreDia} ${this.dia} de ${this.mes}`;
-    // console.log(this.fecha);
   },
   methods: {
     getMes(mes) {

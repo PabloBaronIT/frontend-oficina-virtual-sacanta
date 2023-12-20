@@ -111,6 +111,17 @@
         </button>
       </div>
     </div>
+    <div class="prueba-container l" v-if="loading">
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div class="spinner-grow text-success" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
   </div>
 
   <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
@@ -409,6 +420,7 @@ export default {
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
+      this.loading = true;
       this.dispatchCidi();
       //console.log(this.cidiCookie, "cidicookie");
       console.log("entre en el logcidi");
@@ -593,6 +605,7 @@ export default {
 .contenedor {
   width: 100%;
   height: 100vh;
+  align-items: center;
   /* margin-top: -4vh; */
 }
 .boxDerechoMujer {
@@ -752,6 +765,19 @@ h5 {
   position: absolute;
   right: 2rem;
   top: 0.5rem;
+}
+.prueba-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  height: 20%;
+  width: 20%;
+  background: white;
+  z-index: 15;
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }
 /*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {

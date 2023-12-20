@@ -968,7 +968,7 @@ export default {
   height: auto;
   margin-top: 5vh;
   justify-content: flex-start;
-  margin-bottom: 10%;
+  margin-bottom: 5%;
 }
 .modalTramite {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
@@ -982,13 +982,14 @@ export default {
   background: white;
   padding: 1vw;
   border-bottom: 1px solid #9b9a9a;
-  text-align: left;
+  text-align: center;
   border-radius: 0px 20px 0px 0px;
 }
 .divTitulos p {
   color: #4b4a49;
   font-weight: 600;
   font-size: 16px;
+  min-width: 10%;
 }
 .encabezado {
   display: flex;
@@ -1001,6 +1002,8 @@ export default {
 .encabezado p {
   font-weight: 400;
   color: #4b4a49;
+  min-width: 24%;
+  /* width: 40%; */
 }
 .grafico-container {
   display: flex;

@@ -59,7 +59,6 @@ h6 {
   justify-content: space-between;
 }
 .redes {
-  /* color: linear-gradient(90deg, #019939 4.26%, #ffcc03 126.04%); */
   background: linear-gradient(
     to right,
     #ffcc03,
@@ -75,11 +74,11 @@ h6 {
 
 @media (max-width: 800px) {
   .general {
-    position: absolute;
-    width: 100vw;
-    z-index: 20;
+    /* position: relative; */
+    width: 100%;
+    /* z-index: 20; */
     /* width: 100vw; */
-    /* margin-left: 0; */
+    margin-left: 0;
   }
   h6 {
     font-size: 12px;
@@ -94,11 +93,11 @@ h6 {
 }
 @media (max-width: 600px) {
   .general {
-    position: absolute;
-    width: 100vw;
-    z-index: 20;
+    /* position: relative; */
+    width: 100%;
+    /* z-index: 20; */
     /* width: 100vw; */
-    /* margin-left: 0; */
+    margin-left: 0;
   }
   h6 {
     font-size: 10px;

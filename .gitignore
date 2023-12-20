@@ -22,3 +22,4 @@ pnpm-debug.log*
 *.sw?
 .env.local
 .env.produccion
+.env.production

@@ -306,8 +306,8 @@ export default {
 }
 .recuadro {
   background: #fff;
-  width: 51vw;
-  height: 25vh;
+  width: 70%;
+  height: 20%;
   /* margin-left: 25%; */
   margin: auto;
   text-align: center;
@@ -377,13 +377,15 @@ h5 {
     font-size: 40px;
   }
   .recuadro {
-    height: 45vh;
+    /* height: 10%; */
+    width: 90%;
+  }
+  .sector-container {
+    width: 100%;
+    height: 100%;
   }
 }
 @media (max-width: 1200px) {
-  .recuadro {
-    height: 40vh;
-  }
   .recuadro h5 {
     font-size: 15px;
   }

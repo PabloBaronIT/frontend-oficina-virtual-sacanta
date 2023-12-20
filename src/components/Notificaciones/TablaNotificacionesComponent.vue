@@ -49,23 +49,18 @@
     </div>
     <!-- MODAL PARA VER UNA COMUNICACION -->
     <div v-if="this.comunicacion" class="grafico-container">
-      <!-- <p>{{ new Date(item.created_at).toLocaleDateString() }}</p>
-      <p>Oficina Virtual</p>
-      <p>{{ item.subject }}</p>
-      <p>Leida</p> -->
-
       <div>
         <i
           class="bi bi-x-square-fill close"
           @click="this.comunicacion = null"
         ></i>
       </div>
-      <div class="d-flex">
-        <h5>Asunto: {{ "  " }}</h5>
+      <div>
+        <h5>Asunto:</h5>
         <p>{{ this.comunicacion[0].subject }}</p>
       </div>
-      <div class="d-flex">
-        <h5>Mensaje: {{ "  " }}</h5>
+      <div>
+        <h5>Mensaje:</h5>
         <p>{{ this.comunicacion[0].message }}</p>
       </div>
     </div>
@@ -137,8 +132,8 @@ export default {
 .grafico-container {
   display: flex;
   flex-flow: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   z-index: 15;
   position: absolute;
   top: 40%;
@@ -187,13 +182,14 @@ export default {
   background: white;
   padding: 1vw;
   border-bottom: 1px solid #9b9a9a;
-  text-align: left;
+  text-align: center;
   border-radius: 0px 20px 0px 0px;
 }
 .divTitulos p {
   color: #4b4a49;
   font-weight: 600;
   font-size: 16px;
+  min-width: 20%;
 }
 .encabezado {
   display: flex;
@@ -202,9 +198,12 @@ export default {
   padding: 1vw;
   background: white;
   border-bottom: 1px solid #9b9a9a;
+  text-align: center;
 }
 .encabezado p {
   font-weight: 400;
   color: #4b4a49;
+  min-width: 20%;
+  /* background: rebeccapurple; */
 }
 </style>

@@ -46,9 +46,9 @@
 <script>
 import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
-// import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 import FooterComponentVue from "@/components/Footer/FooterComponent.vue";
 import FechaComponent from "@/components/Fecha/FechaComponent.vue";
+// import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 export default {
   data() {
     return {
@@ -262,6 +262,13 @@ h6 {
   }
   .claseB {
     width: 100vw;
+  }
+  .footer {
+    /* position: fixed; */
+    width: 100%;
+    /* right: 0; */
+    /* z-index: 15; */
+    bottom: 0;
   }
 }
 </style>

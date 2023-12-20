@@ -41,4 +41,10 @@ export default {
   padding-left: 4%;
   padding-right: 4%;
 }
+@media (max-width: 800px) {
+  .sector-container {
+    width: 100%;
+    height: 100%;
+  }
+}
 </style>

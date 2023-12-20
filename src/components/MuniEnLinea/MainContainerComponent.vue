@@ -181,6 +181,8 @@ import setTokenRelations from "@/middlewares/setTokenRelations";
 import axios from "axios";
 import { BASE_URL } from "@/env";
 import SearchComponent from "../Search/SearchComponent.vue";
+import { googleLogout } from "vue3-google-login";
+
 export default {
   name: "MainCointainerComponent",
   components: {
@@ -209,27 +211,25 @@ export default {
       this.browser = "desconocido";
       console.log(this.browser);
     }
+
     // Haciendo Get de categorias con axios desde el componente para evitar fallos de token
     // Trae imagenes, id y titulo de categoria
-    const script = document.createElement("script");
-    script.id = "amoforms_script_1183376";
-    script.async = true;
-    script.charset = "utf-8";
-    script.src =
-      "https://forms.kommo.com/forms/assets/js/amoforms.js?1692267763";
-    document.head.appendChild(script);
-    script.onload = () => {
-      this.initializeAmoForms();
-      console.log;
-    };
-    // setTimeout(() => {
+    // const script = document.createElement("script");
+    // script.id = "amoforms_script_1183376";
+    // script.async = true;
+    // script.charset = "utf-8";
+    // script.src =
+    //   "https://forms.kommo.com/forms/assets/js/amoforms.js?1692267763";
+    // document.head.appendChild(script);
+    // script.onload = () => {
+    //   this.initializeAmoForms();
+    //   console.log;
+    // };
     this.getCategories();
-    // }, 1000);
+    window.addEventListener("popstate", this.handleBackButton);
   },
-  computed: {},
   methods: {
     setClass() {
-      // console.log("hola");
       this.hoverCategorias = true;
     },
     NotSetClass() {
@@ -298,9 +298,32 @@ export default {
             }
           }
           if (error.response.status === 401) {
+            console.log(error.response.status);
             this.$router.push("micuenta-update");
           }
         });
+    },
+    handleBackButton() {
+      alert("usted esta por salir de nuestra pagina");
+      this.logOf();
+    },
+    logOf() {
+      localStorage.clear();
+      this.dispatchOutLogin();
+      location.reload();
+      this.$router.push("login");
+      googleLogout();
+      document.cookie = "cidi=; max-age=0";
+      // window.dispatchEvent(
+      //   new CustomEvent("token-localstorage-changed", {
+      //     detail: {
+      //       storage: localStorage.getItem("token"),
+      //     },
+      //   })
+      // );
+    },
+    dispatchOutLogin() {
+      this.$store.dispatch("mockOutAction");
     },
   },
 };
@@ -386,7 +409,7 @@ h5 {
 .card-body img {
   /* object-fit: cover; */
   width: 90%;
-  min-height: 25px;
+  max-height: 60px;
   margin-bottom: 0;
 }
 
@@ -404,7 +427,7 @@ h5 {
   margin: auto;
 }
 .card h5 {
-  font-size: 20px;
+  font-size: 18px;
   color: #9b9a9a;
 }
 .card-body {
