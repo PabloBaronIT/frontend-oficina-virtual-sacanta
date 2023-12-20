@@ -43,22 +43,6 @@
             {{ tramite.title }}
           </h5>
         </div>
-
-        <!-- <div class="footercard"> -->
-        <!--SI TIENE EL NIVEL REQUERIDO PUEDE HACER EL TRAMITE-->
-        <!-- <router-link
-            v-if="tramite.level.level <= this.nivel"
-            :to="`/formulario/${tramite.title}/${tramite.id}`"
-          >
-            <a>Iniciar Trámite</a>
-          </router-link> -->
-        <!--SI NO!TIENE EL NIVEL REQUERIDO NO ! PUEDE HACER EL TRAMITE-->
-
-        <!-- <div v-else @click="ModalNivel(tramite.id)">
-            <a>Iniciar Trámite</a>
-          </div> -->
-        <!-- </div> -->
-
         <!--MODAL DE NIVEL 2 DE CIDI-->
         <div
           v-if="modalNivel === true && this.id == tramite.id"

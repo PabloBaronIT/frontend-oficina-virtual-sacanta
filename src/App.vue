@@ -7,9 +7,6 @@
       this.setPermission
     "
   />
-  <!-- <NavMunicipalesComponentVue
-    v-if="this.role != undefined && this.role === 'MUNI_ROLE'"
-    /> -->
   <div class="main-container">
     <NavComponent
       v-if="
@@ -48,7 +45,6 @@ import NavComponent from "@/components/MuniEnLinea/NavComponent.vue";
 import NavTopVue from "./components/MuniEnLinea/NavTop.vue";
 import FooterComponentVue from "@/components/Footer/FooterComponent.vue";
 import FechaComponent from "@/components/Fecha/FechaComponent.vue";
-// import NavMunicipalesComponentVue from "./components/Municipal/Nav/NavMunicipalesComponent.vue";
 export default {
   data() {
     return {
@@ -63,46 +59,12 @@ export default {
     };
   },
   created() {
-    // window.addEventListener("token-localstorage-changed", (event) => {
-    //   this.role = event.detail.storage;
-    // });
     this.role = localStorage.getItem("role") || null;
-
-    // if (asd != "/login") {
-    //   // this.ancho = 100;
-    //   // this.margin = 0;
-    //   this.ancho = 81.2;
-    //   this.margin = 14;
-    //   this.posision = "absolute";
-    //   this.derecha = 0;
-    // } else if (asd === "/login" || asd === "/") {
-    //   this.ancho = 100;
-    //   this.margin = 0;
-    //   // this.ancho = 81.2;
-    //   // this.margin = 14;
-    //   this.posision = "relative";
-    //   this.derecha = 0;
-    // }
-
-    // console.log(this.login);
   },
   watch: {
     $route() {
       this.role = localStorage.getItem("role");
     },
-    // asd(newValue) {
-    //   if (newValue != "/login") {
-    //     this.ancho = 81.2;
-    //     this.margin = 0;
-    //     this.posision = "relative";
-    //     this.derecha = 0;
-    //   } else {
-    //     this.ancho = 100;
-    //     this.margin = 14;
-    //     this.posision = "absolute";
-    //     this.derecha = 0;
-    //   }
-    // },
   },
   computed: {
     setPermission() {
@@ -124,7 +86,6 @@ export default {
   components: {
     NavComponent,
     NavTopVue,
-    // NavMunicipalesComponentVue,
     FooterComponentVue,
     FechaComponent,
   },

@@ -123,10 +123,6 @@
       </div>
     </div>
   </div>
-
-  <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
-      <span class="sr-only"></span>
-    </div> -->
 </template>
 
 <script>
@@ -415,8 +411,6 @@ export default {
           this.validacion = false;
           this.msj = error.response.data.message;
         });
-
-      // this.$router.push("munienlinea");
     },
     /* ESTE METODO LE ENVIA A LA API DE CIDI LAS HASCOOKIE PARA OBTENER TODOS LOS DATOS Y REPSRESENTADO*/
     logCidi(cidi) {
@@ -773,11 +767,11 @@ h5 {
   align-items: center;
   height: 20%;
   width: 20%;
-  background: white;
+  /* background: white; */
   z-index: 15;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 30%;
+  left: 40%;
 }
 /*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {

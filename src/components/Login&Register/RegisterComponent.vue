@@ -203,9 +203,6 @@ export default {
     };
   },
   methods: {
-    //ToDo:
-    //Inverstigar funciones de $router (Ej: Historial de navegacion)
-    //@submit.prevent="login"
     isPerson($event) {
       if ($event.target.value === "0") {
         this.isPerson = false;

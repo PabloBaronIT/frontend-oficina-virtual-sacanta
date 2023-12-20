@@ -2,12 +2,12 @@
   <div
     style="display: flex; flex-direction: column; justify-content: space-around"
   >
-    <!-- <p>Indique la direccion en el mapa:</p> -->
+    <p>Arrastre el pin sobre el mapa hacia la dirección que desea indicar:</p>
 
     <GMapMap
       :center="center"
       ref="myMapRef"
-      :zoom="7"
+      :zoom="14"
       map-type-id="terrain"
       style="width: 715px; height: 360px; margin: auto"
     >
@@ -70,3 +70,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+p {
+  color: #4b4a49;
+}
+</style>
