@@ -1,29 +1,5 @@
 <template>
   <div>
-    <!-- <table class="table divTitulos">
-      <thead>
-        <tr>
-          <th scope="col"><p>FECHA</p></th>
-          <th scope="col"><p>SERVICIO</p></th>
-          <th scope="col"><p>ASUNTO</p></th>
-          <th scope="col"><p>ESTADO</p></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(item, index) in this.comunicaciones"
-          :key="index"
-          @click="this.verComunicacion(item.id)"
-          style="cursor: pointer"
-        >
-          <td>{{ new Date(item.created_at).toLocaleDateString() }}</td>
-          <td>OFICINA VIRTUAL</td>
-          <td>{{ item.subject }}</td>
-          <td v-if="item.leido === false" style="color: red">Sin leer</td>
-          <td v-else>Leido</td>
-        </tr>
-      </tbody>
-    </table> -->
     <div class="modalTramite">
       <div class="divTitulos">
         <p>FECHA</p>

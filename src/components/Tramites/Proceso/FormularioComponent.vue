@@ -55,12 +55,6 @@
             style="width: 27vw; margin-left: 1rem"
             v-model="this.textInput"
           ></textarea>
-
-          <!-- <textarea
-            class="form-control text-number-input"
-            :type="item.type"
-            v-model="this.textInput"
-          /> -->
         </div>
         <div
           v-if="item.title !== `Indique la ubicación` && item.type === 'number'"
@@ -373,11 +367,6 @@ export default {
     },
     //GUARDAR EL ARCHIVO EN CLAUDINARY Y TOMAR SOLO LA URL
     postFile: async function () {
-      // let CLOUDINARY_UPLOAD_PRESET = "lylceews";
-      // let CLOUDINARY_URL =
-      //   "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
-      // let CLOUDINARY_UPLOAD_PRESET = process.env.VUE_APP_UPLOAD_PRESET;
-      // let CLOUDINARY_URL = process.env.VUE_APP_CLOUDINARY_URL;
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <div v-if="this.loading" class="spinner-border loading" role="status">
-      <span class="sr-only"></span>
-    </div> -->
     <div class="container l" v-if="this.loading">
       <div class="spinner-grow text-success" role="status">
         <span class="sr-only"></span>
@@ -51,7 +48,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL } from "@/env";
+import { BASE_URL, PASSWORD_HEADER } from "@/env";
 import jsPDF from "jspdf";
 
 export default {
@@ -101,8 +98,7 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header":
-            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
+          "access-user-header": PASSWORD_HEADER,
         },
       });
       apiClient

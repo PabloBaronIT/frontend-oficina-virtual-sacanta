@@ -32,7 +32,6 @@
                 <div class="card-body">
                   <div>
                     <img :src="sector.description" alt="imagen" />
-                    <!-- <i class="bi bi-emoji-sunglasses"></i> -->
                   </div>
                   <div style="margin-left: 15px">
                     <h5>
@@ -64,7 +63,6 @@
                 <div class="card-body">
                   <div>
                     <img :src="sector.description" alt="imagen" />
-                    <!-- <i class="bi bi-emoji-sunglasses"></i> -->
                   </div>
                   <div style="margin-left: 15px">
                     <h5 style="text-decoration: none">
