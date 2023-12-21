@@ -773,11 +773,10 @@ h5 {
   align-items: center;
   height: 20%;
   width: 20%;
-  background: white;
   z-index: 15;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 30%;
+  left: 35%;
 }
 /*--------------------------------------------------------------------------  */
 @media (max-width: 750px) {

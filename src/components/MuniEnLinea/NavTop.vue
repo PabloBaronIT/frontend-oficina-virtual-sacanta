@@ -560,6 +560,7 @@ export default {
   font-size: 30px;
   color: whitesmoke;
   text-align: center;
+  cursor: pointer;
 }
 .logo {
   width: 9vw;
@@ -626,6 +627,7 @@ p {
     height: 40px;
     width: 40px;
     font-size: 25px;
+    cursor: pointer;
   }
   .muniEnlinea {
     /* justify-content: space-around; */
