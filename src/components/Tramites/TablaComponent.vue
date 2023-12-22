@@ -60,9 +60,6 @@
           <p>
             Fecha de presentación:
             {{ new Date(this.presentacionTramite).toLocaleDateString() }}
-
-            <!-- <i class="bi bi-arrow-down-square" @click="createPDFsubmitt(item.id)">
-          </i> -->
             <img
               src="./../../assets/images/Descargar.svg"
               alt=""
@@ -78,11 +75,6 @@
               Fecha de Requerimiento/s:
 
               {{ new Date(element.created_at).toLocaleDateString() }} -
-              <!-- <i
-                class="bi bi-arrow-down-square"
-                @click="createPDFrequirement(item.id, element.id)"
-              >
-              </i> -->
               <img
                 src="./../../assets/images/Descargar.svg"
                 alt=""
@@ -94,11 +86,6 @@
           <p v-if="this.finalizacionTramite">
             Fecha de Finalización:
             {{ new Date(this.finalizacionTramite).toLocaleDateString() }}
-            <!-- <i
-              class="bi bi-arrow-down-square"
-              @click="createPDFfinalized(item.id)"
-            >
-            </i> -->
             <img
               src="./../../assets/images/Descargar.svg"
               alt=""
@@ -654,9 +641,6 @@ export default {
       console.log(this.file, "soy el archivo", objectURL);
     },
     postFile: async function () {
-      // let CLOUDINARY_UPLOAD_PRESET = "lylceews";
-      // let CLOUDINARY_URL =
-      //   "https://api.cloudinary.com/v1_1/ddko88otf/image/upload";
       const formData = new FormData();
       formData.append("file", this.file);
       formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
@@ -814,17 +798,6 @@ export default {
           this.getHistory(id);
         }
       });
-      // let asd = this.activos.map((item) => {
-      //   if (item.id === id) {
-      //     item.open = !item.open;
-      //     if (item.open === true) {
-      //       this.getHistory(id);
-      //     }
-      //   } else {
-      //     item.open = false;
-      //   }
-      //   return asd;
-      // });
     },
     //BUSQUEDA DE HISTORIAL DE UN TRAMITE
     getHistory(id) {

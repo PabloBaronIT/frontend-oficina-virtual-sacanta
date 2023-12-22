@@ -19,10 +19,6 @@
       <div v-for="(item, index) in this.preguntas" :key="index" class="circle">
         {{ index + 2 }}
       </div>
-      <!-- <div class="circle active">1</div>
-      <div class="circle">2</div>
-      <div class="circle">3</div>
-      <div class="circle">4</div> -->
     </div>
     <div class="row" v-if="this.inicio == true">
       <div class="recuadro row">
@@ -110,12 +106,6 @@ export default {
       descripcion: "",
       titulo: "",
       currentActive: 0,
-
-      // procedure: {
-      //   title: "",
-      //   procedureId: "",
-      //   questions: [],
-      // },
     };
   },
   components: {
@@ -250,18 +240,6 @@ export default {
   z-index: 2;
 }
 
-/* .progress-container::before {
-  content: "";
-  background-color: var(--line-border-empty);
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  height: 4px;
-  width: 100%;
-  z-index: -1;
-} */
-
 .progress {
   background-color: green;
   position: absolute;
@@ -348,29 +326,7 @@ h5 {
   margin-left: 1vw;
   margin-right: 1vw;
 }
-/* .header {
-  text-align: left;
-} */
 
-/* .main-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: rgb(235, 235, 235);
-  justify-content: center;
-} */
-
-/* .options-container {
-  width: 500px;
-  padding: 0px 5px;
-  border-top: 1px solid var(--red);
-  text-align: left;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
-} */
 @media (max-width: 800px) {
   .tituloPrincipal {
     font-weight: 700;

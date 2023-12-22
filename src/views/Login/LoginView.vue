@@ -1,19 +1,16 @@
 <template>
   <div class="form-container">
     <LoginComponent />
-    <!-- <LoginMunicipal /> -->
   </div>
 </template>
 
 <script>
 import LoginComponent from "@/components/Login&Register/LoginComponent.vue";
-// import LoginMunicipal from "@/components/Login&Register/LoginMunicipal.vue";
 
 export default {
   name: "LoginView",
   components: {
     LoginComponent,
-    // LoginMunicipal,
   },
   created() {
     localStorage.clear();
