@@ -206,6 +206,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.datosUser = response.data.UserProfile.user;
+          this.dispatchLogin();
           this.name = this.datosUser.firstname;
           this.lastname = this.datosUser.lastname;
           this.cuil = this.datosUser.cuil;
@@ -293,6 +294,9 @@ export default {
             }
           }
         });
+    },
+    dispatchLogin() {
+      this.$store.dispatch("mockLoginAction", this.datosUser);
     },
   },
 };

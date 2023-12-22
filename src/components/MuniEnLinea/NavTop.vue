@@ -17,7 +17,7 @@
       <div class="usuario-details" v-if="this.$store.state.user">
         <div>
           <h4>
-            Hola{{ this.num }}
+            Hola
             <strong> {{ $store.state.user.firstname }}! </strong>
           </h4>
           <!-- datos del respresentante si lo hay -->
