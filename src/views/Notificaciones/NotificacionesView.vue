@@ -191,6 +191,7 @@ import setToken from "@/middlewares/setToken";
 import { BASE_URL } from "@/env";
 
 export default {
+  name: "NotificacionesView",
   components: {
     // CardNotificacionComponentVue,
     // SearchNotificacionesComponent,

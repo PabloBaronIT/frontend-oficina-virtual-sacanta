@@ -95,6 +95,7 @@ var procedure = {
   // formularioTitle: "",
 };
 export default {
+  name: "FormularioView",
   data() {
     return {
       // Extrayendo  datos de categoria y tramite desde el path con VUE ROUTER
