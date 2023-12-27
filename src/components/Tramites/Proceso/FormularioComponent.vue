@@ -485,8 +485,9 @@ export default {
       this.textInput = "";
       this.coordenadas = "";
       this.validation = true;
-
-      this.paso++;
+      if (this.paso < this.preguntas?.length) {
+        this.paso++;
+      }
     },
 
     //ENVIO DE LAS RESPUESTAS -FINAL DEL FORMULARIO-

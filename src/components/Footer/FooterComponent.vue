@@ -10,8 +10,8 @@
         <i class="bi bi-envelope-fill redes"></i>
       </div>
       <h6 style="margin-right: 2rem; margin-top: 1rem">
-        <strong>Municipalida de Sacanta | </strong>
-        25 de Mayo 292, Sacanta, Cordoba | CP X5945 | TEL.: 03533 15 417923
+        <strong>Municipalidad de Sacanta | </strong>
+        25 de Mayo 292, Sacanta, Córdoba | CP X5945 | TEL.: 03533 15 417923
       </h6>
     </div>
   </footer>

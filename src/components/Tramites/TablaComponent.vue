@@ -177,11 +177,8 @@
         <h3>
           {{ this.selectTramite.procedure.category.title }}
         </h3>
-        <div>
-          <i
-            class="bi bi-x-square-fill close"
-            @click="this.modalVista = false"
-          ></i>
+        <div @click="this.modalVista = false">
+          <i class="bi bi-x-square-fill close"></i>
         </div>
       </div>
       <div class="data-container">

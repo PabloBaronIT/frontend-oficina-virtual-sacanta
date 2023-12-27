@@ -25,11 +25,8 @@
     </div>
     <!-- MODAL PARA VER UNA COMUNICACION -->
     <div v-if="this.comunicacion" class="grafico-container">
-      <div>
-        <i
-          class="bi bi-x-square-fill close"
-          @click="this.comunicacion = null"
-        ></i>
+      <div @click="this.comunicacion = null">
+        <i class="bi bi-x-square-fill close"></i>
       </div>
       <div>
         <h5>Asunto:</h5>
