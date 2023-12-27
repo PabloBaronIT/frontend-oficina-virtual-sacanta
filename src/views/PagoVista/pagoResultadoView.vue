@@ -48,7 +48,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL, PASSWORD_HEADER } from "@/env";
+import { BASE_URL, ASSWORD_HEADER } from "@/env";
 import jsPDF from "jspdf";
 
 export default {
@@ -98,7 +98,9 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
+          "access-user-header":
+            ASSWORD_HEADER ||
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient
@@ -224,5 +226,17 @@ export default {
 }
 .l {
   flex-direction: row;
+}
+@media (max-width: 1000px) {
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+}
+@media (max-width: 800px) {
+  .container {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

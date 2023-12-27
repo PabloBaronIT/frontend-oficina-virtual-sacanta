@@ -11,10 +11,7 @@
 
       <img src="./../../assets/images/Search.svg" alt="" class="circuloVerde" />
     </div>
-    <div
-      v-if="this.values"
-      style="position: absolute; z-index: 15; width: 50vw"
-    >
+    <div v-if="this.values" style="position: absolute; z-index: 15; width: 96%">
       <div class="vistaValues" v-for="item in this.values" :key="item.id">
         <router-link
           :to="`/formulario/cuestionario/${item.title}/${item.id}?sectorTitle=${this.$route.params.sectorTitle}&sectorId=${this.$route.params.sectorId}`"
@@ -114,10 +111,10 @@ export default {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
 }
 .vistaValues {
-  width: 50vw;
+  width: 70%;
   background: white;
   text-align: left;
-  margin-left: 5vw;
+  /* margin-left: 5vw; */
   height: 45px;
   padding-left: 1rem;
   z-index: 15;

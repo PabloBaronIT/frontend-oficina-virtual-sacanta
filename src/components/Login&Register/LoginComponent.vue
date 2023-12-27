@@ -104,7 +104,7 @@
         <button type="button" class="btn btn-outline-secondary">
           <router-link to="/crear-cuenta"> Crear cuenta </router-link>
         </button>
-        <GoogleLogin :callback="callback" prompt />
+        <GoogleLogin :callback="callback" />
         <button class="button face" @click="logInWithFacebook">
           <i class="bi bi-facebook" style="font-size: 25px"></i>
           Continuar con Facebook
@@ -130,7 +130,7 @@ import axios from "axios";
 import dbService from "@/services/dbService";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL, FACE_ID, PASSWORD_HEADER } from "@/env";
+import { BASE_URL, FACE_ID } from "@/env";
 import { decodeCredential } from "vue3-google-login";
 
 export default {
@@ -230,13 +230,13 @@ export default {
       this.loading = true;
       this.cidiCookie = cidi;
 
-      document.cookie = `cidi=${cidi};max-age=120`;
+      document.cookie = `cidi=${cidi};max-age=120`; //se guarda la clave cidi en las cookies
       //se llama la api de cidi para saber si tienen representados o no
       this.logCidi(cidi);
     }
     if (cidiCook) {
       this.cidiCookie = cidiCook[1];
-
+      console.log(this.cidiCookie, "soy la cookie del cidi");
       this.loading = true;
       this.logCidi(cidiCook[1]);
     }
@@ -554,7 +554,8 @@ export default {
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
-          "access-user-header": PASSWORD_HEADER,
+          "access-user-header":
+            "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
       apiClient
