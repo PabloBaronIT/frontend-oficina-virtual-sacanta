@@ -2,9 +2,7 @@
   <!-- Componente principal del vecino usado en vista HomeVecinoView -->
   <div v-if="!loading">
     <div class="row">
-      <h1 style="font-size: 50px; color: #019939">
-        ¿Qué gestión querés realizar?
-      </h1>
+      <h1>¿Qué gestión querés realizar?</h1>
     </div>
     <div class="row">
       <SearchComponent />
@@ -398,6 +396,8 @@ export default {
 h1 {
   margin-top: 4vh;
   margin-bottom: 4vh;
+  font-size: 50px;
+  color: #019939;
 }
 h5 {
   font-weight: 700;
@@ -521,6 +521,10 @@ h5 {
     font-size: 18px;
     padding-top: 1vh;
   }
+  h1 {
+    font-size: 40px;
+    margin-top: 7%;
+  }
 }
 @media (max-width: 1000px) {
   .flex-container {
@@ -544,6 +548,10 @@ h5 {
     font-size: 15px;
     padding-top: 1vh;
   }
+  h1 {
+    font-size: 35px;
+    margin-top: 7%;
+  }
 }
 @media (max-width: 800px) {
   .otrosTramites {
@@ -558,8 +566,23 @@ h5 {
     padding-top: 0.7vh;
   }
   h1 {
-    text-align: center;
-    margin-left: 0;
+    text-align: left;
+    margin-left: 5%;
+    font-size: 30px;
+    margin-top: 7%;
+  }
+  .botonGestiones h5 {
+    font-size: 15px;
+  }
+  .gestiones h5 {
+    font-size: 14px;
+  }
+
+  .botonGestiones {
+    width: 30%;
+  }
+  .items {
+    width: 100%;
   }
 }
 </style>

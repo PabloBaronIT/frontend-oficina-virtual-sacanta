@@ -162,6 +162,7 @@ main {
   }
   .sector-container {
     width: 100%;
+    padding-top: 12%;
   }
 }
 @media (max-width: 600px) {

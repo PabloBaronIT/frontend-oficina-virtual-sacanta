@@ -107,7 +107,7 @@
         <GoogleLogin :callback="callback" />
         <button class="button face" @click="logInWithFacebook">
           <i class="bi bi-facebook" style="font-size: 25px"></i>
-          Continuar con Facebook
+          ingresar con facebook
         </button>
       </div>
     </div>
@@ -775,13 +775,32 @@ h5 {
   left: 40%;
 }
 /*--------------------------------------------------------------------------  */
-@media (max-width: 750px) {
+@media (max-width: 800px) {
   .deco {
     display: none;
   }
 
   form {
     width: 70%;
+  }
+  .boxIzquierdo {
+    width: 55%;
+  }
+  .botonCidi {
+    width: 50%;
+  }
+  .logosMuni {
+    justify-content: space-around;
+  }
+  .botonServicios {
+    width: 60%;
+  }
+  .svgCirculo {
+    left: 5%;
+  }
+  .face {
+    font-size: 10px;
+    text-align: left;
   }
 }
 </style>

@@ -150,7 +150,10 @@ export default {
     position: relative;
   }
   .circuloVerde {
-    right: 10vw;
+    right: 12%;
+    top: 10%;
+    height: 35px;
+    width: 35px;
   }
 }
 @media (max-width: 600px) {
