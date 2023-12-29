@@ -186,13 +186,13 @@ a {
 /* CSS */
 
 @media (max-width: 1200px) {
-  h6 {
-    font-size: 13px;
+  h5 {
+    font-size: 15px;
   }
 }
 @media (max-width: 1000px) {
-  h6 {
-    font-size: 13px;
+  h5 {
+    font-size: 15px;
   }
 }
 @media (max-width: 800px) {

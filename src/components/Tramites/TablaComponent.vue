@@ -1208,6 +1208,9 @@ span {
   .tabla-container {
     width: 95%;
   }
+  .volver {
+    bottom: 14%;
+  }
 }
 @media (max-width: 480px) {
   .media {

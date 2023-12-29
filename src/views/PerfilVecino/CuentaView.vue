@@ -43,4 +43,9 @@ export default {
   padding-left: 4%;
   padding-right: 4%;
 }
+@media (max-width: 800px) {
+  .cuenta-container {
+    width: 100%;
+  }
+}
 </style>

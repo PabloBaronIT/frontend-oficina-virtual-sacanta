@@ -1,5 +1,42 @@
 <template>
   <div class="nav-container">
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown asd"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="bi bi-list" style="font-size: 22px"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <router-link :to="'/munienlinea'" class="dropdown-item"
+            >Inicio</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="'/micuenta'" class="dropdown-item"
+            >Mi cuenta</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="`/tramites`" class="dropdown-item"
+            >Presentadas</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="`/notificaciones`" class="dropdown-item"
+            >Notificaciones</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="`/notificaciones`" class="dropdown-item"
+            >Impuestos Municipales</router-link
+          >
+        </li>
+      </ul>
+    </div>
     <!--logo muni-->
     <router-link :to="`/munienlinea`">
       <img
@@ -369,6 +406,9 @@ export default {
 
 <style scoped>
 /* CSS NUEVO */
+.dropdown {
+  display: none;
+}
 .nav-container {
   position: fixed;
   z-index: 15;
@@ -509,6 +549,16 @@ p {
   }
 }
 @media (max-width: 800px) {
+  .dropdown {
+    display: block;
+  }
+  .asd {
+    width: 50px;
+    background: #128d44;
+  }
+  .asd:hover {
+    background: #128d44;
+  }
   .usuario {
     display: none;
   }

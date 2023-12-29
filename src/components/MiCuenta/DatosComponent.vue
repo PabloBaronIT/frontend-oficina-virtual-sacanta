@@ -461,4 +461,20 @@ p {
   border-style: none;
   margin-top: 5vh;
 }
+@media (max-width: 800px) {
+  .Box-contenedor {
+    justify-content: space-around;
+    width: 100%;
+  }
+  .boxIzquierdo {
+    width: 25%;
+    height: 35%;
+  }
+  .boxDerecho {
+    width: 60%;
+  }
+  .volver {
+    bottom: 14%;
+  }
+}
 </style>
