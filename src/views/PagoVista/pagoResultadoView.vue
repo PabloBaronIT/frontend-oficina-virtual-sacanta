@@ -39,7 +39,9 @@
         alt="Sacanta"
         class="imagenlogo"
       />
-      <router-link :to="`/munienlinea`" class="bn3"> Inicio </router-link>
+      <router-link @click="limpiarURL" to="/munienlinea" class="bn3">
+        Inicio
+      </router-link>
     </div>
   </div>
 </template>
@@ -48,7 +50,7 @@
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
 import setTokenRelations from "@/middlewares/setTokenRelations";
-import { BASE_URL, ASSWORD_HEADER } from "@/env";
+import { BASE_URL } from "@/env";
 import jsPDF from "jspdf";
 
 export default {
@@ -56,8 +58,14 @@ export default {
   created() {
     this.IdResultado = this.$route.query.IdResultado;
     this.IdReferenciaOperacion = this.$route.query.IdReferenciaOperacion;
+    console.log("vamo a ver si se ve", this.$route.IdResultado);
     this.loading = true;
     this.dispatchLoginPermission();
+    const urlParams = new URLSearchParams(window.location.search);
+    this.IdResultado = urlParams.get("IdResultado");
+    this.IdReferenciaOperacion = urlParams.get("IdReferenciaOperacion");
+    console.log("IdResultado:", this.IdResultado);
+    console.log("IdReferenciaOperacion:", this.IdReferenciaOperacion);
     // this.getMyProfile();
     this.setPayment();
   },
@@ -83,6 +91,10 @@ export default {
     },
   },
   methods: {
+    limpiarURL() {
+      const url = window.location.href.split("?")[0]; // Obtiene la URL base sin parámetros
+      window.history.replaceState({}, document.title, url); // Reemplaza la URL en la barra de direcciones
+    },
     dispatchLoginPermission() {
       this.$store.dispatch("mockPaseAction");
     },
@@ -90,19 +102,22 @@ export default {
       console.log(
         this.IdResultado,
         this.IdReferenciaOperacion,
-        "soy el idResutado y el IdReferencia"
+        "soy el idResultado y el IdReferencia"
       );
-
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
         headers: {
           "auth-header": localStorage.getItem("token"),
           "access-user-header":
-            ASSWORD_HEADER ||
             "^Yh19S&^8$yl01&Fagyg8eLxrI8uxypiCpdUdRscjF!xKSSqq",
         },
       });
+      console.log(
+        "IdReferenciaOperacion a enviar:",
+        this.$route.query.IdReferenciaOperacion
+      );
+
       apiClient
         .post("/confirm-payment/" + this.IdReferenciaOperacion)
         .then((response) => {
