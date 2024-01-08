@@ -13,6 +13,8 @@
         v-for="(item, index) in this.comunicaciones"
         :key="index"
         @click="this.verComunicacion(item.id)"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
         style="cursor: pointer"
         class="encabezado"
       >
@@ -24,17 +26,44 @@
       </div>
     </div>
     <!-- MODAL PARA VER UNA COMUNICACION -->
-    <div v-if="this.comunicacion" class="grafico-container">
-      <div @click="this.comunicacion = null">
-        <i class="bi bi-x-square-fill close"></i>
-      </div>
-      <div>
-        <h5>Asunto:</h5>
-        <p>{{ this.comunicacion[0].subject }}</p>
-      </div>
-      <div>
-        <h5>Mensaje:</h5>
-        <p>{{ this.comunicacion[0].message }}</p>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Notificación
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div v-if="this.comunicacion">
+              <h5>Asunto:</h5>
+              <p>{{ this.comunicacion[0]?.subject }}</p>
+              <h5>Mensaje:</h5>
+              <p>{{ this.comunicacion[0].message }}</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

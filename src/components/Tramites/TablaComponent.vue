@@ -40,13 +40,28 @@
       <div v-for="(item, index) in this.activos" :key="index">
         <div class="encabezado">
           <!-- <p>{{ item.titulo }}</p> -->
-          <p style="cursor: pointer" @click="verTramite(item.id)">
+          <p
+            style="cursor: pointer"
+            @click="verTramite(item.id)"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             {{ item.id }}
           </p>
-          <p style="cursor: pointer" @click="verTramite(item.id)">
+          <p
+            style="cursor: pointer"
+            @click="verTramite(item.id)"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             {{ item.estado }}
           </p>
-          <p style="cursor: pointer" @click="verTramite(item.id)">
+          <p
+            style="cursor: pointer"
+            @click="verTramite(item.id)"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
             {{ item.categoria }}
           </p>
           <p></p>
@@ -64,6 +79,8 @@
               src="./../../assets/images/Descargar.svg"
               alt=""
               @click="createPDFsubmitt(item.id)"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
             />
           </p>
           <p v-if="this.inicioTramite">
@@ -79,6 +96,8 @@
                 src="./../../assets/images/Descargar.svg"
                 alt=""
                 @click="createPDFrequirement(item.id, element.id)"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
               />
             </p>
           </div>
@@ -90,277 +109,368 @@
               src="./../../assets/images/Descargar.svg"
               alt=""
               @click="createPDFfinalized(item.id)"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
             />
           </p>
         </div>
       </div>
-    </div>
-    <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
-    <div class="modalRespuesta">
-      <div v-if="this.modalresponse === true" class="modal-content">
-        <div class="modal-top">
-          <h5 v-if="!this.message">Respuesta:</h5>
-          <p>Nº Tramite: {{ this.idTramite }}</p>
-          <i
-            class="bi bi-x-square-fill close"
-            @click="CloseModalRespuesta($event)"
-          ></i>
-        </div>
-        <!--RESPUESTA ESCRITA-->
+      <!-- MODAL NUEVO DE VISTA DE TRAMITE -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Tramite: {{ this.selectTramite?.procedure?.id }}
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- <div class="data-container"> -->
+              <div>Tramite n°:{{ this.selectTramite?.procedure?.id }}</div>
 
-        <div class="response" v-if="!message">
-          <label for="asunto">Respuesta</label>
-          <textarea
-            aria-multiline="true"
-            name="asunto"
-            id=""
-            v-model="this.respuestaA"
-          />
+              <p>
+                Nombre de trámite:
+                {{ this.selectTramite?.procedure?.procedure.title }}
+                <br />
 
-          <!--SUBIR ARCHIVOS-->
+                Estado:{{ this.selectTramite?.procedure?.status.status }}
+              </p>
+              <div>
+                <h5>Ultima comunicación de su trámite:</h5>
+                <p>
+                  {{
+                    this.selectTramite?.procedure?.communication[
+                      this.selectTramite.procedure.communication.length - 1
+                    ].message
+                  }}
+                </p>
+              </div>
+              <!-- SI EXISTE REQUERIMIENTO ACTIVO SE PUEDE VER Y CONTESTAR -->
+              <div
+                v-if="
+                  this.selectTramite?.procedure?.requirementHistory.length >=
+                    1 &&
+                  this.selectTramite.procedure.requirementHistory[
+                    this.selectTramite.procedure.requirementHistory.length - 1
+                  ].active === true
+                "
+                class="requerimiento"
+              >
+                <p>
+                  Requerimiento:
+                  <strong>{{
+                    this.selectTramite?.procedure?.requirementHistory[
+                      this.selectTramite.procedure.requirementHistory.length - 1
+                    ].info_req
+                  }}</strong>
+                </p>
 
-          <div class="file-container2">
-            <div v-if="!asd" class="file-intro">
-              <img
-                alt=""
-                id="img-preview"
-                class="imgFile"
-                src="@/assets/images/upload.svg"
-              />
-              <hr />
-              <input
-                accept=".jpg, .jpeg, .png, .webp"
-                type="file"
-                id="img-uploader"
-                @change="selectFile($event)"
-              />
-
-              <!--INPUT PARA SUBIR EL ARCHIVO-->
-              <div class="fileup">
+                <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
                 <input
-                  v-if="this.file"
-                  class="m-2 btn btn-secondary"
                   type="button"
-                  value="Subir archivo"
-                  @click="postFile()"
+                  value="Responder"
+                  @click="
+                    OpenModalRespuesta(
+                      this.selectTramite?.procedure?.requirementHistory[
+                        this.selectTramite.procedure.requirementHistory.length -
+                          1
+                      ].id
+                    )
+                  "
+                  class="botonSubmit"
+                  data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
                 />
               </div>
+              <!-- SI EXISTEN DOCUMENTOS RELACIONADOS A ESTE TRAMITE SE PUEDEN VER Y DESCARGAR -->
+              <div
+                v-if="this.selectTramite?.procedure?.documents.length >= 1"
+                class="divDocumentos"
+              >
+                <h5>Documentación disponible para descargar</h5>
+                <div
+                  v-for="item in this.selectTramite?.procedure?.documents"
+                  :key="item.id"
+                  style="display: flex; flex-direction: row"
+                >
+                  <p>*{{ item.title }}</p>
+                  <a target="_blank" :href="`${item.link}`">Descargar </a>
+                </div>
+              </div>
+              <!-- </div> -->
             </div>
-            <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
-
-            <div v-else class="cargado">
-              <img
-                src="@/assets/images/red-check-mark-icon.svg"
-                alt=""
-                id="img-preview"
-                class="imgFile"
-              />
-              <p>Archivo cargado</p>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cerrar
+              </button>
+              <!-- <button type="button" class="btn btn-primary">
+                Save changes
+              </button> -->
             </div>
           </div>
-
-          <input
-            class="botonSubmit"
-            type="button"
-            value="Enviar"
-            @click="sentRespuesta"
-            v-if="this.respuestaA || this.respuestaB"
-          />
         </div>
-        <h3 v-if="message" class="enviado">{{ this.message }}</h3>
       </div>
     </div>
+    <!--MODAL PARA RESPONDER AL REQUERIMIENTO-->
 
-    <!-- MODAL DE VISTA DEL TRAMITE -->
-    <div v-if="modalVista" class="grafico-container">
-      <div class="modal-top">
-        <h3>
-          {{ this.selectTramite.procedure.category.title }}
-        </h3>
-        <div @click="this.modalVista = false">
-          <i class="bi bi-x-square-fill close"></i>
-        </div>
-      </div>
-      <div class="data-container">
-        <div>Tramite n°:{{ this.selectTramite.procedure.id }}</div>
+    <div
+      class="modal fade"
+      id="exampleModalToggle2"
+      aria-hidden="true"
+      aria-labelledby="exampleModalToggleLabel2"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">
+              <h5 v-if="!this.message">Respuesta:</h5>
+              <p>Nº Tramite: {{ this.idTramite }}</p>
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!--RESPUESTA ESCRITA-->
 
-        <p>
-          Nombre de trámite:
-          {{ this.selectTramite.procedure.procedure.title }}
-          <br />
+            <div class="response" v-if="!message">
+              <label for="asunto">Respuesta</label>
+              <textarea
+                aria-multiline="true"
+                name="asunto"
+                id=""
+                v-model="this.respuestaA"
+              />
 
-          Estado:{{ this.selectTramite.procedure.status.status }}
-        </p>
-        <div>
-          <h5>Ultima comunicación de su trámite:</h5>
-          <p>
-            {{
-              this.selectTramite.procedure.communication[
-                this.selectTramite.procedure.communication.length - 1
-              ].message
-            }}
-          </p>
-        </div>
-        <!-- SI EXISTE REQUERIMIENTO ACTIVO SE PUEDE VER Y CONTESTAR -->
-        <div
-          v-if="
-            this.selectTramite.procedure.requirementHistory.length >= 1 &&
-            this.selectTramite.procedure.requirementHistory[
-              this.selectTramite.procedure.requirementHistory.length - 1
-            ].active === true
-          "
-          class="requerimiento"
-        >
-          <p>
-            Requerimiento:
-            <strong>{{
-              this.selectTramite.procedure.requirementHistory[
-                this.selectTramite.procedure.requirementHistory.length - 1
-              ].info_req
-            }}</strong>
-          </p>
+              <!--SUBIR ARCHIVOS-->
 
-          <!--BOTON PARA MODAL DE RESPUESTA AL REQUERIMIENTO-->
-          <input
-            type="button"
-            value="Responder"
-            @click="
-              OpenModalRespuesta(
-                this.selectTramite.procedure.requirementHistory[
-                  this.selectTramite.procedure.requirementHistory.length - 1
-                ].id
-              )
-            "
-            class="botonSubmit"
-          />
-        </div>
-        <!-- SI EXISTEN DOCUMENTOS RELACIONADOS A ESTE TRAMITE SE PUEDEN VER Y DESCARGAR -->
-        <div
-          v-if="this.selectTramite.procedure.documents.length >= 1"
-          class="divDocumentos"
-        >
-          <h5>Documentación disponible para descargar</h5>
-          <div
-            v-for="item in this.selectTramite.procedure.documents"
-            :key="item.id"
-            style="display: flex; flex-direction: row"
-          >
-            <p>*{{ item.title }}</p>
-            <a target="_blank" :href="`${item.link}`">Descargar </a>
+              <div class="file-container2">
+                <div v-if="!asd" class="file-intro">
+                  <img
+                    alt=""
+                    id="img-preview"
+                    class="imgFile"
+                    src="@/assets/images/upload.svg"
+                  />
+                  <hr />
+                  <input
+                    accept=".jpg, .jpeg, .png, .webp"
+                    type="file"
+                    id="img-uploader"
+                    @change="selectFile($event)"
+                  />
+
+                  <!--INPUT PARA SUBIR EL ARCHIVO-->
+                  <div class="fileup">
+                    <input
+                      v-if="this.file"
+                      class="m-2 btn btn-secondary"
+                      type="button"
+                      value="Subir archivo"
+                      @click="postFile()"
+                    />
+                  </div>
+                </div>
+                <!--CUANDO SE TEMRINO DE CARGAR EL ARCHIVO-->
+
+                <div v-else class="cargado">
+                  <img
+                    src="@/assets/images/red-check-mark-icon.svg"
+                    alt=""
+                    id="img-preview"
+                    class="imgFile"
+                  />
+                  <p>Archivo cargado</p>
+                </div>
+              </div>
+
+              <input
+                class="botonSubmit"
+                type="button"
+                value="Enviar"
+                @click="sentRespuesta"
+                v-if="this.respuestaA || this.respuestaB"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <h3 v-if="message" class="enviado">{{ this.message }}</h3>
           </div>
         </div>
       </div>
     </div>
 
     <!-- MODAL PARA PDF -->
-    <div v-if="modalPDF === true" class="grafico-container pdf">
-      <div v-if="pdfSubmitt" style="width: 90%; margin: auto" id="content1">
-        <div class="modal-top">
-          <h3>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h3>
-        </div>
-        <h5>Nombre: {{ this.pdfSubmitt.procedure.title }}</h5>
-        <p>
-          Fecha de creación:
-          {{ new Date(this.pdfSubmitt?.created_at).toLocaleDateString() }}
-        </p>
-        <p style="width: 100%">
-          {{ this.pdfSubmitt.communication[0]?.message }}
-        </p>
-        <p>
-          Usuario Municipal asignado:
-          <strong
-            >{{ this.pdfSubmitt.userMuni.firstname }}
-            {{ this.pdfSubmitt.userMuni.lastname }}</strong
-          >
-        </p>
-        <p>
-          Fecha de emisión:
-          {{ new Date(this.pdfSubmitt?.actual_date).toLocaleDateString() }}
-        </p>
-      </div>
-      <div v-if="pdfRequirement" id="content2" style="width: 90%; margin: auto">
-        <div class="modal-top">
-          <h3>
-            Constancia de requerimiento Nº:
-            {{ this.pdfRequirement.procedureHistory.id }}
-          </h3>
-        </div>
-        <h5>Nombre: {{ this.pdfRequirement.title }}</h5>
-        <p>
-          Fecha de creación:
-          {{ new Date(this.pdfRequirement?.created_at).toLocaleDateString() }}
-        </p>
-        <p>
-          Fecha de cierre de requerimiento:
-          {{ new Date(this.pdfRequirement?.finalized_at).toLocaleDateString() }}
-        </p>
-        <p style="width: 100%">{{ this.pdfRequirement.info_req }}</p>
 
-        <p>
-          Fecha de emisión:
-          {{ new Date(this.pdfRequirement?.actual_date).toLocaleDateString() }}
-        </p>
-      </div>
-      <!-- PARA FINALIZACION -->
-      <div
-        v-if="this.pdfFinalized"
-        id="content3"
-        style="width: 90%; margin: auto"
-      >
-        <div class="modal-top">
-          <h3>
-            Constancia de finalización trámite Nº:
-            {{ this.pdfFinalized.id }}
-          </h3>
-        </div>
-        <h5>Nombre: {{ this.pdfFinalized.procedure.title }}</h5>
-        <p>
-          Fecha de finalización:
-          {{
-            new Date(this.pdfFinalized?.resolution__date).toLocaleDateString()
-          }}
-        </p>
-        <p style="width: 100%">
-          {{ this.pdfFinalized.communication[0].message }}
-        </p>
-        <p>
-          Usuario Municipal asignado:
-          <strong
-            >{{ this.pdfFinalized.userMuni.firstname }}
-            {{ this.pdfFinalized.userMuni.lastname }}</strong
-          >
-        </p>
-        <p>
-          Fecha de emisión:
-          {{ new Date(this.pdfFinalized?.actual_date).toLocaleDateString() }}
-        </p>
-      </div>
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              <h3>Constancia</h3>
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div
+              v-if="pdfSubmitt"
+              style="width: 100%; margin: auto"
+              id="content1"
+            >
+              <div class="modal-top">
+                <h4>Constancia de trámite Nº: {{ this.pdfSubmitt.id }}</h4>
+              </div>
+              <h5>Nombre: {{ this.pdfSubmitt.procedure.title }}</h5>
+              <p>
+                Fecha de creación:
+                {{ new Date(this.pdfSubmitt?.created_at).toLocaleDateString() }}
+              </p>
+              <p style="width: 100%">
+                {{ this.pdfSubmitt.communication[0]?.message }}
+              </p>
+              <p>
+                Usuario Municipal asignado:
+                <strong
+                  >{{ this.pdfSubmitt.userMuni.firstname }}
+                  {{ this.pdfSubmitt.userMuni.lastname }}</strong
+                >
+              </p>
+              <p>
+                Fecha de emisión:
+                {{
+                  new Date(this.pdfSubmitt?.actual_date).toLocaleDateString()
+                }}
+              </p>
+            </div>
+            <div
+              v-if="pdfRequirement"
+              id="content2"
+              style="width: 90%; margin: auto"
+            >
+              <div class="modal-top">
+                <h4>
+                  Constancia de requerimiento Nº:
+                  {{ this.pdfRequirement.procedureHistory.id }}
+                </h4>
+              </div>
+              <h5>Nombre: {{ this.pdfRequirement.title }}</h5>
+              <p>
+                Fecha de creación:
+                {{
+                  new Date(this.pdfRequirement?.created_at).toLocaleDateString()
+                }}
+              </p>
+              <p>
+                Fecha de cierre de requerimiento:
+                {{
+                  new Date(
+                    this.pdfRequirement?.finalized_at
+                  ).toLocaleDateString()
+                }}
+              </p>
+              <p style="width: 100%">{{ this.pdfRequirement.info_req }}</p>
 
-      <div
-        style="
-          width: 50%;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-        "
-      >
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          @click="this.modalPDF = false"
-        >
-          Cerrar
-        </button>
-        <button
-          type="button"
-          @click="download(this.content)"
-          class="btn btn-primary"
-        >
-          Descargar
-        </button>
+              <p>
+                Fecha de emisión:
+                {{
+                  new Date(
+                    this.pdfRequirement?.actual_date
+                  ).toLocaleDateString()
+                }}
+              </p>
+            </div>
+            <!-- PARA FINALIZACION -->
+            <div
+              v-if="this.pdfFinalized"
+              id="content3"
+              style="width: 90%; margin: auto"
+            >
+              <div class="modal-top">
+                <h4>
+                  Constancia de finalización trámite Nº:
+                  {{ this.pdfFinalized.id }}
+                </h4>
+              </div>
+              <h5>Nombre: {{ this.pdfFinalized.procedure.title }}</h5>
+              <p>
+                Fecha de finalización:
+                {{
+                  new Date(
+                    this.pdfFinalized?.resolution__date
+                  ).toLocaleDateString()
+                }}
+              </p>
+              <p style="width: 100%">
+                {{ this.pdfFinalized.communication[0].message }}
+              </p>
+              <p>
+                Usuario Municipal asignado:
+                <strong
+                  >{{ this.pdfFinalized.userMuni.firstname }}
+                  {{ this.pdfFinalized.userMuni.lastname }}</strong
+                >
+              </p>
+              <p>
+                Fecha de emisión:
+                {{
+                  new Date(this.pdfFinalized?.actual_date).toLocaleDateString()
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              @click="download(this.content)"
+              class="btn btn-primary"
+            >
+              Descargar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
+
     <h2 v-if="this.msj !== ''" class="sinTramites">{{ this.msj }}</h2>
     <div class="volver">
       <router-link to="/munienlinea">
@@ -463,7 +573,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.selectTramite = response.data.MyProcedure;
-          this.modalVista = true;
+          // this.modalVista = true;
         })
         .catch((error) => {
           if (error.response.status === 500) {
@@ -619,7 +729,7 @@ export default {
     },
     OpenModalRespuesta(id) {
       this.selectRequerimiento = id;
-      this.modalresponse = !this.modalresponse;
+      // this.modalresponse = !this.modalresponse;
       console.log(this.selectRequerimiento);
     },
     CloseModalRespuesta() {
@@ -941,6 +1051,7 @@ export default {
   margin-bottom: 5%;
 }
 .modalTramite {
+  position: relative;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   border-top-right-radius: 20px;
   margin-bottom: 6vh;
@@ -1180,7 +1291,7 @@ export default {
   margin-left: 2rem;
 }
 
-h3 {
+H4 {
   text-align: left;
 }
 /* ----------------------------------------------------------------------------------- */
