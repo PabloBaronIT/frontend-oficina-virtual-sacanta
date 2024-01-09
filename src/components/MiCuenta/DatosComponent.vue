@@ -32,13 +32,14 @@
           Informacion personal
           <i
             class="bi bi-pencil-fill"
-            @click="this.setModal"
             style="
               font-size: 12px;
               color: #019939;
               margin-left: 1rem;
               cursor: pointer;
             "
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
           ></i>
         </h5>
         <div class="datos-container">
@@ -92,7 +93,86 @@
 
       <h4>Volver al Incio</h4>
     </div>
+
     <!-- MODAL PARA EDITAR DATOS -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Edita tus datos:
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              @click="this.actualizado = false"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="datos-container">
+              <div class="titulos">
+                <label for="">Nombre</label>
+                <input type="text" name="" id="" v-model="this.name" />
+              </div>
+              <div class="titulos">
+                <label for="">Apellido</label>
+                <input type="text" name="" id="" v-model="this.lastname" />
+              </div>
+              <div class="titulos">
+                <label for="">Calle</label>
+                <input type="text" name="" id="" v-model="this.adress" />
+              </div>
+
+              <div class="titulos">
+                <label for="">CP</label>
+                <input type="text" name="" id="" v-model="this.postCode" />
+              </div>
+              <div class="titulos">
+                <label for="">Ciudad</label>
+                <input type="text" name="" id="" v-model="this.city" />
+              </div>
+              <div class="titulos">
+                <label for="">Teléfono</label>
+                <input type="text" name="" id="" v-model="this.phoneNumber" />
+              </div>
+            </div>
+            <div
+              class="alert alert-success"
+              role="alert"
+              v-if="this.actualizado"
+            >
+              {{ this.message }}
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              @click="this.actualizado = false"
+            >
+              Cerrar
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              v-if="!this.actualizado"
+              @click="this.registrar"
+            >
+              Guardar Cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="modalEditar" v-if="this.modal">
       <div>
         <i class="bi bi-x-square-fill close" @click="this.setModal"></i>
@@ -170,7 +250,7 @@ export default {
       phoneNumber: "",
       postCode: "",
       loading: true,
-      modal: false,
+      // modal: false,
       actualizado: false,
       message: "",
     };
@@ -275,9 +355,9 @@ export default {
             (this.city = ""),
             (this.postCode = ""),
             this.getMyProfile();
-          setTimeout(() => {
-            this.modal = false;
-          }, 2000);
+          // setTimeout(() => {
+          //   this.actualizado = false;
+          // }, 2000);
         })
         .catch(function (error) {
           console.log(error);
@@ -473,6 +553,11 @@ p {
   .boxDerecho {
     width: 60%;
   }
+  .volver {
+    bottom: 14%;
+  }
+}
+@media (max-width: 1000px) {
   .volver {
     bottom: 14%;
   }
