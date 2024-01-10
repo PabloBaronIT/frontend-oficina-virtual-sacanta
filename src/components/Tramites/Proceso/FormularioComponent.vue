@@ -6,7 +6,7 @@
     <!-- <div> -->
     <div class="topquestion" v-if="this.preguntas">
       <h5>
-        {{ this.preguntas[this.paso].question.title }}
+        {{ this.preguntas[this.paso].question?.title }}
       </h5>
     </div>
     <form action="" style="margin-bottom: 5%">
@@ -23,7 +23,7 @@
         <!-- INPUT TIPO RADIO -->
         <div class="tipoRadio" v-if="item.type == 'radio'">
           <input
-            :name="this.preguntas[this.paso].question.title"
+            :name="this.preguntas[this.paso].question?.title"
             :type="item.type"
             v-model="this.selected"
             :value="index + 1"
@@ -416,7 +416,7 @@ export default {
         optionTitle = this.textInput;
         choice = 0;
         q = {
-          question: this.preguntas[this.paso].question.id,
+          question: this.preguntas[this.paso].question?.id,
           question_option_history: [
             {
               questionOption:
@@ -429,7 +429,7 @@ export default {
         optionTitle = this.coordenadas;
         choice = 1;
         q = {
-          question: this.preguntas[this.paso].question.id,
+          question: this.preguntas[this.paso].question?.id,
           question_option_history: [
             {
               questionOption:
@@ -444,7 +444,7 @@ export default {
         choice = 0;
         // let choice2 = 1;
         q = {
-          question: this.preguntas[this.paso].question.id,
+          question: this.preguntas[this.paso].question?.id,
           question_option_history: [
             {
               questionOption:
@@ -461,7 +461,7 @@ export default {
       } else {
         optionTitle = this.preguntas[this.paso].questionOption[choice].title;
         q = {
-          question: this.preguntas[this.paso].question.id,
+          question: this.preguntas[this.paso].question?.id,
           question_option_history: [
             {
               questionOption:
@@ -539,7 +539,7 @@ export default {
                 }, 2000);
               } else {
                 alert(
-                  "Su reclamo fue presentado! Gracias por utilizar nuestra Oficina Virtual."
+                  "Su reclamo fue presentado! Gracias por utilizar nuestra Oficina Virtual",
                 );
                 this.$router.push(`/munienlinea`);
               }
@@ -581,7 +581,7 @@ export default {
     back() {
       if (this.paso === 0) {
         this.$router.push(
-          `/sector/${this.$route.query.sectorTitle}/${this.$route.query.sectorId}`
+          `/sector/${this.$route.query.sectorTitle}/${this.$route.query.sectorId}`,
         );
       } else {
         this.paso = this.paso - 1;

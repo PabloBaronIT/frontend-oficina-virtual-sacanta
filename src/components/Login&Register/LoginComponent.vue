@@ -283,21 +283,21 @@ export default {
                 };
                 console.log(
                   this.datafacebook,
-                  "soy los datos de face en un estado"
+                  "soy los datos de face en un estado",
                 );
                 // await this.getLogFace(this.datafacebook);
                 // dataUser = {
                 //   name: response.name.split(" "),
                 //   email: response.email,
                 // };
-              }
+              },
             );
             // console.log("otro afuera");
             // Now you can redirect the user or do an AJAX request to
             // a PHP script that grabs the signed request from the cookie.
           }
         },
-        { scope: "public_profile,email" }
+        { scope: "public_profile,email" },
       );
     },
     getLogFace(userData) {
@@ -453,7 +453,7 @@ export default {
             localStorage.setItem("token", tokenRepresetations.authToken);
             localStorage.setItem(
               "refreshToken",
-              tokenRepresetations.refreshToken
+              tokenRepresetations.refreshToken,
             );
 
             //se buscan los datos del usuario al que representa
@@ -495,39 +495,39 @@ export default {
           this.dispatchLoginPermission();
           window.localStorage.setItem(
             "role",
-            response.data.UserProfile.user.role || null
+            response.data.UserProfile.user.role || null,
           );
           window.localStorage.setItem(
             "name",
-            response.data.UserProfile.user.firstname || null
+            response.data.UserProfile.user.firstname || null,
           );
           window.localStorage.setItem(
             "lastname",
-            response.data.UserProfile.user.lastname || null
+            response.data.UserProfile.user.lastname || null,
           );
           window.localStorage.setItem(
             "cuil",
-            response.data.UserProfile.user.cuil || null
+            response.data.UserProfile.user.cuil || null,
           );
           window.localStorage.setItem(
             "adress",
-            response.data.UserProfile.user.adress || null
+            response.data.UserProfile.user.adress || null,
           );
           window.localStorage.setItem(
             "email",
-            response.data.UserProfile.user.email || null
+            response.data.UserProfile.user.email || null,
           );
           window.localStorage.setItem(
             "id",
-            response.data.UserProfile.user.id || null
+            response.data.UserProfile.user.id || null,
           );
           window.localStorage.setItem(
             "fecha-creacion",
-            response.data.UserProfile.user.created_at || null
+            response.data.UserProfile.user.created_at || null,
           );
           window.localStorage.setItem(
             "nivel",
-            response.data.UserProfile.user.level.level || null
+            response.data.UserProfile.user.level.level || null,
           );
           // this.loading = false;
           // this.$router.push("munienlinea");
@@ -566,11 +566,11 @@ export default {
           this.representante = response.data.User;
           localStorage.setItem(
             "representanteFirstname",
-            response.data.User.firstname
+            response.data.User.firstname,
           );
           localStorage.setItem(
             "representanteLastname",
-            response.data.User.lastname
+            response.data.User.lastname,
           );
 
           this.dispatchRepresentante();

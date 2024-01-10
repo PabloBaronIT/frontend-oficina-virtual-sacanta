@@ -186,7 +186,7 @@
                       this.selectTramite?.procedure?.requirementHistory[
                         this.selectTramite.procedure.requirementHistory.length -
                           1
-                      ].id
+                      ].id,
                     )
                   "
                   class="botonSubmit"
@@ -397,7 +397,7 @@
                 Fecha de cierre de requerimiento:
                 {{
                   new Date(
-                    this.pdfRequirement?.finalized_at
+                    this.pdfRequirement?.finalized_at,
                   ).toLocaleDateString()
                 }}
               </p>
@@ -407,7 +407,7 @@
                 Fecha de emisión:
                 {{
                   new Date(
-                    this.pdfRequirement?.actual_date
+                    this.pdfRequirement?.actual_date,
                   ).toLocaleDateString()
                 }}
               </p>
@@ -429,7 +429,7 @@
                 Fecha de finalización:
                 {{
                   new Date(
-                    this.pdfFinalized?.resolution__date
+                    this.pdfFinalized?.resolution__date,
                   ).toLocaleDateString()
                 }}
               </p>
@@ -783,7 +783,7 @@ export default {
             {
               answer: this.respuestaA,
               documentRequirement: this.respuestaB,
-            }
+            },
           )
           .then((response) => {
             if (response.status === 200) {
@@ -818,7 +818,7 @@ export default {
             "/requirements/answer-requirement/" + this.selectRequerimiento,
             {
               answer: this.respuestaA,
-            }
+            },
           )
           .then((response) => {
             if (response.status === 200) {
@@ -853,7 +853,7 @@ export default {
             "/requirements/answer-requirement/" + this.selectRequerimiento,
             {
               documentRequirement: this.respuestaB,
-            }
+            },
           )
           .then((response) => {
             if (response.status === 200) {
@@ -968,7 +968,10 @@ export default {
       });
       apiClient
         .get(
-          "/oficina/procedures/requirement-procedure-data/" + tramite + "/" + id
+          "/oficina/procedures/requirement-procedure-data/" +
+            tramite +
+            "/" +
+            id,
         )
         .then((response) => {
           console.log(response.data);

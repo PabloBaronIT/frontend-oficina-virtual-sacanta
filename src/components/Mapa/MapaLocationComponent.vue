@@ -63,7 +63,7 @@ export default {
     asd() {
       this.setTextInput(
         this.markerPosition.lat.toFixed(7),
-        this.markerPosition.lng.toFixed(7)
+        this.markerPosition.lng.toFixed(7),
       );
     },
   },
