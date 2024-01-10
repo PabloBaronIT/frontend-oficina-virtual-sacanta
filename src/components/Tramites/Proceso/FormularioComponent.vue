@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="contenedor">
     <div v-if="this.loading" class="spinner-border" role="status">
       <span></span>
     </div>
@@ -487,6 +487,8 @@ export default {
       this.validation = true;
       if (this.paso < this.preguntas?.length) {
         this.paso++;
+      } else {
+        this.paso = this.preguntas?.length - 1;
       }
     },
 
@@ -658,9 +660,9 @@ h5 {
 .questions {
   display: flex;
   flex-direction: column;
-  margin-bottom: 8vh;
+  margin-bottom: 8%;
   padding-left: 1rem;
-  width: 50vw;
+  width: 50%;
   margin: auto;
   /* background: white; */
 }
@@ -797,6 +799,73 @@ h5 {
   z-index: 15;
   text-align: center;
   color: var(--green);
+}
+@media (max-width: 1200px) {
+  .questions {
+    width: 70%;
+    justify-content: space-around;
+    margin: auto;
+  }
+  .volver {
+    bottom: 5%;
+  }
+  .topquestion {
+    width: 60%;
+    text-align: center;
+  }
+}
+@media (max-width: 1000px) {
+  .topquestion {
+    width: 60%;
+    text-align: center;
+  }
+  .questions {
+    width: 70%;
+    justify-content: space-around;
+    margin: auto;
+  }
+  .volver {
+    bottom: 5%;
+  }
+}
+@media (max-width: 800px) {
+  .contenedor {
+    width: 100%;
+  }
+  .topquestion {
+    width: 60%;
+    text-align: center;
+  }
+  .questions {
+    width: 70%;
+    justify-content: space-around;
+    margin: auto;
+  }
+  .volver {
+    bottom: 5%;
+  }
+  .tipoTexto {
+    width: 100%;
+    background: rebeccapurple;
+  }
+  .tipoTexto input[type="number"] {
+    width: 80%;
+    /* margin-left: 1rem;
+    height: 3rem;
+
+    border-radius: 10px;
+    margin-top: 1rem;
+    border: none; */
+  }
+  .tipoTexto input[type="text"] {
+    width: 60%;
+    margin-left: 1rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+  .file-container {
+    margin-bottom: 0;
+  }
 }
 
 /* 

@@ -525,6 +525,9 @@ h5 {
     font-size: 40px;
     margin-top: 7%;
   }
+  .botonGestiones h5 {
+    font-size: 15px;
+  }
 }
 @media (max-width: 1000px) {
   .flex-container {
@@ -551,6 +554,9 @@ h5 {
   h1 {
     font-size: 35px;
     margin-top: 7%;
+  }
+  .items {
+    width: 100%;
   }
 }
 @media (max-width: 800px) {

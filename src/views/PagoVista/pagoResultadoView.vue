@@ -58,14 +58,14 @@ export default {
   created() {
     this.IdResultado = this.$route.query.IdResultado;
     this.IdReferenciaOperacion = this.$route.query.IdReferenciaOperacion;
-    console.log("vamo a ver si se ve", this.$route.IdResultado);
+    console.log("vamo a ver si se ve", this.$route.query.IdResultado);
     this.loading = true;
     this.dispatchLoginPermission();
-    const urlParams = new URLSearchParams(window.location.search);
-    this.IdResultado = urlParams.get("IdResultado");
-    this.IdReferenciaOperacion = urlParams.get("IdReferenciaOperacion");
-    console.log("IdResultado:", this.IdResultado);
-    console.log("IdReferenciaOperacion:", this.IdReferenciaOperacion);
+    // const urlParams = new URLSearchParams(window.location.search);
+    // this.IdResultado = urlParams.get("IdResultado");
+    // this.IdReferenciaOperacion = urlParams.get("IdReferenciaOperacion");
+    // console.log("IdResultado:", this.IdResultado);
+    // console.log("IdReferenciaOperacion:", this.IdReferenciaOperacion);
     // this.getMyProfile();
     this.setPayment();
   },
@@ -119,7 +119,7 @@ export default {
       );
 
       apiClient
-        .post("/confirm-payment/" + this.IdReferenciaOperacion)
+        .post("/confirm-payment/" + this.$route.query.IdReferenciaOperacion)
         .then((response) => {
           console.log(response.data);
           this.message = response.data.message;
@@ -241,6 +241,12 @@ export default {
 }
 .l {
   flex-direction: row;
+}
+@media (max-width: 1200px) {
+  .container {
+    width: 100%;
+    height: 100%;
+  }
 }
 @media (max-width: 1000px) {
   .container {

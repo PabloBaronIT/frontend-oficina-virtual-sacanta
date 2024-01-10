@@ -20,7 +20,6 @@
         class="btn"
         type="button"
         value="Abonar mi trámite"
-        style="width: 50%"
         @click="submitPago"
       />
 
@@ -107,10 +106,11 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
-          this.setLoading();
           if (this.browser === "Google Chrome") {
+            this.setLoading();
             window.location.href = response.data.Url;
           } else {
+            this.setLoading();
             this.link = response.data.Url;
             this.modal = true;
           }
@@ -155,7 +155,7 @@ export default {
   /* flex-flow: row wrap; */
   /* flex-direction: row; */
   height: 150px;
-  width: 50vw;
+  width: 50%;
 }
 
 .text {
@@ -184,5 +184,29 @@ img {
 }
 h2 {
   color: #128d44;
+}
+@media (max-width: 800px) {
+  .btn {
+    width: 100%;
+  }
+  .containerA {
+    width: 100%;
+  }
+}
+@media (max-width: 1000px) {
+  .btn {
+    width: 50%;
+  }
+  .containerA {
+    width: 100%;
+  }
+}
+@media (max-width: 1200px) {
+  .btn {
+    width: 50%;
+  }
+  .containerA {
+    width: 100%;
+  }
 }
 </style>

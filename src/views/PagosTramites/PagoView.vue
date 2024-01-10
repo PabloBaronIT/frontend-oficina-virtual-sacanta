@@ -22,7 +22,7 @@
 
         <button
           type="button"
-          class="btn btn-primary m-1"
+          class="btn btn-primary detalle"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
@@ -244,12 +244,24 @@ p {
 h2 {
   color: var(--red);
 }
-
+.detalle {
+  margin-top: 2rem;
+}
 @media (max-width: 1000px) {
   .main {
-    width: 100vw;
+    height: 100%;
   }
 }
+@media (max-width: 800px) {
+  .main {
+    width: 100%;
+    height: 100%;
+  }
+  .detalle {
+    margin-top: 2rem;
+  }
+}
+
 .footerCoprobante {
   width: 100%;
   font-size: 15px;

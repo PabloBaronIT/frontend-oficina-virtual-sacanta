@@ -137,6 +137,18 @@ export default {
   text-decoration: none;
   color: black;
 }
+@media (max-width: 1000px) {
+  .circuloVerde {
+    right: 5%;
+    top: 10%;
+    height: 35px;
+    width: 35px;
+  }
+  .containerSearch {
+    width: 90%;
+    position: relative;
+  }
+}
 @media (max-width: 800px) {
   .search {
     width: 90%;

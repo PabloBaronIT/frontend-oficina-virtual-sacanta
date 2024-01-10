@@ -1,7 +1,5 @@
 <template>
-  <div
-    style="display: flex; flex-direction: column; justify-content: space-around"
-  >
+  <div class="mapContenedor">
     <p>Arrastre el pin sobre el mapa hacia la dirección que desea indicar:</p>
 
     <GMapMap
@@ -9,7 +7,8 @@
       ref="myMapRef"
       :zoom="14"
       map-type-id="terrain"
-      style="width: 715px; height: 360px; margin: auto"
+      style=""
+      class="mapa"
     >
       <GMapMarker
         :position="this.markerPosition"
@@ -73,5 +72,20 @@ export default {
 <style scoped>
 p {
   color: #4b4a49;
+}
+.mapContenedor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.mapa {
+  width: 500px;
+  height: 360px;
+  margin: auto;
+}
+@media (max-width: 800px) {
+  .mapContenedor {
+    padding-right: 20%;
+  }
 }
 </style>

@@ -71,7 +71,30 @@ h6 {
   -webkit-background-clip: text;
   font-size: 40px;
 }
-
+@media (max-width: 1200px) {
+  .redes {
+    font-size: 35px;
+  }
+  .grupoRedes {
+    width: 12vw;
+  }
+  h6 {
+    font-size: 15px;
+    font-weight: 200;
+  }
+}
+@media (max-width: 1000px) {
+  .redes {
+    font-size: 25px;
+  }
+  .grupoRedes {
+    width: 15%;
+  }
+  h6 {
+    font-size: 12px;
+    font-weight: 200;
+  }
+}
 @media (max-width: 800px) {
   .general {
     /* position: relative; */

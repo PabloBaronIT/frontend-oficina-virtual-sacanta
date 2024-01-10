@@ -339,12 +339,23 @@ h5 {
   }
   .sector-container {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    padding-top: 15%;
+    /* padding-bottom: 15%; */
+  }
+  .volver {
+    bottom: 12%;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
   .recuadro h5 {
     font-size: 15px;
+  }
+  .sector-container {
+    padding-top: 15%;
+  }
+  .volver {
+    bottom: 12%;
   }
 }
 </style>

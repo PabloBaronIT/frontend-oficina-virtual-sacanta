@@ -1043,6 +1043,10 @@ export default {
   position: absolute;
   right: 2rem;
 }
+.svg {
+  max-width: 15px;
+  max-height: 15px;
+}
 .tabla-container {
   width: 100%;
   height: auto;
@@ -1179,7 +1183,7 @@ export default {
 }
 .volver {
   position: absolute;
-  bottom: 20vh;
+  bottom: 12%;
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -1318,9 +1322,20 @@ span {
 @media (max-width: 800px) {
   .tabla-container {
     width: 95%;
+    /* padding-bottom: 15%; */
   }
   .volver {
-    bottom: 14%;
+    bottom: 8%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .tabla-container {
+    width: 95%;
+    padding-bottom: 10%;
+  }
+  .volver {
+    bottom: 10%;
   }
 }
 @media (max-width: 480px) {
