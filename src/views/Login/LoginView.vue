@@ -20,7 +20,7 @@ export default {
         detail: {
           storage: localStorage.getItem("token"),
         },
-      })
+      }),
     );
   },
 };

@@ -118,7 +118,7 @@ export default {
       apiClient
         .get(
           "/oficina/categories/category/procedure/" +
-            this.$route.params.sectorId
+            this.$route.params.sectorId,
         )
 
         .then((response) => {

@@ -74,28 +74,28 @@ export default {
           this.dispatchLogin();
           window.localStorage.setItem(
             "name",
-            response.data.MuniProfile.muni.firstname
+            response.data.MuniProfile.muni.firstname,
           );
           window.localStorage.setItem(
             "lastname",
-            response.data.MuniProfile.muni.lastname
+            response.data.MuniProfile.muni.lastname,
           );
           window.localStorage.setItem(
             "cuil",
-            response.data.MuniProfile.muni.cuil
+            response.data.MuniProfile.muni.cuil,
           );
           window.localStorage.setItem(
             "email",
-            response.data.MuniProfile.muni.email
+            response.data.MuniProfile.muni.email,
           );
           window.localStorage.setItem("id", response.data.MuniProfile.muni.id);
           window.localStorage.setItem(
             "fecha-creacion",
-            response.data.MuniProfile.muni.created_at
+            response.data.MuniProfile.muni.created_at,
           );
           window.localStorage.setItem(
             "role",
-            response.data.MuniProfile.muni.role
+            response.data.MuniProfile.muni.role,
           );
           this.$router.push("/muni");
         })

@@ -208,36 +208,36 @@ export default {
           this.dispatchLogin();
           window.localStorage.setItem(
             "role",
-            response.data.UserProfile.user.role
+            response.data.UserProfile.user.role,
           );
           window.localStorage.setItem(
             "name",
-            response.data.UserProfile.user.firstname
+            response.data.UserProfile.user.firstname,
           );
           window.localStorage.setItem(
             "lastname",
-            response.data.UserProfile.user.lastname
+            response.data.UserProfile.user.lastname,
           );
           window.localStorage.setItem(
             "cuil",
-            response.data.UserProfile.user.cuil
+            response.data.UserProfile.user.cuil,
           );
           window.localStorage.setItem(
             "adress",
-            response.data.UserProfile.user.adress
+            response.data.UserProfile.user.adress,
           );
           window.localStorage.setItem(
             "email",
-            response.data.UserProfile.user.email
+            response.data.UserProfile.user.email,
           );
           window.localStorage.setItem("id", response.data.UserProfile.user.id);
           window.localStorage.setItem(
             "fecha-creacion",
-            response.data.UserProfile.user.created_at
+            response.data.UserProfile.user.created_at,
           );
           window.localStorage.setItem(
             "nivel",
-            response.data.UserProfile.user.level.level
+            response.data.UserProfile.user.level.level,
           );
 
           // this.loading = false;
@@ -353,7 +353,7 @@ export default {
           detail: {
             storage: localStorage.getItem("token"),
           },
-        })
+        }),
       );
     },
     dispatchOutLogin() {
