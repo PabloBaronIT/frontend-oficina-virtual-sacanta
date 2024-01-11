@@ -1,25 +1,37 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true // Si necesitas las variables globales de Node.js, agrega 'node' aquí
   },
-  extends: [
-    "plugin:vue/vue3-essential",
+  "globals": {
+    "process": true // Aquí se definen las variables globales
+  },
+  "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended",
+    "plugin:vue/vue3-essential"
   ],
-  parserOptions: {
-    parser: "@babel/eslint-parser",
-    requireConfigFile: false,
-  },
-  rules: {
-    "prettier/prettier": [
-      "error",
-      {
-        endOfLine: "auto",
+  "overrides": [
+    {
+      "env": {
+        "node": true
       },
-    ],
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+      "files": [
+        ".eslintrc.{js,cjs}"
+      ],
+      "parserOptions": {
+        "sourceType": "script"
+      }
+    }
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
+  "plugins": [
+    "vue"
+  ],
+  "rules": {
+    // Aquí puedes agregar reglas personalizadas si las necesitas
+  }
 };

@@ -6,24 +6,24 @@
     <!-- <div> -->
     <div class="topquestion" v-if="this.preguntas">
       <h5>
-        {{ this.preguntas[this.paso].question?.title }}
+        {{ this.preguntas[this.paso]?.question?.title }}
       </h5>
     </div>
     <form action="" style="margin-bottom: 5%">
       <!--DETALLES DE OPCIONES-->
       <div
         :v-if="
-          this.preguntas[this.paso].questionOption?.length >= 1 &&
+          this.preguntas[this.paso]?.questionOption?.length >= 1 &&
           this.paso > this.preguntas.length
         "
-        v-for="(item, index) in this.preguntas[this.paso].questionOption"
+        v-for="(item, index) in this.preguntas[this.paso]?.questionOption"
         :key="item.id"
         class="questions"
       >
         <!-- INPUT TIPO RADIO -->
         <div class="tipoRadio" v-if="item.type == 'radio'">
           <input
-            :name="this.preguntas[this.paso].question?.title"
+            :name="this.preguntas[this.paso]?.question?.title"
             :type="item.type"
             v-model="this.selected"
             :value="index + 1"
@@ -88,7 +88,7 @@
             <label>Nro.</label>
             <input
               class="form-control text-number-input"
-              :type="item.type"
+              type="number"
               v-model="this.numero"
             />
           </div>
@@ -416,11 +416,11 @@ export default {
         optionTitle = this.textInput;
         choice = 0;
         q = {
-          question: this.preguntas[this.paso].question?.id,
+          question: this.preguntas[this.paso]?.question?.id,
           question_option_history: [
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice].id,
+                this.preguntas[this.paso]?.questionOption[choice].id,
               answer: optionTitle,
             },
           ],
@@ -429,11 +429,11 @@ export default {
         optionTitle = this.coordenadas;
         choice = 1;
         q = {
-          question: this.preguntas[this.paso].question?.id,
+          question: this.preguntas[this.paso]?.question?.id,
           question_option_history: [
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice].id,
+                this.preguntas[this.paso]?.questionOption[choice].id,
               answer: optionTitle,
             },
           ],
@@ -444,28 +444,28 @@ export default {
         choice = 0;
         // let choice2 = 1;
         q = {
-          question: this.preguntas[this.paso].question?.id,
+          question: this.preguntas[this.paso]?.question?.id,
           question_option_history: [
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice].id,
+                this.preguntas[this.paso]?.questionOption[choice].id,
               answer: optionTitle,
             },
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice].id,
+                this.preguntas[this.paso]?.questionOption[choice].id,
               answer: optionTitle2,
             },
           ],
         };
       } else {
-        optionTitle = this.preguntas[this.paso].questionOption[choice].title;
+        optionTitle = this.preguntas[this.paso]?.questionOption[choice].title;
         q = {
-          question: this.preguntas[this.paso].question?.id,
+          question: this.preguntas[this.paso]?.question?.id,
           question_option_history: [
             {
               questionOption:
-                this.preguntas[this.paso].questionOption[choice].id,
+                this.preguntas[this.paso]?.questionOption[choice].id,
               answer: optionTitle,
             },
           ],
@@ -485,10 +485,11 @@ export default {
       this.textInput = "";
       this.coordenadas = "";
       this.validation = true;
-      if (this.paso < this.preguntas?.length) {
-        this.paso++;
-      } else {
+      if (this.paso === this.preguntas?.length - 1) {
         this.paso = this.preguntas?.length - 1;
+        // this.loading = true;
+      } else {
+        this.paso++;
       }
     },
 
