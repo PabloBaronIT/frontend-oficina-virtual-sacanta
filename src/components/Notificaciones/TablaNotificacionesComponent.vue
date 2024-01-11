@@ -174,7 +174,7 @@ export default {
 .modalTramite {
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   border-top-right-radius: 20px;
-  margin-bottom: 6vh;
+  /* margin-bottom: 6vh; */
   width: 100%;
 }
 .divTitulos {

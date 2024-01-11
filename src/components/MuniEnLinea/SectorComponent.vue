@@ -118,7 +118,7 @@ export default {
       apiClient
         .get(
           "/oficina/categories/category/procedure/" +
-            this.$route.params.sectorId,
+            this.$route.params.sectorId
         )
 
         .then((response) => {
@@ -234,7 +234,7 @@ h5 {
   grid-template-columns: repeat(4, 1fr);
   gap: 3vw;
   margin-top: 6vh;
-  margin-bottom: 200px;
+  margin-bottom: 10%;
   padding-left: 3vw;
   width: 100%;
   /* grid-auto-rows: minmax(100%, auto); */
@@ -287,7 +287,7 @@ h5 {
 }
 .volver {
   position: absolute;
-  bottom: 20vh;
+  bottom: 15%;
   display: flex;
   flex-direction: row;
   justify-content: center;

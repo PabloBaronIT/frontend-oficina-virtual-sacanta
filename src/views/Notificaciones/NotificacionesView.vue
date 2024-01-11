@@ -94,9 +94,9 @@
       </div>
       <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
     </div>
-    <div>
-      <TablaNotificacionesComponent :communications="this.communications" />
-    </div>
+    <!-- <div> -->
+    <TablaNotificacionesComponent :communications="this.communications" />
+    <!-- </div> -->
     <!-- LISTADO DE COMUNICACIONES -->
 
     <!-- <CardNotificacionComponentVue
@@ -312,14 +312,14 @@ export default {
   background-color: #f5f5f5;
   padding-left: 4%;
   padding-right: 4%;
-  /* padding-bottom: 120px; */
+  padding-bottom: 8%;
 
   width: 82%;
   /* background-color: #f5f5f5; */
   position: absolute;
   right: 0;
   padding-top: 10%;
-  padding-bottom: 10%;
+  /* padding-bottom: 10%; */
 
   /* background: var(--grey-bk); */
 }
@@ -375,7 +375,7 @@ h5 {
 
 .volver {
   position: absolute;
-  bottom: 20vh;
+  bottom: 10%;
   display: flex;
   flex-direction: row;
   justify-content: center;

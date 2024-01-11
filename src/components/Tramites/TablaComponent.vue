@@ -186,7 +186,7 @@
                       this.selectTramite?.procedure?.requirementHistory[
                         this.selectTramite.procedure.requirementHistory.length -
                           1
-                      ].id,
+                      ].id
                     )
                   "
                   class="botonSubmit"
@@ -397,7 +397,7 @@
                 Fecha de cierre de requerimiento:
                 {{
                   new Date(
-                    this.pdfRequirement?.finalized_at,
+                    this.pdfRequirement?.finalized_at
                   ).toLocaleDateString()
                 }}
               </p>
@@ -407,7 +407,7 @@
                 Fecha de emisión:
                 {{
                   new Date(
-                    this.pdfRequirement?.actual_date,
+                    this.pdfRequirement?.actual_date
                   ).toLocaleDateString()
                 }}
               </p>
@@ -429,7 +429,7 @@
                 Fecha de finalización:
                 {{
                   new Date(
-                    this.pdfFinalized?.resolution__date,
+                    this.pdfFinalized?.resolution__date
                   ).toLocaleDateString()
                 }}
               </p>
@@ -783,7 +783,7 @@ export default {
             {
               answer: this.respuestaA,
               documentRequirement: this.respuestaB,
-            },
+            }
           )
           .then((response) => {
             if (response.status === 200) {
@@ -818,7 +818,7 @@ export default {
             "/requirements/answer-requirement/" + this.selectRequerimiento,
             {
               answer: this.respuestaA,
-            },
+            }
           )
           .then((response) => {
             if (response.status === 200) {
@@ -853,7 +853,7 @@ export default {
             "/requirements/answer-requirement/" + this.selectRequerimiento,
             {
               documentRequirement: this.respuestaB,
-            },
+            }
           )
           .then((response) => {
             if (response.status === 200) {
@@ -968,10 +968,7 @@ export default {
       });
       apiClient
         .get(
-          "/oficina/procedures/requirement-procedure-data/" +
-            tramite +
-            "/" +
-            id,
+          "/oficina/procedures/requirement-procedure-data/" + tramite + "/" + id
         )
         .then((response) => {
           console.log(response.data);
@@ -1046,23 +1043,27 @@ export default {
   position: absolute;
   right: 2rem;
 }
+
 .svg {
   max-width: 15px;
   max-height: 15px;
 }
+
 .tabla-container {
-  width: 100%;
+  width: 90%;
   height: auto;
   margin-top: 5vh;
   justify-content: flex-start;
-  margin-bottom: 5%;
+  margin-bottom: 6%;
 }
+
 .modalTramite {
   position: relative;
   box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.25);
   border-top-right-radius: 20px;
-  margin-bottom: 6vh;
+  margin-bottom: 6%;
 }
+
 .divTitulos {
   display: flex;
   flex-direction: row;
@@ -1073,12 +1074,14 @@ export default {
   text-align: center;
   border-radius: 0px 20px 0px 0px;
 }
+
 .divTitulos p {
   color: #4b4a49;
   font-weight: 600;
   font-size: 16px;
   min-width: 10%;
 }
+
 .encabezado {
   display: flex;
   flex-direction: row;
@@ -1087,12 +1090,14 @@ export default {
   background: white;
   border-bottom: 1px solid #9b9a9a;
 }
+
 .encabezado p {
   font-weight: 400;
   color: #4b4a49;
   min-width: 24%;
   /* width: 40%; */
 }
+
 .grafico-container {
   display: flex;
   flex-flow: column;
@@ -1104,7 +1109,8 @@ export default {
   left: 0;
   right: 0;
   margin: auto;
-  width: 500px; /* Need a specific value to work */
+  width: 500px;
+  /* Need a specific value to work */
   height: auto;
   padding: 1rem;
   border-radius: 10px;
@@ -1119,10 +1125,12 @@ export default {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
+
 .pdf {
   width: 50vw;
   height: 60vh;
 }
+
 .modal-top {
   display: flex;
   width: 100%;
@@ -1131,6 +1139,7 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
 }
+
 .data-container {
   display: flex;
   flex-flow: column wrap;
@@ -1140,6 +1149,7 @@ export default {
 
   text-align: left;
 }
+
 .requerimiento {
   border: solid 1px red;
   padding: 1rem;
@@ -1147,6 +1157,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+
 .botonSubmit {
   margin: auto;
   width: 100px;
@@ -1157,6 +1168,7 @@ export default {
   border-style: none;
   margin-top: 1rem;
 }
+
 .divDocumentos {
   display: flex;
   flex-direction: column;
@@ -1170,29 +1182,34 @@ export default {
 .divDocumentos a {
   margin-left: 2rem;
 }
+
 .close {
   position: absolute;
   right: 2rem;
   top: 0.5rem;
 }
+
 .pagNum {
   margin: 0 2px;
   font-size: 15px;
 }
+
 .nav {
   align-self: flex-start;
 
   padding-top: 0.5rem;
 }
+
 .volver {
   position: absolute;
-  bottom: 12%;
+  bottom: 10%;
   display: flex;
   flex-direction: row;
   justify-content: left;
   align-items: center;
   left: 4vw;
 }
+
 .volver h4 {
   margin-left: 14px;
   color: #808081;
@@ -1205,10 +1222,12 @@ export default {
   text-align: left;
   padding: 1rem;
 }
+
 .noOpen {
   max-height: 0;
   overflow: hidden;
 }
+
 .modalRespuesta {
   display: flex;
   flex-flow: column;
@@ -1221,22 +1240,26 @@ export default {
   right: 0;
   margin: auto;
   height: auto;
-  width: 500px; /* Need a specific value to work */
+  width: 500px;
+  /* Need a specific value to work */
   border-radius: 10px;
   background: rgb(255, 255, 255);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   border-radius: 10px;
   right: 15rem;
 }
+
 .response {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .response textarea {
   width: 100%;
 }
+
 .file-container2 {
   border: 1px solid var(--grey);
   padding: 20px;
@@ -1248,19 +1271,23 @@ export default {
   margin: auto;
   margin-top: 2rem;
 }
+
 .file-intro {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
 }
+
 .imgFile {
   height: 4rem;
   width: 4rem;
   margin: auto;
 }
+
 .cargado {
   text-align: center;
 }
+
 /* .encabezado p {
   width: 40%;
 } */
@@ -1272,6 +1299,7 @@ export default {
   padding-top: 2rem;
   color: #128d44;
 }
+
 .modal-content {
   min-height: 300px;
   width: 100%;
@@ -1281,6 +1309,7 @@ export default {
   align-items: center;
   padding: 1rem;
 }
+
 .modal-top {
   display: flex;
   width: 100%;
@@ -1292,6 +1321,7 @@ export default {
 .fileup {
   margin: auto;
 }
+
 .enviado {
   color: green;
   font-size: 25px;
@@ -1301,6 +1331,7 @@ export default {
 H4 {
   text-align: left;
 }
+
 /* ----------------------------------------------------------------------------------- */
 .modalComunicacion {
   width: 80%;
@@ -1327,6 +1358,7 @@ span {
     width: 95%;
     /* padding-bottom: 15%; */
   }
+
   .volver {
     bottom: 8%;
   }
@@ -1337,10 +1369,12 @@ span {
     width: 95%;
     padding-bottom: 10%;
   }
+
   .volver {
     bottom: 10%;
   }
 }
+
 @media (max-width: 480px) {
   .media {
     display: none;
