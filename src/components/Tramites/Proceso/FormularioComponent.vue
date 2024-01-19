@@ -540,7 +540,7 @@ export default {
                 }, 2000);
               } else {
                 alert(
-                  "Su reclamo fue presentado! Gracias por utilizar nuestra Oficina Virtual",
+                  "Su reclamo fue presentado! Gracias por utilizar nuestra Oficina Virtual"
                 );
                 this.$router.push(`/munienlinea`);
               }
@@ -582,7 +582,7 @@ export default {
     back() {
       if (this.paso === 0) {
         this.$router.push(
-          `/sector/${this.$route.query.sectorTitle}/${this.$route.query.sectorId}`,
+          `/sector/${this.$route.query.sectorTitle}/${this.$route.query.sectorId}`
         );
       } else {
         this.paso = this.paso - 1;
