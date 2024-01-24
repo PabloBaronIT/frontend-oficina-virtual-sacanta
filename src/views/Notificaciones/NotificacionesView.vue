@@ -3,7 +3,7 @@
     <h1 class="tituloPrincipal">
       Notificaciones
       <h4 style="color: #4b4a49; font-weight: 100">
-        Échale un vistazo a tus notifiaciones hasta la fecha.
+        Échale un vistazo a tus notificaciones hasta la fecha.
       </h4>
     </h1>
     <!-- BUSCADOR -->
@@ -35,19 +35,21 @@
         <div class="nav">
           <img
             class="svg"
-            @click="backTramites"
+            @click="backPagina"
             src="./../../assets/images/previous.svg"
             alt=""
+            v-if="this.pagina > 1"
           />
           <!-- <div class="pagNum">
-        {{ this.pagina }}
-      </div> -->
+                {{ this.pagina }}
+              </div> -->
 
           <img
             @click="nextPag"
             class="svg"
             src="./../../assets/images/next.svg"
             alt=""
+            v-if="this.communications?.length === 10"
           />
         </div>
       </div>
@@ -95,7 +97,10 @@
       <h5><i class="bi bi-phone" style="margin-right: 1vw"></i>SMS</h5>
     </div>
     <!-- <div> -->
-    <TablaNotificacionesComponent :communications="this.communications" />
+    <TablaNotificacionesComponent
+      :communications="this.communications"
+      :getCommunication="this.getCommunication"
+    />
     <!-- </div> -->
     <!-- LISTADO DE COMUNICACIONES -->
 
@@ -188,6 +193,8 @@
 import TablaNotificacionesComponent from "@/components/Notificaciones/TablaNotificacionesComponent.vue";
 import axios from "axios";
 import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 import { BASE_URL } from "@/env";
 
 export default {
@@ -206,6 +213,7 @@ export default {
       selectCommunication: null,
       message: null,
       value: "",
+      pagina: 1,
     };
   },
   created() {
@@ -224,7 +232,7 @@ export default {
     getCommunication() {
       this.loading = true;
       //console.log(this.cidiCookie);
-
+      this.communications = [];
       const apiClient = axios.create({
         baseURL: BASE_URL,
         withCredentials: false,
@@ -233,9 +241,10 @@ export default {
         },
       });
       apiClient
-        .get("/communications/my-communications")
+        .get(`/communications/my-communications?page=${this.pagina}`)
         .then((response) => {
           this.loading = false;
+          this.message = "";
           console.log(response.data);
           let comunicaciones = response.data.Communications;
 
@@ -258,9 +267,16 @@ export default {
             this.message = error.response.data.message;
             this.loading = false;
           }
+
           if (error.response.status === 500) {
-            if (error.response.data.message === "Token vencido") {
+            if (error.response.data.message === "Token de usuario expirado") {
               setToken();
+              this.getCommunication();
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
               this.getCommunication();
             }
           }
@@ -272,6 +288,14 @@ export default {
     },
     searchValue() {
       console.log(this.value);
+    },
+    nextPag() {
+      this.pagina++;
+      this.getCommunication();
+    },
+    backPagina() {
+      this.pagina--;
+      this.getCommunication();
     },
   },
 };
@@ -430,7 +454,7 @@ input[name="titulo"] {
   width: 100%;
   height: 150px;
   text-align: center;
-  /* padding-top: 2rem; */
+  padding-top: 2rem;
   color: #128d44;
 }
 /* ------------------------------------------------ */

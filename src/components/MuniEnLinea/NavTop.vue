@@ -87,9 +87,10 @@
       </router-link>
       <div style="display: flex; flex-direction: row; padding-top: 2vh">
         <router-link :to="`/notificaciones`">
-          <div class="botonNotificacion" @mouseover="this.SentNotificacion">
+          <div class="botonNotificacion">
             <i class="bi bi-bell"> </i>
           </div>
+          <!-- <div v-if="this.lengtNotifications > 0" class="sinleer"></div> -->
         </router-link>
         <div class="botonOut" @click="this.logOf">
           <i class="bi bi-power"></i>
@@ -149,7 +150,7 @@ export default {
       lengtNotifications: 0,
       notificationNew: false,
       notificacion: null,
-      modalNotificacion: false,
+      // modalNotificacion: false,
       // ||
       // "https://res.cloudinary.com/ddko88otf/image/upload/v1692727232/240_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv_t3fopl.jpg",
     };
@@ -157,7 +158,7 @@ export default {
 
   created() {
     // setInterval(() => {
-    //   this.getNotifications();
+    // this.getNotifications();
     // }, 60000 * 2); //cada 3 minutos pregunta a la api
 
     this.role = this.$store.state.user?.role;
@@ -167,24 +168,24 @@ export default {
       this.getRepresentante(idRepresentante);
     }
   },
-  watch: {
-    lengtNotifications(newValue, olValue) {
-      // if (newValue > olValue) {
-      //   this.notificationNew = true;
-      // }
-      if (newValue > olValue) {
-        this.notificationNew = true;
-      }
-    },
-  },
+  // watch: {
+  //   lengtNotifications(newValue, olValue) {
+  //     // if (newValue > olValue) {
+  //     //   this.notificationNew = true;
+  //     // }
+  //     if (newValue > olValue) {
+  //       this.notificationNew = true;
+  //     }
+  //   },
+  // },
 
   methods: {
-    SentNotificacion() {
-      console.log("hola notifiacion");
-      if (this.notificacion != null) {
-        this.modalNotificacion = true;
-      }
-    },
+    // SentNotificacion() {
+    //   console.log("hola notifiacion");
+    //   if (this.notificacion != null) {
+    //     this.modalNotificacion = true;
+    //   }
+    // },
     dispatchLogin() {
       this.$store.dispatch("mockLoginAction", this.user);
     },
@@ -208,36 +209,36 @@ export default {
           this.dispatchLogin();
           window.localStorage.setItem(
             "role",
-            response.data.UserProfile.user.role,
+            response.data.UserProfile.user.role
           );
           window.localStorage.setItem(
             "name",
-            response.data.UserProfile.user.firstname,
+            response.data.UserProfile.user.firstname
           );
           window.localStorage.setItem(
             "lastname",
-            response.data.UserProfile.user.lastname,
+            response.data.UserProfile.user.lastname
           );
           window.localStorage.setItem(
             "cuil",
-            response.data.UserProfile.user.cuil,
+            response.data.UserProfile.user.cuil
           );
           window.localStorage.setItem(
             "adress",
-            response.data.UserProfile.user.adress,
+            response.data.UserProfile.user.adress
           );
           window.localStorage.setItem(
             "email",
-            response.data.UserProfile.user.email,
+            response.data.UserProfile.user.email
           );
           window.localStorage.setItem("id", response.data.UserProfile.user.id);
           window.localStorage.setItem(
             "fecha-creacion",
-            response.data.UserProfile.user.created_at,
+            response.data.UserProfile.user.created_at
           );
           window.localStorage.setItem(
             "nivel",
-            response.data.UserProfile.user.level.level,
+            response.data.UserProfile.user.level.level
           );
 
           // this.loading = false;
@@ -268,20 +269,26 @@ export default {
         },
       });
       apiClient
-        .get("/communications/my-communications")
+        .get("/communications/my-communications?page=1")
         .then((response) => {
-          console.log(response.data);
-          if (
-            this.lengtNotifications != response.data?.Communications?.length
-          ) {
-            this.lengtNotifications = response.data?.Communications?.length;
-            this.notificacion = response.data.Communications[0];
-            console.log("llego la novedad");
-            // this.notificationNew = true;
-          } else {
-            console.log("sigue igual");
-            this.notificationNew = false;
+          console.log(response.data, "soy las notificaciones");
+          let asd = response.data.Communications;
+          let sinleer = [];
+          for (let index = 0; index < asd.length; index++) {
+            if (asd[index]?.read === false) sinleer.push(asd[index]);
           }
+          this.lengtNotifications = sinleer.length;
+          // if (
+          //   this.lengtNotifications != response.data?.Communications?.length
+          // ) {
+          //   this.lengtNotifications = response.data?.Communications?.length;
+          //   this.notificacion = response.data.Communications[0];
+          //   console.log("llego la novedad");
+          //   // this.notificationNew = true;
+          // } else {
+          //   console.log("sigue igual");
+          //   this.notificationNew = false;
+          // }
           // console.log(this.lengtNotifications, "soy la cantidad de notifi");
         })
         .catch((error) => {
@@ -353,7 +360,7 @@ export default {
           detail: {
             storage: localStorage.getItem("token"),
           },
-        }),
+        })
       );
     },
     dispatchOutLogin() {
@@ -458,7 +465,16 @@ export default {
   color: #128d44;
   width: 360px;
 }
-
+.sinleer {
+  position: absolute;
+  top: 20%;
+  left: 65%;
+  font-size: 24px;
+  background: red;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+}
 .botonNotificacion {
   position: relative;
   max-height: 50px;
