@@ -21,8 +21,8 @@
         <p>{{ new Date(item.created_at).toLocaleDateString() }}</p>
         <p>OFICINA VIRTUAL</p>
         <p>{{ item.subject }}</p>
-        <p v-if="item.leido === false" style="color: red">Sin leer</p>
-        <p v-else>Leido</p>
+        <p v-if="item.read === false" style="color: red">Sin leer</p>
+        <p v-else style="color: green">Leido</p>
       </div>
     </div>
     <!-- MODAL PARA VER UNA COMUNICACION -->
@@ -69,6 +69,11 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import { BASE_URL } from "@/env";
+import setToken from "@/middlewares/setToken";
+import setTokenRelations from "@/middlewares/setTokenRelations";
+
 export default {
   data() {
     return {
@@ -79,9 +84,9 @@ export default {
   },
   props: {
     communications: Array,
+    getCommunication: Function,
   },
   created() {
-    //this.comunicaciones = this.communications;
     this.getComunicaciones();
   },
   methods: {
@@ -89,15 +94,47 @@ export default {
       this.comunicacion = this.communications.filter((item) => {
         return item.id === id;
       });
-      this.comunicacion[0].leido = true;
+      if (this.comunicacion[0].read === false) {
+        this.setLeido(id);
+      }
     },
     getComunicaciones() {
+      this.comunicaciones = [];
       for (let index = 0; index < this.communications.length; index++) {
         const element = this.communications[index];
-        element.leido = false;
         this.comunicaciones.push(element);
       }
       console.log(this.comunicaciones, "soy las comunicaciones");
+    },
+    setLeido(id) {
+      const apiClient = axios.create({
+        baseURL: BASE_URL,
+        withCredentials: false,
+        headers: {
+          "auth-header": localStorage.getItem("token"),
+        },
+      });
+      apiClient
+        .patch(`/communications/${id}/mark-as-read`)
+        .then((response) => {
+          console.log(response.data.message);
+          this.getCommunication();
+        })
+        .catch((error) => {
+          console.log(error.data);
+          if (error.response.status === 500) {
+            if (error.response.data.message === "Token de usuario expirado") {
+              setToken();
+              this.setLeido(id);
+            }
+            if (
+              error.response.data.message === "Token de representante expirado"
+            ) {
+              setTokenRelations();
+              this.setLeido(id);
+            }
+          }
+        });
     },
   },
 };
