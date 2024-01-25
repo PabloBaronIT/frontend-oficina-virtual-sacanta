@@ -477,14 +477,14 @@
         <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
       </router-link>
 
-      <h4>Volver al Incio</h4>
+      <h4>Volver al Inicio</h4>
     </div>
     <!-- <div class="volver">
       <router-link to="/munienlinea">
         <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
       </router-link>
 
-      <h4>Volver al Incio</h4>
+      <h4>Volver al Inicio</h4>
     </div> -->
   </div>
 </template>

@@ -171,7 +171,7 @@
         <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
       </router-link>
 
-      <h4>Volver al Incio</h4>
+      <h4>Volver al Inicio</h4>
     </div>
   </div>
   <div class="prueba-container l" v-else>

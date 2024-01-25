@@ -91,7 +91,7 @@
         <img src="./../../assets/images/FlechaIzquierda.svg" alt="imagen" />
       </router-link>
 
-      <h4>Volver al Incio</h4>
+      <h4>Volver al Inicio</h4>
     </div>
 
     <!-- MODAL PARA EDITAR DATOS -->
