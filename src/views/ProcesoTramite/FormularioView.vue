@@ -1,7 +1,14 @@
 <template>
   <div v-if="setPermission" class="sector-container">
     <div class="row">
-      <h5 style="margin-top: 4vh; margin-left: 4%">{{ this.sectorTitle }}</h5>
+      <h5 style="margin-top: 4vh; margin-left: 4%">
+        <img
+          :src="description"
+          alt="Descripción de la imagen"
+          style="max-width: 50px; max-height: 50px"
+        />
+        {{ this.sectorTitle }}
+      </h5>
       <h1 class="tituloPrincipal">
         {{ this.titulo }}
         <h5>
@@ -149,6 +156,9 @@ export default {
           this.nivel = response.data.Template.level.level;
           this.descripcion = response.data.Template.description;
           procedure.procedureId = response.data.Template.id;
+          this.description = response.data.Template.category?.description || "";
+          console.log("este es el descripcion:", this.descripcion);
+          console.log("este es el description:", this.description);
           // parseInt(r.id);
           // console.log(this.procedureId, "soy el procedureId");
 
